@@ -5,7 +5,7 @@ if (!(Test-Path -Path $PROFILE.AllUsersAllHosts))
 { New-Item -Type File -Path $PROFILE.AllUsersAllHosts -Force }
 Get-PSSnapin -Registered | Add-PSSnapin
 $softLink = "http://phamcs.duckdns.org/downloads"
-$msiArray = "7z1900-x64.msi", "Notepad++7.6.6.msi", "VirtualBox-6.1.14-r140239.msi", "AWSCLIV2.msi", "AWSToolsAndSDKForNet_sdk-3.5.0.0_ps-4.1.0.0_tk-1.14.5.0.msi", "node-v12.18.3-x64.msi", "vagrant_2.2.10_x86_64.msi", "chef-workstation-20.8.125-1-x64.msi"
+$msiArray = "7z1900-x64.msi", "Notepad++7.6.6.msi", "VirtualBox-6.1.14-r140239.msi", "AWSCLIV2.msi", "AWSToolsAndSDKForNet_sdk-3.5.119.0_ps-4.1.9.0_tk-1.14.5.0.msi", "node-v14.16.0-x64.msi", "vagrant_2.2.14_x86_64.msi", "chef-workstation-20.8.125-1-x64.msi"
 $polArray = "LocalMachine", "CurrentUser"
 # Tweak Policies
 $polArray | ForEach-Object (Invoke-Command -ScriptBlock {Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force})
