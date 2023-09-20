@@ -1,4 +1,4 @@
-$Target = "\\A137784\C$\Users\doanph01"
+$Target = "\\SERVER$\C$\Users\<username>"
 $TempFolder = 'C:\Temp'
 $TempFile = 'C:\Temp\file.txt'
 
