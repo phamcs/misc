@@ -2,7 +2,7 @@
 $parameters = @{
     Name = "MyDocs"
     PSProvider = "FileSystem"
-    Root = "C:\Users\doanph01\Documents"
+    Root = "C:\Users\<username>\Documents"
     Description = "Maps to My Documents folder."
 }
 New-PSDrive @parameters
