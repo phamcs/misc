@@ -4,7 +4,7 @@
 if (!(Test-Path -Path $PROFILE.AllUsersAllHosts))
 { New-Item -Type File -Path $PROFILE.AllUsersAllHosts -Force }
 Get-PSSnapin -Registered | Add-PSSnapin
-$softLink = "http://phamcs.duckdns.org/repo"
+$softLink = "https://web.superasian.net/repo"
 $msiArray = "7z2301-x64.msi", "Notepad++7_9_1.msi", "VirtualBox-6.1.46-r158378.msi", "AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi", "AWSCLIV2.msi", "AWSToolsAndSDKForNet_sdk-3.5.119.0_ps-4.1.9.0_tk-1.14.5.0.msi", "node-v16.13.0-x64.msi", "vagrant_2.2.19_x86_64.msi", "chef-workstation-21.4.365-1-x64.msi"
 $polArray = "LocalMachine", "CurrentUser"
 # Tweak Policies
