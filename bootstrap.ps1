@@ -5,7 +5,9 @@ if (!(Test-Path -Path $PROFILE.AllUsersAllHosts))
 { New-Item -Type File -Path $PROFILE.AllUsersAllHosts -Force }
 Get-PSSnapin -Registered | Add-PSSnapin
 $softLink = "https://web.superasian.net/repo"
+$dirArray = "C:\Python27", "C:\HashiCorp", "C:\opscode"
 $msiArray = "7z2301-x64.msi", "Notepad++7_9_1.msi", "VirtualBox-6.1.46-r158378.msi", "AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi", "AWSCLIV2.msi", "AWSToolsAndSDKForNet_sdk-3.5.119.0_ps-4.1.9.0_tk-1.14.5.0.msi", "node-v16.13.0-x64.msi", "vagrant_2.2.19_x86_64.msi", "chef-workstation-21.4.365-1-x64.msi"
+$exeArray = "Postman-win64-7.36.1-Setup.exe", "VSCodeUserSetup-x64-1.52.1.exe"
 $polArray = "LocalMachine", "CurrentUser"
 # Tweak Policies
 $polArray | ForEach-Object (Invoke-Command -ScriptBlock {Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force})
@@ -36,7 +38,6 @@ Write-Host "### >> PAY DETAIL ATTENTION to the ALERTS MESSAGE. << ###"
 Write-Host "### >> It's not ERROR. Wait for Windows to FINISH. << ###"
 Write-Host "### >> !! OR CLICK RETRY !! DO NOT CLICK CANCEL !! << ###"
 Write-Host "#########################################################"
-$dirArray = "C:\Python27", "C:\HashiCorp", "C:\opscode"
 foreach ($dir in $dirArray)
 {
   if (!(Test-Path -Path $dir)) { New-Item -Type Directory -Path $dir -Force }
@@ -46,9 +47,8 @@ foreach ($msi in $msiArray)
 {
   msiexec /i $softLink/$msi /qr /norestart
 }
-$appArray = "Postman-win64-7.36.1-Setup.exe", "VSCodeUserSetup-x64-1.52.1.exe"
-foreach ($app in $appArray) {
-  Invoke-WebRequest -Uri $softLink/$app -UseBasicParsing -OutFile "C:\Temp\$app"
+foreach ($exe in $exeArray) {
+  Invoke-WebRequest -Uri $softLink/$exe -UseBasicParsing -OutFile "C:\Temp\$exe"
 }
 $postArgs = { C:\Temp\Postman-win64-7.36.1-Setup.exe /S /v/qn }
 $vscodeArgs = { C:\Temp\VSCodeUserSetup-x64-1.52.1.exe /S /v/qn }
