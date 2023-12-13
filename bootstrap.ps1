@@ -9,6 +9,7 @@ $dirArray = "C:\Python27", "C:\HashiCorp", "C:\opscode"
 $msiArray = "7z2301-x64.msi", "Notepad++7_9_1.msi", "VirtualBox-6.1.46-r158378.msi", "AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi", "AWSCLIV2.msi", "AWSToolsAndSDKForNet_sdk-3.5.119.0_ps-4.1.9.0_tk-1.14.5.0.msi", "node-v16.13.0-x64.msi", "vagrant_2.2.19_x86_64.msi", "chef-workstation-21.4.365-1-x64.msi"
 $exeArray = "Postman-win64-7.36.1-Setup.exe", "VSCodeUserSetup-x64-1.52.1.exe"
 $polArray = "LocalMachine", "CurrentUser"
+$modArray = "PowerShellGet", "PolicyFileEditor", "powershell-yaml", "AWS.Tools.Common", "AWSPowershell.NetCore"
 # Tweak Policies
 $polArray | ForEach-Object (Invoke-Command -ScriptBlock {Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force})
 Set-ItemProperty -Path HKLM:\Software\Policies\Microsoft\Windows\PowerShell -Name ExecutionPolicy -Value Unrestricted
@@ -25,7 +26,6 @@ netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 prot
 # Setup PSGallery and install AWS common modules
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
-$modArray = "PowerShellGet", "PolicyFileEditor", "powershell-yaml", "AWS.Tools.Common", "AWSPowershell.NetCore"
 foreach ($mod in $modArray)
 {
   Install-Module -Name $mod -AllowClobber -Force
