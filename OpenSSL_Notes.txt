@@ -10,7 +10,7 @@ openssl pkcs12 -export -in localhost-rsa-cert.pem -inkey localhost-rsa-key.pem -
 
 #3. Import cert/key bundle into keystore 
 
-keytool -importkeystore -deststorepass <YourPassword> -destkeypass <YourPassword> -destkeystore tomcat.keystore -srckeystore sgdt-devops-ams06.enwd.co.sa.charterlab.com.p12 -srcstoretype PKCS12 –srcstorepass <YourPassword> -alias tomcat 
+keytool -importkeystore -deststorepass <Dest-Store-Password> -destkeypass <Dest-Key-Password> -destkeystore tomcat.keystore -srckeystore <Your-Src-keystore>.p12 -srcstoretype PKCS12 –srcstorepass <Your-Src-Password> -alias tomcat 
 
 #4. Import intermediate into keystore 
 
@@ -26,7 +26,7 @@ chown tomcat:tomcat tomcat.keystore
 
 #7. Setup tomcat connector 
 
-<Connector port="8443" maxThreads="200" scheme="https" secure="true" SSLEnabled="true" keystoreFile="conf/ssl/tomcat.keystore" keystorePass="YourPassword" clientAuth="false" sslProtocol="TLS"> 
+<Connector port="8443" maxThreads="200" scheme="https" secure="true" SSLEnabled="true" keystoreFile="conf/ssl/tomcat.keystore" keystorePass="Your-Dest-Password" clientAuth="false" sslProtocol="TLS"> 
 
 #8. Test and verify cert 
 
