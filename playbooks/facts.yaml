@@ -3,6 +3,6 @@ hosts:
   all
 become: yes
 become_user: root
-- name: Print all available facts
-  ansible.builtin.debug:
+  - name: Print all available facts
+    ansible.builtin.debug:
     var: ansible_facts
