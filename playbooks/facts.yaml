@@ -3,6 +3,5 @@
   become: yes
   become_user: root
   tasks:
-    - name: Print all available facts
-      ansible.builtin.debug:
-      var: ansible_facts
+  - debug:
+        var: ansible_facts
