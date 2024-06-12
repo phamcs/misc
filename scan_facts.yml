@@ -1,5 +1,4 @@
 ---
-hosts: all
   vars:
     scan_use_checksum: false
     scan_use_recursive: false
