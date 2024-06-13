@@ -1,0 +1,66 @@
+- name: install rke2 server
+  hosts: ~example-host[2-3]
+  become: true
+  vars_files:
+    - env_vars.yaml
+    - token.enc  # The encrypted TOKEN file, later it is decrypted in the command-line with the --ask-vault-pass option.
+
+  tasks:
+  - name: create directories if they don't exist
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: root
+      group: root
+      mode: 0755
+      recurse: yes
+    loop:
+      - "{{ CONFDIR }}"
+      - "{{ WATCHDIR }}"
+
+  - name: get hostname short
+    shell: |
+      hostname -s
+    register: hostname_short
+  - name: hostname fqdn
+    shell: |
+      hostname -f
+    register: hostname_fqdn
+
+  - name: Print hostname fqdn and short
+    debug:
+      msg:
+      - "hostname short '{{ hostname_short.stdout }}'"
+      - "hostname fqdn: '{{ hostname_fqdn.stdout }}'"
+
+  - name: Creating the config.yaml
+    copy:
+      dest: "{{ CONFFILE }}"
+      content: |
+        token: {{ TOKEN }}
+        server: https://{{ SERVER_ADDRESS_FQDN }}:9345
+        tls-san:
+          - "{{ hostname_short.stdout }}"
+          - "{{ hostname_fqdn.stdout }}"
+          - "{{ SERVER_ADDRESS_SHORT }}"
+          - "{{ SERVER_ADDRESS_FQDN }}"
+          - "{{ SERVER_FAILOVER_IP }}"
+    notify: "rke2-server service restart"
+
+  - name: Installing rke2 server
+    shell: |
+      curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_VERSION="{{ INSTALL_RKE2_VERSION }}" sh -
+    notify: "rke2-server service start"
+
+  handlers:
+  - name: Make sure a service unit is running
+    systemd:
+      state: started
+      name: rke2-server
+    listen: "rke2-server service start"
+
+  - name: Make sure a service unit is restarted
+    ansible.builtin.systemd:
+      state: restarted
+      name: rke2-server
+    listen: "rke2-server service restart"
