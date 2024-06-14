@@ -1,5 +1,5 @@
 - name: Install kube-vip
-  hosts: example-host1
+  hosts: infra01
   become: true
   vars_files:
     - env_vars.yaml  
