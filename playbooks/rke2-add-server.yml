@@ -1,5 +1,5 @@
 - name: install rke2 server
-  hosts: ~example-host[2-3]
+  hosts: ~infra0[2-3]
   become: true
   vars_files:
     - env_vars.yaml
