@@ -13,8 +13,8 @@
     - VIP: "{{ SERVER_FAILOVER_IP }}"
     - CONTAINER_RUNTIME_ENDPOINT: "unix:///run/k3s/containerd/containerd.sock"
     - CONTAINERD_ADDRESS: "/run/k3s/containerd/containerd.sock"
-    #- KUBE_VIP_IMAGE: "docker.io/plndr/kube-vip"
-    #- KUBE_VIP_IMAGE_TAG: "latest"
+    - KUBE_VIP_IMAGE: "docker.io/plndr/kube-vip"
+    - KUBE_VIP_IMAGE_TAG: "latest"
 
   tasks:
   - name: create directories if they don't exist
