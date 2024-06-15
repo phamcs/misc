@@ -1,8 +1,0 @@
-all:
-  hosts:
-    infra01: # master node
-    infra02: # master node
-    infra03: # master node
-    rke2w0rk3r01: # agent node
-    rke2w0rk3r02: # agent node
-    rke2w0rk3r03: # agent node
