@@ -13,8 +13,6 @@
     - VIP: "{{ SERVER_FAILOVER_IP }}"
     - CONTAINER_RUNTIME_ENDPOINT: "unix:///run/k3s/containerd/containerd.sock"
     - CONTAINERD_ADDRESS: "/run/k3s/containerd/containerd.sock"
-    - KUBE_VIP_IMAGE: "docker.io/plndr/kube-vip"
-    - KUBE_VIP_IMAGE_TAG: "latest"
     - TOKEN: "K104839e4d3f2f63de3f1e0e5dea80d1a456377e3087bc94464d2a60f907fbeaa84::server:544fc0eb13ec03ba91c2717ae0b2f530"
 
   tasks:
