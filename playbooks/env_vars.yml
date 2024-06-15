@@ -26,7 +26,7 @@ INSTALL_RKE2_VERSION: "v1.28.10+rke2r1" # Change with your preferred version.
 ##################################################
 
 INTERFACE: "ens192" # Change with yor IFACE
-VIP: "{{ SERVER_FAILOVER_IP }}"
+VIP: "192.168.0.222"
 CONTAINER_RUNTIME_ENDPOINT: "unix:///run/k3s/containerd/containerd.sock"
 CONTAINERD_ADDRESS: "/run/k3s/containerd/containerd.sock"
 KUBE_VIP_IMAGE: "docker.io/plndr/kube-vip"
