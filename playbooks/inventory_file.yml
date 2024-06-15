@@ -3,6 +3,6 @@ all:
     infra01: # master node
     infra02: # master node
     infra03: # master node
-    k8s-0rca: # agent node
-    k8s-0wl: # agent node
-    k8s-f0x: # agent node
+    rke2w0rk3r01: # agent node
+    rke2w0rk3r02: # agent node
+    rke2w0rk3r03: # agent node
