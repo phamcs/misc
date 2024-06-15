@@ -1,9 +1,20 @@
 - name: install rke2 server
   hosts: ~infra0[2-3]
   become: true
-  vars_files:
-    - env_vars.yaml
-    - token.enc  # The encrypted TOKEN file, later it is decrypted in the command-line with the --ask-vault-pass option.
+    - WATCHDIR: "/var/lib/rancher/rke2/server/manifests"
+    - CONFDIR: "/etc/rancher/rke2"
+    - CONFFILE: "{{ CONFDIR }}/config.yaml"
+    - SERVER_FAILOVER_IP: "192.168.0.222"
+    - SERVER_ADDRESS_SHORT: "rke2"
+    - SERVER_ADDRESS_FQDN: "rke2.superasian.net"
+    - INSTALL_RKE2_VERSION: "v1.28.10+rke2r1"
+    - INTERFACE: "enp3s0"
+    - VIP: "{{ SERVER_FAILOVER_IP }}"
+    - CONTAINER_RUNTIME_ENDPOINT: "unix:///run/k3s/containerd/containerd.sock"
+    - CONTAINERD_ADDRESS: "/run/k3s/containerd/containerd.sock"
+    - KUBE_VIP_IMAGE: "docker.io/plndr/kube-vip"
+    - KUBE_VIP_IMAGE_TAG: "latest"
+    - token: "K10653a7c8cf586f22251311b0c69e8151c48cc964d678dcb5993a8b78e4cba3d61::server:54e9a99066c9c879449e388e7e1633be"
 
   tasks:
   - name: create directories if they don't exist
