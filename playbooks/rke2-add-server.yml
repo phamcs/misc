@@ -1,6 +1,7 @@
 - name: install rke2 server
   hosts: ~infra0[2-3]
   become: true
+  vars:
     - WATCHDIR: "/var/lib/rancher/rke2/server/manifests"
     - CONFDIR: "/etc/rancher/rke2"
     - CONFFILE: "{{ CONFDIR }}/config.yaml"
