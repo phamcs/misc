@@ -9,7 +9,7 @@
     - SERVER_ADDRESS_SHORT: "rke2"
     - SERVER_ADDRESS_FQDN: "rke2.superasian.net"
     - INSTALL_RKE2_VERSION: "v1.28.10+rke2r1"
-    - INTERFACE: "ens192"
+    - INTERFACE: "enp3s0"
     - VIP: "{{ SERVER_FAILOVER_IP }}"
     - CONTAINER_RUNTIME_ENDPOINT: "unix:///run/k3s/containerd/containerd.sock"
     - CONTAINERD_ADDRESS: "/run/k3s/containerd/containerd.sock"
