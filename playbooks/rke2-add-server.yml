@@ -1,5 +1,5 @@
 - name: install rke2 server
-  hosts: ~infra0[2-3]
+  hosts: ~infra0[1-3]
   become: true
   vars:
     - WATCHDIR: "/var/lib/rancher/rke2/server/manifests"
@@ -15,7 +15,7 @@
     - CONTAINERD_ADDRESS: "/run/k3s/containerd/containerd.sock"
     #- KUBE_VIP_IMAGE: "docker.io/plndr/kube-vip"
     #- KUBE_VIP_IMAGE_TAG: "latest"
-    #- TOKEN: "K10653a7c8cf586f22251311b0c69e8151c48cc964d678dcb5993a8b78e4cba3d61::server:54e9a99066c9c879449e388e7e1633be"
+    - TOKEN: "K10a319d918af44d4b1160018aa690ce0167ea598d1183c8f0406ed65cb4115d7fd::server:5be90802d0d4e5586f64a8f1994d0947"
 
   tasks:
   - name: create directories if they don't exist
