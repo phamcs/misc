@@ -1,1 +1,33 @@
+##################################################
+##################################################
+###               RKE2 Configs                 ###
+##################################################
+##################################################
 
+WATCHDIR: "/var/lib/rancher/rke2/server/manifests"
+CONFDIR: "/etc/rancher/rke2"
+CONFFILE: "{{ CONFDIR }}/config.yaml"
+SERVER_FAILOVER_IP: "192.168.0.222" # Replace with your failover floating IP address.
+SERVER_ADDRESS_SHORT: "rke2" # Hostname pointed to failover floating IP (w.x.y.z), change with yours.
+SERVER_ADDRESS_FQDN: "rke2.superasian.net" # FQDN pointed to failover floating IP (w.x.y.z), change with yours.
+
+##################################################
+##################################################
+###               RKE2 Version                 ###
+##################################################
+##################################################
+
+INSTALL_RKE2_VERSION: "v1.28.10+rke2r1" # Change with your preferred version.
+
+##################################################
+##################################################
+###                kube-vip                    ###
+##################################################
+##################################################
+
+INTERFACE: "ens192" # Change with your INTERFACE
+VIP: "{{ SERVER_FAILOVER_IP }}"
+CONTAINER_RUNTIME_ENDPOINT: "unix:///run/k3s/containerd/containerd.sock"
+CONTAINERD_ADDRESS: "/run/k3s/containerd/containerd.sock"
+KUBE_VIP_IMAGE: "docker.io/plndr/kube-vip"
+KUBE_VIP_IMAGE_TAG: "latest"
