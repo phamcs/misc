@@ -69,7 +69,7 @@
         spec:
           valuesContent: |-
             nodelocal:
-              enabled: true # Change this to false or remove this (Creating the CoreDNS config file) section altogether if you don’t want to install NodeLocal DNSCache
+              enabled: false # Change this to false or remove this (Creating the CoreDNS config file) section altogether if you don’t want to install NodeLocal DNSCache
           bootstrap: true
 
   - name: Installing rke2 server
