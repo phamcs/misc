@@ -13,7 +13,7 @@
     - VIP: "{{ SERVER_FAILOVER_IP }}"
     - CONTAINER_RUNTIME_ENDPOINT: "unix:///run/k3s/containerd/containerd.sock"
     - CONTAINERD_ADDRESS: "/run/k3s/containerd/containerd.sock"
-    - TOKEN: "K104839e4d3f2f63de3f1e0e5dea80d1a456377e3087bc94464d2a60f907fbeaa84::server:544fc0eb13ec03ba91c2717ae0b2f530"
+    - TOKEN: "K1058bdea2e5b6e852982846945be3d82eeeaab57233344d996c772029867f7a60b::server:1158735483bea4ec822149845356b31e"
 
   tasks:
   - name: create directories if they don't exist
