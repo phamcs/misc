@@ -5,6 +5,6 @@
   become: yes
   tasks:
     - name: Reset rke2 cluster
-    shell: |
-      rke2-killall.sh
-      rke2-uninstall.sh
+      shell: |
+        rke2-killall.sh
+        rke2-uninstall.sh
