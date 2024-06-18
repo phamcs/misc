@@ -8,3 +8,4 @@
       shell: |
         rke2-killall.sh
         rke2-uninstall.sh
+        systemctl restart containerd
