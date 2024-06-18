@@ -1,5 +1,5 @@
 - name: install rke2 server
-  hosts: ~infra0[2-3]
+  hosts: all
   become: true
   vars:
     - WATCHDIR: "/var/lib/rancher/rke2/server/manifests"
