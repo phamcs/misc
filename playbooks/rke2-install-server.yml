@@ -8,6 +8,8 @@
     - SERVER_FAILOVER_IP: "192.168.0.202"
     - VIP: "{{ SERVER_FAILOVER_IP }}"
     - INTERFACE: "enp3s0"
+    - CONTAINER_RUNTIME_ENDPOINT: "unix:///run/k3s/containerd/containerd.sock"
+    - CONTAINERD_ADDRESS: "/run/k3s/containerd/containerd.sock"    
     - SERVER_ADDRESS_SHORT: "rke2vip"
     - SERVER_ADDRESS_FQDN: "rke2vip.superasian.net"
     - INSTALL_RKE2_VERSION: "v1.28.10+rke2r1"
