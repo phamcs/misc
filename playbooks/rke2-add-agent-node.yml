@@ -1,5 +1,5 @@
 - name: install rke2 agent node
-  hosts: all:!~infra0[1-3] # Including all hosts and excluding the master nodes.
+  hosts: all # Including all hosts and excluding the master nodes.
   become: true
   vars:
     - WATCHDIR: "/var/lib/rancher/rke2/server/manifests"
