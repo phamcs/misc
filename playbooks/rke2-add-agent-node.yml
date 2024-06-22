@@ -5,15 +5,15 @@
     - WATCHDIR: "/var/lib/rancher/rke2/server/manifests"
     - CONFDIR: "/etc/rancher/rke2"
     - CONFFILE: "{{ CONFDIR }}/config.yaml"
-    - SERVER_FAILOVER_IP: "192.168.0.202"
-    - SERVER_ADDRESS_SHORT: "rke2vip"
-    - SERVER_ADDRESS_FQDN: "rke2vip.superasian.net"
+    - SERVER_FAILOVER_IP: "192.168.0.222"
+    - SERVER_ADDRESS_SHORT: "rke2"
+    - SERVER_ADDRESS_FQDN: "rke2.superasian.net"
     - INSTALL_RKE2_VERSION: "v1.28.10+rke2r1"
     - INTERFACE: "enp3s0"
     - VIP: "{{ SERVER_FAILOVER_IP }}"
     - CONTAINER_RUNTIME_ENDPOINT: "unix:///run/k3s/containerd/containerd.sock"
     - CONTAINERD_ADDRESS: "/run/k3s/containerd/containerd.sock"
-    - TOKEN: "K1053f796d48a9bfef2c72f83062d28e56ae1646002830124f660ca4b9dafa4e28e::server:90e80ca3e44c745530056c93349e057b"
+    - TOKEN: "K10b951972cd2bdadb6c1f38cd4294e519d135ae8bd5d00bcdd17baad1c091f08ef::server:2007f257241640e3e6cac2fad524a074"
 
   tasks:
   - name: create directories if they don't exist
