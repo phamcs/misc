@@ -5,7 +5,7 @@
     - WATCHDIR: "/var/lib/rancher/rke2/server/manifests"
     - CONFDIR: "/etc/rancher/rke2"
     - CONFFILE: "{{ CONFDIR }}/config.yaml"
-    - SERVER_FAILOVER_IP: "192.168.0.202"
+    - SERVER_FAILOVER_IP: "192.168.0.222"
     - INTERFACE: "enp3s0"
     - VIP: "{{ SERVER_FAILOVER_IP }}"
     - CONTAINER_RUNTIME_ENDPOINT: "unix:///run/k3s/containerd/containerd.sock"
