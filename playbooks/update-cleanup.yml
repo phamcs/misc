@@ -1,0 +1,8 @@
+- name: Update nodes & Cleanup
+  hosts: all
+  become: true
+  tasks:
+  - name: Update & Upgrade
+    shell: |
+      apt-get update && apt-get upgrade -y
+      apt autoremove
