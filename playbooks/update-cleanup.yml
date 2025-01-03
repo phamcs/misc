@@ -5,4 +5,4 @@
   - name: Update & Upgrade
     shell: |
       apt-get update && apt-get upgrade -y
-      apt autoremove
+      apt-get autoremove
