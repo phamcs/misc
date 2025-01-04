@@ -22,15 +22,15 @@
       scan_insights:
       when: ansible_os_family != "Windows"
 
-    - name: "Scan packages (Windows)"
-      win_scan_packages:
-      when: ansible_os_family == "Windows"
-    - name: "Scan services (Windows)"
-      win_scan_services:
-      when: ansible_os_family == "Windows"
-    - name: "Scan files (Windows)"
-      win_scan_files:
-        paths: '{{ scan_file_paths }}'
-        get_checksum: '{{ scan_use_checksum }}'
-        recursive: '{{ scan_use_recursive }}'
-      when: scan_file_paths is defined and ansible_os_family == "Windows"
+    # - name: "Scan packages (Windows)"
+    #   win_scan_packages:
+    #   when: ansible_os_family == "Windows"
+    # - name: "Scan services (Windows)"
+    #   win_scan_services:
+    #   when: ansible_os_family == "Windows"
+    # - name: "Scan files (Windows)"
+    #   win_scan_files:
+    #     paths: '{{ scan_file_paths }}'
+    #     get_checksum: '{{ scan_use_checksum }}'
+    #     recursive: '{{ scan_use_recursive }}'
+    #   when: scan_file_paths is defined and ansible_os_family == "Windows"
