@@ -1,9 +1,9 @@
-- name: Install monitoring packages & Upgrade & Cleanup
+- name: Install packages & Upgrade & Cleanup
   hosts: all
   become: true
   become_user: root
   tasks:
-  - name: Install monitoring packages & Upgrade & Cleanup
+  - name: Install packages & Upgrade & Cleanup
     shell: |
       apt-get update
       apt-get install -y libi2c-dev python3-smbus fancontrol read-edid i2c-tools lm-sensors strace htop bmon firmware-amd-graphics firmware-iwlwifi firmware-realtek firmware-misc-nonfree
