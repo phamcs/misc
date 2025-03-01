@@ -9,8 +9,9 @@
       apt-get install -y libi2c-dev python3-smbus fancontrol read-edid i2c-tools lm-sensors strace htop bmon firmware-amd-graphics firmware-iwlwifi firmware-realtek firmware-misc-nonfree
       apt-get upgrade -y
       apt-get autoremove -y
-    when: ansible_os_family == "Debian"
+    when: ansible_facts['os_family'] == "Debian" or ansible_facts['os_family'] == "Ubuntu"
+
   - name: Install Redhat packages & Upgrade & Cleanup
     shell: |
       dnf update -y && dnf install -y python39
-    when: ansible_os_family == "Red Hat"
+    when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Rocky"
