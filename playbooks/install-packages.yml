@@ -1,0 +1,16 @@
+---
+- name: Install packages
+  hosts: all
+  become: true
+  become_user: root
+  tasks:
+  - name: Install Debian packages
+    shell: |
+      apt-get update
+      apt-get install -y libi2c-dev python3-smbus fancontrol read-edid i2c-tools lm-sensors strace htop bmon firmware-amd-graphics firmware-iwlwifi firmware-realtek firmware-misc-nonfree
+    when: ansible_facts['os_family'] == "Debian" or ansible_facts['os_family'] == "Ubuntu"
+
+  - name: Install Redhat packages
+    shell: |
+      dnf install -y python39 python3-pip python3-setuptools nfs-utils net-tools
+    when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Rocky"

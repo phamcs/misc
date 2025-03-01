@@ -1,17 +1,15 @@
-- name: Install packages & Upgrade & Cleanup
+---
+- name: Upgrade & Cleanup
   hosts: all
   become: true
   become_user: root
   tasks:
-  - name: Install Debian packages & Upgrade & Cleanup
+  - name: Debian Upgrade & Cleanup
     shell: |
-      apt-get update
-      apt-get install -y libi2c-dev python3-smbus fancontrol read-edid i2c-tools lm-sensors strace htop bmon firmware-amd-graphics firmware-iwlwifi firmware-realtek firmware-misc-nonfree
-      apt-get upgrade -y
-      apt-get autoremove -y
+      apt-get update && apt-get upgrade -y && apt-get autoremove -y
     when: ansible_facts['os_family'] == "Debian" or ansible_facts['os_family'] == "Ubuntu"
 
-  - name: Install Redhat packages & Upgrade & Cleanup
+  - name: RedhatUpgrade & Cleanup
     shell: |
-      dnf update -y && dnf install -y python39
+      dnf update -y && dnf clean all
     when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Rocky"
