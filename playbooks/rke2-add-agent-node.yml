@@ -1,19 +1,8 @@
 - name: install rke2 agent node
   hosts: all # Including all hosts and excluding the master nodes.
   become: true
-  vars:
-    - WATCHDIR: "/var/lib/rancher/rke2/server/manifests"
-    - CONFDIR: "/etc/rancher/rke2"
-    - CONFFILE: "{{ CONFDIR }}/config.yaml"
-    - SERVER_FAILOVER_IP: "192.168.0.222"
-    - SERVER_ADDRESS_SHORT: "rke2"
-    - SERVER_ADDRESS_FQDN: "rke2.superasian.net"
-    - INSTALL_RKE2_VERSION: "v1.28.10+rke2r1"
-    - INTERFACE: "enp3s0"
-    - VIP: "{{ SERVER_FAILOVER_IP }}"
-    - CONTAINER_RUNTIME_ENDPOINT: "unix:///run/k3s/containerd/containerd.sock"
-    - CONTAINERD_ADDRESS: "/run/k3s/containerd/containerd.sock"
-    - TOKEN: "K109283c69d9fd37e6d2918e8efae7f69f6a01f5cc75c6474b825735a8b848d546b::server:1192517288557f07771024a174277081"
+  vars_files:
+    - rke2_vars.yml
 
   tasks:
   - name: create directories if they don't exist
