@@ -40,7 +40,7 @@
         
   - name: Installing rke2 agent
     shell: |
-      curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_VERSION="{{ INSTALL_RKE2_VERSION }}" sh -
+      curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_VERSION="{{ INSTALL_RKE2_VERSION }}" INSTALL_RKE2_TYPE=agent sh -
     notify: "rke2-agent service start"
 
   handlers:
