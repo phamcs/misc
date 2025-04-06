@@ -7,17 +7,15 @@ virtualMachineId="9000"
 templateName="jammy-tpl"
 tmp_cores="2"
 tmp_memory="2048"
-rootPasswd="Letmein123"
+rootPasswd="P@ssw0rd"
 cpuTypeRequired="kvm64"
 
-apt update
-apt install libguestfs-tools -y
-rm *.img
+apt update && apt install libguestfs-tools -y
 wget -O $imageName $imageURL
 qm destroy $virtualMachineId
 virt-customize -a $imageName --install qemu-guest-agent
 virt-customize -a $imageName --root-password password:$rootPasswd
-qm create $virtualMachineId --name $templateName --memory $tmp_memory --cores $tmp_cores --net0 virtio,bridge=vmbr0 --scsi0 
+qm create $virtualMachineId --name $templateName --memory $tmp_memory --cores $tmp_cores --net0 virtio,bridge=vmbr0
 qm importdisk $virtualMachineId $imageName $volumeName
 qm set $virtualMachineId --scsihw virtio-scsi-pci --virtio0 $volumeName:vm-$virtualMachineId-disk-0
 qm set $virtualMachineId --boot c --bootdisk virtio0
@@ -26,3 +24,4 @@ qm set $virtualMachineId --serial0 socket --vga serial0
 qm set $virtualMachineId --ipconfig0 ip=dhcp
 qm set $virtualMachineId --cpu cputype=$cpuTypeRequired
 qm template $virtualMachineId
+rm -f $imageName

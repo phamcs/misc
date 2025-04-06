@@ -26,10 +26,6 @@ $appArray = @(
     'virtualbox'
     'VisualStudioCode'
 )
-$polArray = @(
-    'LocalMachine'
-    'MachinePolicy'
-)
 $modArray = @(
     'PowerShellGet'
     'PolicyFileEditor'
@@ -37,14 +33,18 @@ $modArray = @(
     'AWS.Tools.Common'
     'AWSPowershell.NetCore'
 )
+# Setup PSGallery and install AWS common modules
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
+foreach ($mod in $modArray)
+{
+  Install-Module -Name $mod -AllowClobber -Force
+}
 # Install chocolatey
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade -y chocolatey
 # Tweak Policies
-foreach ($pol in $polArray)
-{
-  Invoke-Command -ScriptBlock {Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope $pol -Force}
-}
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force
 Set-ItemProperty -Path 'HKLM:\Software\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell' -Name ExecutionPolicy -Value Unrestricted
 Get-ExecutionPolicy -List | Format-Table -hideTableHeader
 gpupdate /force
@@ -56,13 +56,6 @@ winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="512"}'
 winrm set winrm/config '@{MaxTimeoutms="1800000"}'
 Set-Service -Name WinRM -Status Running -PassThru
 netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
-# Setup PSGallery and install AWS common modules
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
-foreach ($mod in $modArray)
-{
-  Install-Module -Name $mod -AllowClobber -Force
-}
 # Install software
 foreach ($dir in $dirArray)
 {
@@ -82,12 +75,12 @@ dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux 
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 wsl --set-default-version 2
 wsl --update -y
-wsl --install -d Ubuntu -y
-wsl --set-default Ubuntu --set-version Ubuntu 22.04
+wsl --install -d Ubuntu-22.04
+#wsl -s Ubuntu-22.04 --set-version Ubuntu-22.04
 #Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-2204 -OutFile "C:\Temp\Ubuntu.appx" -UseBasicParsing
 #Add-AppxPackage -Path "C:\Temp\Ubuntu.appx" -ForceApplicationShutdown
 # Add 10 min waiting for application installing finish
-Start-Sleep -s 600 ;
+#Start-Sleep -s 600 ;
 # Cleanup after install
-Get-ChildItem  -Path "C:\Temp\" -Recurse  | Remove-Item -Force -Recurse
+#Get-ChildItem  -Path "C:\Temp\" -Recurse  | Remove-Item -Force -Recurse
 Restart-Computer -Force
