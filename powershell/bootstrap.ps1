@@ -11,7 +11,7 @@ $dirArray = @(
 )
 $msiArray = @(
     'AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi'
-    'AWSToolsAndSDKForNet_sdk-3.5.119.0_ps-4.1.9.0_tk-1.14.5.0.msi'
+    'AWSToolsAndSDKForNet_sdk-3.7.660.0_ps-4.1.428.0_tk-1.14.5.2.msi'
 )
 $appArray = @(
     '7zip'
@@ -40,9 +40,6 @@ foreach ($mod in $modArray)
 {
   Install-Module -Name $mod -AllowClobber -Force
 }
-# Install chocolatey
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-choco upgrade -y chocolatey
 # Tweak Policies
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force
 Set-ItemProperty -Path 'HKLM:\Software\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell' -Name ExecutionPolicy -Value Unrestricted
@@ -64,6 +61,9 @@ foreach ($dir in $dirArray)
 foreach ($msi in $msiArray) {
   msiexec /i $softLink/$msi /qr /norestart
 }
+# Install chocolatey
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+choco upgrade -y chocolatey
 foreach ($app in $appArray) {
   choco install -y $app
 } 
