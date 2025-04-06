@@ -37,21 +37,18 @@ foreach ($dir in $dirArray)
 {
   if (!(Test-Path -Path $dir)) { New-Item -Type Directory -Path $dir -Force }
 }
-foreach ($msi in $msiArray) {
-  msiexec /i $softLink/$msi /qr /norestart
-} 
-catch {
+trap {
   Write-Warning "Error occurred: $($_.Exception.Message)"
   continue
 }
+foreach ($msi in $msiArray) {
+  msiexec /i $softLink/$msi /qr /norestart
+} 
 
 foreach ($app in $appArray) {
   choco install -y $app
 } 
-catch {
-  Write-Warning "Error occurred: $($_.Exception.Message)"
-  continue
-}
+
 # $appArray | ForEach-Object (Invoke-Command -ScriptBlock { Start-Process /wait "C:\Temp\$app /S /v/qn" })
 # Adding new Path to ENV
 Set-Item -Path Env:Path -Value ($Env:Path + "C:\HashiCorp\Vagrant\bin;C:\opscode\chef-workstation\bin;C:\opscode\chef-workstation\embedded\bin")
