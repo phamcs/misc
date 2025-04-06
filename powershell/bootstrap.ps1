@@ -53,7 +53,7 @@ $PSROptions = @{
         InLinePrediction = $PSStyle.Foreground.BrightYellow + $PSStyle.Background.BrightBlack
     }
 }
-Set-PSReadLineOption @PSROptions
+Set-PSReadLineOption -Colors @PSROptions
 Set-PSReadLineKeyHandler -Chord 'Ctrl+f' -Function ForwardWord
 Set-PSReadLineKeyHandler -Chord 'Enter' -Function ValidateAndAcceptLine
 
@@ -136,7 +136,7 @@ Set-Item -Path Env:Path -Value ($Env:Path + "C:\HashiCorp\Vagrant\bin;C:\opscode
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 wsl --set-default-version 2; wsl --update;
-wsl --install -d Ubuntu-22.04 -n; wsl -s Ubuntu-22.04 --set-version Ubuntu-22.04
+wsl --install -d Ubuntu-22.04 -n; wsl -s Ubuntu-22.04
 # Reboot your computer to apply changes
 $reboot = Read-Host "Do you want to reboot the computer? (y/n)"
 if ($reboot -eq "y") {
