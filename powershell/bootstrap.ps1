@@ -11,18 +11,18 @@ $dirArray = @(
 )
 $msiArray = @(
     'AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi'
-    'AWSCLIV2.msi'
     'AWSToolsAndSDKForNet_sdk-3.5.119.0_ps-4.1.9.0_tk-1.14.5.0.msi'
 )
 $appArray = @(
     '7zip'
+    'awscli'
     'chef-workstation'
+    'golang'
     'nodejs-lts'
     'notepadplusplus'
     'postman'
     'python3'
     'vagrant'
-    'vim-x64'
     'virtualbox'
     'VisualStudioCode'
 )
