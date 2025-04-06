@@ -65,7 +65,6 @@ foreach ($msi in $msiArray) {
   msiexec /i $softLink/$msi /qr /norestart
 }
 foreach ($app in $appArray) {
-  # Install with chocolatey
   choco install -y $app
 } 
 # Adding new Path to ENV
@@ -74,6 +73,5 @@ Set-Item -Path Env:Path -Value ($Env:Path + "C:\HashiCorp\Vagrant\bin;C:\opscode
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 wsl --set-default-version 2; wsl --update;
-wsl --uninstall -d Ubuntu-22.04; wsl --install -d Ubuntu-22.04
-#wsl -s Ubuntu-22.04 --set-version Ubuntu-22.04
+wsl --install -d Ubuntu-22.04; wsl -s Ubuntu-22.04 --set-version Ubuntu-22.04
 Restart-Computer -Force
