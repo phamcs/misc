@@ -37,21 +37,23 @@ foreach ($dir in $dirArray)
 {
   if (!(Test-Path -Path $dir)) { New-Item -Type Directory -Path $dir -Force }
 }
-foreach ($msi in $msiArray) {
-    try {
-      msiexec /i $softLink/$msi /qr /norestart
-    } catch {
-      Write-Warning "Error occurred: $($_.Exception.Message)"
-      continue
-    }
+try {
+  foreach ($msi in $msiArray) {
+    msiexec /i $softLink/$msi /qr /norestart
+  } 
+  catch {
+  Write-Warning "Error occurred: $($_.Exception.Message)"
+  continue
+  }
 }
-foreach ($app in $appArray) {
-    try {
-      choco install -y $app
-    } catch {
-      Write-Warning "Error occurred: $($_.Exception.Message)"
-      continue
-    }
+try {
+  foreach ($app in $appArray) {
+    choco install -y $app
+  } 
+  catch {
+  Write-Warning "Error occurred: $($_.Exception.Message)"
+  continue
+  }
 }
 
 # $appArray | ForEach-Object (Invoke-Command -ScriptBlock { Start-Process /wait "C:\Temp\$app /S /v/qn" })
