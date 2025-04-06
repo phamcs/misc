@@ -51,7 +51,7 @@ Set-Item -Path Env:Path -Value ($Env:Path + "C:\HashiCorp\Vagrant\bin;C:\opscode
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 wsl --set-default-version 2
-wls --install
+wls --install -d Ubuntu
 #Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-2204 -OutFile "C:\Temp\Ubuntu.appx" -UseBasicParsing
 #Add-AppxPackage -Path "C:\Temp\Ubuntu.appx" -ForceApplicationShutdown
 # Add 10 min waiting for application installing finish
