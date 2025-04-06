@@ -75,8 +75,6 @@ foreach ($app in $appArray) {
   # Install with chocolatey
   choco install -y $app
 } 
-
-# $appArray | ForEach-Object (Invoke-Command -ScriptBlock { Start-Process /wait "C:\Temp\$app /S /v/qn" })
 # Adding new Path to ENV
 Set-Item -Path Env:Path -Value ($Env:Path + "C:\HashiCorp\Vagrant\bin;C:\opscode\chef-workstation\bin;C:\opscode\chef-workstation\embedded\bin")
 # Setup WSL features
