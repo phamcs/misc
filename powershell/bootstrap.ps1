@@ -141,7 +141,7 @@ wsl --install -d Ubuntu-22.04 -n; wsl -s Ubuntu-22.04
 # Reboot your computer to apply changes
 $reboot = Read-Host "Do you want to reboot the computer? (y/n)"
 if ($reboot -eq "y") {
-    Restart-Computer
+    Restart-Computer -Force
 } else {
     Write-Host "Reboot cancelled."
 }
