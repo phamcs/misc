@@ -70,17 +70,10 @@ foreach ($app in $appArray) {
 } 
 # Adding new Path to ENV
 Set-Item -Path Env:Path -Value ($Env:Path + "C:\HashiCorp\Vagrant\bin;C:\opscode\chef-workstation\bin;C:\opscode\chef-workstation\embedded\bin")
-# Setup WSL features
+# Setup WSL
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-wsl --set-default-version 2
-wsl --update -y
-wsl --install -d Ubuntu-22.04
+wsl --set-default-version 2; wsl --update;
+wsl --uninstall -d Ubuntu-22.04; wsl --install -d Ubuntu-22.04
 #wsl -s Ubuntu-22.04 --set-version Ubuntu-22.04
-#Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-2204 -OutFile "C:\Temp\Ubuntu.appx" -UseBasicParsing
-#Add-AppxPackage -Path "C:\Temp\Ubuntu.appx" -ForceApplicationShutdown
-# Add 10 min waiting for application installing finish
-#Start-Sleep -s 600 ;
-# Cleanup after install
-#Get-ChildItem  -Path "C:\Temp\" -Recurse  | Remove-Item -Force -Recurse
 Restart-Computer -Force
