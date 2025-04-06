@@ -38,16 +38,22 @@ foreach ($dir in $dirArray)
   if (!(Test-Path -Path $dir)) { New-Item -Type Directory -Path $dir -Force }
 }
 foreach ($msi in $msiArray)
+try 
 {
-  trap msiexec /i $softLink/$msi /qr /norestart {
+  msiexec /i $softLink/$msi /qr /norestart
+} 
+catch 
+{
   Write-Host "### An error has occured ###"
-  }
 }
 foreach ($app in $appArray)
+try
 {
-  trap choco install -y $app {
+  choco install -y $app
+}
+catch
+{
   Write-Host "### An error has occured ###"
-  }
 }
 # $appArray | ForEach-Object (Invoke-Command -ScriptBlock { Start-Process /wait "C:\Temp\$app /S /v/qn" })
 # Adding new Path to ENV
