@@ -39,15 +39,13 @@ foreach ($dir in $dirArray)
 }
 foreach ($msi in $msiArray)
 {
-  trap {
-  msiexec /i $softLink/$msi /qr /norestart
+  trap msiexec /i $softLink/$msi /qr /norestart {
   Write-Host "### An error has occured ###"
   }
 }
 foreach ($app in $appArray)
 {
-  trap {
-  choco install -y $app
+  trap choco install -y $app {
   Write-Host "### An error has occured ###"
   }
 }
