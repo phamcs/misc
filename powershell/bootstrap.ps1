@@ -74,4 +74,10 @@ dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux 
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 wsl --set-default-version 2; wsl --update;
 wsl --install -d Ubuntu-22.04 -n; wsl -s Ubuntu-22.04 --set-version Ubuntu-22.04
-Restart-Computer -Force
+# Reboot your computer to apply changes
+$reboot = Read-Host "Do you want to reboot the computer? (y/n)"
+if ($reboot -eq "y") {
+    Restart-Computer
+} else {
+    Write-Host "Reboot cancelled."
+}
