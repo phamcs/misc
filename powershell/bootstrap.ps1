@@ -129,7 +129,7 @@ foreach ($msi in $msiArray) {
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade -y chocolatey
 foreach ($app in $appArray) {
-  choco install -y $app
+  choco install -y $app --force
 } 
 # Adding new Path to ENV
 Set-Item -Path Env:Path -Value ($Env:Path + "C:\HashiCorp\Vagrant\bin;C:\opscode\chef-workstation\bin;C:\opscode\chef-workstation\embedded\bin")
