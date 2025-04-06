@@ -10,35 +10,39 @@ $dirArray = @(
     'C:\opscode'
 )
 $msiArray = @(
-    'VirtualBox-6.1.46-r158378.msi'
     'AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi'
     'AWSCLIV2.msi'
     'AWSToolsAndSDKForNet_sdk-3.5.119.0_ps-4.1.9.0_tk-1.14.5.0.msi'
-    'vagrant_2.2.19_x86_64.msi'
-    'chef-workstation-21.4.365-1-x64.msi'
 )
 $appArray = @(
-    'Postman'
-    'VisualStudioCode'
-    'nodejs-lts'
-    'python3'
-    'vim-x64'
-    'notepadplusplus'
     '7zip'
+    'chef-workstation'
+    'nodejs-lts'
+    'notepadplusplus'
+    'postman'
+    'python3'
+    'vagrant'
+    'vim-x64'
+    'virtualbox'
+    'VisualStudioCode'
 )
-$polArray = "LocalMachine"
+$polArray = @(
+    'LocalMachine'
+    'MachinePolicy'
+)
 $modArray = @(
     'PowerShellGet'
     'PolicyFileEditor'
-    'powershell-yaml'
+    'Powershell-yaml'
     'AWS.Tools.Common'
     'AWSPowershell.NetCore'
 )
 # Install chocolatey
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+choco upgrade -y chocolatey
 # Tweak Policies
 $polArray | ForEach-Object (Invoke-Command -ScriptBlock {Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force})
-Set-ItemProperty -Path HKLM:\Software\Policies\Microsoft\Windows\PowerShell -Name ExecutionPolicy -Value Unrestricted
+Set-ItemProperty -Path 'HKLM:\Software\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell' -Name ExecutionPolicy -Value Unrestricted
 Get-ExecutionPolicy -List | Format-Table -hideTableHeader
 gpupdate /force
 # Setup WinRM
@@ -65,7 +69,7 @@ foreach ($msi in $msiArray) {
   msiexec /i $softLink/$msi /qr /norestart
 }
 foreach ($app in $appArray) {
-  choco upgrade -y chocolatey
+  # Install with chocolatey
   choco install -y $app
 } 
 
@@ -77,7 +81,8 @@ dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux 
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 wsl --set-default-version 2
 wsl --update -y
-wsl --install -d Ubuntu --distribution-version 22.04 -y
+wsl --install -d Ubuntu -y
+wsl --set-default Ubuntu --set-version Ubuntu 22.04
 #Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-2204 -OutFile "C:\Temp\Ubuntu.appx" -UseBasicParsing
 #Add-AppxPackage -Path "C:\Temp\Ubuntu.appx" -ForceApplicationShutdown
 # Add 10 min waiting for application installing finish
