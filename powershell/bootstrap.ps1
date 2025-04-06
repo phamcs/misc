@@ -93,6 +93,7 @@ $modArray = @(
     'PowerShellGet'
     'PolicyFileEditor'
     'Powershell-yaml'
+    'PSReadline'
     'AWS.Tools.Common'
     'AWSPowershell.NetCore'
 )
