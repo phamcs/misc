@@ -5,11 +5,35 @@ if (!(Test-Path -Path $PROFILE.AllUsersAllHosts))
 { New-Item -Type File -Path $PROFILE.AllUsersAllHosts -Force }
 Get-PSSnapin -Registered | Add-PSSnapin
 $softLink = "https://dev.superasian.net/repo"
-$dirArray = "C:\HashiCorp", "C:\opscode"
-$msiArray = "VirtualBox-6.1.46-r158378.msi", "AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi", "AWSCLIV2.msi", "AWSToolsAndSDKForNet_sdk-3.5.119.0_ps-4.1.9.0_tk-1.14.5.0.msi", "vagrant_2.2.19_x86_64.msi", "chef-workstation-21.4.365-1-x64.msi"
-$appArray = "Postman", "VisualStudioCode", "nodejs-lts", "python3", "vim-x64", "notepadplusplus", "7zip"
+$dirArray = @(
+    'C:\HashiCorp'
+    'C:\opscode'
+)
+$msiArray = @(
+    'VirtualBox-6.1.46-r158378.msi'
+    'AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi'
+    'AWSCLIV2.msi'
+    'AWSToolsAndSDKForNet_sdk-3.5.119.0_ps-4.1.9.0_tk-1.14.5.0.msi'
+    'vagrant_2.2.19_x86_64.msi'
+    'chef-workstation-21.4.365-1-x64.msi'
+)
+$appArray = @(
+    'Postman'
+    'VisualStudioCode'
+    'nodejs-lts'
+    'python3'
+    'vim-x64'
+    'notepadplusplus'
+    '7zip'
+)
 $polArray = "LocalMachine"
-$modArray = "PowerShellGet", "PolicyFileEditor", "powershell-yaml", "AWS.Tools.Common", "AWSPowershell.NetCore"
+$modArray = @(
+    'PowerShellGet'
+    'PolicyFileEditor'
+    'powershell-yaml'
+    'AWS.Tools.Common'
+    'AWSPowershell.NetCore'
+)
 # Install chocolatey
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 # Tweak Policies
