@@ -4,17 +4,74 @@ timeout 120
 
 menu title PXE Menu
 
-LABEL Android 9
-MENU LABEL Android 9
-KERNEL memdisk
-append iso raw initrd=android-x86_64-9.0-r2.iso
-
 LABEL Rocky Linux 8
 MENU LABEL Rocky Linux 8
 KERNEL rl8/images/pxeboot/vmlinuz inst.ks=nfs://10.0.0.251/volume2/archive/pxe/pxelinux.cfg/rl8-ks.cfg
 initrd rl8/images/pxeboot/initrd.img
 append netboot=nfs root=/dev/nfs nfsroot=10.0.0.251:/volume2/archive/pxe/rl8 initrd=rl8/images/pxeboot/initrd.img inst.ks=nfs://10.0.0.251/volume2/archive/pxe/pxelinux.cfg/rl8-ks.cfg
 
+
+## Map PSDrives to other registry hives
+if (!(Test-Path HKCR:)) {
+    $null = New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT
+    $null = New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS
+}
+
+## Customize the prompt
+function prompt {
+    $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = [Security.Principal.WindowsPrincipal] $identity
+    $adminRole = [Security.Principal.WindowsBuiltInRole]::Administrator
+
+$prefix = if (Test-Path Variable:/PSDebugContext) { '[DBG]: ' } else { '' }
+    if ($principal.IsInRole($adminRole)) {
+        $prefix = "[ADMIN]:$prefix"
+    }
+    $body = 'PS ' + $PWD.path
+    $suffix = $(if ($NestedPromptLevel -ge 1) { '>>' }) + '> '
+    "${prefix}${body}${suffix}"
+}
+
+## Create $PSStyle if running on a version older than 7.2
+## - Add other ANSI color definitions as needed
+
+if ($PSVersionTable.PSVersion.ToString() -lt '7.2.0') {
+    # define escape char since "`e" may not be supported
+    $esc = [char]0x1b
+    $PSStyle = [pscustomobject]@{
+        Foreground = @{
+            Magenta = "${esc}[35m"
+            BrightYellow = "${esc}[93m"
+        }
+        Background = @{
+            BrightBlack = "${esc}[100m"
+        }
+    }
+}
+
+## Set PSReadLine options and keybindings
+$PSROptions = @{
+    ContinuationPrompt = '  '
+    Colors             = @{
+        Operator         = $PSStyle.Foreground.Magenta
+        Parameter        = $PSStyle.Foreground.Magenta
+        Selection        = $PSStyle.Background.BrightBlack
+        #InLinePrediction = $PSStyle.Foreground.BrightYellow + $PSStyle.Background.BrightBlack
+    }
+}
+Set-PSReadLineOption @PSROptions
+Set-PSReadLineKeyHandler -Chord 'Ctrl+f' -Function ForwardWord
+Set-PSReadLineKeyHandler -Chord 'Enter' -Function ValidateAndAcceptLine
+
+## Add argument completer for the dotnet CLI tool
+$scriptblock = {
+    param($wordToComplete, $commandAst, $cursorPosition)
+    dotnet complete --position $cursorPosition $commandAst.ToString() |
+        ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+        }
+}
+Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock $scriptblock
     post-up   echo 1 > /proc/sys/net/ipv4/ip_forward
     post-up   iptables -t nat -A POSTROUTING -s '192.168.0.0/24' -o enp1s0f0 -j MASQUERADE
     post-down iptables -t nat -D POSTROUTING -s '192.168.0.0/24' -o enp1s0f0 -j MASQUERADE
