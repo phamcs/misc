@@ -59,13 +59,13 @@ netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 prot
 # Enables the WinRM service and sets up the HTTP listener
 Enable-PSRemoting -Force
 
-# Opens port 5985 for all profiles
+# Opens port 5985,5986 for all profiles
 $firewallParams = @{
     Action      = 'Allow'
-    Description = 'Inbound rule for Windows Remote Management via WS-Management. [TCP 5985]'
+    Description = 'Inbound rule for Windows Remote Management via WS-Management. [TCP 5985-5986]'
     Direction   = 'Inbound'
-    DisplayName = 'Windows Remote Management (HTTP-In)'
-    LocalPort   = 5985
+    DisplayName = 'Windows Remote Management (HTTP/HTTPS-In)'
+    LocalPort   = 5985-5986
     Profile     = 'Any'
     Protocol    = 'TCP'
 }
@@ -105,17 +105,6 @@ $httpsParams = @{
 }
 New-WSManInstance @httpsParams
 
-# Opens port 5986 for all profiles
-$firewallParams = @{
-    Action      = 'Allow'
-    Description = 'Inbound rule for Windows Remote Management via WS-Management. [TCP 5986]'
-    Direction   = 'Inbound'
-    DisplayName = 'Windows Remote Management (HTTPS-In)'
-    LocalPort   = 5986
-    Profile     = 'Any'
-    Protocol    = 'TCP'
-}
-New-NetFirewallRule @firewallParams
 # Setup SSH
 Get-WindowsCapability -Name OpenSSH.Server* -Online |
     Add-WindowsCapability -Online
@@ -133,14 +122,6 @@ $firewallParams = @{
 }
 New-NetFirewallRule @firewallParams
 
-$shellParams = @{
-    Path         = 'HKLM:\SOFTWARE\OpenSSH'
-    Name         = 'DefaultShell'
-    Value        = 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
-    PropertyType = 'String'
-    Force        = $true
-}
-New-ItemProperty @shellParams
 # Setup default shell
 # Set default to powershell.exe
 $shellParams = @{
@@ -152,8 +133,6 @@ $shellParams = @{
 }
 New-ItemProperty @shellParams
 
-# Set default back to cmd.exe
-Remove-ItemProperty -Path HKLM:\SOFTWARE\OpenSSH -Name DefaultShell
 # Install software
 foreach ($dir in $dirArray)
 {
