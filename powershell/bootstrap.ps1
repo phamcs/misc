@@ -50,7 +50,7 @@ winrm set winrm/config/client/auth '@{Basic="true"}'
 winrm set winrm/config/client '@{AllowUnencrypted="True"}'
 winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="512"}'
 winrm set winrm/config '@{MaxTimeoutms="1800000"}'
-Set-Service -Name WinRM -Status Running -PassThru
+
 # netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 # Enables the WinRM service and sets up the HTTP listener
 Enable-PSRemoting -Force
@@ -101,10 +101,9 @@ $httpsParams = @{
     }
 }
 New-WSManInstance @httpsParams
-
+Set-Service -Name WinRM -Status Running -PassThru
 # Setup SSH
-Get-WindowsCapability -Name OpenSSH.Server* -Online |
-    Add-WindowsCapability -Online
+Get-WindowsCapability -Name OpenSSH.Server* -Online | Add-WindowsCapability -Online
 Set-Service -Name sshd -StartupType Automatic -Status Running
 
 # Setup default shell to powershell.exe
