@@ -2,7 +2,7 @@
   hosts: all
   become: true
   vars_files:
-    - rke2_vars.yml
+    - rke2-vars.yml
 
   tasks:
   - name: create directories if they don't exist
