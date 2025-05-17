@@ -7,10 +7,6 @@ if (!(Test-Path -Path $PROFILE))
 }
 Get-PSSnapin -Registered | Add-PSSnapin
 $softLink = "https://dev.superasian.net/repo"
-$dirArray = @(
-    'C:\HashiCorp'
-    'C:\opscode'
-)
 $msiArray = @(
     'AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi'
     'AWSToolsAndSDKForNet_sdk-3.7.660.0_ps-4.1.428.0_tk-1.14.5.2.msi'
@@ -18,14 +14,14 @@ $msiArray = @(
 $appArray = @(
     '7zip'
     'awscli'
-    'chef-workstation'
+    #'chef-workstation'
     'golang'
     'nodejs-lts'
     'notepadplusplus'
     'python3'
     'ruby'
-    'vagrant'
-    'virtualbox'
+    #'vagrant'
+    #'virtualbox'
     'VisualStudioCode'
 )
 $modArray = @(
@@ -55,17 +51,17 @@ winrm set winrm/config/client '@{AllowUnencrypted="True"}'
 winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="512"}'
 winrm set winrm/config '@{MaxTimeoutms="1800000"}'
 Set-Service -Name WinRM -Status Running -PassThru
-netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
+# netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 # Enables the WinRM service and sets up the HTTP listener
 Enable-PSRemoting -Force
 
-# Opens port 5985,5986 for all profiles
+# Opens port 22,5985-5986 for all profiles
 $firewallParams = @{
     Action      = 'Allow'
-    Description = 'Inbound rule for Windows Remote Management via WS-Management. [TCP 5985-5986]'
+    Description = 'Inbound rule for OpenSSH Server [TCP 22] & WinRM via WS-Management. [TCP 5985-5986]'
     Direction   = 'Inbound'
-    DisplayName = 'Windows Remote Management (HTTP/HTTPS-In)'
-    LocalPort   = 5985-5986
+    DisplayName = 'OpenSSH Server & WinRM (HTTP/HTTPS-In)'
+    LocalPort   = 22,5985-5986
     Profile     = 'Any'
     Protocol    = 'TCP'
 }
@@ -81,6 +77,7 @@ $tokenFilterParams = @{
     Force        = $true
 }
 New-ItemProperty @tokenFilterParams
+
 # Create self signed certificate
 $certParams = @{
     CertStoreLocation = 'Cert:\LocalMachine\My'
@@ -110,20 +107,7 @@ Get-WindowsCapability -Name OpenSSH.Server* -Online |
     Add-WindowsCapability -Online
 Set-Service -Name sshd -StartupType Automatic -Status Running
 
-$firewallParams = @{
-    Name        = 'sshd-Server-In-TCP'
-    DisplayName = 'Inbound rule for OpenSSH Server (sshd) on TCP port 22'
-    Action      = 'Allow'
-    Direction   = 'Inbound'
-    Enabled     = 'True'  # This is not a boolean but an enum
-    Profile     = 'Any'
-    Protocol    = 'TCP'
-    LocalPort   = 22
-}
-New-NetFirewallRule @firewallParams
-
-# Setup default shell
-# Set default to powershell.exe
+# Setup default shell to powershell.exe
 $shellParams = @{
     Path         = 'HKLM:\SOFTWARE\OpenSSH'
     Name         = 'DefaultShell'
@@ -134,10 +118,6 @@ $shellParams = @{
 New-ItemProperty @shellParams
 
 # Install software
-foreach ($dir in $dirArray)
-{
-  if (!(Test-Path -Path $dir)) { New-Item -Type Directory -Path $dir -Force }
-}
 foreach ($msi in $msiArray) {
   msiexec /i $softLink/$msi /qr /norestart
 }
