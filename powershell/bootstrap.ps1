@@ -18,7 +18,7 @@ $appArray = @(
     'golang'
     'nodejs-lts'
     'notepadplusplus'
-    'python3'
+    'python313'
     'ruby'
     #'vagrant'
     #'virtualbox'
@@ -127,7 +127,7 @@ foreach ($app in $appArray) {
   choco install -y $app --force
 } 
 # Adding new Path to ENV
-Set-Item -Path Env:Path -Value ($Env:Path + "C:\HashiCorp\Vagrant\bin;C:\opscode\chef-workstation\bin;C:\opscode\chef-workstation\embedded\bin")
+Set-Item -Path Env:Path -Value ($Env:Path + "C:\Python313")
 # Setup WSL
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
