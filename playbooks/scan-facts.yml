@@ -22,6 +22,28 @@
       scan_insights:
       when: ansible_os_family != "Windows"
 
+    - name: set the default shell to PowerShell
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\OpenSSH
+        name: DefaultShell
+        data: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+        type: string
+        state: present
+      when: ansible_os_family == "Windows"
+
+    - name: reset SSH connection after shell change
+      ansible.builtin.meta: reset_connection
+      when: ansible_os_family == "Windows"
+
+    # - name: set the default shell to cmd
+    #   ansible.windows.win_regedit:
+    #     path: HKLM:\SOFTWARE\OpenSSH
+    #     name: DefaultShell
+    #     state: absent
+
+    # - name: reset SSH connection after shell change
+    #   ansible.builtin.meta: reset_connection
+
     - name: "Scan packages (Windows)"
       win_scan_packages:
       when: ansible_os_family == "Windows"
