@@ -11,11 +11,9 @@
         data: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
         type: string
         state: present
-      when: ansible_os_family == "Windows"
 
     - name: reset SSH connection after shell change
       ansible.builtin.meta: reset_connection
-      when: ansible_os_family == "Windows"
 
     - name: Install using powershell
       win_shell: |
@@ -24,32 +22,14 @@
         $appArray = @(
             '7zip'
             'awscli'
-            #'chef-workstation'
             'golang'
             'nodejs-lts'
             'notepadplusplus'
             'python313'
             'ruby'
-            #'vagrant'
-            #'virtualbox'
-            'VisualStudioCode'
+            'vscode'
         )
         foreach ($app in $appArray) {
-          choco uninstall -y $app --force
+          choco install -y $app --force
         } 
-
-    # - name: Install windows packages
-    #   win_chocolatey:
-    #     name: '{{ item }}'
-    #     state: present
-    #   loop:
-    #   - 7zip
-    #   - awscli
-    #   - git
-    #   - golang
-    #   - nodejs-lts
-    #   - notepadplusplus
-    #   - python3
-    #   - ruby
-    #   - VisualStudioCode
-    #   when: ansible_facts['os_family'] == "Windows"
+        Set-Item -Path Env:Path -Value ($Env:Path + "C:\Python313;C:\tools\ruby34\bin")
