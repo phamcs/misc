@@ -5,15 +5,6 @@ if (!(Test-Path -Path $PROFILE))
 { 
   New-Item -Type File -Path $PROFILE -Force 
 }
-# Setup default shell to powershell.exe
-$shellParams = @{
-    Path         = 'HKLM:\SOFTWARE\OpenSSH'
-    Name         = 'DefaultShell'
-    Value        = 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
-    PropertyType = 'String'
-    Force        = $true
-}
-New-ItemProperty @shellParams
 Get-PSSnapin -Registered | Add-PSSnapin
 $softLink = "https://dev.superasian.net/repo"
 $msiArray = @(
@@ -123,6 +114,16 @@ $firewallParams = @{
     Profile     = 'Any'
     Protocol    = 'TCP'
 }
+# Setup default shell to powershell.exe
+$shellParams = @{
+    Path         = 'HKLM:\SOFTWARE\OpenSSH'
+    Name         = 'DefaultShell'
+    Value        = 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
+    PropertyType = 'String'
+    Force        = $true
+}
+New-ItemProperty @shellParams
+
 # Install AWS Tools & SDK
 foreach ($msi in $msiArray) {
   msiexec /i $softLink/$msi /qr /norestart
