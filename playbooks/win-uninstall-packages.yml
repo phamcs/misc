@@ -31,6 +31,6 @@
             'vscode'
         )
         foreach ($app in $appArray) {
-          choco uninstall -y $app
+          choco uninstall -y $app --force
         } 
 

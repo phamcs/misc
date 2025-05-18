@@ -8,6 +8,7 @@ if (!(Test-Path -Path $PROFILE))
 $appArray = @(
     '7zip'
     'awscli'
+    'dotnet-9.0-runtime'
     'git'
     'golang'
     'nodejs-lts'
