@@ -2,8 +2,6 @@
 - name: Install Packages
   hosts: all
   become: true
-  become_user: Administrator
-  become_method: runas
   tasks:
 
     - name: Check My username
