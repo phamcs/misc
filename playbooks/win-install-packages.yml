@@ -4,7 +4,7 @@
   become: true
   tasks:
 
-    - name: set the default shell to PowerShell
+    - name: Set the default shell to PowerShell
       ansible.windows.win_regedit:
         path: HKLM:\SOFTWARE\OpenSSH
         name: DefaultShell
@@ -12,7 +12,7 @@
         type: string
         state: present
 
-    - name: reset SSH connection after shell change
+    - name: Reset SSH connection after shell change
       ansible.builtin.meta: reset_connection
 
     - name: Install using powershell
