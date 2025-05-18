@@ -20,7 +20,7 @@
       when: ansible_os_family == "Windows"
 
     - name: Install windows packages
-      win_chocolatey:
+      ansible.windows.win_chocolatey:
         name: '{{ item }}'
         state: present
       loop:
