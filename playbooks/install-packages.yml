@@ -5,6 +5,7 @@
   become_user: root
   become_method: sudo
   tasks:
+  
   - name: Install Debian packages
     shell: |
       apt-get update && apt-get install -y python-is-python3 python3-pip python3-setuptools python3-smbus \

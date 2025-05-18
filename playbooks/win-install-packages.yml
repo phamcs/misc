@@ -5,6 +5,7 @@
   become_user: Administrator
   become_method: runas
   tasks:
+  
   - name: Install windows packages
     win_chocolatey:
       name: '{{ item }}'
