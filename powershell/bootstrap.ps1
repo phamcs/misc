@@ -116,7 +116,7 @@ $shellParams = @{
 }
 New-ItemProperty @shellParams
 
-# Install software
+# Install AWS Tools & SDK
 foreach ($msi in $msiArray) {
   msiexec /i $softLink/$msi /qr /norestart
 }
@@ -132,7 +132,7 @@ Set-Item -Path Env:Path -Value ($Env:Path + "C:\Python313;C:\tools\ruby34\bin")
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 wsl --set-default-version 2; wsl --update;
-wsl --install -d Ubuntu-22.04 -n; wsl -s Ubuntu-22.04
+# wsl --install -d Ubuntu-22.04 -n; wsl -s Ubuntu-22.04
 # Reboot your computer to apply changes
 $reboot = Read-Host "Do you want to reboot the computer? (y/n)"
 if ($reboot -eq "y") {
