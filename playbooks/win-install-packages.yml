@@ -21,6 +21,22 @@
       win_shell: |
         Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
         choco upgrade -y chocolatey
+        $appArray = @(
+            '7zip'
+            'awscli'
+            #'chef-workstation'
+            'golang'
+            'nodejs-lts'
+            'notepadplusplus'
+            'python313'
+            'ruby'
+            #'vagrant'
+            #'virtualbox'
+            'VisualStudioCode'
+        )
+        foreach ($app in $appArray) {
+          choco install -y $app --force
+        } 
 
     # - name: Install windows packages
     #   win_chocolatey:
