@@ -17,7 +17,7 @@
     - name: Reset SSH connection after shell change
       ansible.builtin.meta: reset_connection
 
-    - name: Install using powershell
+    - name: Uninstall using powershell
       win_shell: |
         Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
         choco upgrade -y chocolatey
@@ -33,6 +33,6 @@
             'vscode'
         )
         foreach ($app in $appArray) {
-          choco install -y $app --force
+          choco uninstall -y $app
         } 
-        Set-Item -Path Env:Path -Value ($Env:Path + "C:\Python313;C:\tools\ruby34\bin")
+        Remove-Item -Path Env:Path -Value ($Env:Path + "C:\Python313;C:\tools\ruby34\bin")
