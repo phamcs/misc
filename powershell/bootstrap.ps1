@@ -127,7 +127,7 @@ foreach ($app in $appArray) {
   choco install -y $app --force
 } 
 # Adding new Path to ENV
-Set-Item -Path Env:Path -Value ($Env:Path + "C:\Python313")
+Set-Item -Path Env:Path -Value ($Env:Path + "C:\Python313;C:\tools\ruby34\bin")
 # Setup WSL
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
