@@ -6,9 +6,18 @@
   become_method: runas
   tasks:
 
-    - name: Install windows packages
-      win_shell: |
-        choco install -y chocolatey
+    - name: set the default shell to PowerShell
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\OpenSSH
+        name: DefaultShell
+        data: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+        type: string
+        state: present
+      when: ansible_os_family == "Windows"
+
+    - name: reset SSH connection after shell change
+      ansible.builtin.meta: reset_connection
+      when: ansible_os_family == "Windows"
 
     - name: Install windows packages
       win_chocolatey:
