@@ -15,3 +15,18 @@
     shell: |
       dnf install -y python39 python3-pip python3-setuptools nfs-utils net-tools
     when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Rocky"
+
+  - name: Install windows packages
+    win_chocolatey:
+      name: '{{ item }}'
+      state: present
+    loop:
+    - 7zip
+    - awscli
+    - golang
+    - nodejs-lts
+    - notepadplusplus
+    - python313
+    - ruby
+    - VisualStudioCode
+    when: ansible_facts['os_family'] == "Windows"
