@@ -23,6 +23,7 @@
             '7zip'
             'awscli'
             'golang'
+            'git'
             'nodejs-lts'
             'notepadplusplus'
             'python313'
