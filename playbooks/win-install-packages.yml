@@ -24,8 +24,8 @@
         $appArray = @(
             '7zip'
             'awscli'
-            'golang'
             'git'
+            'golang'
             'nodejs-lts'
             'notepadplusplus'
             'python313'
