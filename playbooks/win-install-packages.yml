@@ -7,7 +7,7 @@
   tasks:
 
     - name: Install windows packages
-      community.windows.win_chocolatey:
+      win_chocolatey:
         name: '{{ item }}'
         state: present
       loop:
