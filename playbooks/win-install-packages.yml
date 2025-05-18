@@ -6,12 +6,8 @@
   become_method: runas
   tasks:
 
-  - name: Check My username
-    ansible.windows.win_whoami:
-    become: true
-
   - name: Install windows packages
-    win_chocolatey:
+    ansible.windows.win_chocolatey:
       name: '{{ item }}'
       state: present
     loop:
