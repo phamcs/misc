@@ -4,9 +4,6 @@
   become: true
   tasks:
 
-    - name: Check My username
-      ansible.windows.win_whoami:
-
     - name: set the default shell to PowerShell
       ansible.windows.win_regedit:
         path: HKLM:\SOFTWARE\OpenSSH
@@ -20,18 +17,18 @@
       ansible.builtin.meta: reset_connection
       when: ansible_os_family == "Windows"
 
-    # - name: Install windows packages
-    #   ansible.windows.win_chocolatey:
-    #     name: '{{ item }}'
-    #     state: present
-    #   loop:
-    #   - 7zip
-    #   - awscli
-    #   - git
-    #   - golang
-    #   - nodejs-lts
-    #   - notepadplusplus
-    #   - python3
-    #   - ruby
-    #   - VisualStudioCode
-    #   when: ansible_facts['os_family'] == "Windows"
+    - name: Install windows packages
+      ansible.windows.win_chocolatey:
+        name: '{{ item }}'
+        state: present
+      loop:
+      - 7zip
+      - awscli
+      - git
+      - golang
+      - nodejs-lts
+      - notepadplusplus
+      - python3
+      - ruby
+      - VisualStudioCode
+      when: ansible_facts['os_family'] == "Windows"
