@@ -32,4 +32,4 @@
         foreach ($app in $appArray) {
           choco uninstall -y $app
         } 
-        Remove-Item -Path Env:Path -Value ($Env:Path + "C:\Python313;C:\tools\ruby34\bin")
+        Remove-Item -Path Env:Path -Value "C:\Python313;C:\tools\ruby34\bin"
