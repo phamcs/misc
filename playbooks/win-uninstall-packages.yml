@@ -20,15 +20,21 @@
     - name: Uninstall using powershell
       win_shell: |
         $appArray = @(
+            '7zip'
+            '7zip.install'
             'awscli'
             'dotnet-9.0-runtime'
             'git'
+            'git.install'
             'golang'
             'nodejs-lts'
             'notepadplusplus'
+            'notepadplusplus.install'
             'python313'
             'ruby'
+            'ruby.install'
             'vscode'
+            'vscode.install'
         )
         foreach ($app in $appArray) {
           choco uninstall -y $app --force

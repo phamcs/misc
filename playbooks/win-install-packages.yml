@@ -36,4 +36,4 @@
         foreach ($app in $appArray) {
           choco install -y $app --force
         } 
-        Set-Item -Path Env:Path -Value ($Env:Path + "C:\Python313;C:\tools\ruby34\bin")
+        Set-Item -Path Env:Path -Value ($Env:Path + "C:\Python313;C:\Python313\Scripts;C:\tools\ruby34\bin")
