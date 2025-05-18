@@ -32,5 +32,4 @@
         foreach ($app in $appArray) {
           choco uninstall -y $app
         } 
-        [Environment]::SetEnvironmentVariable("[C:\Python313]",$null,"User")
-        [Environment]::SetEnvironmentVariable("[C:\tools\ruby34\bin]",$null,"User")
+
