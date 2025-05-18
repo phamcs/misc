@@ -5,6 +5,15 @@ if (!(Test-Path -Path $PROFILE))
 { 
   New-Item -Type File -Path $PROFILE -Force 
 }
+# Setup default shell to powershell.exe
+$shellParams = @{
+    Path         = 'HKLM:\SOFTWARE\OpenSSH'
+    Name         = 'DefaultShell'
+    Value        = 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
+    PropertyType = 'String'
+    Force        = $true
+}
+New-ItemProperty @shellParams
 Get-PSSnapin -Registered | Add-PSSnapin
 $softLink = "https://dev.superasian.net/repo"
 $msiArray = @(
@@ -50,18 +59,17 @@ winrm set winrm/config/client/auth '@{Basic="true"}'
 winrm set winrm/config/client '@{AllowUnencrypted="True"}'
 winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="512"}'
 winrm set winrm/config '@{MaxTimeoutms="1800000"}'
-
 # netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 # Enables the WinRM service and sets up the HTTP listener
 Enable-PSRemoting -Force
 
-# Opens port 22,5985-5986 for all profiles
+# Opens port 5985-5986 for all profiles
 $firewallParams = @{
     Action      = 'Allow'
-    Description = 'Inbound rule for OpenSSH Server [TCP 22] & WinRM via WS-Management. [TCP 5985-5986]'
+    Description = 'Inbound rule for WinRM via WS-Management. [TCP 5985-5986]'
     Direction   = 'Inbound'
-    DisplayName = 'OpenSSH Server & WinRM (HTTP/HTTPS-In)'
-    LocalPort   = 22,5985-5986
+    DisplayName = 'WinRM (HTTP/HTTPS-In)'
+    LocalPort   = 5985-5986
     Profile     = 'Any'
     Protocol    = 'TCP'
 }
@@ -105,17 +113,16 @@ Set-Service -Name WinRM -Status Running -PassThru
 # Setup SSH
 Get-WindowsCapability -Name OpenSSH.Server* -Online | Add-WindowsCapability -Online
 Set-Service -Name sshd -StartupType Automatic -Status Running
-
-# Setup default shell to powershell.exe
-$shellParams = @{
-    Path         = 'HKLM:\SOFTWARE\OpenSSH'
-    Name         = 'DefaultShell'
-    Value        = 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
-    PropertyType = 'String'
-    Force        = $true
+# Opens port 22 for all profiles
+$firewallParams = @{
+    Action      = 'Allow'
+    Description = 'Inbound rule for OpenSSH Server [TCP 22]'
+    Direction   = 'Inbound'
+    DisplayName = 'OpenSSH Server (TCP)'
+    LocalPort   = 22
+    Profile     = 'Any'
+    Protocol    = 'TCP'
 }
-New-ItemProperty @shellParams
-
 # Install AWS Tools & SDK
 foreach ($msi in $msiArray) {
   msiexec /i $softLink/$msi /qr /norestart
