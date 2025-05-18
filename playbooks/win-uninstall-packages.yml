@@ -20,7 +20,6 @@
     - name: Uninstall using powershell
       win_shell: |
         $appArray = @(
-            '7zip'
             'awscli'
             'git'
             'golang'
@@ -31,6 +30,6 @@
             'vscode'
         )
         foreach ($app in $appArray) {
-          choco uninstall -y $app --force
+          choco uninstall -y $app
         } 
         
