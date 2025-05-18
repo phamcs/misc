@@ -1,0 +1,22 @@
+---
+- name: Install packages
+  hosts: all
+  become: true
+  become_user: Administrator
+  become_method: runas
+  tasks:
+  - name: Install windows packages
+    win_chocolatey:
+      name: '{{ item }}'
+      state: present
+    loop:
+    - 7zip
+    - awscli
+    - git
+    - golang
+    - nodejs-lts
+    - notepadplusplus
+    - python3
+    - ruby
+    - VisualStudioCode
+    when: ansible_facts['os_family'] == "Windows"
