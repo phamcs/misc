@@ -7,6 +7,10 @@
   tasks:
 
     - name: Install windows packages
+      win_shell: |
+        choco install -y chocolatey
+
+    - name: Install windows packages
       win_chocolatey:
         name: '{{ item }}'
         state: present
