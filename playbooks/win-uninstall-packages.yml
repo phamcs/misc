@@ -21,6 +21,7 @@
       win_shell: |
         $appArray = @(
             'awscli'
+            'dotnet-9.0-runtime'
             'git'
             'golang'
             'nodejs-lts'
