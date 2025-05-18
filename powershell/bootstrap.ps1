@@ -1,5 +1,5 @@
 # Author: Doan Pham
-# Purpose: Setup Profile, WinRM and necessary software
+# Purpose: Setup Profile, OpenSSH and necessary powershell module
 # Initiate profiles
 if (!(Test-Path -Path $PROFILE))
 { 
