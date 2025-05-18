@@ -23,10 +23,14 @@
     loop:
     - 7zip
     - awscli
+    - git
     - golang
     - nodejs-lts
     - notepadplusplus
     - python313
     - ruby
     - VisualStudioCode
+    become: true
+    become_user: Administrator
+    become_method: runas
     when: ansible_facts['os_family'] == "Windows"
