@@ -35,7 +35,7 @@
             'VisualStudioCode'
         )
         foreach ($app in $appArray) {
-          choco install -y $app --force
+          choco uninstall -y $app --force
         } 
 
     # - name: Install windows packages
