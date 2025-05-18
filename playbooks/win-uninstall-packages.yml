@@ -32,4 +32,5 @@
         foreach ($app in $appArray) {
           choco uninstall -y $app
         } 
-        Remove-Item -Path Env:Path -Value "C:\Python313;C:\tools\ruby34\bin"
+        [Environment]::SetEnvironmentVariable("[Python313]",$null,"User")
+        [Environment]::SetEnvironmentVariable("[ruby34]",$null,"User")
