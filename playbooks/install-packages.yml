@@ -27,7 +27,7 @@
     - golang
     - nodejs-lts
     - notepadplusplus
-    - python313
+    - python3
     - ruby
     - VisualStudioCode
     become: true
