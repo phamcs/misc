@@ -17,18 +17,23 @@
       ansible.builtin.meta: reset_connection
       when: ansible_os_family == "Windows"
 
-    - name: Install windows packages
-      win_chocolatey:
-        name: '{{ item }}'
-        state: present
-      loop:
-      - 7zip
-      - awscli
-      - git
-      - golang
-      - nodejs-lts
-      - notepadplusplus
-      - python3
-      - ruby
-      - VisualStudioCode
-      when: ansible_facts['os_family'] == "Windows"
+    - name: Install using powershell
+      win_shell: |
+        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+        choco upgrade -y chocolatey
+
+    # - name: Install windows packages
+    #   win_chocolatey:
+    #     name: '{{ item }}'
+    #     state: present
+    #   loop:
+    #   - 7zip
+    #   - awscli
+    #   - git
+    #   - golang
+    #   - nodejs-lts
+    #   - notepadplusplus
+    #   - python3
+    #   - ruby
+    #   - VisualStudioCode
+    #   when: ansible_facts['os_family'] == "Windows"
