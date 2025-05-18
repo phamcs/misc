@@ -32,9 +32,10 @@ Set-ItemProperty -Path 'HKLM:\Software\Microsoft\PowerShell\1\ShellIds\Microsoft
 Get-ExecutionPolicy -List | Format-Table -hideTableHeader
 gpupdate /force
 
-# Setup SSH
+# Setup SSH & enable Admin
 Get-WindowsCapability -Name OpenSSH.Server* -Online | Add-WindowsCapability -Online
 Set-Service -Name sshd -StartupType Automatic -Status Running
+net user administrator /active:yes
 # Opens port 22 for all profiles
 $firewallParams = @{
     Action      = 'Allow'
@@ -55,20 +56,17 @@ $shellParams = @{
 }
 New-ItemProperty @shellParams
 
-# Install AWS Tools & SDK
+# Install AWS Tools & SDK & Chocolatey
 foreach ($msi in $msiArray) {
   msiexec /i $softLink/$msi /qr /norestart
 }
-# Install chocolatey
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade -y chocolatey
 
-# Setup WSL
+# Setup WSL & Reboot
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 wsl --set-default-version 2; wsl --update;
-
-# Reboot your computer to apply changes
 $reboot = Read-Host "Do you want to reboot the computer? (y/n)"
 if ($reboot -eq "y") {
     Restart-Computer -Force

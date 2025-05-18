@@ -2,6 +2,7 @@
 - name: Install Packages
   hosts: all
   become: true
+  become_user: Administrator
   tasks:
 
     - name: Set the default shell to PowerShell
