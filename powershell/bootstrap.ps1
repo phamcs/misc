@@ -33,6 +33,7 @@ Get-ExecutionPolicy -List | Format-Table -hideTableHeader
 gpupdate /force
 
 # Setup SSH & enable Admin
+# Remember to set password for Admin
 Get-WindowsCapability -Name OpenSSH.Server* -Online | Add-WindowsCapability -Online
 Set-Service -Name sshd -StartupType Automatic -Status Running
 net user administrator /active:yes
