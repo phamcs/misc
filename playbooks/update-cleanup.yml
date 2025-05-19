@@ -4,12 +4,12 @@
   become: true
   become_user: root
   tasks:
-  - name: Debian Upgrade & Cleanup
-    shell: |
-      apt-get update && apt-get upgrade -y && apt-get autoremove -y
-    when: ansible_facts['os_family'] == "Debian" or ansible_facts['os_family'] == "Ubuntu"
+    - name: Debian Upgrade & Cleanup
+      shell: |
+        apt-get update && apt-get upgrade -y && apt-get autoremove -y
+      when: ansible_facts['os_family'] == "Debian" or ansible_facts['os_family'] == "Ubuntu"
 
-  - name: Redhat Upgrade & Cleanup
-    shell: |
-      dnf update -y && dnf clean all
-    when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Rocky"
+    - name: Redhat Upgrade & Cleanup
+      shell: |
+        dnf update -y && dnf clean all
+      when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Rocky"

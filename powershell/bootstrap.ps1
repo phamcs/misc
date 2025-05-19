@@ -1,5 +1,5 @@
 # Author: Doan Pham
-# Purpose: Setup Profile, OpenSSH and necessary powershell module
+# Purpose: Setup Profile, OpenSSH and powershell modules
 # Initiate profiles
 if (!(Test-Path -Path $PROFILE))
 { 

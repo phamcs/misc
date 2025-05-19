@@ -5,53 +5,53 @@
     - rke2-vars.yml
 
   tasks:
-  - name: create directories if they don't exist
-    file:
-      path: "{{ item }}"
-      state: directory
-      owner: root
-      group: root
-      mode: 0755
-      recurse: yes
-    loop:
-      - "{{ CONFDIR }}"
+    - name: create directories if they don't exist
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+        recurse: yes
+      loop:
+        - "{{ CONFDIR }}"
 
-  - name: get hostname short
-    shell: |
-      hostname -s
-    register: hostname_short
-  - name: hostname fqdn
-    shell: |
-      hostname -f
-    register: hostname_fqdn
+    - name: get hostname short
+      shell: |
+        hostname -s
+      register: hostname_short
+    - name: hostname fqdn
+      shell: |
+        hostname -f
+      register: hostname_fqdn
 
-  - name: Print hostname fqdn and short
-    debug:
-      msg:
-      - "hostname short '{{ hostname_short.stdout }}'"
-      - "hostname fqdn: '{{ hostname_fqdn.stdout }}'"
+    - name: Print hostname fqdn and short
+      debug:
+        msg:
+        - "hostname short '{{ hostname_short.stdout }}'"
+        - "hostname fqdn: '{{ hostname_fqdn.stdout }}'"
 
-  - name: Creating the config.yaml
-    copy:
-      dest: "{{ CONFFILE }}"
-      content: |
-        token: {{ TOKEN }}
-        server: https://{{ SERVER_ADDRESS_FQDN }}:9345
-        
-  - name: Installing rke2 agent
-    shell: |
-      curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_VERSION="{{ INSTALL_RKE2_VERSION }}" INSTALL_RKE2_TYPE=agent sh -
-    notify: "rke2-agent service start"
+    - name: Creating the config.yaml
+      copy:
+        dest: "{{ CONFFILE }}"
+        content: |
+          token: {{ TOKEN }}
+          server: https://{{ SERVER_ADDRESS_FQDN }}:9345
+          
+    - name: Installing rke2 agent
+      shell: |
+        curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_VERSION="{{ INSTALL_RKE2_VERSION }}" INSTALL_RKE2_TYPE=agent sh -
+      notify: "rke2-agent service start"
 
   handlers:
-  - name: Make sure a service unit is running
-    systemd:
-      state: started
-      name: rke2-agent
-    listen: "rke2-agent service start"
+    - name: Make sure a service unit is running
+      systemd:
+        state: started
+        name: rke2-agent
+      listen: "rke2-agent service start"
 
-  - name: Make sure a service unit is restarted
-    ansible.builtin.systemd:
-      state: restarted
-      name: rke2-agent
-    listen: "rke2-agent service restart"
+    - name: Make sure a service unit is restarted
+      ansible.builtin.systemd:
+        state: restarted
+        name: rke2-agent
+      listen: "rke2-agent service restart"

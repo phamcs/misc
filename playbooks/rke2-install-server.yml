@@ -5,67 +5,67 @@
     - rke2-vars.yml
 
   tasks:
-  - name: create directories if they don't exist
-    file:
-      path: "{{ item }}"
-      state: directory
-      owner: root
-      group: root
-      mode: 0755
-      recurse: yes
-    loop:
-      - "{{ CONFDIR }}"
-      - "{{ WATCHDIR }}"
+    - name: create directories if they don't exist
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+        recurse: yes
+      loop:
+        - "{{ CONFDIR }}"
+        - "{{ WATCHDIR }}"
 
-  - name: get hostname short
-    shell: |
-      hostname -s
-    register: hostname_short
-  - name: hostname fqdn
-    shell: |
-      hostname -f
-    register: hostname_fqdn
+    - name: get hostname short
+      shell: |
+        hostname -s
+      register: hostname_short
+    - name: hostname fqdn
+      shell: |
+        hostname -f
+      register: hostname_fqdn
 
-  - name: Print hostname fqdn and short
-    debug:
-      msg:
-      - "hostname short '{{ hostname_short.stdout }}'"
-      - "hostname fqdn: '{{ hostname_fqdn.stdout }}'"
+    - name: Print hostname fqdn and short
+      debug:
+        msg:
+        - "hostname short '{{ hostname_short.stdout }}'"
+        - "hostname fqdn: '{{ hostname_fqdn.stdout }}'"
 
-  - name: Creating the config.yaml
-    copy:
-      dest: "{{ CONFFILE }}"
-      content: |
-        tls-san:
-          - "{{ hostname_short.stdout }}"
-          - "{{ hostname_fqdn.stdout }}"
-          - "{{ SERVER_ADDRESS_SHORT }}"
-          - "{{ SERVER_ADDRESS_FQDN }}"
-          - "{{ SERVER_FAILOVER_IP }}"
-        
-        cni: "calico" # optional
-    notify: "rke2-server service restart"
+    - name: Creating the config.yaml
+      copy:
+        dest: "{{ CONFFILE }}"
+        content: |
+          tls-san:
+            - "{{ hostname_short.stdout }}"
+            - "{{ hostname_fqdn.stdout }}"
+            - "{{ SERVER_ADDRESS_SHORT }}"
+            - "{{ SERVER_ADDRESS_FQDN }}"
+            - "{{ SERVER_FAILOVER_IP }}"
+          
+          cni: "calico" # optional
+      notify: "rke2-server service restart"
 
-  - name: Creating the CoreDNS config file
-    copy:
-      dest: "{{ WATCHDIR }}/rke2-coredns-config.yaml"
-      content: |
-        apiVersion: helm.cattle.io/v1
-        kind: HelmChartConfig
-        metadata:
-          creationTimestamp: null
-          name: rke2-coredns
-          namespace: kube-system
-        spec:
-          valuesContent: |-
-            nodelocal:
-              enabled: false # Change this to false or remove this (Creating the CoreDNS config file) section altogether if you don’t want to install NodeLocal DNSCache
-          bootstrap: true
+    - name: Creating the CoreDNS config file
+      copy:
+        dest: "{{ WATCHDIR }}/rke2-coredns-config.yaml"
+        content: |
+          apiVersion: helm.cattle.io/v1
+          kind: HelmChartConfig
+          metadata:
+            creationTimestamp: null
+            name: rke2-coredns
+            namespace: kube-system
+          spec:
+            valuesContent: |-
+              nodelocal:
+                enabled: false # Change this to false or remove this (Creating the CoreDNS config file) section altogether if you don’t want to install NodeLocal DNSCache
+            bootstrap: true
 
-  - name: Installing rke2 server
-    shell: |
-      curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_VERSION="{{ INSTALL_RKE2_VERSION }}" sh -
-    notify: "rke2-server service start"
+    - name: Installing rke2 server
+      shell: |
+        curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_VERSION="{{ INSTALL_RKE2_VERSION }}" sh -
+      notify: "rke2-server service start"
 
   handlers:
     - name: Make sure a service unit is running
