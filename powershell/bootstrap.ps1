@@ -36,7 +36,7 @@ Get-WindowsCapability -Name OpenSSH.Server* -Online | Add-WindowsCapability -Onl
 Set-Service -Name sshd -StartupType Automatic -Status Running
 net user administrator /active:yes
 Write-Host "####################################"
-Write-Host "#  Remember to set Admin Password  #"
+Write-Host "## Remember to set Admin Password ##"
 Write-Host "####################################"
 # Opens port 22 for all profiles
 $firewallParams = @{
