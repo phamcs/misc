@@ -60,8 +60,8 @@ Editor preferences are available in the [editor config](https://reponame/blob/ma
 
 ## Thanks
 
-We want everyone beable to setup K8S for learning purposes. As a nerd you need to know this stuff as this technology will dominate applications deployment process for future.
-If you think this is helpful please consider donating for us.
+We want everyone to be able to set up K8S for learning purposes. As a nerd, you need to know this stuff, as this technology will dominate the application deployment process for the future.
+If this is helpful, please consider donating to us.
 
 ## **BTC:** 
 - 1H9WXBXWwsu9tWJb5rdE9ZTUU4vae7VLUY
