@@ -43,7 +43,7 @@
             - "{{ SERVER_ADDRESS_FQDN }}"
             - "{{ SERVER_FAILOVER_IP }}"
           
-          cni: "calico" # optional
+          cni: calico # Better cni
       notify: "rke2-server service restart"
 
     - name: Creating the CoreDNS config file

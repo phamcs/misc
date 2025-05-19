@@ -37,6 +37,7 @@
         content: |
           token: {{ TOKEN }}
           server: https://{{ SERVER_ADDRESS_FQDN }}:9345
+          cni: calico
           
     - name: Installing rke2 agent
       shell: |
