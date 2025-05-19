@@ -3,6 +3,9 @@ collections:
   - name: community.general
     source: https://galaxy.ansible.com
 
+  - name: community.windows
+    source: https://galaxy.ansible.com
+
   - name: ansible.utils
     source: https://galaxy.ansible.com
 
