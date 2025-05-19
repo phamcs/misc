@@ -38,6 +38,7 @@
         content: |
           token: {{ TOKEN }}
           server: https://{{ SERVER_ADDRESS_FQDN }}:9345
+          cni: "calico"
           tls-san:
             - "{{ hostname_short.stdout }}"
             - "{{ hostname_fqdn.stdout }}"
