@@ -11,11 +11,13 @@ $appArray = @(
     'dotnet-9.0-runtime'
     'git'
     'golang'
+    'netfx-4.8.1'
     'nodejs-lts'
     'notepadplusplus'
     'python3'
     'ruby'
     'vscode'
+    'windows-sdk-8'
 )
 # Install chocolatey
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
