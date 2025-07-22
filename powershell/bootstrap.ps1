@@ -10,6 +10,7 @@ $softLink = "https://dev.superasian.net/repo"
 $msiArray = @(
     'AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi'
     'AWSToolsAndSDKForNet_sdk-3.7.660.0_ps-4.1.428.0_tk-1.14.5.2.msi'
+    'OpenSSH-Win64-v9.8.3.0.msi'
 )
 $modArray = @(
     'PowerShellGet'
@@ -25,6 +26,10 @@ Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
 foreach ($mod in $modArray)
 {
   Install-Module -Name $mod -AllowClobber -Force
+}
+# Install AWS Tools & SDK & Chocolatey
+foreach ($msi in $msiArray) {
+  msiexec /i $softLink/$msi /qr /norestart
 }
 # Tweak Policies
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force
@@ -57,10 +62,7 @@ $shellParams = @{
     Force        = $true
 }
 New-ItemProperty @shellParams
-# Install AWS Tools & SDK & Chocolatey
-foreach ($msi in $msiArray) {
-  msiexec /i $softLink/$msi /qr /norestart
-}
+# Install chocolatey
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade -y chocolatey
 # Setup WSL & Reboot
