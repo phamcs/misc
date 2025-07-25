@@ -27,10 +27,14 @@ foreach ($mod in $modArray)
 {
   Install-Module -Name $mod -AllowClobber -Force
 }
-# Install AWS Tools & SDK & Chocolatey
+# Install Common Tools SDK & Chocolatey
 foreach ($msi in $msiArray) {
   msiexec /i $softLink/$msi /qr /norestart
 }
+Set-ExecutionPolicy Bypass -Scope Process -Force
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+choco upgrade -y chocolatey
 # Tweak Policies
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force
 Set-ItemProperty -Path 'HKLM:\Software\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell' -Name ExecutionPolicy -Value Unrestricted
@@ -62,9 +66,7 @@ $shellParams = @{
     Force        = $true
 }
 New-ItemProperty @shellParams
-# Install chocolatey
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-choco upgrade -y chocolatey
+
 # Setup WSL & Reboot
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart

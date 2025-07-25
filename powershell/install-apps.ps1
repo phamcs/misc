@@ -9,6 +9,7 @@ $appArray = @(
     '7zip'
     'awscli'
     'dotnet-9.0-runtime'
+    'dotnet-9.0-sdk'
     'git'
     'golang'
     'netfx-4.8.1'
@@ -17,13 +18,12 @@ $appArray = @(
     'python3'
     'ruby'
     'vscode'
-    'windows-sdk-8'
 )
 # Install chocolatey
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade -y chocolatey
 foreach ($app in $appArray) {
-  choco install -y $app
+  choco install -y $app --force
 }
 # Reboot your computer to apply changes
 Restart-Computer -Force
