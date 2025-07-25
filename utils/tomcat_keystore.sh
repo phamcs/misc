@@ -1,14 +1,15 @@
 #!/bin/bash
-CA="/etc/pki/tls/certs/ca-bundle.crt"
+
 TC_SSL="/usr/share/tomcat/conf/ssl"
 openssl=$(which openssl)
 keytool=$(which keytool)
+read -p "Enter full path to ca-bundle.crt: " CA
 
 if [ -z "$openssl" ] || [ -z "$keytool" ]; then
   echo "OpenSSL or Keytool not found. Please install them first."
   exit 1
 fi
-openssl req -x509 -newkey rsa:4096 -keyout localhost-rsa-key.pem -out localhost-rsa-cert.pem -days 3650
+openssl req -x509 -newkey rsa:4096 -keyout localhost-rsa-key.pem -out localhost-rsa-cert.pem -days 3650 -config localhost.cnf
 openssl pkcs12 -export -in localhost-rsa-cert.pem -inkey localhost-rsa-key.pem -out localhost.p12 -name tomcat -chain -CAfile $CA
 if [ $? -ne 0 ]; then
   echo "Failed to create PKCS12 file."
