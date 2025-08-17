@@ -5,11 +5,14 @@
   ansible.builtin.shell:
     cmd: |
       apt update && apt dist-upgrade -y
+  register: omv_upgrade
 
 # Reboot the server
 - name: Reboot the machine
   ansible.builtin.reboot:
     reboot_timeout: 300
+  when:
+    - omv_upgrade == changed
 
 # Install omvextra
 - name: Fully upgrade the node
