@@ -2,7 +2,7 @@
 
 # Fully upgrade the nodes
 - name: Fully upgrade the node
-  ansible.built.in.shell:
+  shell:
     cmd: |
       apt update && apt dist-upgrade -y
   notify: omv_reboot
