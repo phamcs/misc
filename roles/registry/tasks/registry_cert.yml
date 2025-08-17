@@ -9,7 +9,7 @@
     owner: root
 
 - name: Copy certs to registry domain
-  ansible.built.in.copy:
+  ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0644
