@@ -1,0 +1,18 @@
+---
+
+# Create certs.d domain directory
+- name: Create registry domain
+  ansible.builtin.file:
+    path: /etc/docker/certs.d/{{ domain }}
+    state: directory
+    mode: '0755'
+    owner: root
+
+- name: Copy certs to registry domain
+  ansible.built.in.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  loop:
+    - { src: 'files/superasian.net.cert', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.cert' }
+    - { src: 'files/superasian.net.key', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.key' }

@@ -1,0 +1,6 @@
+---
+app_dir: "/AppData"
+apps: [docker, registry, nginx]
+domain: "registry.superasian.net"
+
+

@@ -1,0 +1,11 @@
+#!/bin/bash
+postgres="docker.io/postgres"
+superasian="registry.superasian.net/postgres"
+tags=("latest" "bullseye" "bookworm" "17.5" "17.5-bullseye" "17.5-bookworm" "17" "17-bullseye" "17-bookworm" "16.9" "16.9-bullseye" "16.9-bookworm" "16" "16-bullseye" "16-bookworm")
+    for tag in ${tags[@]}; do
+        docker pull $postgres:$tag
+        docker tag $postgres:$tag $superasian:$tag
+        docker push $superasian:$tag
+        docker rmi $postgres:$tag
+    done
+exit 0;

@@ -1,0 +1,21 @@
+---
+- name: Reload Systemd Daemon
+  ansible.builtin.systemd:
+    name: daemon_reload
+    state: reloaded
+  when:
+    - system_changed
+
+- name: Reboot the machine
+  ansible.builtin.reboot:
+    reboot_timeout: 300
+  throttle: 1
+  when:
+    - omv_reboot
+
+- name: Restart systemd-sysctl
+  ansible.builtin.service:
+    state: restarted
+    name: systemd-sysctl
+  when:
+    - daemon_reload

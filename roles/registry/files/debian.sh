@@ -1,0 +1,11 @@
+#!/bin/bash
+debian="docker.io/debian"
+superasian="registry.superasian.net/debian"
+tags=("latest" "12.11" "12.11-slim" "12" "12-slim" "bookworm" "bookworm-slim" "11.11" "11.11-slim" "11" "11-slim" "bullseye" "bullseye-slim")
+    for tag in ${tags[@]}; do
+        docker pull $debian:$tag
+        docker tag $debian:$tag $superasian:$tag
+        docker push $superasian:$tag
+        docker rmi $debian:$tag
+    done
+exit 0;

@@ -1,0 +1,23 @@
+---
+
+# Fully upgrade the nodes
+- name: Fully upgrade the node
+  ansible.built.in.shell:
+    cmd: |
+      apt update && apt dist-upgrade -y
+  notify: omv_reboot
+
+# Disable Firewalld
+- name: Disable FIREWALLD
+  ansible.builtin.systemd:
+    name: firewalld
+    state: stopped
+    enabled: false
+  when:
+    - ansible_facts.services["firewalld.service"] is defined
+    - ansible_facts.services["firewalld.service"].status != "not-found"
+  notify: "Restart {{ service_name }}"
+
+
+
+# 

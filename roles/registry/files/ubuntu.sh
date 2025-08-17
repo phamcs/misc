@@ -1,0 +1,11 @@
+#!/bin/bash
+ubuntu="docker.io/ubuntu"
+superasian="registry.superasian.net/ubuntu"
+tags=("latest" "24.04" "noble" "22.04" "jammy" "20.04" "focal")
+    for tag in ${tags[@]}; do
+        docker pull $ubuntu:$tag
+        docker tag $ubuntu:$tag $superasian:$tag
+        docker push $superasian:$tag
+        docker rmi $ubuntu:$tag
+    done
+exit 0;

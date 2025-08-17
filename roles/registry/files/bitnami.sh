@@ -1,0 +1,20 @@
+#!/bin/bash
+bitnami="docker.io/bitnami"
+superasian="registry.superasian.net/bitnami"
+apps=("apache" "redis" "nginx" "rabbitmq" "postgresql" "mongodb" "mariadb" "zookeeper" "ghost" "mysql" "elasticsearch" "memcached" "grafana" "cassandra" "alertmanager" "git" "keycloak" "kibana" "fluentd"
+      "prometheus" "node" "minio" "influxdb" "spark" "consul" "openldap" "contour" "discourse" "cert-manager" "tomcat" "jenkins" "redmine" "promtail" "sonarqube" "kong" "dotnet-sdk" "aws-cli" "java" "logstash"
+      "python" "rails" "golang" "telegraf" "tensorflow" "zipkin" "kubectl" "etcd" "oauth2-proxy" "nats"  "kube-state-metrics" "thanos" "nginx-ingress-controller" "ruby" "matomo" "gradle" "moodle" "java" "drupal"
+      "mongodb-exporter" "node-exporter" "postgres-exporter" "jmx-exporter" "consul-exporter" "nginx-exporter" "blackbox-exporter" "mysqld-exporter" "memcached-exporter" "nats-exporter" "kubernetes-event-exporter"
+      "harbor-exporter" "statsd-exporter" "airflow" "suitecrm" "fluent-bit" "harbor-registry" "mongodb-sharded" "harbor-registryctl" "php-fpm" "metallb-controller" "harbor-core" "clickhouse" "prometheus-operator"
+      "rabbitmq-cluster-operator" "jsonnet" "express" "harbor-adapter-trivy" "trivy" "envoy" "solr" "grafana-loki" "grafana-image-renderer" "argo-cd" "wildfly" "parse" "jupyter-base-notebook" "pytorch" "cosign"
+      "kong-ingress-controller" "keycloak-config-cli" "schema-registry" "cluster-autoscaler" "haproxy" "argo-workflow-cli" "kaniko" "valkey" "valkey-cluster" "multus-cni" "cainjector" "tensorflow-serving" "mlflow"
+      "cert-manager-webhook" "openresty" "acmesolver" "opensearch" "argo-workflow-controller" "cilium" "vault" "appsmith" "google-cloud-sdk" "jaeger" "grafana-mimir" "concourse" "valkey-sentinel" "grafana-operator" 
+      "apisix" "opensearch-dashboards" "apisix-dashboard" "apisix-ingress-controller" "jenkins-agent" "natscli" "jwt-cli" "cilium-operator" "cilium-proxy" "vault-k8s" "kube-rbac-proxy" "vault-csi-provider")
+tag=latest
+    for app in ${apps[@]}; do
+        docker pull $bitnami/$app:$tag
+        docker tag $bitnami/$app:$tag $superasian/$app:$tag
+        docker push $superasian/$app:$tag
+        docker rmi $bitnami/$app:$tag
+    done
+exit 0;

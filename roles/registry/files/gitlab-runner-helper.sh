@@ -1,0 +1,11 @@
+#!/bin/bash
+gitlab="docker.io/gitlab"
+superasian="registry.superasian.net/gitlab"
+tags=("x86_64-v17.11.2" "ubuntu-x86_64-v17.11.2" "alpine3.21-x86_64-v17.11.2" "x86_64-v18.0.2" "ubuntu-x86_64-v18.0.2" "alpine3.21-x86_64-v18.0.2")
+    for tag in ${tags[@]}; do
+        docker pull $gitlab/gitlab-runner-helper:$tag
+        docker tag $gitlab/gitlab-runner-helper:$tag $superasian/gitlab-runner-helper:$tag
+        docker push $superasian/gitlab-runner-helper:$tag
+        docker rmi $gitlab/gitlab-runner-helper:$tag
+    done
+exit 0;

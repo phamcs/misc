@@ -1,0 +1,11 @@
+#!/bin/bash
+httpd="docker.io/httpd"
+superasian="registry.superasian.net/httpd"
+tags=("latest" "2.4" "2.4-alpine" "2.4-bookworm" "2" "2-alpine" "2-bookworm")
+    for tag in ${tags[@]}; do
+        docker pull $httpd:$tag
+        docker tag $httpd:$tag $superasian:$tag
+        docker push $superasian:$tag
+        docker rmi $httpd:$tag
+    done
+exit 0;

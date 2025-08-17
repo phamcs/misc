@@ -1,0 +1,10 @@
+---
+
+# Create AppData
+- name: Create AppData directory
+  ansible.builtin.file:
+    path: /AppData/{{ apps }}
+    state: directory
+    mode: '0755'
+    owner: root
+
