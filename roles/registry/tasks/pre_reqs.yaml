@@ -18,6 +18,4 @@
     - ansible_facts.services["firewalld.service"].status != "not-found"
   notify: "Restart {{ service_name }}"
 
-
-
 # 
