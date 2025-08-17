@@ -2,10 +2,10 @@
 
 # Fully upgrade the nodes
 - name: Fully upgrade the node
-  shell:
+  ansible.builtin.shell:
     cmd: |
       apt update && apt dist-upgrade -y
-  notify: omv_reboot
+  notify: reboot
 
 # Disable Firewalld
 - name: Disable FIREWALLD

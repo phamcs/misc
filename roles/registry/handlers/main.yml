@@ -9,7 +9,6 @@
 - name: Reboot the machine
   ansible.builtin.reboot:
     reboot_timeout: 300
-    name: omv_reboot
   throttle: 1
 
 - name: Restart systemd-sysctl
