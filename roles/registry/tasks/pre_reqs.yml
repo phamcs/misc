@@ -5,7 +5,11 @@
   ansible.builtin.shell:
     cmd: |
       apt update && apt dist-upgrade -y
-  notify: reboot
+
+# Reboot the server
+- name: Reboot the machine
+  ansible.builtin.reboot:
+    reboot_timeout: 300
 
 # Disable Firewalld
 - name: Disable FIREWALLD

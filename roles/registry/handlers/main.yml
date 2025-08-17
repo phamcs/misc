@@ -6,11 +6,6 @@
   when:
     - system_changed
 
-- name: Reboot the machine
-  ansible.builtin.reboot:
-    reboot_timeout: 300
-  throttle: 1
-
 - name: Restart systemd-sysctl
   ansible.builtin.service:
     state: restarted
