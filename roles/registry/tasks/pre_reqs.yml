@@ -1,21 +1,24 @@
 ---
 
-# Fully upgrade the nodes
-- name: Fully upgrade the node
-  ansible.builtin.shell:
-    cmd: |
-      apt update && apt dist-upgrade -y
-  register: omv_upgrade
+- name: Perform system updates (example)
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: dist
+  register: apt_update_result
 
-# Reboot the server
-- name: Reboot the machine
-  ansible.builtin.reboot:
-    reboot_timeout: 300
-  when:
-    - omv_upgrade == changed
+- name: Check for reboot-required file
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+  register: reboot_required_file
+
+- name: Notify handler if reboot is required
+  ansible.builtin.debug:
+    msg: "Reboot is required for {{ hostname }}"
+  when: reboot_required_file.stat.exists
+  notify: Reboot host
 
 # Install omvextra & compose
-- name: Fully upgrade the node
+- name: Install omvextra & compose
   ansible.builtin.shell:
     cmd: |
       wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash

@@ -8,3 +8,7 @@
   ansible.builtin.service:
     state: restarted
     name: systemd-sysctl
+
+- name: Reboot host
+  ansible.builtin.reboot:
+    reboot_timeout: 300
