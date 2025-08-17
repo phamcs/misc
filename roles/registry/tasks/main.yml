@@ -11,8 +11,6 @@
   
 - name: Setup Registry Cert
   ansible.builtin.include_tasks: registry_cert.yml
-  when:
-    - registry_cert == true
 
 - name: Setup Apps
   ansible.builtin.include_tasks: apps.yml
