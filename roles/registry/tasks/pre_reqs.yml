@@ -11,6 +11,12 @@
   ansible.builtin.reboot:
     reboot_timeout: 300
 
+# Install omvextra
+- name: Fully upgrade the node
+  ansible.builtin.shell:
+    cmd: |
+      wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash
+
 # Disable Firewalld
 - name: Disable FIREWALLD
   ansible.builtin.systemd:
