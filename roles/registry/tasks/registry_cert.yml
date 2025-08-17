@@ -1,6 +1,5 @@
 ---
 
-# Create certs.d domain directory
 - name: Create registry domain
   ansible.builtin.file:
     path: /etc/docker/certs.d/{{ domain }}
@@ -21,7 +20,6 @@
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: /etc/docker/{{ item }}
-  # Note: if *any* loop iteration triggers a change, *all* handlers are run
   notify: Restart docker
   loop:
     - daemon.json

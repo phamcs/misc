@@ -3,9 +3,13 @@
 # Create Apps Directory
 - name: Create apps directory
   ansible.builtin.file:
-    path: /AppData/{{ apps }}
+    path: "{{ app_dir }}/{{ item }}"
     state: directory
     mode: '0755'
     owner: root
+  loop:
+    - docker
+    - registry
+    - nginx
 
 # Create 
