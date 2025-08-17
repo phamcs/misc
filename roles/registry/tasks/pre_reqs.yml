@@ -14,11 +14,12 @@
   when:
     - omv_upgrade == changed
 
-# Install omvextra
+# Install omvextra & compose
 - name: Fully upgrade the node
   ansible.builtin.shell:
     cmd: |
       wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash
+      apt update && apt install -y openmediavault-compose
 
 # Disable Firewalld
 - name: Disable FIREWALLD

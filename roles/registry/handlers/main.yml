@@ -1,14 +1,10 @@
 ---
-- name: Reload Systemd Daemon
-  ansible.builtin.systemd:
-    name: daemon_reload
-    state: reloaded
-  when:
-    - system_changed
+- name: Restart docker
+  ansible.builtin.service:
+    state: restarted
+    name: docker
 
 - name: Restart systemd-sysctl
   ansible.builtin.service:
     state: restarted
     name: systemd-sysctl
-  when:
-    - daemon_reload
