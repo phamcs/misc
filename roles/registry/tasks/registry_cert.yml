@@ -16,3 +16,4 @@
   loop:
     - { src: 'files/superasian.net.cert', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.cert' }
     - { src: 'files/superasian.net.key', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.key' }
+  register: registry_cert
