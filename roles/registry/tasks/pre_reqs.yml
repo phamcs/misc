@@ -33,8 +33,7 @@
     mode: '0755'
     owner: root
   loop:
+    - docker
     - docker-registry-ui
     - nginx
     - registry
-
-# 
