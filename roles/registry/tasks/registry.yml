@@ -11,12 +11,13 @@
     - data
 
 # Copy registry stack
-- name: Copy registry stack
+- name: Copy Apps stack
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0644
   loop:
+    - { src: 'files/portainer_stack.yml', dest: '{{ app_dir }}/registry/portainer_stack.yml' }
     - { src: 'files/registry_stack.yml', dest: '{{ app_dir }}/registry/registry_stack.yml' }
 
 # Copy repos to registry
