@@ -31,7 +31,8 @@
     path: "{{ app_dir }}/{{ item }}"
     state: directory
     mode: '0755'
-    owner: root
+    owner: {{ app_user }}
+    recurse: true
   loop:
     - docker-registry-ui
     - nginx

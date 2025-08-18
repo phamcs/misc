@@ -6,7 +6,8 @@
     path: "{{ app_dir }}/nginx/{{ item }}"
     state: directory
     mode: '0755'
-    owner: root
+    owner: {{ app_user }}
+    recurse: true
   loop:
     - conf.d
     - ssl
@@ -16,6 +17,7 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0644
+    owner: {{ app_user }}
   loop:
     - { src: 'files/superasian.net.cert', dest: '{{ app_dir }}/nginx/ssl/superasian.net.cert' }
     - { src: 'files/superasian.net.key', dest: '{{ app_dir}}/nginx/ssl/superasian.net.key' }
@@ -25,6 +27,7 @@
     src: "templates/{{ item }}.j2"
     dest: "{{ app_dir }}/nginx/conf.d/{{ item }}"
     mode: 0644
+    owner: {{ app_user }}
   loop:
     - registry-ui.conf
     - registry.conf

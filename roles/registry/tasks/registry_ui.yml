@@ -7,4 +7,3 @@
     dest: "{{ app_dir }}/docker-registry-ui"
     single_branch: yes
     version: main
-
