@@ -25,4 +25,5 @@ services:
 
 volumes:
   portainer_data:
+    driver: local
     
