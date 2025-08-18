@@ -16,7 +16,7 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0644
-    owner: {{ app_user }}
+    owner: "{{ app_user }}"
   loop:
     - { src: 'files/portainer_stack.yml', dest: '{{ app_dir }}/registry/portainer_stack.yml' }
     - { src: 'files/registry_stack.yml', dest: '{{ app_dir }}/registry/registry_stack.yml' }
@@ -27,7 +27,7 @@
     src: "templates/{{ item }}.j2"
     dest: "{{ app_dir }}/registry/{{ item }}"
     mode: 0755
-    owner: {{ app_user }}
+    owner: "{{ app_user }}"
   loop:
     - apache
     - artifactory
