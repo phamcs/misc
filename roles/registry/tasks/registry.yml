@@ -23,7 +23,7 @@
 - name: Copy repos to registry
   ansible.builtin.template:
     src: "templates/{{ item }}.j2"
-    dest: "{{ app_dir }}/registry{{ item }}"
+    dest: "{{ app_dir }}/registry/{{ item }}"
     mode: 0644
   loop:
     - apache
