@@ -26,6 +26,15 @@
       wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash
       apt update && apt install -y openmediavault-compose
 
+# Add daemon config
+- name: Copy daemon.json
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: /etc/docker/{{ item }}
+  notify: Restart docker
+  loop:
+    - daemon.json
+
 # Create Apps Directory
 - name: Create apps directory
   ansible.builtin.file:
