@@ -1,0 +1,11 @@
+---
+
+# Create registry structure
+- name: Create registry data
+  ansible.builtin.file:
+    path: "{{ app_dir }}/registry/data"
+    state: directory
+    mode: '0755'
+    owner: root
+  loop:
+    - data

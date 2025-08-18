@@ -1,0 +1,30 @@
+--- 
+
+# Create nginx structure
+- name: Create nginx structure
+  ansible.builtin.file:
+    path: "{{ app_dir }}/nginx/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: root
+  loop:
+    - conf.d
+    - ssl
+
+- name: Copy certs to nginx
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  loop:
+    - { src: 'files/superasian.net.cert', dest: '{{ app_dir }}/nginx/ssl/superasian.net.cert' }
+    - { src: 'files/superasian.net.key', dest: '{{ app_dir}}/nginx/ssl/superasian.net.key' }
+
+- name: Copy configs to nginx
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ app_dir }}/nginx/conf.d/{{ item }}"
+    mode: 0644
+  loop:
+    - registry-ui.conf
+    - registry.conf

@@ -1,5 +1,6 @@
 ---
 
+# Perform full system upgrade as needed
 - name: Perform system updates (example)
   ansible.builtin.apt:
     update_cache: yes
@@ -24,15 +25,16 @@
       wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash
       apt update && apt install -y openmediavault-compose
 
-# Disable Firewalld
-- name: Disable FIREWALLD
-  ansible.builtin.systemd:
-    name: firewalld
-    state: stopped
-    enabled: false
-  when:
-    - ansible_facts.services["firewalld.service"] is defined
-    - ansible_facts.services["firewalld.service"].status != "not-found"
-  notify: "Restart {{ service_name }}"
+# Create Apps Directory
+- name: Create apps directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: root
+  loop:
+    - docker-registry-ui
+    - nginx
+    - registry
 
 # 
