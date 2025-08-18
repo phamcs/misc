@@ -26,15 +26,15 @@
     dest: "{{ app_dir }}/registry/{{ item }}"
     mode: 0755
   loop:
-    - apache
-    - artifactory
-    - bitnami
-    - debian
-    - gitlab-ee
-    - gitlab-runner-helper
-    - gitlan-runner
-    - httpd
-    - nginx
-    - postgres
-    - rockylinux
-    - ubuntu
+    - apache.j2
+    - artifactory.j2
+    - bitnami.j2
+    - debian.j2
+    - gitlab-ee.j2
+    - gitlab-runner-helper.j2
+    - gitlan-runner.j2
+    - httpd.j2
+    - nginx.j2
+    - postgres.j2
+    - rockylinux.j2
+    - ubuntu.j2
