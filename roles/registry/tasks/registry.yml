@@ -24,7 +24,7 @@
   ansible.builtin.template:
     src: "templates/{{ item }}.j2"
     dest: "{{ app_dir }}/registry/{{ item }}"
-    mode: 0644
+    mode: 0755
   loop:
     - apache
     - artifactory
