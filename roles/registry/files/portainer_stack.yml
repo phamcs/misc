@@ -1,5 +1,6 @@
 ---
 
+name: Portainer stack
 services:
   portainer:
     image: portainer/portainer-ce:lts
