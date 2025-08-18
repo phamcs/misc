@@ -17,3 +17,6 @@
   
 - name: Setup Registry Cert
   ansible.builtin.include_tasks: registry_cert.yml
+
+- name: Setup Registry-UI
+  ansible.builtin.include_tasks: registry_ui.yml

@@ -1,0 +1,10 @@
+---
+
+# Setup registry-ui
+- name: Clone docker-registry-ui
+  ansible.builtin.git:
+    repo: 'https://github.com/Joxit/docker-registry-ui.git'
+    dest: "{{ app_dir }}/docker-registry-ui"
+    single_branch: yes
+    version: main
+

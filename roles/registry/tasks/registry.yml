@@ -9,3 +9,23 @@
     owner: root
   loop:
     - data
+
+# Copy repos to registry
+- name: Copy repos to registry
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ app_dir }}/registry{{ item }}"
+    mode: 0644
+  loop:
+    - apache
+    - artifactory
+    - bitnami
+    - debian
+    - gitlab-ee
+    - gitlab-runner-helper
+    - gitlan-runner
+    - httpd
+    - nginx
+    - postgres
+    - rockylinux
+    - ubuntu
