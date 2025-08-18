@@ -32,10 +32,9 @@
     - debian
     - gitlab-ee
     - gitlab-runner-helper
-    - gitlan-runner
+    - gitlab-runner
     - httpd
     - nginx
     - postgres
     - rockylinux
     - ubuntu
-    
