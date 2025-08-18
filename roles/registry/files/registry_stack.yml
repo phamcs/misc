@@ -1,5 +1,5 @@
 ---
-name: Docker Registry Stack
+name: Registry
 services:
   registry:
     image: registry:latest
