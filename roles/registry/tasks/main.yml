@@ -8,9 +8,12 @@
 
 - name: Satisfy OS Pre-Reqs
   ansible.builtin.include_tasks: pre_reqs.yml
+
+- name: Setup Nginx
+  ansible.builtin.include_tasks: nginx.yml
+
+- name: Setup Registry
+  ansible.builtin.include_tasks: registry.yml
   
 - name: Setup Registry Cert
   ansible.builtin.include_tasks: registry_cert.yml
-
-- name: Setup Apps
-  ansible.builtin.include_tasks: apps.yml
