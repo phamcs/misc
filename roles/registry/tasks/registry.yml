@@ -10,6 +10,15 @@
   loop:
     - data
 
+# Copy registry stack
+- name: Copy registry stack
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  loop:
+    - { src: 'files/registry_stack.yml', dest: '{{ app_dir }}/registry/registry_stack.yml' }
+
 # Copy repos to registry
 - name: Copy repos to registry
   ansible.builtin.template:
