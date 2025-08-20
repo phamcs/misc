@@ -22,7 +22,7 @@
 - name: Install omvextra & compose
   ansible.builtin.shell:
     cmd: |
-      apt update && apt install -y wget curl git
+      apt update && apt install -y wget curl git htop bmon lm-sensors strace
       wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash
       apt update && apt install -y openmediavault-compose
 
