@@ -1,5 +1,3 @@
----
-name: Registry
 services:
   registry:
     image: registry:latest
@@ -8,23 +6,19 @@ services:
     ports:
       - "5000:5000"
     environment:
-      #REGISTRY_AUTH: htpasswd
-      #REGISTRY_AUTH_HTPASSWD_REALM: Registry-Realm
-      #REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.passwd
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
-      REGISTRY_STORAGE_DELETE_ENABLED: true
-      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin: '[http://registry.superasian.net]'
+      REGISTRY_STORAGE_DELETE_ENABLED: false
+      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin: '[http://registry-ui.superasian.net]'
       REGISTRY_HTTP_HEADERS_Access-Control-Allow-Methods: '[HEAD,GET,OPTIONS,DELETE]'
       REGISTRY_HTTP_HEADERS_Access-Control-Allow-Credentials: '[true]'
       REGISTRY_HTTP_HEADERS_Access-Control-Allow-Headers: '[Authorization,Accept,Cache-Control]'
       REGISTRY_HTTP_HEADERS_Access-Control-Expose-Headers: '[Docker-Content-Digest]'
-      
     volumes:
       - /AppData/registry:/var/lib/registry
       - /AppData/registry/data:/data
-      - /AppData/registry/auth:/auth
     networks:
       - regnet
+      
   registry-ui:
     image: joxit/docker-registry-ui:latest
     restart: always
@@ -33,9 +27,10 @@ services:
     environment:
       - SINGLE_REGISTRY=true
       - REGISTRY_TITLE=Docker Registry UI
-      - DELETE_IMAGES=true
+      - DELETE_IMAGES=false
       - SHOW_CONTENT_DIGEST=true
       - NGINX_PROXY_PASS_URL=http://registry:5000
+      - NGINX_RESOLVER=127.0.0.11
       - SHOW_CATALOG_NB_TAGS=true
       - CATALOG_MIN_BRANCHES=1
       - CATALOG_MAX_BRANCHES=1
@@ -49,6 +44,7 @@ services:
       - /AppData/docker-registry-ui:/opt/docker-registry-ui
     networks:
       - regnet
+
   nginx:
     image: nginx:alpine
     container_name: nginx
@@ -66,6 +62,7 @@ services:
 networks:
   regnet:
     driver: bridge
+
 volumes:
   data:
     driver: local

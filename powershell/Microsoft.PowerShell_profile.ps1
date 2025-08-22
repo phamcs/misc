@@ -1,7 +1,7 @@
 # Setting My Documents
 $parameters = @{
     PSProvider = "FileSystem"
-    Root = "C:\Users\<username>\Documents"
+    Root = "C:\Users\$env:USERNAME\Documents"
     Description = "Maps to My Documents folder."
 }
 New-PSDrive @parameters

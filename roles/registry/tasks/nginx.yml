@@ -31,3 +31,5 @@
   loop:
     - registry-ui.conf
     - registry.conf
+  notify: Restart docker
+  
