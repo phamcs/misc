@@ -1,7 +1,7 @@
 ---
 
 # Perform full system upgrade as needed
-- name: Perform system updates (example)
+- name: Perform system updates
   ansible.builtin.apt:
     update_cache: yes
     upgrade: dist
