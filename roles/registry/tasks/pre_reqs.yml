@@ -14,7 +14,7 @@
 
 - name: Notify handler if reboot is required
   ansible.builtin.debug:
-    msg: "Reboot is required for {{ hostname }}"
+    msg: "Reboot is required for {{ inventory_hostname }}"
   when: reboot_required_file.stat.exists
   notify: Reboot host
 
