@@ -44,3 +44,4 @@
     - rancher-images.txt
     - rancher-load-images.sh
     - rancher-save-images.sh
+    - repo-clean
