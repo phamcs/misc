@@ -3,7 +3,7 @@
 # Create PXE structure
 - name: Create nginx structure
   ansible.builtin.file:
-    path: "{{ app_dir }}/{{ item }}"
+    path: "{{ app_dir }}/PXE/{{ item }}"
     state: directory
     mode: '0755'
     owner: "{{ app_user }}"
