@@ -60,15 +60,6 @@
   when:
     - ansible_os_family == 'Debian'
 
-# # Add daemon config
-# - name: Copy daemon.json
-#   ansible.builtin.template:
-#     src: "{{ item }}.j2"
-#     dest: /etc/docker/{{ item }}
-#   notify: Restart docker
-#   loop:
-#     - daemon.json
-
 # # Copy portainer stack
 # - name: Copy Portainer stack
 #   ansible.builtin.copy:

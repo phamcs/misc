@@ -1,0 +1,11 @@
+---
+
+# Setup Registry host
+- name: Setup registry host
+  hosts: all
+  any_errors_fatal: true
+  become: true
+  become_user: root
+  roles:
+    - common
+    - role: apps-server

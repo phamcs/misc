@@ -1,0 +1,11 @@
+default menu.c32
+prompt 0
+timeout 120
+
+menu title PXE Menu
+
+LABEL Rocky Linux 8
+MENU LABEL Rocky Linux 8
+KERNEL rl8/images/pxeboot/vmlinuz inst.ks=nfs://10.0.0.28/volume2/archive/pxe/pxelinux.cfg/rl8-ks.cfg
+initrd rl8/images/pxeboot/initrd.img
+append netboot=nfs root=/dev/nfs nfsroot=10.0.0.28:/volume2/archive/pxe/rl8 initrd=rl8/images/pxeboot/initrd.img inst.ks=nfs://10.0.0.28/volume2/archive/pxe/pxelinux.cfg/rl8-ks.cfg
