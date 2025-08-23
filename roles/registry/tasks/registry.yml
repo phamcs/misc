@@ -20,8 +20,6 @@
     state: directory
     mode: '0755'
     owner: root
-  loop:
-    - data
 
 # Copy registry stack
 - name: Copy Apps stack

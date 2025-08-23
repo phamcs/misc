@@ -9,16 +9,19 @@
 
 - name: Copy cert to registry domain
   ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    src: "superasian.net.cert"
+    dest: "/etc/docker/certs.d/{{ domain }}/superasian.net.cert"
     mode: 0644
-  loop:
-    - { src: 'files/superasian.net.cert', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.cert' }
 
 - name: Copy key to registry domain
   ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    src: "superasian.net.key"
+    dest: "/etc/docker/certs.d/{{ domain }}/superasian.net.key"
     mode: 0600
-  loop:
-    - { src: 'files/superasian.net.key', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.key' }
+
+# Add daemon config
+- name: Copy daemon.json
+  ansible.builtin.template:
+    src: "daemon.json.j2"
+    dest: "/etc/docker/daemon.json"
+  notify: Restart docker
