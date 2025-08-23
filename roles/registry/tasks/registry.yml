@@ -1,5 +1,18 @@
 ---
 
+# Create Apps Directory
+- name: Create apps directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - docker-registry-ui
+    - nginx
+    - registry
+
 # Create registry structure
 - name: Create registry data
   ansible.builtin.file:
