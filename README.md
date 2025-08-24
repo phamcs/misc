@@ -18,7 +18,7 @@ Miscelaneous stuff to make your work easier.
 
 ```text
 1. Windows boostrap script
-2. Kubernetes Dashboard script
+2. Rancher RKE2 setup script
 3. Ansible playbooks
 4. Ansible check vars script
 5. Tomcat self-signed cert/keystore process
