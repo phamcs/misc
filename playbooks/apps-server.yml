@@ -1,7 +1,7 @@
 ---
 
-# Setup Registry host
-- name: Setup registry host
+# Setup Apps Server
+- name: Setup apps server
   hosts: all
   any_errors_fatal: true
   become: true
