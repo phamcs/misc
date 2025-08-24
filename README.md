@@ -1,16 +1,6 @@
 # Miscelaneous Stuff
 
-<p align="center">
-  <a href="https://github.com/phamcs/k8s">
-    <img src="https://github.com/phamcs/kubernetes/blob/master/logo/logo.svg" alt="Logo" width="72" height="72">
-  </a>
-
-  <p align="center">
-    <h2> My notes for setup Kubernetes Cluster </h2>
-    <br>
-  </p>
-</p>
-
+<h2>My Miscelaneous Stuff</h2>
 
 ## Table of contents
 
