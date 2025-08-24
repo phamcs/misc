@@ -1,0 +1,30 @@
+---
+---
+services:
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    user: "1000:100"
+    ports:
+    - "8201:8201"
+    - "8200:8200"
+    environment:
+      VAULT_API_ADDR: "https://vault.superasian.net"
+      #VAULT_SKIP_VERIFY: true
+      VAULT_LOG_FORMAT: json
+      VAULT_LOG_LEVEL: info
+      VAULT_CAPATH: "/opt/vault/tls/ca.crt"
+      VAULT_CLIENT_TIMEOUT: 60s
+    cap_add:
+    - IPC_LOCK
+    volumes:
+      - /AppData/vault/conf.d:/etc/vault/conf.d
+      - /AppData/vault/tls:/opt/vault/tls
+      - /AppData/vault/logs:/opt/vault/logs
+      - /AppData/vault/data:/opt/vault/data
+      - /AppData/vault/plugins:/opt/vault/plugins
+    network_mode: bridge
+    restart: always
+    healthcheck:
+      retries: 5
+    entrypoint: vault server -config=/etc/vault/conf.d/vault.hcl

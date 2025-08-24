@@ -16,7 +16,7 @@
   ansible.builtin.template:
     src: "templates/{{ item }}.j2"
     dest: "{{ app_dir }}/telegraf/config/{{ item }}"
-    mode: 0755
+    mode: 0644
     owner: "{{ app_user }}"
   loop:
     - telegraf.conf

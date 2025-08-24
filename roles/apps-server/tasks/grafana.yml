@@ -16,7 +16,17 @@
   ansible.builtin.template:
     src: "templates/{{ item }}.j2"
     dest: "{{ app_dir }}/grafana/config/{{ item }}"
-    mode: 0755
+    mode: 0644
     owner: "{{ app_user }}"
   loop:
     - grafana.ini
+
+# Copy grafana config for nginx
+- name: Copy grafa-nginx config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ app_dir }}/nginx/conf.d/{{ item }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - grafana.conf
