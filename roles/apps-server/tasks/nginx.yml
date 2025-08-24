@@ -22,3 +22,14 @@
     src: "superasian.net.key"
     dest: "{{ app_dir }}/nginx/ssl/superasian.net.key"
     mode: 0600
+
+# Copy nginx site config
+- name: Copy nginx site config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ app_dir }}/nginx/conf.d/{{ item }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - grafana.conf
+    - vault.conf
