@@ -1,6 +1,6 @@
 ---
 # Setup Portainer & Watchtower Stack
-name: Portainer
+name: Portainer-Watchtower
 services:
   portainer:
     image: portainer/portainer-ce:lts

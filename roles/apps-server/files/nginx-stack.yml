@@ -1,4 +1,5 @@
 ---
+name: Nginx
 services:
   nginx:
     image: nginx:alpine

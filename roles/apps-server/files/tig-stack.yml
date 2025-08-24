@@ -1,4 +1,5 @@
 ---
+name: Telegraf + InfluxDB2 + Grafana
 services:
   ## Influxdb2 Service
   influxdb2:

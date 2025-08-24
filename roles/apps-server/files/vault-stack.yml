@@ -1,5 +1,5 @@
 ---
----
+name: Vault
 services:
   vault:
     image: hashicorp/vault:latest
@@ -13,7 +13,7 @@ services:
       #VAULT_SKIP_VERIFY: true
       VAULT_LOG_FORMAT: json
       VAULT_LOG_LEVEL: info
-      VAULT_CAPATH: "/opt/vault/tls/ca.crt"
+      #VAULT_CAPATH: "/opt/vault/tls/ca.crt"
       VAULT_CLIENT_TIMEOUT: 60s
     cap_add:
     - IPC_LOCK
