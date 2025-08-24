@@ -1,0 +1,65 @@
+---
+# Create Apps Directory
+- name: Create apps directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - artifactory
+    - nginx
+    - uptime-kuma
+    - grafana
+    - influxdb2
+    - telegraf
+
+# Create Nginx Directory
+- name: Create grafana directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/nginx/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - conf.d
+    - ssl
+
+# Create Grafana Directory
+- name: Create grafana directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/grafana/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - config
+    - data
+
+# Create Influxdb2 Directory
+- name: Create grafana directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/influxdb2/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - config
+    - data
+
+# Create Telegraf Directory
+- name: Create grafana directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/telegraf/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - config
+    - data
+

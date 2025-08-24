@@ -50,8 +50,8 @@
     - ansible_facts.services["firewalld.service"].status != "not-found"
   notify: "Restart {{ service_name }}"
 
-# Install omvextra & compose
-- name: Install omvextra & compose
+# Install omvextra & docker compose
+- name: Install omvextra & docker compose
   ansible.builtin.shell:
     cmd: |
       apt update && apt install -y wget curl git htop bmon lm-sensors strace
@@ -60,12 +60,18 @@
   when:
     - ansible_os_family == 'Debian'
 
-# Create AppData Directory
-- name: Create apps directory
-  ansible.builtin.file:
-    path: "{{ app_dir }}"
-    state: directory
-    mode: '0755'
-    owner: "{{ app_user }}"
-    recurse: yes
+# Install docker for (RHEL) platform
+- name: Install docker
+  ansible.builtin.shell:
+    cmd: |
+      yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+      yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  when:
+    - ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
 
+# Copy docker config 
+- name: Copy daemon.json
+  ansible.builtin.template:
+    src: "daemon.json.j2"
+    dest: "/etc/docker/daemon.json"
+  notify: Restart docker

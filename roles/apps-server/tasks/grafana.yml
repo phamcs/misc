@@ -1,0 +1,22 @@
+---
+# Create Grafana Directory
+- name: Create grafana directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/grafana/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - config
+    - data
+
+# Copy granafa config
+- name: Copy grafana config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ app_dir }}/grafana/config/{{ item }}"
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - grafana.ini

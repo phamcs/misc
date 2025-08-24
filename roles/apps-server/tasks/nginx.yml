@@ -1,0 +1,24 @@
+---
+# Create Nginx Directory
+- name: Create nginx directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/nginx/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - conf.d
+    - ssl
+
+- name: Copy cert to nginx
+  ansible.builtin.copy:
+    src: "superasian.net.cert"
+    dest: "{{ app_dir }}/nginx/ssl/superasian.net.cert"
+    mode: 0644
+
+- name: Copy key to nginx
+  ansible.builtin.copy:
+    src: "superasian.net.key"
+    dest: "{{ app_dir }}/nginx/ssl/superasian.net.key"
+    mode: 0600

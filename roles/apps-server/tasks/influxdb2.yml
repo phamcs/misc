@@ -1,0 +1,12 @@
+---
+# Create Influxdb2 Directory
+- name: Create influxdb2 directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/influxdb2/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - config
+    - data

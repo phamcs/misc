@@ -6,6 +6,17 @@
   ansible.builtin.package_facts:
     manager: auto
 
-- name: Satisfy OS Pre-Reqs
-  ansible.builtin.include_tasks: apps-stack.yml
-  
+- name: Deploy apps-dir
+  ansible.builtin.include_tasks: apps-dir.yml
+
+- name: Setup grafana
+  ansible.builtin.include_tasks: grafana.yml
+
+- name: Setup influxdb2
+  ansible.builtin.include_tasks: influxdb2.yml
+
+- name: Setup nginx
+  ansible.builtin.include_tasks: nginx.yml
+
+- name: Setup telegraf
+  ansible.builtin.include_tasks: telegraf.yml
