@@ -1,7 +1,5 @@
 # Miscelaneous Stuff
 
-<h2>My Miscelaneous Stuff</h2>
-
 ## Table of contents
 
 - [Pre-Requirements](#Pre-requirements)
