@@ -1,7 +1,7 @@
 ---
 name: Uptime-Kuma
 services:
-  uptime-kuma:
+  app:
     image: louislam/uptime-kuma:2.0.0-beta.3
     container_name: uptime-kuma
     volumes:
@@ -10,6 +10,28 @@ services:
       - 3001:3001  # <Host Port>:<Container Port>
     restart: always
     network_mode: bridge
+    environment:
+      # Mysql/Maria connection parameters:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "kuma"
+      DB_MYSQL_PASSWORD: "kuma"
+      DB_MYSQL_NAME: "kuma"
+    depends_on:
+      - db
+  db:
+    image: 'mariadb:latest'
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 'kuma'
+      MYSQL_DATABASE: 'kuma'
+      MYSQL_USER: 'kuma'
+      MYSQL_PASSWORD: 'kuma'
+      MARIADB_AUTO_UPGRADE: '1'
+    volumes:
+      - /AppData/uptime-kuma/mariadb/:/var/lib/mysql
+    network_mode: bridge
+
 volumes:
   data:
     driver: local
