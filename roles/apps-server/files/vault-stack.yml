@@ -18,7 +18,7 @@ services:
     cap_add:
     - IPC_LOCK
     volumes:
-      - /AppData/vault/conf.d:/etc/vault/conf.d
+      - /AppData/vault/conffig:/etc/vault/conf.d
       - /AppData/vault/ssl:/opt/vault/tls
       - /AppData/vault/logs:/opt/vault/logs
       - /AppData/vault/data:/opt/vault/data
