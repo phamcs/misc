@@ -16,7 +16,6 @@
     src: "templates/telegraf.conf.j2"
     dest: "{{ app_dir }}/telegraf/config/{{ item }}"
     mode: 0644
-    state: file
     owner: "{{ app_user }}"
   loop:
     - telegraf.conf
