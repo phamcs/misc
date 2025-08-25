@@ -9,7 +9,10 @@
     recurse: yes
   loop:
     - conf.d
+    - data
+    - logs
     - ssl
+    - plugins
 
 - name: Copy cert to vault
   ansible.builtin.copy:
