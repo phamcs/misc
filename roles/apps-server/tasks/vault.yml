@@ -19,12 +19,14 @@
     src: "superasian.net.cert"
     dest: "{{ app_dir }}/vault/ssl/superasian.net.crt"
     mode: 0644
+    owner: "{{ app_user }}"
 
 - name: Copy key to vault
   ansible.builtin.copy:
     src: "superasian.net.key"
     dest: "{{ app_dir }}/vault/ssl/superasian.net.key"
     mode: 0600
+    owner: "{{ app_user }}"
 
 # Copy vault config
 - name: Copy vault config
