@@ -6,7 +6,6 @@
     state: directory
     mode: '0755'
     owner: "{{ app_user }}"
-    recurse: yes
   loop:
     - config
     - data
