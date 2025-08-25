@@ -8,11 +8,11 @@
     owner: "{{ app_user }}"
     recurse: yes
   loop:
-    - conf.d
+    - config
     - data
     - logs
-    - ssl
     - plugins
+    - ssl
 
 - name: Copy cert to vault
   ansible.builtin.copy:
@@ -32,7 +32,7 @@
 - name: Copy vault config
   ansible.builtin.template:
     src: "templates/{{ item }}.j2"
-    dest: "{{ app_dir }}/vault/conf.d/{{ item }}"
+    dest: "{{ app_dir }}/vault/config/{{ item }}"
     mode: 0644
     owner: "{{ app_user }}"
   loop:
