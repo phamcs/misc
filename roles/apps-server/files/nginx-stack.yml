@@ -10,6 +10,6 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /AppConf/nginx/conf.d/:/etc/nginx/conf.d/
-      - /AppConf/nginx/ssl/:/etc/nginx/ssl/
+      - /AppData/nginx/conf.d/:/etc/nginx/conf.d/
+      - /AppData/nginx/ssl/:/etc/nginx/ssl/
     network_mode: bridge
