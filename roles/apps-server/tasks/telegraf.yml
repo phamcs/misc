@@ -12,10 +12,9 @@
 
 # Copy telegraf config
 - name: Copy telegraf config
-  ansible.builtin.template:
-    src: "templates/telegraf.conf.j2"
+  ansible.builtin.copy:
+    src: "telegraf.conf"
     dest: "{{ app_dir }}/telegraf/config/telegraf.conf"
     mode: 0644
     owner: "{{ app_user }}"
-
     
