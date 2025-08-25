@@ -20,3 +20,7 @@
 
 - name: Setup telegraf
   ansible.builtin.include_tasks: telegraf.yml
+
+- name: Setup vault
+  ansible.builtin.include_tasks: vault.yml
+  
