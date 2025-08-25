@@ -18,5 +18,5 @@
 - name: Setup nginx
   ansible.builtin.include_tasks: nginx.yml
 
-# - name: Setup telegraf
-#   ansible.builtin.include_tasks: telegraf.yml
+- name: Setup telegraf
+  ansible.builtin.include_tasks: telegraf.yml
