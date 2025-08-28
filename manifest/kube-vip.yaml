@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app.kubernetes.io/name: kube-vip-ds
-    app.kubernetes.io/version: v0.8.1
+    app.kubernetes.io/version: main
   name: kube-vip-ds
   namespace: kube-system
 spec:
@@ -16,7 +16,7 @@ spec:
       creationTimestamp: null
       labels:
         app.kubernetes.io/name: kube-vip-ds
-        app.kubernetes.io/version: v0.8.1
+        app.kubernetes.io/version: main
     spec:
       affinity:
         nodeAffinity:
@@ -68,7 +68,7 @@ spec:
           value: 10.0.0.202
         - name: prometheus_server
           value: :2112
-        image: ghcr.io/kube-vip/kube-vip:v0.8.1
+        image: ghcr.io/kube-vip/kube-vip:main
         imagePullPolicy: IfNotPresent
         name: kube-vip
         resources: {}
