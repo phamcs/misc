@@ -11,6 +11,13 @@
 - [Thanks](#thanks)
 - [Copyright and license](#copyright-and-license)
 
+## Pre-requirements
+
+It's assuming that yoo already had setup your servers with static IP. You also had awx setup.
+
+## Ecosystem
+
+All of our setup is on KVM virtualization to reduce power consumption. You should too.
 
 ## What's included
 
