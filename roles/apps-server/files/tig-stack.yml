@@ -1,5 +1,5 @@
 ---
-name: Telegraf + InfluxDB2 + Grafana
+name: TIG (Telegraf + InfluxDB2 + Grafana)
 services:
   ## Influxdb2 Service
   influxdb2:
