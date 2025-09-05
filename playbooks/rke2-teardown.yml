@@ -2,7 +2,7 @@
 
 - name: Tear Down rke2 cluster
   hosts: all
-  become: yes
+  become: true
   become_user: root
   tasks:
     - name: Reset rke2 cluster

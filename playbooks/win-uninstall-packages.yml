@@ -1,5 +1,5 @@
 ---
-- name: Install Packages
+- name: Install Software
   hosts: all
   become: true
   become_user: Administrator
@@ -30,7 +30,6 @@
             'nodejs-lts'
             'notepadplusplus'
             'notepadplusplus.install'
-            'python313'
             'ruby'
             'ruby.install'
             'vscode'
