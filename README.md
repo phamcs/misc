@@ -39,6 +39,7 @@ Miscelaneous stuff to make your work easier.
 Have a bug or a feature request? Please first read the [issue guidelines](https://reponame/blob/master/CONTRIBUTING.md) and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://reponame/issues/new).
     <a href="https://reponame/issues/new?template=bug.md">Report bug</a>
     <a href="https://reponame/issues/new?template=feature.md&labels=feature">Request feature</a>
+
 ## Contributing
 
 Please read through our [contributing guidelines](https://reponame/blob/master/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and notes on development.

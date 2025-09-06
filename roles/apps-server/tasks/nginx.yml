@@ -14,7 +14,7 @@
 - name: Copy cert to nginx
   ansible.builtin.copy:
     src: "superasian.net.cert"
-    dest: "{{ app_dir }}/nginx/ssl/superasian.net.cert"
+    dest: "{{ app_dir }}/nginx/ssl/superasian.net.crt"
     mode: 0644
 
 - name: Copy key to nginx
@@ -31,5 +31,5 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - grafana.conf
+    - tig.conf
     - vault.conf
