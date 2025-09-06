@@ -1,7 +1,7 @@
 #!/bin/bash
 openssl=$(which openssl)
 keytool=$(which keytool)
-
+TC_SSL="/usr/share/tomcat/conf/ssl"
 if [ -z "$openssl" ] || [ -z "$keytool" ]; then
   echo "OpenSSL or Keytool not found. Please install them first."
   exit 1
@@ -22,8 +22,11 @@ if [ $? -ne 0 ]; then
   echo "Failed to import keystore."
   exit 1
 fi
-keytool -import -alias tomcat -keystore tomcat.keystore -trustcacerts -file testCA.crt -noprompt
-read -p "Enter Tomcat SSL config path: " TC_SSL
+keytool -import -alias tomcat -keystore tomcat.keystore -trustcacerts -file testCA.crt -noprompt -deststorepass P@ssw0rd
+if [ $? -ne 0 ]; then
+  echo "Failed to import CA certificate into keystore."
+  exit 1
+fi
 mkdir -p $TC_SSL
 mv -f tomcat.keystore $TC_SSL/tomcat.keystore
 if [ $? -ne 0 ]; then
