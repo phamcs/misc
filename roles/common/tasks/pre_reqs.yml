@@ -48,7 +48,7 @@
   when:
     - ansible_facts.services["firewalld.service"] is defined
     - ansible_facts.services["firewalld.service"].status != "not-found"
-  notify: "Restart {{ service_name }}"
+  notify: Restart firewalld
 
 # Install omvextra & docker compose
 - name: Install omvextra & docker compose
