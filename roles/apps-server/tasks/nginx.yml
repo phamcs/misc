@@ -33,3 +33,4 @@
   loop:
     - tig.conf
     - vault.conf
+    - artifactory.conf
