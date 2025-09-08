@@ -24,7 +24,7 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'files/portainer-stack.yml', dest: '{{ app_dir }}/portainer-stack.yml' }
-    - { src: 'files/nginx-stack.yml', dest: '{{ app_dir }}/registry_stack.yml' }
+    - { src: 'files/nginx-stack.yml', dest: '{{ app_dir }}/nginx-stack.yml' }
     - { src: 'files/tig-stack.yml', dest: '{{ app_dir }}/tig-stack.yml' }
     - { src: 'files/uptime-kuma-stack.yml', dest: '{{ app_dir }}/uptime-kuma-stack.yml' }
     - { src: 'files/vault-stack.yml', dest: '{{ app_dir }}/vault-stack.yml' }
