@@ -29,8 +29,8 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/portainer_stack.yml', dest: '{{ app_dir }}/registry/portainer_stack.yml' }
-    - { src: 'files/registry_stack.yml', dest: '{{ app_dir }}/registry/registry_stack.yml' }
+    - { src: 'files/portainer_stack.yml', dest: '{{ app_dir }}/registry/portainer-stack.yml' }
+    - { src: 'files/registry_stack.yml', dest: '{{ app_dir }}/registry/registry-stack.yml' }
 
 # Copy repos to registry
 - name: Copy repos to registry
