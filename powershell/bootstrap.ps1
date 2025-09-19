@@ -7,33 +7,52 @@ if (!(Test-Path -Path $PROFILE))
 }
 Get-PSSnapin -Registered | Add-PSSnapin
 $softLink = "https://dev.superasian.net/repo"
-$msiArray = @(
+$msiPackages = @(
     'AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi'
     'AWSToolsAndSDKForNet_sdk-3.7.660.0_ps-4.1.428.0_tk-1.14.5.2.msi'
-    'OpenSSH-Win64-v9.8.3.0.msi'
 )
-$modArray = @(
+$basicmodules = @(
     'PowerShellGet'
     'PolicyFileEditor'
     'Powershell-yaml'
     'PSReadline'
+)
+$awsmodules = @(
+    'AWS.Tools.AutoScaling'
+    'AWS.Tools.CloudFormation'
+    'AWS.Tools.CloudWatchLogs'
     'AWS.Tools.Common'
+    'AWS.Tools.EC2'
+    'AWS.Tools.Elasticsearch'
+    'AWS.Tools.IdentityManagement'
+    'AWS.Tools.Lambda'
+    'AWS.Tools.RDS'
+    'AWS.Tools.Route53'
+    'AWS.Tools.S3'
+    'AWS.Tools.SecretsManager'
+    'AWS.Tools.SecurityToken'
+    'AWSLambdaPSCore'
     'AWSPowershell.NetCore'
 )
-# Setup PSGallery and install AWS common modules
+# Setup PSGallery as trusted repo
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
-foreach ($mod in $modArray)
+foreach ($mod in $basicmodules)
+{
+  Install-Module -Name $mod -AllowClobber -Force
+}
+# Install AWS Modules
+foreach ($mod in $awsmodules)
 {
   Install-Module -Name $mod -AllowClobber -Force
 }
 # Install Common Tools SDK & Chocolatey
-foreach ($msi in $msiArray) {
+foreach ($msi in $msiPackages) {
   msiexec /i $softLink/$msi /qr /norestart
 }
 Set-ExecutionPolicy Bypass -Scope Process -Force
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+PSScriptAnalyzer(PSAvoidUsingCmdletAliases) ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade -y chocolatey
 # Tweak Policies
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force
@@ -57,6 +76,9 @@ $firewallParams = @{
     Profile     = 'Any'
     Protocol    = 'TCP'
 }
+if (-not (Get-NetFirewallRule -DisplayName 'OpenSSH Server (TCP)' -ErrorAction SilentlyContinue)) {
+    New-NetFirewallRule @firewallParams
+}
 # Setup default shell to powershell.exe
 $shellParams = @{
     Path         = 'HKLM:\SOFTWARE\OpenSSH'
@@ -64,6 +86,9 @@ $shellParams = @{
     Value        = 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
     PropertyType = 'String'
     Force        = $true
+}
+if (Test-Path -Path 'HKLM:\SOFTWARE\OpenSSH') {
+    Remove-ItemProperty @shellParams -ErrorAction SilentlyContinue
 }
 New-ItemProperty @shellParams
 

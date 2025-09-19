@@ -27,4 +27,3 @@ foreach ($app in $appArray) {
 }
 # Reboot your computer to apply changes
 Restart-Computer -Force
-
