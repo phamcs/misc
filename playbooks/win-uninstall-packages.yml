@@ -19,6 +19,7 @@
 
     - name: Uninstall using powershell
       win_shell: |
+        # Uninstall apps
         $appArray = @(
             '7zip'
             '7zip.install'
