@@ -24,7 +24,7 @@
     remote_src: yes
     owner: "{{ app_user }}"
     #mode: "0755"
-    extra_opts: ['--strip-components=1'] # Optional: To remove the top-level directory during extraction
+    #extra_opts: ['--strip-components=1'] # Optional: To remove the top-level directory during extraction
 
 # Copy certs
 - name: Copy certs to Harbor
