@@ -6,6 +6,32 @@
   ansible.builtin.package_facts:
     manager: auto
 
+# Create harbor domain
+- name: Create harbor domain
+  ansible.builtin.file:
+    path: "/etc/docker/certs.d/{{ domain }}"
+    state: directory
+    mode: '0755'
+    owner: root
+
+# Copy certs to harbor domain
+- name: Copy certs
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: root
+  loop:
+    - { src: 'files/superasian.net.cert', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.cert' }
+    - { src: 'files/superasian.net.key', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.key' }
+
+# Add daemon config
+- name: Copy daemon.json
+  ansible.builtin.template:
+    src: "daemon.json.j2"
+    dest: "/etc/docker/daemon.json"
+  notify: Restart docker
+
 # Create Harbor Directories
 - name: Create Harbor data directory
   ansible.builtin.file:
@@ -16,15 +42,6 @@
   loop:
     - data
     - certs
-
-- name: Extract the tar.gz archive
-  ansible.builtin.unarchive:
-    src: "{{ github_url }}/{{ harbor_version }}/harbor-offline-installer-{{ harbor_version }}.tgz"
-    dest: "{{ harbor_dir }}"
-    remote_src: yes
-    owner: "{{ app_user }}"
-    #mode: "0755"
-    extra_opts: ['--strip-components=1'] # Optional: To remove the top-level directory during extraction
 
 # Copy certs
 - name: Copy certs
@@ -37,15 +54,14 @@
     - { src: 'files/superasian.net.cert', dest: '{{ harbor_dir }}/certs/superasian.net.crt' }
     - { src: 'files/superasian.net.key', dest: '{{ harbor_dir }}/certs/superasian.net.key' }
 
-# Copy certs
-- name: Copy certs to Harbor
-  ansible.builtin.copy:
-    src: "files/{{ item }}"
-    dest: "{{ harbor_dir }}/certs/"
-    mode: 0600
-  loop:
-    - superasian.net.cert
-    - superasian.net.key
+- name: Extract the tar.gz archive
+  ansible.builtin.unarchive:
+    src: "{{ github_url }}/{{ harbor_version }}/harbor-offline-installer-{{ harbor_version }}.tgz"
+    dest: "{{ harbor_dir }}"
+    remote_src: yes
+    owner: "{{ app_user }}"
+    #mode: "0755"
+    extra_opts: ['--strip-components=1'] # Optional: To remove the top-level directory during extraction
 
 # Copy Harbor config
 - name: Copy harbor config
@@ -69,7 +85,7 @@
     msg: "{{ item }}"
   loop: "{{ command_output.stdout_lines }}"
 
-# Create Harbor Data Directory
+# Install Harbor
 - name: Install Harbor
   ansible.builtin.shell:
     chdir: "{{ harbor_dir }}"
