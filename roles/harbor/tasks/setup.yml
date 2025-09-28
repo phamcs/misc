@@ -39,7 +39,7 @@
 # Copy Harbor config
 - name: Copy harbor config
   ansible.builtin.copy:
-    src: "filess/harbor.yml"
+    src: "files/harbor.yml"
     dest: "{{ harbor_dir }}/harbor.yml"
     mode: 0644
     owner: "{{ app_user }}"
