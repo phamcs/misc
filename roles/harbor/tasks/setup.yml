@@ -19,7 +19,7 @@
 
 - name: Extract the tar.gz archive
   ansible.builtin.unarchive:
-    src: "{{ harbor_dir }}/harbor-offline-installer-{{ harbor_version }}.tgz"
+    src: "{{ github_url }}/harbor-offline-installer-{{ harbor_version }}.tgz"
     dest: "{{ harbor_dir }}"
     remote_src: yes
     owner: "{{ app_user }}"
