@@ -21,7 +21,7 @@
   ansible.builtin.unarchive:
     src: "{{ harbor_dir }}/harbor-offline-installer-{{ harbor_version }}.tgz"
     dest: "{{ harbor_dir }}"
-    remote_src: yes
+    remote_src: no
     owner: "{{ app_user }}"
     #mode: "0755"
     # extra_opts: ['--strip-components=1'] # Optional: To remove the top-level directory during extraction
@@ -55,3 +55,10 @@
     msg: "{{ item }}"
   loop: "{{ command_output.stdout_lines }}"
 
+# Create Harbor Data Directory
+- name: Install Harbor
+  ansible.builtin.shell:
+    chdir: "{{ harbor_dir }}"
+    cmd: |
+      ./install.sh
+  when: command_output is succeeded
