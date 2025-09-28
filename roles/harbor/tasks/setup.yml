@@ -37,9 +37,9 @@
     - superasian.net.key
 
 # Copy Harbor config
-- name: Copy nginx site config
-  ansible.builtin.template:
-    src: "templates/harbor.yml.j2"
+- name: Copy harbor config
+  ansible.builtin.copy:
+    src: "filess/harbor.yml"
     dest: "{{ harbor_dir }}/harbor.yml"
     mode: 0644
     owner: "{{ app_user }}"
