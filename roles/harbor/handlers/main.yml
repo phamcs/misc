@@ -1,0 +1,19 @@
+---
+- name: Restart docker
+  ansible.builtin.service:
+    state: restarted
+    name: docker
+
+- name: Restart systemd-sysctl
+  ansible.builtin.service:
+    state: restarted
+    name: systemd-sysctl
+
+- name: Restart firewalld
+  ansible.builtin.service:
+    state: restarted
+    name: firewalld
+
+- name: Reboot host
+  ansible.builtin.reboot:
+    reboot_timeout: 300

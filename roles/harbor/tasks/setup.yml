@@ -1,0 +1,57 @@
+---
+- name: Populate service facts
+  ansible.builtin.service_facts: {}
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+# Create Harbor Directories
+- name: Create Harbor data directory
+  ansible.builtin.file:
+    path: "{{ harbor_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: root
+  loop:
+    - data
+    - certs
+
+- name: Extract the tar.gz archive
+  ansible.builtin.unarchive:
+    src: "{{ harbor_dir }}/harbor-offline-installer-{{ harbor_version }}.tgz"
+    dest: "{{ harbor_dir }}"
+    remote_src: yes
+    owner: "{{ app_user }}"
+    #mode: "0755"
+    # extra_opts: ['--strip-components=1'] # Optional: To remove the top-level directory during extraction
+
+# Copy certs
+- name: Copy certs to Harbor
+  ansible.builtin.copy:
+    src: "files/{{ item }}"
+    dest: "{{ harbor_dir }}/certs/{{ item }}"
+    mode: 0644
+
+# Copy Harbor config
+- name: Copy nginx site config
+  ansible.builtin.template:
+    src: "templates/harbor.yml.j2"
+    dest: "{{ harbor_dir }}/harbor.yml"
+    mode: 0644
+    owner: "{{ app_user }}"
+
+# Check the system for error
+- name: Check system for error
+  ansible.builtin.shell:
+    chdir: "{{ harbor_dir }}"
+    cmd: |
+      ./prepare
+  register: command_output
+
+# Display the output
+- name: Display the command's standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ command_output.stdout_lines }}"
+
