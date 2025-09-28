@@ -51,7 +51,7 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/superasian.net.cert', dest: '{{ harbor_dir }}/certs/superasian.net.crt' }
+    - { src: 'files/superasian.net.cert', dest: '{{ harbor_dir }}/certs/superasian.net.cert' }
     - { src: 'files/superasian.net.key', dest: '{{ harbor_dir }}/certs/superasian.net.key' }
 
 - name: Extract the tar.gz archive
