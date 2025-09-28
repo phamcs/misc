@@ -47,9 +47,8 @@
 # Check the system for error
 - name: Check system for error
   ansible.builtin.shell:
-    chdir: "{{ harbor_dir }}"
     cmd: |
-      ./prepare
+      "{{ harbor_dir }}/prepare"
   register: command_output
 
 # Display the output
@@ -61,7 +60,6 @@
 # Create Harbor Data Directory
 - name: Install Harbor
   ansible.builtin.shell:
-    chdir: "{{ harbor_dir }}"
     cmd: |
-      ./install.sh
+      "{{ harbor_dir }}/install.sh"
   when: command_output is succeeded
