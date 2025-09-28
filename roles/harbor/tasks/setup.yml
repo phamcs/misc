@@ -74,5 +74,5 @@
   ansible.builtin.shell:
     chdir: "{{ harbor_dir }}"
     cmd: |
-      /install.sh
+      ./install.sh
   when: command_output is succeeded
