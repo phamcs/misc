@@ -32,6 +32,9 @@
     src: "files/{{ item }}"
     dest: "{{ harbor_dir }}/certs/{{ item }}"
     mode: 0644
+  loop:
+    - superasian.net.cert
+    - superasian.net.key
 
 # Copy Harbor config
 - name: Copy nginx site config
