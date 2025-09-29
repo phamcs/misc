@@ -14,8 +14,8 @@ https:
   # https port for harbor, default is 443
   port: 443
   # The path of cert and key files for nginx
-  certificate: /AppData/harbor/certs/superasian.net.cert
-  private_key: /AppData/harbor/certs/superasian.net.key
+  certificate: /AppData/harbor/cert/superasian.net.cert
+  private_key: /AppData/harbor/cert/superasian.net.key
   # enable strong ssl ciphers (default: false)
   # strong_ssl_ciphers: false
 
