@@ -64,12 +64,15 @@
     extra_opts: ['--strip-components=1'] # Optional: To remove the top-level directory during extraction
 
 # Copy Harbor config
-- name: Copy harbor config
+- name: Copy harbor config & portainer
   ansible.builtin.copy:
-    src: "files/harbor.yml"
-    dest: "{{ harbor_dir }}/harbor.yml"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     mode: 0644
     owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/harbor.yml', dest: '{{ harbor_dir }}/harbor.yml' }
+    - { src: 'files/portainer.yml', dest: '{{ harbor_dir }}/portainer.yml' }
 
 # Check the system for error
 - name: Check system for error
