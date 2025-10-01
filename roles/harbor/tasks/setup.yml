@@ -93,7 +93,7 @@
   ansible.builtin.shell:
     chdir: "{{ harbor_dir }}"
     cmd: |
-      ./install.sh
+      ./install.sh --with-trivy
   register: install_output
   when: command_output is succeeded
 

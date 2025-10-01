@@ -24,3 +24,4 @@
     dest: "{{ app_dir }}/{{ jfrog_product }}-{{ artifactory_version }}/.env"
     mode: 0755
     owner: "{{ app_user }}"
+
