@@ -185,7 +185,7 @@ _version: 2.14.0
 #     port: 5432
 #     db_name: harbor
 #     username: harbor
-#     password: P@ss0wrd
+#     password: <db_password>
 #     ssl_mode: disable
 #     max_idle_conns: 2
 #     max_open_conns: 0
