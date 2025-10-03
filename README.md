@@ -31,7 +31,9 @@ Miscelaneous stuff to make your work easier.
 5. Tomcat self-signed cert/keystore process
 6. Windows set owner script
 7. Office365 login script
-8. Powershell profile script
+8. Powershell scripts
+9. Bash Scripts
+10. Various Ansible roles
 ```
 
 ## Bugs and feature requests
