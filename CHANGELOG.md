@@ -15,6 +15,8 @@ straightforward as possible.
 ### Added
    CHANGELOG
 ### Changed
-   Announced deprecated registry roles in favor Harbor
+  - Announced deprecated registry roles in favor Harbor
+  - Update vault & grafana to use copy files for config
+  - Renamed influxdb2 to influxdb
 ### Fixed
    README

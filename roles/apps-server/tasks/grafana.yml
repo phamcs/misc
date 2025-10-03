@@ -13,10 +13,8 @@
 
 # Copy granafa config
 - name: Copy grafana config
-  ansible.builtin.template:
-    src: "templates/{{ item }}.j2"
-    dest: "{{ app_dir }}/grafana/config/{{ item }}"
+  ansible.builtin.copy:
+    src: "grafana.ini"
+    dest: "{{ app_dir }}/grafana/config/grafana.ini"
     mode: 0644
     owner: "{{ app_user }}"
-  loop:
-    - grafana.ini

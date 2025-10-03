@@ -1,8 +1,8 @@
 ---
 # Create Influxdb2 Directory
-- name: Create influxdb2 directory
+- name: Create influxdb directory
   ansible.builtin.file:
-    path: "{{ app_dir }}/influxdb2/{{ item }}"
+    path: "{{ app_dir }}/influxdb/{{ item }}"
     state: directory
     mode: 0755
     owner: "{{ app_user }}"

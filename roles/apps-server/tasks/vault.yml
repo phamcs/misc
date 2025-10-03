@@ -14,26 +14,14 @@
     - plugins
     - ssl
 
-- name: Copy cert to vault
+# Copy vault config & cert
+- name: Copy vault config and cert
   ansible.builtin.copy:
-    src: "superasian.net.cert"
-    dest: "{{ app_dir }}/vault/ssl/superasian.net.crt"
-    mode: 0644
-    owner: "{{ app_user }}"
-
-- name: Copy key to vault
-  ansible.builtin.copy:
-    src: "superasian.net.key"
-    dest: "{{ app_dir }}/vault/ssl/superasian.net.key"
-    mode: 0600
-    owner: "{{ app_user }}"
-
-# Copy vault config
-- name: Copy vault config
-  ansible.builtin.template:
-    src: "templates/{{ item }}.j2"
-    dest: "{{ app_dir }}/vault/config/{{ item }}"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - vault.hcl
+    - { src: 'files/superasian.net.cert', dest: '{{ app_dir }}/vault/ssl/superasian.net.crt' }
+    - { src: 'files/superasian.net.key', dest: '{{ app_dir }}/vault/ssl/superasian.net.key' }
+    - { src: 'files/vault.hcl', dest: '{{ app_dir }}/vault/config/vault.hcl' }

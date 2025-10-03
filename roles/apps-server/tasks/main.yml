@@ -15,8 +15,8 @@
 - name: Setup grafana
   ansible.builtin.include_tasks: grafana.yml
 
-- name: Setup influxdb2
-  ansible.builtin.include_tasks: influxdb2.yml
+- name: Setup influxdb
+  ansible.builtin.include_tasks: influxdb.yml
 
 - name: Setup nginx
   ansible.builtin.include_tasks: nginx.yml
