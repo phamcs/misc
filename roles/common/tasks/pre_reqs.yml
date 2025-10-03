@@ -69,6 +69,22 @@
   when:
     - ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
 
+# Create Apps Directory
+- name: Create apps directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+
+# Copy portainer stack
+- name: Copy portainer stack
+  ansible.builtin.copy:
+    src: "portainer-stack.yml"
+    dest: "{{ app_dir }}/portainer-stack.yml"
+    mode: 0644
+    owner: "{{ app_user }}"
+
 # Copy docker config 
 - name: Copy daemon.json
   ansible.builtin.template:

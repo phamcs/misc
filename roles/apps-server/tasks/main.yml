@@ -9,9 +9,6 @@
 - name: Deploy apps-dir
   ansible.builtin.include_tasks: apps-dir.yml
 
-- name: Setup artifactory
-  ansible.builtin.include_tasks: artifactory.yml
-
 - name: Setup grafana
   ansible.builtin.include_tasks: grafana.yml
 

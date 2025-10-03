@@ -9,7 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
+
+## [1.1.0] - 2025-10-03
  
+### Added
+   Artifactory role
+### Changed
+  - Split artifactory from app-server to its own role
+  - Update artifactory role
+  - Update common role
+### Fixed
+   Common
+
 ## [1.0.0] - 2025-10-03
  
 ### Added

@@ -25,3 +25,10 @@
     mode: 0755
     owner: "{{ app_user }}"
 
+# Copy portainer stack
+- name: Copy portainer stack
+  ansible.builtin.copy:
+    src: "portainer-stack.yml"
+    dest: "{{ app_dir }}/portainer-stack.yml"
+    mode: 0644
+    owner: "{{ app_user }}"

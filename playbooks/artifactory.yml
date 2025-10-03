@@ -1,0 +1,11 @@
+---
+
+# Setup Artifactory
+- name: Setup artifactory host
+  hosts: all
+  any_errors_fatal: true
+  become: true
+  become_user: root
+  roles:
+    - common
+    - role: artifactory

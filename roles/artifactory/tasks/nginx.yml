@@ -1,0 +1,36 @@
+---
+# Create Nginx Directory
+- name: Create nginx directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/nginx/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - conf.d
+    - ssl
+
+- name: Copy cert to nginx
+  ansible.builtin.copy:
+    src: "superasian.net.cert"
+    dest: "{{ app_dir }}/nginx/ssl/superasian.net.crt"
+    mode: 0644
+
+- name: Copy key to nginx
+  ansible.builtin.copy:
+    src: "superasian.net.key"
+    dest: "{{ app_dir }}/nginx/ssl/superasian.net.key"
+    mode: 0600
+
+# Copy nginx site config
+- name: Copy nginx site config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ app_dir }}/nginx/conf.d/{{ item }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - tig.conf
+    - vault.conf
+    - artifactory.conf
