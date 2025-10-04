@@ -31,5 +31,6 @@
   loop:
     - registry-ui.conf
     - registry.conf
+    - artifactory.conf
   notify: Restart docker
   
