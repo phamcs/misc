@@ -12,6 +12,7 @@
     - docker-registry-ui
     - nginx
     - registry
+    - artifactory
 
 # Create registry structure
 - name: Create registry data
@@ -21,16 +22,31 @@
     mode: '0755'
     owner: root
 
-# Copy registry stack
-- name: Copy Apps stack
+- name: Create registry domain
+  ansible.builtin.file:
+    path: /etc/docker/certs.d/{{ domain }}
+    state: directory
+    mode: '0755'
+    owner: root
+
+# Copy registry stack & cert
+- name: Copy registry stack & cert
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/portainer-stack.yml', dest: '{{ app_dir }}/registry/portainer-stack.yml' }
     - { src: 'files/registry-stack.yml', dest: '{{ app_dir }}/registry/registry-stack.yml' }
+    - { src: 'files/superasian.net.cert', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.cert' }
+    - { src: 'files/superasian.net.key', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.key' }
+
+# Add daemon config
+- name: Copy daemon.json
+  ansible.builtin.template:
+    src: "daemon.json.j2"
+    dest: "/etc/docker/daemon.json"
+  notify: Restart docker
 
 # Copy repos to registry
 - name: Copy repos to registry
@@ -52,7 +68,5 @@
     - postgres
     - rockylinux
     - ubuntu
-    - rancher-images.txt
-    - rancher-load-images.sh
-    - rancher-save-images.sh
     - repo-clean
+    
