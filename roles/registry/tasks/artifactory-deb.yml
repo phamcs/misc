@@ -1,0 +1,18 @@
+---
+# Install artifactory OSS
+- name: Add JFrog GPG key
+  ansible.builtin.apt_key:
+    url: https://releases.jfrog.io/artifactory/api/gpg/key/public
+    state: present
+
+- name: Add JFrog APT repository  
+  ansible.builtin.apt_repository:
+    repo: deb https://releases.jfrog.io/artifactory/artifactory-debs bookworm main
+    state: present
+
+- name: Install Artifactory OSS
+  ansible.builtin.apt:
+    name: jfrog-artifactory-oss
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
