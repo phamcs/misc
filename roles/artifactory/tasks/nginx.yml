@@ -13,14 +13,14 @@
 
 - name: Copy cert to nginx
   ansible.builtin.copy:
-    src: "superasian.net.cert"
-    dest: "{{ app_dir }}/nginx/ssl/superasian.net.crt"
+    src: "tls.cert"
+    dest: "{{ app_dir }}/nginx/ssl/tls.crt"
     mode: 0644
 
 - name: Copy key to nginx
   ansible.builtin.copy:
-    src: "superasian.net.key"
-    dest: "{{ app_dir }}/nginx/ssl/superasian.net.key"
+    src: "tls.key"
+    dest: "{{ app_dir }}/nginx/ssl/tls.key"
     mode: 0600
 
 # Copy nginx site config

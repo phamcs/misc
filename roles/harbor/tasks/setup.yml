@@ -22,8 +22,8 @@
     mode: 0644
     owner: root
   loop:
-    - { src: 'files/superasian.net.cert', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.cert' }
-    - { src: 'files/superasian.net.key', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.key' }
+    - { src: 'files/tls.cert', dest: '/etc/docker/certs.d/{{ domain }}/tls.cert' }
+    - { src: 'files/tls.key', dest: '/etc/docker/certs.d/{{ domain }}/tls.key' }
 
 # Add daemon config
 - name: Copy daemon.json
@@ -51,8 +51,8 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/superasian.net.cert', dest: '{{ harbor_dir }}/cert/superasian.net.cert' }
-    - { src: 'files/superasian.net.key', dest: '{{ harbor_dir }}/cert/superasian.net.key' }
+    - { src: 'files/tls.cert', dest: '{{ harbor_dir }}/cert/tls.cert' }
+    - { src: 'files/tls.key', dest: '{{ harbor_dir }}/cert/tls.key' }
 
 - name: Extract the tar.gz archive
   ansible.builtin.unarchive:

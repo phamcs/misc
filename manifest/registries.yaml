@@ -1,8 +1,10 @@
 mirrors:
-  docker.io:
+  "*":
     endpoint:
       - "https://registry.superasian.net:443"
+
 configs:
+  "docker.io":
   "registry.superasian.net:443":
     tls:
       #cert_file:            # path to the cert file used to authenticate to the registry
