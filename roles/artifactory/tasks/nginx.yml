@@ -6,31 +6,18 @@
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
-    recurse: yes
   loop:
     - conf.d
     - ssl
 
-- name: Copy cert to nginx
+# Copy certs & config
+- name: Copy certs
   ansible.builtin.copy:
-    src: "tls.cert"
-    dest: "{{ app_dir }}/nginx/ssl/tls.crt"
-    mode: 0644
-
-- name: Copy key to nginx
-  ansible.builtin.copy:
-    src: "tls.key"
-    dest: "{{ app_dir }}/nginx/ssl/tls.key"
-    mode: 0600
-
-# Copy nginx site config
-- name: Copy nginx site config
-  ansible.builtin.template:
-    src: "templates/{{ item }}.j2"
-    dest: "{{ app_dir }}/nginx/conf.d/{{ item }}"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - tig.conf
-    - vault.conf
-    - artifactory.conf
+    - { src: 'files/tls.cert', dest: '{{ app_dir }}/nginx/ssl/tls.cert' }
+    - { src: 'files/tls.key', dest: '{{ app_dir }}/nginx/ssl/tls.key' }
+    - { src: 'files/artifactory.conf', dest: '{{ app_dir }}/nginx/conf.d/artifactory.conf' }

@@ -22,6 +22,6 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/superasian.net.cert', dest: '{{ app_dir }}/vault/ssl/superasian.net.crt' }
-    - { src: 'files/superasian.net.key', dest: '{{ app_dir }}/vault/ssl/superasian.net.key' }
+    - { src: 'files/{{ domain }}.cert', dest: '{{ app_dir }}/vault/ssl/{{ domain }}.cert' }
+    - { src: 'files/{{ domain }}.key', dest: '{{ app_dir }}/vault/ssl/{{ domain }}.key' }
     - { src: 'files/vault.hcl', dest: '{{ app_dir }}/vault/config/vault.hcl' }

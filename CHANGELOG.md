@@ -10,6 +10,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
+## [1.3.0] - 2025-102-5
+ 
+### Added
+   Harbor role
+### Changed
+  - Add harbor role
+  - Update artifactory role
+  - Update app-server role
+### Fixed
+  - Update to use variables
+
 ## [1.2.0] - 2025-10-05
  
 ### Added

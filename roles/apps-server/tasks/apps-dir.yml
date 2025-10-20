@@ -8,6 +8,7 @@
     owner: "{{ app_user }}"
     recurse: yes
   loop:
+    - compose
     - nginx
     - uptime-kuma
     - grafana
@@ -23,9 +24,9 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/portainer-stack.yml', dest: '{{ app_dir }}/portainer-stack.yml' }
-    - { src: 'files/nginx-stack.yml', dest: '{{ app_dir }}/nginx-stack.yml' }
-    - { src: 'files/tig-stack.yml', dest: '{{ app_dir }}/tig-stack.yml' }
-    - { src: 'files/uptime-kuma-stack.yml', dest: '{{ app_dir }}/uptime-kuma-stack.yml' }
-    - { src: 'files/vault-stack.yml', dest: '{{ app_dir }}/vault-stack.yml' }
+    - { src: 'files/portainer-stack.yml', dest: '{{ app_dir }}/compose/portainer-stack.yml' }
+    - { src: 'files/nginx-stack.yml', dest: '{{ app_dir }}/compose/nginx-stack.yml' }
+    - { src: 'files/tig-stack.yml', dest: '{{ app_dir }}/compose/tig-stack.yml' }
+    - { src: 'files/uptime-kuma-stack.yml', dest: '{{ app_dir }}/compose/uptime-kuma-stack.yml' }
+    - { src: 'files/vault-stack.yml', dest: '{{ app_dir }}/compose/vault-stack.yml' }
   

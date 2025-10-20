@@ -1,4 +1,5 @@
 ---
 app_dir: "/AppData"
 app_user: "k0ng"
-
+domain: "superasian.net"
+srv_ip: "10.0.0.16"

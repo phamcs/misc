@@ -6,31 +6,21 @@
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
-    recurse: yes
   loop:
     - conf.d
     - ssl
 
-- name: Copy cert to nginx
+# Copy certs & config
+- name: Copy certs & config
   ansible.builtin.copy:
-    src: "superasian.net.cert"
-    dest: "{{ app_dir }}/nginx/ssl/superasian.net.crt"
-    mode: 0644
-
-- name: Copy key to nginx
-  ansible.builtin.copy:
-    src: "superasian.net.key"
-    dest: "{{ app_dir }}/nginx/ssl/superasian.net.key"
-    mode: 0600
-
-# Copy nginx site config
-- name: Copy nginx site config
-  ansible.builtin.template:
-    src: "templates/{{ item }}.j2"
-    dest: "{{ app_dir }}/nginx/conf.d/{{ item }}"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - tig.conf
-    - vault.conf
-    - artifactory.conf
+    - { src: 'files/{{ domain }}.cert', dest: '{{ app_dir }}/nginx/ssl/{{ domain }}.cert' }
+    - { src: 'files/{{ domain }}.key', dest: '{{ app_dir }}/nginx/ssl/{{ domain }}.key' }
+    - { src: 'files/airsonic.conf', dest: '{{ app_dir }}/nginx/conf.d/airsonic.conf' }
+    - { src: 'files/grafana.conf', dest: '{{ app_dir }}/nginx/conf.d/grafana.conf' }
+    - { src: 'files/tig.conf', dest: '{{ app_dir }}/nginx/conf.d/tig.conf' }
+    - { src: 'files/vault.conf', dest: '{{ app_dir }}/nginx/conf.d/vault.conf' }

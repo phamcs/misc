@@ -1,5 +1,5 @@
 ---
-
+# Portainer stack for web GUI access
 name: Portainer
 services:
   portainer:
