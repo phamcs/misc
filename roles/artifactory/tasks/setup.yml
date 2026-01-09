@@ -36,7 +36,7 @@
   loop:
     - { src: 'files/system.yaml', dest: '{{ app_dir }}/artifactory/var/etc/system.yaml' }
     - { src: 'files/join.key', dest: '{{ app_dir }}/artifactory/var/etc/security/join.key' }
-    
+
 # Run configure script
 - name: Run configure script
   ansible.builtin.command:
@@ -48,3 +48,24 @@
   ansible.builtin.command:
     cmd: "docker compose -p rt up -d"
     chdir: "{{ app_dir }}/{{ jfrog_product }}-{{ artifactory_version }}"
+
+# Accept User License Agreement
+- name: Accept User License Agreement
+  ansible.builtin.command:
+    cmd: "curl -XPOST -vu 'admin:password' http://localhost:8082/artifactory/ui/jcr/eula/accept"
+  register: ula_result
+  until: ula_result.rc == 0
+  retries: 5
+  delay: 10
+
+# Wait for Artifactory to be up
+- name: Wait for Artifactory to be up
+  ansible.builtin.uri:
+    url: "http://localhost:8082/artifactory/api/system/ping"
+    method: GET
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 10
+  delay: 15
+
