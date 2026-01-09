@@ -16,7 +16,8 @@
 
 - name: Copy and extract tar file
   ansible.builtin.unarchive:
-    src: "files/{{ jfrog_product }}-{{ artifactory_version }}-compose.tar.gz"  # Path to the archive on the Ansible control machine
+    url: "{{ jfrog_product_base_url }}/{{ version }}/{{ jfrog_product }}-{{ version }}-compose.tar.gz"
+    #src: "files/{{ jfrog_product }}-{{ version }}-compose.tar.gz"  # Path to the archive on the Ansible control machine
     dest: "{{ app_dir }}/"             # Absolute path on the remote host where the archive will be extracted
     remote_src: no                     # Set to 'yes' if the archive is already on the remote host
     owner: "{{ app_user }}"            # (Optional) User to own the extracted files
@@ -27,7 +28,7 @@
 - name: Copy environment file
   ansible.builtin.template:
     src: "templates/artifactory-env.j2"
-    dest: "{{ app_dir }}/{{ jfrog_product }}-{{ artifactory_version }}/.env"
+    dest: "{{ app_dir }}/{{ jfrog_product }}-{{ version }}/.env"
     mode: 0755
     owner: "{{ app_user }}"
 
