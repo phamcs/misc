@@ -1,0 +1,17 @@
+shared:
+    node:
+        ip: {{ ajcr_ip }}
+        id: n4s-i5-2400
+        name: n4s-i5-2400
+    database:
+        type: postgresql
+        driver: org.postgresql.Driver
+        url: jdbc:postgresql://{{ postgresql_ip }}:{{ postgresql_port }}/{{ postgresql_db }}
+        username: artifactory
+        password: P@ssw0rd
+router:
+    entrypoints:
+        externalPort: 8082
+observability:
+    consumption:
+        allow: ""

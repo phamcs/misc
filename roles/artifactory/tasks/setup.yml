@@ -24,3 +24,20 @@
     dest: "{{ app_dir }}/{{ jfrog_product }}-{{ artifactory_version }}/.env"
     mode: 0755
     owner: "{{ app_user }}"
+
+# Copy system 
+- name: Copy system config
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: "{{ artifactory_user }}"
+    group: "{{ artifactory_group }}"
+  loop:
+    - { src: 'files/system.yaml', dest: '{{ app_dir }}/artifactory/var/etc/system.yaml' }
+
+# Run configure script
+- name: Run configure script
+  ansible.builtin.command:
+    cmd: "./config.sh"
+    chdir: "{{ app_dir }}/{{ jfrog_product }}-{{ artifactory_version }}"
