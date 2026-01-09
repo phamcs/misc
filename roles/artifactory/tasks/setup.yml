@@ -59,15 +59,6 @@
   retries: 5
   delay: 10
 
-# End User License Agreement
-- name: Accept End User License Agreement
-  ansible.builtin.command:
-    cmd: "curl -XPOST -vu 'admin:password' http://localhost:8082/artifactory/ui/jcr/eula/accept"
-  register: ula_result
-  until: ula_result.rc == 0
-  retries: 5
-  delay: 10
-
 # Wait for Artifactory to be up
 - name: Wait for Artifactory to be up
   ansible.builtin.uri:
