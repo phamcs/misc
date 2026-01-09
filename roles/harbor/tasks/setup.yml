@@ -43,7 +43,7 @@
     - data
     - cert
 
-# Copy certs
+# Copy certs & config
 - name: Copy certs
   ansible.builtin.copy:
     src: "{{ item.src }}"
@@ -53,6 +53,7 @@
   loop:
     - { src: 'files/tls.cert', dest: '{{ harbor_dir }}/cert/tls.cert' }
     - { src: 'files/tls.key', dest: '{{ harbor_dir }}/cert/tls.key' }
+    - { src: 'files/harbor.yml', dest: '{{ harbor_dir }}/harbor.yml' }
 
 - name: Extract the tar.gz archive
   ansible.builtin.unarchive:
@@ -62,17 +63,6 @@
     owner: "{{ app_user }}"
     #mode: "0755"
     extra_opts: ['--strip-components=1'] # Optional: To remove the top-level directory during extraction
-
-# Copy Harbor config
-- name: Copy harbor config & portainer
-  ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: 0644
-    owner: "{{ app_user }}"
-  loop:
-    - { src: 'files/harbor.yml', dest: '{{ harbor_dir }}/harbor.yml' }
-    - { src: 'files/portainer.yml', dest: '{{ harbor_dir }}/portainer.yml' }
 
 # Check the system for error
 - name: Check system for error

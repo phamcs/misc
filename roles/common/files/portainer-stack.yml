@@ -14,18 +14,6 @@ services:
     restart: unless-stopped
     network_mode: bridge
 
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - WATCHTOWER_CLEANUP=true # Optional: Remove old images after update
-      - WATCHTOWER_POLL_INTERVAL=3600 # Optional: Check for updates every hour (in seconds)
-      # Add other Watchtower environment variables as needed (e.g., for notifications, specific container selection)
-    restart: unless-stopped
-    network_mode: bridge
-
 volumes:
   portainer_data:
     driver: local
