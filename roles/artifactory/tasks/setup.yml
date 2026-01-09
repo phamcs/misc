@@ -54,9 +54,13 @@
   ansible.builtin.command:
     cmd: "docker compose -p rt up -d"
     chdir: "{{ app_dir }}/{{ jfrog_product }}-{{ artifactory_version }}"
+  register: compose_result
+  until: compose_result.rc == 0
+  retries: 5
+  delay: 10
 
-# Accept User License Agreement
-- name: Accept User License Agreement
+# End User License Agreement
+- name: Accept End User License Agreement
   ansible.builtin.command:
     cmd: "curl -XPOST -vu 'admin:password' http://localhost:8082/artifactory/ui/jcr/eula/accept"
   register: ula_result
