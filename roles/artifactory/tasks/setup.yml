@@ -41,3 +41,9 @@
   ansible.builtin.command:
     cmd: "./config.sh"
     chdir: "{{ app_dir }}/{{ jfrog_product }}-{{ artifactory_version }}"
+
+# Start Artifactory
+- name: Start Artifactory
+  ansible.builtin.command:
+    cmd: "docker compose -p rt up -d"
+    chdir: "{{ app_dir }}/{{ jfrog_product }}-{{ artifactory_version }}"
