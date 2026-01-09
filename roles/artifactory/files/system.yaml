@@ -1,12 +1,12 @@
 shared:
     node:
-        ip: {{ ajcr_ip }}
+        ip: {{ srv_ip }}
         id: n4s-i5-2400
         name: n4s-i5-2400
     database:
         type: postgresql
         driver: org.postgresql.Driver
-        url: jdbc:postgresql://10.0.0.252:5432/artifactory
+        url: jdbc:postgresql://{{ db_ip }}:{{ db_port }}/artifactory
         username: artifactory
         password: P@ssw0rd
 router:
