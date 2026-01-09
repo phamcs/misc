@@ -8,6 +8,12 @@
     owner: "{{ artifactory_user }}"
     group: "{{ artifactory_group }}"
 
+# Remove all existing files in artifactory directory
+- name: Remove all existing files in artifactory directory
+  ansible.builtin.command:
+    cmd: "rm -rf *"
+    chdir: "{{ app_dir }}/artifactory"
+
 - name: Copy and extract tar file
   ansible.builtin.unarchive:
     src: "files/{{ jfrog_product }}-{{ artifactory_version }}-compose.tar.gz"  # Path to the archive on the Ansible control machine
