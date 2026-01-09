@@ -1,6 +1,6 @@
 shared:
     node:
-        ip: {{ srv_ip }}
+        ip: 10.0.0.18
         id: n4s-i5-2400
         name: n4s-i5-2400
     database:
