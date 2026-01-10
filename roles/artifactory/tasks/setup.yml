@@ -32,7 +32,7 @@
     owner: "{{ app_user }}"
 
 # Copy system 
-- name: Copy system config & join key
+- name: Copy system config
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -41,7 +41,6 @@
     group: "{{ artifactory_group }}"
   loop:
     - { src: 'files/system.yaml', dest: '{{ app_dir }}/artifactory/var/etc/system.yaml' }
-    - { src: 'files/join.key', dest: '{{ app_dir }}/artifactory/var/etc/security/join.key' }
 
 # Run configure script
 - name: Run configure script
