@@ -16,7 +16,7 @@
 
 - name: Copy and extract tar file
   ansible.builtin.unarchive:
-    src: "files/jfrog-{{ product }}-{{ version }}-compose.tar.gz"  # Path to the archive on the Ansible control machine
+    src: "jcr_url"  # Path to the archive on the Ansible control machine
     dest: "{{ app_dir }}/"             # Absolute path on the remote host where the archive will be extracted
     remote_src: no                     # Set to 'yes' if the archive is already on the remote host
     owner: "{{ app_user }}"            # (Optional) User to own the extracted files
