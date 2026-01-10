@@ -27,7 +27,7 @@
 - name: Copy environment file
   ansible.builtin.template:
     src: "templates/artifactory-env.j2"
-    dest: "{{ app_dir }}/jfrog-{{ product }}-{{ version }}/.env"
+    dest: "{{ app_dir }}/{{ product }}-{{ version }}/.env"
     mode: 0755
     owner: "{{ app_user }}"
 
@@ -47,13 +47,13 @@
 - name: Run configure script
   ansible.builtin.command:
     cmd: "./config.sh"
-    chdir: "{{ app_dir }}/jfrog-{{ product }}-{{ version }}"
+    chdir: "{{ app_dir }}/{{ product }}-{{ version }}"
 
 # Start Artifactory
 - name: Start Artifactory
   ansible.builtin.command:
     cmd: "docker compose -p rt up -d"
-    chdir: "{{ app_dir }}/jfrog-{{ product }}-{{ version }}"
+    chdir: "{{ app_dir }}/{{ product }}-{{ version }}"
   register: compose_result
   until: compose_result.rc == 0
   retries: 5
