@@ -16,7 +16,7 @@
 
 - name: Copy and extract tar file
   ansible.builtin.unarchive:
-    src: "files/{{ jfrog_product }}-{{ version }}-compose.tar.gz"  # Path to the archive on the Ansible control machine
+    src: "files/jfrog-{{ product }}-{{ version }}-compose.tar.gz"  # Path to the archive on the Ansible control machine
     dest: "{{ app_dir }}/"             # Absolute path on the remote host where the archive will be extracted
     remote_src: no                     # Set to 'yes' if the archive is already on the remote host
     owner: "{{ app_user }}"            # (Optional) User to own the extracted files
@@ -27,7 +27,7 @@
 - name: Copy environment file
   ansible.builtin.template:
     src: "templates/artifactory-env.j2"
-    dest: "{{ app_dir }}/{{ jfrog_product }}-{{ version }}/.env"
+    dest: "{{ app_dir }}/jfrog-{{ product }}-{{ version }}/.env"
     mode: 0755
     owner: "{{ app_user }}"
 
@@ -47,13 +47,13 @@
 - name: Run configure script
   ansible.builtin.command:
     cmd: "./config.sh"
-    chdir: "{{ app_dir }}/{{ jfrog_product }}-{{ version }}"
+    chdir: "{{ app_dir }}/jfrog-{{ product }}-{{ version }}"
 
 # Start Artifactory
 - name: Start Artifactory
   ansible.builtin.command:
     cmd: "docker compose -p rt up -d"
-    chdir: "{{ app_dir }}/{{ jfrog_product }}-{{ version }}"
+    chdir: "{{ app_dir }}/jfrog-{{ product }}-{{ version }}"
   register: compose_result
   until: compose_result.rc == 0
   retries: 5
