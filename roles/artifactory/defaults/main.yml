@@ -1,5 +1,5 @@
 ---
-app_dir: "/AppData"
+app_dir: "/srv/AppData"
 app_user: "k0ng"
 artifactory_user: "1030"
 artifactory_group: "1030"
