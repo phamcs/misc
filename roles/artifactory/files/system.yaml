@@ -1,6 +1,6 @@
 shared:
     node:
-        ip: 10.0.0.18
+        ip: 10.0.0.25
         id: n4s-i5-2400
         name: n4s-i5-2400
     database:
