@@ -41,7 +41,7 @@
     group: "{{ artifactory_group }}"
   loop:
     - { src: 'files/system.yaml', dest: '{{ app_dir }}/artifactory/var/etc/system.yaml' }
-    - { src: 'files/join.key', dest: '{{ app_dir }}/artifactory/var/etc/security/join.key' }
+    #- { src: 'files/join.key', dest: '{{ app_dir }}/artifactory/var/etc/security/join.key' }
 
 # Run configure script
 - name: Run configure script
