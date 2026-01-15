@@ -31,6 +31,15 @@
     mode: 0755
     owner: "{{ app_user }}"
 
+# Create Artifactory Directory
+- name: Create artifactory directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/artifactory/var/etc"
+    state: directory
+    mode: 0755
+    owner: "{{ artifactory_user }}"
+    group: "{{ artifactory_group }}"
+
 # Copy system 
 - name: Copy system config & join key
   ansible.builtin.copy:
