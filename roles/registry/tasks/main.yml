@@ -9,12 +9,6 @@
 - name: Setup Nginx
   ansible.builtin.include_tasks: nginx.yml
 
-- name: Setup Artifactory for Debian
-  ansible.builtin.include_tasks: artifactory-deb.yml
-  when:
-    - ansible_os_family == "Debian"
-    - "'jfrog-artifactory-oss' not in ansible_facts.packages"
-
 - name: Setup Registry
   ansible.builtin.include_tasks: registry.yml
 

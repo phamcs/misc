@@ -12,7 +12,6 @@
     - docker-registry-ui
     - nginx
     - registry
-    - artifactory
 
 # Create registry structure
 - name: Create registry data
@@ -57,7 +56,6 @@
     owner: "{{ app_user }}"
   loop:
     - apache
-    - artifactory
     - bitnami
     - debian
     - gitlab-ee
