@@ -1,6 +1,6 @@
 #!/bin/bash
 gitlab="docker.io/gitlab"
-superasian="registry.superasian.net/gitlab"
+superasian="repos.superasian.net/gitlab"
 tags=("v17.11.2" "ubuntu-v17.11.2" "alpine-v17.11.2" "v18.0.2" "alpine-v18.0.2" "ubuntu-v18.0.2")
     for tag in ${tags[@]}; do
         docker pull $gitlab/gitlab-runner:$tag

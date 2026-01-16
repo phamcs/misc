@@ -1,6 +1,6 @@
 #!/bin/bash
 nginx="docker.io/nginx"
-superasian="registry.superasian.net/nginx"
+superasian="repos.superasian.net/nginx"
 tags=("stable" "stable-alpine" "stable-bookworm" "1.28.0" "1.28" "1.28-alpine" "1.28.0-alpine" "1.28-bookworm" "1.28.0-bookworm" "1.28.0-alpine-slim")
     for tag in ${tags[@]}; do
         docker pull $nginx:$tag

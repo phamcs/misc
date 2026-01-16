@@ -14,7 +14,7 @@ services:
       REGISTRY_HTTP_HEADERS_Access-Control-Allow-Headers: '[Authorization,Accept,Cache-Control]'
       REGISTRY_HTTP_HEADERS_Access-Control-Expose-Headers: '[Docker-Content-Digest]'
     volumes:
-      - /AppData/registry:/var/lib/registry
+      - /srv/AppData/registry:/var/lib/registry
       - /AppData/registry/data:/data
     networks:
       - regnet
@@ -41,7 +41,7 @@ services:
     depends_on:
       - registry
     volumes:
-      - /AppData/docker-registry-ui:/opt/docker-registry-ui
+      - /srv/AppData/docker-registry-ui:/opt/docker-registry-ui
     networks:
       - regnet
 
@@ -54,8 +54,8 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /AppData/nginx/conf.d/:/etc/nginx/conf.d/
-      - /AppData/nginx/ssl/:/etc/nginx/ssl/
+      - /srv/AppData/nginx/conf.d/:/etc/nginx/conf.d/
+      - /srv/AppData/nginx/ssl/:/etc/nginx/ssl/
     networks:
       - regnet
 

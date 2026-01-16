@@ -19,8 +19,8 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/superasian.net.cert', dest: '{{ app_dir }}/nginx/ssl/superasian.net.cert' }
-    - { src: 'files/superasian.net.key', dest: '{{ app_dir}}/nginx/ssl/superasian.net.key' }
+    - { src: 'files/tls.cert', dest: '{{ app_dir }}/nginx/ssl/tls.cert' }
+    - { src: 'files/tls.key', dest: '{{ app_dir}}/nginx/ssl/tls.key' }
 
 - name: Copy configs to nginx
   ansible.builtin.template:

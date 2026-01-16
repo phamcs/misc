@@ -38,8 +38,8 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'files/registry-stack.yml', dest: '{{ app_dir }}/registry/registry-stack.yml' }
-    - { src: 'files/superasian.net.cert', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.cert' }
-    - { src: 'files/superasian.net.key', dest: '/etc/docker/certs.d/{{ domain }}/superasian.net.key' }
+    - { src: 'files/tls.cert', dest: '/etc/docker/certs.d/{{ domain }}/tls.cert' }
+    - { src: 'files/tls.key', dest: '/etc/docker/certs.d/{{ domain }}/tls.key' }
 
 # Add daemon config
 - name: Copy daemon.json
