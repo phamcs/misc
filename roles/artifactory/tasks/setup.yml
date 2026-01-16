@@ -8,11 +8,20 @@
     owner: "{{ artifactory_user }}"
     group: "{{ artifactory_group }}"
 
+# Create Artifactory Directory
+- name: Create artifactory directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/artifactory/var/etc"
+    state: directory
+    mode: 0755
+    owner: "{{ artifactory_user }}"
+    group: "{{ artifactory_group }}"
+
 # Remove all existing files in artifactory directory
-- name: Remove all existing files in artifactory directory
+- name: Remove existing files in artifactory directory
   ansible.builtin.command:
     cmd: "rm -rf *"
-    chdir: "{{ app_dir }}/artifactory"
+    chdir: "{{ app_dir }}/artifactory/var/etc"
 
 - name: Copy and extract tar file
   ansible.builtin.unarchive:
@@ -30,15 +39,6 @@
     dest: "{{ app_dir }}/{{ product }}-{{ version }}/.env"
     mode: 0755
     owner: "{{ app_user }}"
-
-# Create Artifactory Directory
-- name: Create artifactory directory
-  ansible.builtin.file:
-    path: "{{ app_dir }}/artifactory/var/etc"
-    state: directory
-    mode: 0755
-    owner: "{{ artifactory_user }}"
-    group: "{{ artifactory_group }}"
 
 # Copy system 
 - name: Copy system config & join key
