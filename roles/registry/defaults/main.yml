@@ -1,5 +1,5 @@
 ---
 app_dir: "/srv/AppData"
-domain: "repos.superasian.net"
+domain: "registry.superasian.net"
 app_user: "k0ng"
 app_server: "10.0.0.25"
