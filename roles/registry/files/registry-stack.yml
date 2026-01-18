@@ -15,7 +15,7 @@ services:
       REGISTRY_HTTP_HEADERS_Access-Control-Expose-Headers: '[Docker-Content-Digest]'
     volumes:
       - /srv/AppData/registry:/var/lib/registry
-      - /AppData/registry/data:/data
+      - /srv/AppData/registry/data:/data
     networks:
       - regnet
       
