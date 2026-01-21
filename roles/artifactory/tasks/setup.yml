@@ -9,7 +9,7 @@
     group: "{{ artifactory_group }}"
 
 # Create Artifactory Directory
-- name: Create artifactory directory
+- name: Create artifactory config directory
   ansible.builtin.file:
     path: "{{ app_dir }}/artifactory/var/etc"
     state: directory
