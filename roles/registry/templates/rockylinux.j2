@@ -1,6 +1,6 @@
 #!/bin/bash
-rockylinux="docker.io/rockylinux"
-superasian="registry.superasian.net/rockylinux"
+rockylinux="docker.io/rockylinux/rockylinux"
+superasian="registry.superasian.net/library/rockylinux"
 tags=("9.3-minimal" "9-minimal" "9.3" "9" "8.9-minimal" "8-minimal" "8.9" "8")
     for tag in ${tags[@]}; do
         docker pull $rockylinux:$tag

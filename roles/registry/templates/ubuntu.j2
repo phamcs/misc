@@ -1,6 +1,6 @@
 #!/bin/bash
 ubuntu="docker.io/ubuntu"
-superasian="repos.superasian.net/ubuntu"
+superasian="repos.superasian.net/library/ubuntu"
 tags=("latest" "24.04" "noble" "22.04" "jammy" "20.04" "focal")
     for tag in ${tags[@]}; do
         docker pull $ubuntu:$tag
