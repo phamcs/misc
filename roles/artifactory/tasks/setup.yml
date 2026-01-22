@@ -40,8 +40,8 @@
     mode: 0755
     owner: "{{ app_user }}"
 
-# Copy system 
-- name: Copy system config & join key
+# Copy system yaml
+- name: Copy docker-compose config
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
