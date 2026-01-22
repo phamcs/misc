@@ -1,12 +1,21 @@
 #!/bin/bash
 bitnami="docker.io/bitnami"
 superasian="registry.superasian.net/library/bitnami"
-apps=("apache" "redis" "nginx" "rabbitmq" "postgresql" "mongodb" "mariadb" "zookeeper" "ghost" "mysql" "elasticsearch" "memcached" "grafana" "cassandra" "alertmanager" "git" "keycloak" "kibana" "fluentd"
-      "prometheus" "node" "minio" "influxdb" "spark" "consul" "openldap" "contour" "discourse" "cert-manager" "tomcat" "jenkins" "redmine" "promtail" "sonarqube" "kong" "dotnet-sdk" "aws-cli" 
-      "rabbitmq-cluster-operator" "jsonnet" "express" "harbor-adapter-trivy" "trivy" "envoy" "solr" "grafana-loki" "grafana-image-renderer" "argo-cd" "wildfly" "parse" "jupyter-base-notebook" "pytorch" "cosign"
-      "kong-ingress-controller" "keycloak-config-cli" "schema-registry" "cluster-autoscaler" "haproxy" "argo-workflow-cli" "kaniko" "valkey" "valkey-cluster" "multus-cni" "cainjector" "tensorflow-serving" "mlflow"
-      "cert-manager-webhook" "openresty" "acmesolver" "opensearch" "argo-workflow-controller" "cilium" "vault" "appsmith" "google-cloud-sdk" "jaeger" "grafana-mimir" "concourse" "valkey-sentinel" "grafana-operator" 
-      "apisix" "opensearch-dashboards" "apisix-dashboard" "apisix-ingress-controller" "jenkins-agent" "natscli" "jwt-cli" "cilium-operator" "cilium-proxy" "vault-k8s" "kube-rbac-proxy" "vault-csi-provider")
+apps=("cosign"
+      "dotnet-sdk"
+      "git"
+      "haproxy"
+      "mariadb"
+      "memcached"
+      "mongodb"
+      "nginx"
+      "node"
+      "postgresql"
+      "pytorch"
+      "redis"
+      "tomcat"
+      "valkey-sentinel"
+      "valkey")
 tag=latest
     for app in ${apps[@]}; do
         docker pull $bitnami/$app:$tag

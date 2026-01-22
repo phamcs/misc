@@ -1,8 +1,32 @@
 #!/bin/bash
 apache="docker.io/apache"
 superasian="registry.superasian.net/library/apache"
-apps=("activemq-artemis" "kafka" "hertzbeat" "amoro" "sedona" "apisix" "seatunnel" "hop" "iotdb" "devlake" "devlake-config-ui" "devlake-dashboard" "sling" "answer" "bookkeeper" "drill" "couchdb" "iggy" "ozone"
-      "nutch" "apisix-ingress-controller" "flink-kubernetes-operator" "streampark" "spark" "tika" "eventmesh" )
+apps=("activemq-artemis"
+      "amoro"
+      "answer"
+      "apisix-ingress-controller"
+      "apisix"
+      "bookkeeper"
+      "couchdb"
+      "devlake-dashboard"
+      "devlake-config-ui"
+      "devlake"
+      "drill"
+      "eventmesh"
+      "flink-kubernetes-operator"
+      "hertzbeat"
+      "hop"
+      "iggy"
+      "iotdb"
+      "kafka"
+      "nutch"
+      "ozone"
+      "seatunnel"
+      "sedona"
+      "sling"
+      "spark"
+      "streampark"
+      "tika")
 tag=latest
     for app in ${apps[@]}; do
         docker pull $apache/$app:$tag
