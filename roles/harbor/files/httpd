@@ -1,6 +1,6 @@
 #!/bin/bash
-httpd=$(docker.io/httpd)
-superasian=$(harbor.superasian.net/library/httpd)
+httpd="docker.io/httpd"
+superasian="harbor.superasian.net/library/httpd"
 tags=("2.4"
       "2.4-alpine"
       "2.4-bookworm"

@@ -1,6 +1,6 @@
 #!/bin/bash
-bitnami=$(docker.io/bitnami)
-superasian=$(harbor.superasian.net/library/bitnami)
+bitnami="docker.io/bitnami"
+superasian="harbor.superasian.net/library/bitnami"
 apps=("cosign"
       "dotnet-sdk"
       "git"

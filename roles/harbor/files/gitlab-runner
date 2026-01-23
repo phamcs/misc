@@ -1,6 +1,6 @@
 #!/bin/bash
-gitlab=$(docker.io/gitlab)
-superasian=$(harbor.superasian.net/library/gitlab)
+gitlabr="docker.io/gitlab/gitlab-runner"
+superasian="harbor.superasian.net/library/gitlab/gitlab-runner"
 tags=("v17.11.2"
       "ubuntu-v17.11.2"
       "alpine-v17.11.2"
@@ -8,9 +8,9 @@ tags=("v17.11.2"
       "alpine-v18.0.2"
       "ubuntu-v18.0.2")
     for tag in ${tags[@]}; do
-        docker pull $gitlab/gitlab-runner:$tag
-        docker tag $gitlab/gitlab-runner:$tag $superasian/gitlab-runner:$tag
-        docker push $superasian/gitlab-runner:$tag
-        docker rmi $gitlab/gitlab-runner:$tag
+        docker pull $gitlabr:$tag
+        docker tag $gitlabr:$tag $superasian:$tag
+        docker push $superasian:$tag
+        docker rmi $gitlabr:$tag
     done
 exit 0;
