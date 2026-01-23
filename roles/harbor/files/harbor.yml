@@ -2,7 +2,7 @@
 
 # The IP address or hostname to access admin UI and registry service.
 # DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
-hostname: {{ domain }}
+hostname: harbor.superasian.net
 
 # http related config
 http:
@@ -14,8 +14,8 @@ https:
   # https port for harbor, default is 443
   port: 443
   # The path of cert and key files for nginx
-  certificate: "{{ harbor_dir }}/cert/tls.cert"
-  private_key: "{{ harbor_dir }}/cert/tls.key"
+  certificate: "/srv/AppData/harbor/cert/tls.cert"
+  private_key: "/srv/AppData/harbor/cert/tls.key"
   # enable strong ssl ciphers (default: false)
   # strong_ssl_ciphers: false
 
@@ -63,7 +63,7 @@ database:
   conn_max_idle_time: 0
 
 # The default data volume
-data_volume: "{{ harbor_dir }}/data"
+data_volume: "/srv/AppData/harbor/data"
 
 # Harbor Storage settings by default is using /data dir on local filesystem
 # Uncomment storage_service setting If you want to using external storage
