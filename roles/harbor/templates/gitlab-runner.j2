@@ -1,0 +1,16 @@
+#!/bin/bash
+gitlab="docker.io/gitlab"
+superasian="{{ domain }}/library/gitlab"
+tags=("v17.11.2"
+      "ubuntu-v17.11.2"
+      "alpine-v17.11.2"
+      "v18.0.2"
+      "alpine-v18.0.2"
+      "ubuntu-v18.0.2")
+    for tag in ${tags[@]}; do
+        docker pull $gitlab/gitlab-runner:$tag
+        docker tag $gitlab/gitlab-runner:$tag $superasian/gitlab-runner:$tag
+        docker push $superasian/gitlab-runner:$tag
+        docker rmi $gitlab/gitlab-runner:$tag
+    done
+exit 0;

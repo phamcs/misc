@@ -1,0 +1,37 @@
+#!/bin/bash
+apache="docker.io/apache"
+superasian="{{ domain }}/library/apache"
+apps=("activemq-artemis"
+      "amoro"
+      "answer"
+      "apisix-ingress-controller"
+      "apisix"
+      "bookkeeper"
+      "couchdb"
+      "devlake-dashboard"
+      "devlake-config-ui"
+      "devlake"
+      "drill"
+      "eventmesh"
+      "flink-kubernetes-operator"
+      "hertzbeat"
+      "hop"
+      "iggy"
+      "iotdb"
+      "kafka"
+      "nutch"
+      "ozone"
+      "seatunnel"
+      "sedona"
+      "sling"
+      "spark"
+      "streampark"
+      "tika")
+tag=latest
+    for app in ${apps[@]}; do
+        docker pull $apache/$app:$tag
+        docker tag $apache/$app:$tag $superasian/$app:$tag
+        docker push $superasian/$app:$tag
+        docker rmi $apache/$app:$tag
+    done
+exit 0;

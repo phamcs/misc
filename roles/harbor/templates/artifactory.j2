@@ -1,0 +1,15 @@
+#!/bin/bash
+jfrog="releases-docker.jfrog.io/jfrog"
+superasian="{{ domain }}/library/jfrog"
+tags=("7.117.14"
+      "7.117.12"
+      "7.111.12"
+      "7.111.11"
+      "7.111.8")
+    for tag in ${tags[@]}; do
+        docker pull $jfrog/artifactory-jcr:$tag
+        docker tag $jfrog/artifactory-jcr:$tag $superasian/artifactory-jcr:$tag
+        docker push $superasian/artifactory-jcr:$tag
+        docker rmi $jfrog/artifactory-jcr:$tag
+    done
+exit 0;

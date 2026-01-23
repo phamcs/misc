@@ -1,0 +1,6 @@
+#!/bin/bash
+docker images|grep '<none>' |awk '{ print $3 }' > images_none.txt
+  for i in `cat images_none.txt`; do
+    docker rmi -f $i
+  done
+exit 0;

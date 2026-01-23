@@ -1,0 +1,26 @@
+#!/bin/bash
+bitnami="docker.io/bitnami"
+superasian="{{ domain }}/library/bitnami"
+apps=("cosign"
+      "dotnet-sdk"
+      "git"
+      "haproxy"
+      "mariadb"
+      "memcached"
+      "mongodb"
+      "nginx"
+      "node"
+      "postgresql"
+      "pytorch"
+      "redis"
+      "tomcat"
+      "valkey-sentinel"
+      "valkey")
+tag=latest
+    for app in ${apps[@]}; do
+        docker pull $bitnami/$app:$tag
+        docker tag $bitnami/$app:$tag $superasian/$app:$tag
+        docker push $superasian/$app:$tag
+        docker rmi $bitnami/$app:$tag
+    done
+exit 0;
