@@ -59,7 +59,7 @@
     - { src: 'files/gitlab-ee', dest: '{{ harbor_dir }}/scripts/gitlab-ee' }
     - { src: 'files/gitlab-runner-helper', dest: '{{ harbor_dir }}/scripts/gitlab-runner-helper' }
     - { src: 'files/gitlab-runner', dest: '{{ harbor_dir }}/scripts/gitlab-runner' }
-    - { src: 'files/harbor.sh', dest: '{{ harbor_dir }}/scripts/harbor.sh' }
+    #- { src: 'files/harbor.sh', dest: '{{ harbor_dir }}/scripts/harbor.sh' }
     - { src: 'files/httpd', dest: '{{ harbor_dir }}/scripts/httpd' }
     - { src: 'files/nginx', dest: '{{ harbor_dir }}/scripts/nginx' }
     - { src: 'files/postgres', dest: '{{ harbor_dir }}/scripts/postgres' }
