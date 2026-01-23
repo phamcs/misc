@@ -1,6 +1,6 @@
 #!/bin/bash
 gitlab="docker.io/gitlab"
-superasian="{{ domain }}/library/gitlab"
+superasian="harbor.superasian.net/library/gitlab"
 tags=("18.0.1-ee.0"
       "18.0.0-ee.0"
       "17.11.3-ee.0"

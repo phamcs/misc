@@ -1,6 +1,6 @@
 #!/bin/bash
 postgres="docker.io/postgres"
-superasian="{{ domain }}/library/postgres"
+superasian="harbor.superasian.net/library/postgres"
 tags=("bullseye"
       "bookworm"
       "17.5"

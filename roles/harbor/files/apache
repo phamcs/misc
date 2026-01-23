@@ -1,6 +1,6 @@
 #!/bin/bash
 apache="docker.io/apache"
-superasian="{{ domain }}/library/apache"
+superasian="harbor.superasian.net/library/apache"
 apps=("activemq-artemis"
       "amoro"
       "answer"
