@@ -1,6 +1,6 @@
 #!/bin/bash
-jfrog="releases-docker.jfrog.io/jfrog"
-superasian="harbor.superasian.net/library/jfrog"
+jfrog=$(releases-docker.jfrog.io/jfrog)
+superasian=$(harbor.superasian.net/library/jfrog)
 tags=("7.117.14"
       "7.117.12"
       "7.111.12"

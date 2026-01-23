@@ -1,6 +1,6 @@
 #!/bin/bash
-ubuntu="docker.io/ubuntu"
-superasian="harbor.superasian.net/library/ubuntu"
+ubuntu=$(docker.io/ubuntu)
+superasian=$(harbor.superasian.net/library/ubuntu)
 tags=("24.04"
       "noble"
       "22.04"

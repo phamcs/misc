@@ -1,6 +1,6 @@
 #!/bin/bash
-gitlab="docker.io/gitlab"
-superasian="harbor.superasian.net/library/gitlab"
+gitlab=$(docker.io/gitlab)
+superasian=$(harbor.superasian.net/library/gitlab)
 tags=("x86_64-v17.11.2"
       "ubuntu-x86_64-v17.11.2"
       "alpine3.21-x86_64-v17.11.2"

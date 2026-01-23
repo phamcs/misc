@@ -1,6 +1,6 @@
 #!/bin/bash
-nginx="docker.io/nginx"
-superasian="harbor.superasian.net/library/nginx"
+nginx=$(docker.io/nginx)
+superasian=$(harbor.superasian.net/library/nginx)
 tags=("stable"
       "stable-alpine"
       "stable-bookworm"

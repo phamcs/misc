@@ -1,6 +1,6 @@
 #!/bin/bash
-debian="docker.io/debian"
-superasian="harbor.superasian.net/library/debian"
+debian=$(docker.io/debian)
+superasian=$(harbor.superasian.net/library/debian)
 tags=("12.11"
       "12.11-slim"
       "12" "12-slim"
