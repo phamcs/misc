@@ -1,12 +1,12 @@
 #!/bin/bash
 gitlabrh="docker.io/gitlab/gitlab-runner-helper"
 superasian="harbor.superasian.net/library/gitlab/gitlab-runner-helper"
-tags=("x86_64-v17.11.2"
-      "ubuntu-x86_64-v17.11.2"
-      "alpine3.21-x86_64-v17.11.2"
-      "x86_64-v18.0.2"
-      "ubuntu-x86_64-v18.0.2"
-      "alpine3.21-x86_64-v18.0.2")
+tags=("x86_64-v17.11.4"
+      "ubuntu-x86_64-v17.11.4"
+      "alpine3.21-x86_64-v17.11.4"
+      "x86_64-v18.7.2"
+      "ubuntu-x86_64-v18.7.2"
+      "alpine3.21-x86_64-v18.7.2")
     for tag in ${tags[@]}; do
         docker pull $gitlabrh:$tag
         docker tag $gitlabrh:$tag $superasian:$tag
