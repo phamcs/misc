@@ -1,0 +1,13 @@
+#!/bin/bash
+portainerce="docker.io/portainer/portainer-ce"
+superasian="harbor.superasian.net/library/portainer/portainer-ce"
+tags=("alpine"
+      "latest"
+      "lts")
+    for tag in ${tags[@]}; do
+        docker pull $portainerce:$tag
+        docker tag $portainerce:$tag $superasian:$tag
+        docker push $superasian:$tag
+        docker rmi $portainerce:$tag
+    done
+exit 0;
