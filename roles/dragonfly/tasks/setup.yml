@@ -9,7 +9,7 @@
     version: main
     update: yes
     force: yes
-    
+
 # Create Config Directory
 - name: Create config directory
   ansible.builtin.file:
@@ -39,7 +39,7 @@
   ansible.builtin.command:
     chdir: "{{ app_dir }}/dragonfly/deploy/docker-compose"
     cmd: |
-      docker compose up -d
+      ./run.sh
   register: compose_result
   until: compose_result.rc == 0
   retries: 5

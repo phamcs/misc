@@ -2,7 +2,7 @@
 server:
   # # Access ip for other services,
   # # when local ip is different with access ip, advertiseIP should be set.
-  advertiseIP: 10.0.0.19
+  advertiseIP: {{ srv_ip }}
 # # Access port for other services,
 # # when local ip is different with access port, advertisePort should be set.
 # advertisePort: 8002
@@ -82,7 +82,7 @@ database:
   redis:
     # Redis addresses.
     addrs:
-      - "10.0.0.19:6379"
+      - "{{ srv_ip }}:6379"
     # Redis sentinel master name.
     masterName: ''
     # Redis username.
@@ -109,7 +109,7 @@ host:
 # Manager configuration.
 manager:
   # addr is manager access address.
-  addr: "10.0.0.19:65003"
+  addr: "{{ srv_ip }}:65003"
   # schedulerClusterID cluster id to which scheduler instance belongs.
   schedulerClusterID: 1
   # keepAlive keep alive configuration.
