@@ -6,8 +6,8 @@
 ui = true
 disable_mlock = true
 #mlock = true
-api_addr = "https://vault.{{ domain }}"
-cluster_addr = "https://vault.{{ domain }}:8201"
+api_addr = "https://vault.superasian.net"
+cluster_addr = "https://vault.superasian.net:8201"
 plugin_directory = "/opt/vault/plugins"
 
 storage "raft" {
@@ -23,8 +23,8 @@ storage "raft" {
 # HTTP/HTTPS listener
 listener "tcp" {
   address       = "0.0.0.0:8200"
-  tls_cert_file = "/opt/vault/tls/{{ domain }}.crt"
-  tls_key_file  = "/opt/vault/tls/{{ domain }}.key"
+  tls_cert_file = "/opt/vault/tls/superasian.net.crt"
+  tls_key_file  = "/opt/vault/tls/superasian.net.key"
   tls_min_version = "tls12"
   tls_max_version = "tls13"
   tls_cipher_suites = "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
