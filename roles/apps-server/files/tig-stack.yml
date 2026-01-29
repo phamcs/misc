@@ -1,4 +1,5 @@
 ---
+# Setup TIG stack: Telegraf, InfluxDB, Grafana
 name: tig
 services:
   ## Influxdb2 Service

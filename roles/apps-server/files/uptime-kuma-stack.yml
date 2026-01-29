@@ -1,4 +1,5 @@
 ---
+# Setup Uptime-Kuma
 name: Uptime-Kuma
 services:
   app:

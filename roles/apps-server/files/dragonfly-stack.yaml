@@ -1,4 +1,5 @@
 ---
+# Setup Dragonfly stack
 name: Dragonfly
 services:
   redis:

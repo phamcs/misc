@@ -1,4 +1,5 @@
 ---
+# Setup Nginx Load Balancer
 name: nginx-lb
 services:
   nginx:

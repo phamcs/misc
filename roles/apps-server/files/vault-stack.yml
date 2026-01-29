@@ -1,4 +1,5 @@
 ---
+# Setup HashiCorp Vault
 name: Vault
 services:
   vault:
