@@ -33,9 +33,13 @@
     cmd: |
       docker compose up -d
   register: compose_result
+  until: compose_result.rc == 0
+  retries: 5
+  delay: 10
 
 # Display compose output
 - name: Display compose result standard output lines
   ansible.builtin.debug:
     msg: "{{ item }}"
   loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result is succeeded
