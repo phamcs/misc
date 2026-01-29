@@ -2,7 +2,7 @@
 # Create Nginx Directory
 - name: Create nginx directory
   ansible.builtin.file:
-    path: "{{ app_dir }}/nginx/{{ item }}"
+    path: "{{ nginx_dir }}/{{ item }}"
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
@@ -18,9 +18,9 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/{{ domain }}.cert', dest: '{{ app_dir }}/nginx/ssl/{{ domain }}.cert' }
-    - { src: 'files/{{ domain }}.key', dest: '{{ app_dir }}/nginx/ssl/{{ domain }}.key' }
-    - { src: 'files/airsonic.conf', dest: '{{ app_dir }}/nginx/conf.d/airsonic.conf' }
-    - { src: 'files/tig.conf', dest: '{{ app_dir }}/nginx/conf.d/tig.conf' }
-    - { src: 'files/vault.conf', dest: '{{ app_dir }}/nginx/conf.d/vault.conf' }
-    - { src: 'files/dragonfly.conf', dest: '{{ app_dir }}/nginx/conf.d/dragonfly.conf' }
+    - { src: 'files/{{ domain }}.cert', dest: '{{ nginx_dir }}/ssl/{{ domain }}.cert' }
+    - { src: 'files/{{ domain }}.key', dest: '{{ nginx_dir }}/ssl/{{ domain }}.key' }
+    - { src: 'files/airsonic.conf', dest: '{{ nginx_dir }}/conf.d/airsonic.conf' }
+    - { src: 'files/tig.conf', dest: '{{ nginx_dir }}/conf.d/tig.conf' }
+    - { src: 'files/vault.conf', dest: '{{ nginx_dir }}/conf.d/vault.conf' }
+    - { src: 'files/dragonfly.conf', dest: '{{ nginx_dir }}/conf.d/dragonfly.conf' }

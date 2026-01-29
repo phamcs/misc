@@ -2,7 +2,7 @@
 # Create Grafana Directory
 - name: Create grafana directory
   ansible.builtin.file:
-    path: "{{ app_dir }}/grafana/{{ item }}"
+    path: "{{ grafana_dir }}/{{ item }}"
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
@@ -14,6 +14,6 @@
 - name: Copy grafana config
   ansible.builtin.copy:
     src: "grafana.ini"
-    dest: "{{ app_dir }}/grafana/config/grafana.ini"
+    dest: "{{ grafana_dir }}/config/grafana.ini"
     mode: 0644
     owner: "{{ app_user }}"

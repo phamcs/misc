@@ -2,7 +2,7 @@
 # Create Vault Directory
 - name: Create vault directory
   ansible.builtin.file:
-    path: "{{ app_dir }}/vault/{{ item }}"
+    path: "{{ vault_dir }}/{{ item }}"
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
@@ -22,6 +22,6 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/{{ domain }}.cert', dest: '{{ app_dir }}/vault/ssl/{{ domain }}.cert' }
-    - { src: 'files/{{ domain }}.key', dest: '{{ app_dir }}/vault/ssl/{{ domain }}.key' }
-    - { src: 'files/vault.hcl', dest: '{{ app_dir }}/vault/config/vault.hcl' }
+    - { src: 'files/{{ domain }}.cert', dest: '{{ vault_dir }}/ssl/{{ domain }}.crt' }
+    - { src: 'files/{{ domain }}.key', dest: '{{ vault_dir }}/ssl/{{ domain }}.key' }
+    - { src: 'files/vault.hcl', dest: '{{ vault_dir }}/config/vault.hcl' }
