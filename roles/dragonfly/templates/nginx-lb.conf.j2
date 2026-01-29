@@ -1,7 +1,7 @@
 upstream backend {
    ip_hash;
-   server 10.0.0.25; 
-   server 10.0.0.19;
+   server 10.0.0.25:8080; 
+   server 10.0.0.19:8080;
 }
 server {
    listen 443 ssl;
@@ -11,6 +11,6 @@ server {
    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
    location / {
-      proxy_pass http://backend:8080;
+      proxy_pass http://backend;
    }
 }
