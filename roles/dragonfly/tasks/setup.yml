@@ -42,4 +42,3 @@
   ansible.builtin.debug:
     msg: "{{ item }}"
   loop: "{{ compose_result.stdout_lines }}"
-  when: compose_result is succeeded
