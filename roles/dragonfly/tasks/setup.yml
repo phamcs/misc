@@ -1,0 +1,40 @@
+---
+
+# Clone Dragonfly Repo
+- name: Clone dragonflydb
+  ansible.builtin.git:
+    repo: 'https://github.com/dragonflyoss/dragonfly.git'
+    dest: "{{ app_dir }}/dragonfly"
+    single_branch: yes
+    version: main
+    update: yes
+    force: yes
+
+# Copy config files
+- name: Copy dragonfly config files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0664
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/docker-compose.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/docker-compose.yaml' }
+    - { src: 'files/client.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/client.yaml' }
+    - { src: 'files/manager.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/manager.yaml' }
+    - { src: 'files/scheduler.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/scheduler.yaml' }
+    - { src: 'files/seed-client.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/seed-client.yaml' }
+
+# Start Dragonfly
+- name: Start dragonfly
+  ansible.builtin.command:
+    chdir: "{{ app_dir }}/dragonfly/deploy/docker-compose"
+    cmd: |
+      ./run.sh
+  register: compose_result
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result is succeeded

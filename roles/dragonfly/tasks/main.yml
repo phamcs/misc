@@ -1,0 +1,13 @@
+---
+- name: Populate service facts
+  ansible.builtin.service_facts: {}
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Setup nginx
+  ansible.builtin.include_tasks: nginx.yml
+
+- name: Setup artifactory
+  ansible.builtin.include_tasks: setup.yml
