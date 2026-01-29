@@ -4,7 +4,7 @@ server:
   grpc:
     # # Access ip for other services,
     # # when local ip is different with access ip, advertiseIP should be set.
-    advertiseIP: 10.0.0.25
+    advertiseIP: 10.0.0.19
     # # Listen ip.
     # listenIP: 0.0.0.0
     #
@@ -67,7 +67,7 @@ database:
   mysql:
     user: dragonfly
     password: dragonfly
-    host: 10.0.0.25
+    host: 10.0.0.19
     port: 3306
     dbname: manager
     migrate: true
@@ -86,7 +86,7 @@ database:
   redis:
     # Redis addresses.
     addrs:
-      - "10.0.0.25:6379"
+      - "10.0.0.19:6379"
     # Redis sentinel master name.
     masterName: ''
     # Redis username.
