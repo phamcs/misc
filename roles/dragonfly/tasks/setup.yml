@@ -23,6 +23,8 @@
     - { src: 'files/manager.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/manager.yaml' }
     - { src: 'files/scheduler.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/scheduler.yaml' }
     - { src: 'files/seed-client.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/seed-client.yaml' }
+    - { src: 'files/tls.cert', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/server.crt' }
+    - { src: 'files/tls.key', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/server.key' }
 
 # Start Dragonfly
 - name: Start dragonfly

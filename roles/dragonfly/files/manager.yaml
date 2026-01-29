@@ -25,11 +25,11 @@ server:
   rest:
     # REST server address
     addr: :8080
-  # tls:
-  #   # Certificate file path.
-  #   cert: /etc/ssl/certs/server.crt
-  #   # Key file path.
-  #   key: /etc/ssl/private/server.pem
+    tls:
+    # Certificate file path.
+      cert: /etc/ssl/certs/server.crt
+    # Key file path.
+      key: /etc/ssl/private/server.pem
   #
   # logDir is the log directory.
   # In linux, default value is /var/log/dragonfly.
