@@ -30,7 +30,14 @@
   ansible.builtin.command:
     cmd: "docker compose -f nginx-stack.yml up -d"
     chdir: "{{ compose_dir }}"
-  register: nginx-lb_result
-  until: nginx-lb_result.rc == 0
+  register: compose_result
+  until: compose_result.rc == 0
   retries: 5
   delay: 10
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result.stdout_lines is defined
