@@ -9,10 +9,11 @@
     recurse: yes
   loop:
     - compose
+    - dragonfly
     - nginx
     - uptime-kuma
     - grafana
-    - influxdb2
+    - influxdb
     - telegraf
     - vault
 

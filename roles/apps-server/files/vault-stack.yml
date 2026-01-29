@@ -18,11 +18,11 @@ services:
     cap_add:
     - IPC_LOCK
     volumes:
-      - /AppData/vault/config:/etc/vault/conf.d
-      - /AppData/vault/ssl:/opt/vault/tls
-      - /AppData/vault/logs:/opt/vault/logs
-      - /AppData/vault/data:/opt/vault/data
-      - /AppData/vault/plugins:/opt/vault/plugins
+      - /srv/AppData/vault/config:/etc/vault/conf.d
+      - /srv/AppData/vault/ssl:/opt/vault/tls
+      - /srv/AppData/vault/logs:/opt/vault/logs
+      - /srv/AppData/vault/data:/opt/vault/data
+      - /srv/AppData/vault/plugins:/opt/vault/plugins
     network_mode: bridge
     restart: always
     healthcheck:

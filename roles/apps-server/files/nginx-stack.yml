@@ -1,5 +1,5 @@
 ---
-name: Nginx
+name: nginx
 services:
   nginx:
     image: nginx:alpine
@@ -10,6 +10,6 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /AppData/nginx/conf.d/:/etc/nginx/conf.d/
-      - /AppData/nginx/ssl/:/etc/nginx/ssl/
+      - /srv/AppData/nginx/conf.d/:/etc/nginx/conf.d/
+      - /srv/AppData/nginx/ssl/:/etc/nginx/ssl/
     network_mode: bridge
