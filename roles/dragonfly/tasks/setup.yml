@@ -9,6 +9,14 @@
     version: main
     update: yes
     force: yes
+    
+# Create Config Directory
+- name: Create config directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/dragonfly/deploy/docker-compose/config"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
 
 # Copy config files
 - name: Copy dragonfly config files
