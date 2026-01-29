@@ -29,7 +29,7 @@
   ansible.builtin.command:
     chdir: "{{ app_dir }}/dragonfly/deploy/docker-compose"
     cmd: |
-      ./run.sh
+      docker compose up -d
   register: compose_result
 
 # Display compose output
