@@ -20,4 +20,24 @@
   loop:
     - { src: 'files/tls.cert', dest: '{{ app_dir }}/nginx/ssl/tls.cert' }
     - { src: 'files/tls.key', dest: '{{ app_dir }}/nginx/ssl/tls.key' }
+    - { src: 'files/nginx-lb.yaml', dest: '{{ app_dir }}/nginx/nginx-lb.yaml' }
 
+- name: Copy configs to nginx
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ app_dir }}/nginx/conf.d/{{ item }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - nginx-lb.conf
+  notify: Restart docker
+
+# Deploy Nginx Load Balancer
+- name: Deploy nginx load balancer
+  ansible.builtin.command:
+    cmd: "docker compose -f nginx-lb.yaml up -d"
+    chdir: "{{ app_dir }}/nginx"
+  register: compose_result
+  until: compose_result.rc == 0
+  retries: 5
+  delay: 10
