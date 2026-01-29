@@ -29,7 +29,6 @@
   ansible.builtin.command:
     chdir: "{{ app_dir }}/dragonfly/deploy/docker-compose"
     cmd: |
-      export IP=10.0.0.25
       ./run.sh
   register: compose_result
 
