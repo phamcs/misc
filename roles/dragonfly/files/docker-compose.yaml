@@ -13,6 +13,8 @@ services:
       retries: 30
     ports:
       - 6379:6379
+    networks:
+      - dnet
 
   mysql:
     image: mariadb:10.6
@@ -29,6 +31,8 @@ services:
       retries: 30
     ports:
       - 3306:3306
+    networks:
+      - dnet
 
   manager:
     image: dragonflyoss/manager:latest
@@ -50,6 +54,8 @@ services:
     ports:
       - 65003:65003
       - 8080:8080
+    networks:
+      - dnet
 
   client:
     image: dragonflyoss/client:latest
@@ -71,6 +77,8 @@ services:
       - 4000:4000
       - 4001:4001
       - 4002:4002
+    networks:
+      - dnet
 
   scheduler:
     image: dragonflyoss/scheduler:latest
@@ -88,6 +96,8 @@ services:
       - ./config/scheduler.yaml:/etc/dragonfly/scheduler.yaml:ro
     ports:
       - 8002:8002
+    networks:
+      - dnet
 
   seed-client:
     image: dragonflyoss/client:latest
@@ -108,3 +118,9 @@ services:
       - 4010:4010
       - 4011:4011
       - 4012:4012
+    networks:
+      - dnet
+
+networks:
+  dragonfly-net:
+    driver: bridge

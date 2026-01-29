@@ -23,7 +23,7 @@ storage "raft" {
 # HTTP/HTTPS listener
 listener "tcp" {
   address       = "0.0.0.0:8200"
-  tls_cert_file = "/opt/vault/tls/{{ domain }}.cert"
+  tls_cert_file = "/opt/vault/tls/{{ domain }}.crt"
   tls_key_file  = "/opt/vault/tls/{{ domain }}.key"
   tls_min_version = "tls12"
   tls_max_version = "tls13"

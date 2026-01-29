@@ -21,7 +21,6 @@
     - { src: 'files/{{ domain }}.cert', dest: '{{ app_dir }}/nginx/ssl/{{ domain }}.cert' }
     - { src: 'files/{{ domain }}.key', dest: '{{ app_dir }}/nginx/ssl/{{ domain }}.key' }
     - { src: 'files/airsonic.conf', dest: '{{ app_dir }}/nginx/conf.d/airsonic.conf' }
-    - { src: 'files/grafana.conf', dest: '{{ app_dir }}/nginx/conf.d/grafana.conf' }
     - { src: 'files/tig.conf', dest: '{{ app_dir }}/nginx/conf.d/tig.conf' }
     - { src: 'files/vault.conf', dest: '{{ app_dir }}/nginx/conf.d/vault.conf' }
-    - { src: 'files/nginx-lb.conf', dest: '{{ app_dir }}/nginx/conf.d/nginx-lb.conf' }
+    - { src: 'files/dragonfly.conf', dest: '{{ app_dir }}/nginx/conf.d/dragonfly.conf' }

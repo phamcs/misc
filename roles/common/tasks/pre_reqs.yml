@@ -53,7 +53,7 @@
 - name: Install omvextra & docker compose
   ansible.builtin.shell:
     cmd: |
-      apt update && apt install -y wget curl git htop bmon lm-sensors strace zip unzip ca-certificates apt-transport-https
+      apt update && apt install -y wget curl git htop bmon lm-sensors strace zip unzip ca-certificates apt-transport-https python-is-python3
       wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash
       apt update && apt install -y openmediavault-compose openmediavault-hosts openmediavault-fail2ban 
       apt update && apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin

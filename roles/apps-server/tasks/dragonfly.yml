@@ -13,7 +13,7 @@
 # Create Config Directory
 - name: Create config directory
   ansible.builtin.file:
-    path: "{{ app_dir }}/dragonfly/deploy/docker-compose/config"
+    path: "{{ df_compose_dir }}/config"
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
@@ -26,18 +26,18 @@
     mode: 0664
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/dragonfly-stack.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/docker-compose.yaml' }
-    - { src: 'files/client.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/client.yaml' }
-    - { src: 'files/manager.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/manager.yaml' }
-    - { src: 'files/scheduler.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/scheduler.yaml' }
-    - { src: 'files/seed-client.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/seed-client.yaml' }
-    - { src: 'files/{{ domain }}.cert', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/server.crt' }
-    - { src: 'files/{{ domain }}.key', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/server.key' }
+    - { src: 'files/dragonfly-stack.yaml', dest: '{{ df_compose_dir }}/docker-compose.yaml' }
+    - { src: 'files/client.yaml', dest: '{{ df_compose_dir }}/config/client.yaml' }
+    - { src: 'files/manager.yaml', dest: '{{ df_compose_dir }}/config/manager.yaml' }
+    - { src: 'files/scheduler.yaml', dest: '{{ df_compose_dir }}/config/scheduler.yaml' }
+    - { src: 'files/seed-client.yaml', dest: '{{ df_compose_dir }}/config/seed-client.yaml' }
+    - { src: 'files/{{ domain }}.cert', dest: '{{ df_compose_dir }}/config/server.crt' }
+    - { src: 'files/{{ domain }}.key', dest: '{{ df_compose_dir }}/config/server.key' }
 
 # Start Dragonfly
 - name: Start dragonfly
   ansible.builtin.command:
-    chdir: "{{ app_dir }}/dragonfly/deploy/docker-compose"
+    chdir: "{{ df_compose_dir }}"
     cmd: |
       ./run.sh
   register: compose_result
