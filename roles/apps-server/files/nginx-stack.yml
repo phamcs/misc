@@ -1,5 +1,5 @@
 ---
-name: nginx
+name: nginx-lb
 services:
   nginx:
     image: nginx:alpine
