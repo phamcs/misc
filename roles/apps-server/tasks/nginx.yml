@@ -24,3 +24,13 @@
     - { src: 'files/tig.conf', dest: '{{ nginx_dir }}/conf.d/tig.conf' }
     - { src: 'files/vault.conf', dest: '{{ nginx_dir }}/conf.d/vault.conf' }
     - { src: 'files/dragonfly.conf', dest: '{{ nginx_dir }}/conf.d/dragonfly.conf' }
+
+# Start Nginx Loadbalancer
+- name: Start nginx loadbalancer
+  ansible.builtin.command:
+    cmd: "docker compose -f nginx-stack.yml up -d"
+    chdir: "{{ compose_dir }}"
+  register: nginx-lb_result
+  until: nginx-lb_result.rc == 0
+  retries: 5
+  delay: 10

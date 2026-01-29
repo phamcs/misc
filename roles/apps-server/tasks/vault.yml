@@ -25,3 +25,13 @@
     - { src: 'files/{{ domain }}.cert', dest: '{{ vault_dir }}/ssl/{{ domain }}.crt' }
     - { src: 'files/{{ domain }}.key', dest: '{{ vault_dir }}/ssl/{{ domain }}.key' }
     - { src: 'files/vault.hcl', dest: '{{ vault_dir }}/config/vault.hcl' }
+
+# Start Vault
+- name: Start Vault
+  ansible.builtin.command:
+    cmd: "docker compose -f vault-stack.yml up -d"
+    chdir: "{{ compose_dir }}"
+  register: vault-stack_result
+  until: vault-stack_result.rc == 0
+  retries: 5
+  delay: 10
