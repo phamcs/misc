@@ -1,5 +1,5 @@
 ---
-name: Airsonic Stack
+name: Airsonic
 services:
   airsonic-advanced:
     image: lscr.io/linuxserver/airsonic-advanced:latest

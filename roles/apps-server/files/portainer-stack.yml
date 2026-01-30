@@ -1,5 +1,5 @@
 ---
-# Setup Portainer
+# Setup Portainer Stack
 name: Portainer
 services:
   portainer:

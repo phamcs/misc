@@ -2,14 +2,10 @@
 # Create Portainer Directory
 - name: Create portainer directory
   ansible.builtin.file:
-    path: "{{ portainer_dir }}/{{ item }}"
+    path: "{{ portainer_dir }}"
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
-  loop:
-    - config
-    - data
-    - ssl
 
 # Start Portainer Stack
 - name: Start portainer stack
