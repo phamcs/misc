@@ -1,0 +1,28 @@
+---
+services:
+  airsonic-advanced:
+    image: lscr.io/linuxserver/airsonic-advanced:latest
+    container_name: airsonic
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=America/Denver
+      - CONTEXT_PATH=/
+      - JAVA_OPTS=-Xmx256m -Dserver.forward-headers-strategy=NATIVE
+    volumes:
+      - /srv/AppData/airsonic/config:/config
+      - /srv/AppData/MUSIC:/music
+      - /srv/AppData/airsonic/playlists:/playlists
+      - /srv/AppData/airsonic/podcasts:/podcasts
+      - /srv/AppData/airsonic/media:/media #optional
+    ports:
+      - 4040:4040
+    devices:
+      - /dev/snd:/dev/snd #optional
+    restart: unless-stopped
+    network_mode: bridge
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:4040/rest/ping || exit 1"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3

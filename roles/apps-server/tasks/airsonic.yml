@@ -1,0 +1,37 @@
+---
+# Create Airsonic Directory
+- name: Create aisonic directories
+  ansible.builtin.file:
+    path: "{{ airsonic_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - cache
+    - config
+    - db
+    - lasffmcache
+    - media
+    - playlists
+    - podcasts
+    - thumbs
+    - transcode
+
+# StartAirsonic Stack
+- name: Start airsonic stack
+  ansible.builtin.command:
+    chdir: "{{ compose_dir }}"
+    cmd: |
+      docker compose -f airsonic-stack.yml up -d
+  register: compose_result
+  until: compose_result.rc == 0
+  retries: 5
+  delay: 10
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result.stdout_lines is defined

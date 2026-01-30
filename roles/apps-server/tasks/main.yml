@@ -9,6 +9,9 @@
 - name: Deploy apps-dir
   ansible.builtin.include_tasks: apps-dir.yml
 
+- name: Deploy airsonic
+  ansible.builtin.include_tasks: airsonic.yml
+
 - name: Setup dragonfly
   ansible.builtin.include_tasks: dragonfly.yml
 
@@ -20,6 +23,9 @@
 
 - name: Setup nginx
   ansible.builtin.include_tasks: nginx.yml
+
+- name: Setup portainer
+  ansible.builtin.include_tasks: portainer.yml
 
 - name: Setup telegraf
   ansible.builtin.include_tasks: telegraf.yml

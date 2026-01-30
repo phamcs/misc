@@ -8,12 +8,12 @@
     owner: "{{ app_user }}"
     recurse: yes
   loop:
+    - airsonic
     - compose
     - dragonfly
-    - nginx
-    - uptime-kuma
     - grafana
     - influxdb
+    - nginx
     - telegraf
     - vault
 
@@ -25,9 +25,9 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
+    - { src: 'files/airsonic-stack.yml', dest: '{{ compose_dir }}/airsonic-stack.yml' }
     - { src: 'files/portainer-stack.yml', dest: '{{ compose_dir }}/portainer-stack.yml' }
     - { src: 'files/nginx-stack.yml', dest: '{{ compose_dir }}/nginx-stack.yml' }
     - { src: 'files/tig-stack.yml', dest: '{{ compose_dir }}/tig-stack.yml' }
-    - { src: 'files/uptime-kuma-stack.yml', dest: '{{ compose_dir }}/uptime-kuma-stack.yml' }
     - { src: 'files/vault-stack.yml', dest: '{{ compose_dir }}/vault-stack.yml' }
   
