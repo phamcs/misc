@@ -31,20 +31,12 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'files/dragonfly-stack.yaml', dest: '{{ df_compose_dir }}/docker-compose.yaml' }
+    - { src: 'files/client.yaml', dest: '{{ df_compose_dir }}/config/client.yaml' }
+    - { src: 'files/manager.yaml', dest: '{{ df_compose_dir }}/config/manager.yaml' }
+    - { src: 'files/scheduler.yaml', dest: '{{ df_compose_dir }}/config/scheduler.yaml' }
+    - { src: 'files/seed-client.yaml', dest: '{{ df_compose_dir }}/config/seed-client.yaml' }
     - { src: 'files/{{ domain }}.cert', dest: '{{ df_compose_dir }}/ssl/server.crt' }
     - { src: 'files/{{ domain }}.key', dest: '{{ df_compose_dir }}/ssl/server.key' }
-
-# Copy dfconfig template
-- name: Copy dfconfig template
-  ansible.builtin.template:
-    src: "templates/{{ item }}.j2"
-    dest: "{{ df_compose_dir }}/config/{{ item }}"
-    mode: 0644
-  loop:
-    - client.yaml
-    - manager.yaml
-    - scheduler.yaml
-    - seed-client.yaml
 
 # Start Dragonfly
 - name: Start dragonfly
