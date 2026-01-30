@@ -43,7 +43,6 @@
   ansible.builtin.command:
     chdir: "{{ df_compose_dir }}"
     cmd: |
-      echo "export IP=10.0.0.25" >> ~/.bashrc &&source ~/.bashrc
       ./run.sh
   register: compose_result
   until: compose_result.rc == 0
