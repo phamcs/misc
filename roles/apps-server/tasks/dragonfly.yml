@@ -51,7 +51,7 @@
   ansible.builtin.command:
     chdir: "{{ df_compose_dir }}"
     cmd: |
-      ./run.sh
+      docker compose up -d
   register: compose_result
   until: compose_result.rc == 0
   retries: 5
