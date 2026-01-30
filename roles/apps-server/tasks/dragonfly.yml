@@ -39,6 +39,7 @@
   ansible.builtin.template:
     src: "templates/{{ item }}.j2"
     dest: "{{ df_compose_dir }}/config/{{ item }}"
+    mode: 0644
   loop:
     - client.yaml
     - manager.yaml
