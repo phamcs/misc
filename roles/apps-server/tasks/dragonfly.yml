@@ -31,10 +31,10 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'files/dragonfly-stack.yaml', dest: '{{ df_compose_dir }}/docker-compose.yaml' }
-    - { src: 'files/client.yaml', dest: '{{ df_compose_dir }}/config/client.yaml' }
-    - { src: 'files/manager.yaml', dest: '{{ df_compose_dir }}/config/manager.yaml' }
-    - { src: 'files/scheduler.yaml', dest: '{{ df_compose_dir }}/config/scheduler.yaml' }
-    - { src: 'files/seed-client.yaml', dest: '{{ df_compose_dir }}/config/seed-client.yaml' }
+    # - { src: 'files/client.yaml', dest: '{{ df_compose_dir }}/config/client.yaml' }
+    # - { src: 'files/manager.yaml', dest: '{{ df_compose_dir }}/config/manager.yaml' }
+    # - { src: 'files/scheduler.yaml', dest: '{{ df_compose_dir }}/config/scheduler.yaml' }
+    # - { src: 'files/seed-client.yaml', dest: '{{ df_compose_dir }}/config/seed-client.yaml' }
     - { src: 'files/{{ domain }}.cert', dest: '{{ df_compose_dir }}/ssl/server.crt' }
     - { src: 'files/{{ domain }}.key', dest: '{{ df_compose_dir }}/ssl/server.key' }
 
@@ -43,6 +43,8 @@
   ansible.builtin.command:
     chdir: "{{ df_compose_dir }}"
     cmd: |
+      echo "10.0.0.25" >> ~/.bashrc
+      source ~/.bashrc
       ./run.sh
   register: compose_result
   until: compose_result.rc == 0
@@ -55,3 +57,10 @@
     msg: "{{ item }}"
   loop: "{{ compose_result.stdout_lines }}"
   when: compose_result.stdout_lines is defined
+
+# Copy docker config 
+- name: Copy daemon.json
+  ansible.builtin.template:
+    src: "daemon.json.j2"
+    dest: "/etc/docker/daemon.json"
+  notify: Restart docker
