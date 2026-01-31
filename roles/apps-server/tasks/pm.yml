@@ -1,0 +1,88 @@
+---
+# Create Prometheus Monitoring stack directories
+- name: Create prometheus monitoring directories
+  ansible.builtin.file:
+    path: "{{ pm_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - alertmanager
+    - prometheus
+    - grafana
+
+# Create Grafana Directory
+- name: Create grafana directory
+  ansible.builtin.file:
+    path: "{{ grafana_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - dashboards
+    - provisioning
+
+# Create Grafana Sub Directory
+- name: Create grafana sub directory
+  ansible.builtin.file:
+    path: "{{ grafana_dir }}/provisioning/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - dashboards
+    - datasources
+
+# Copy alertmanager and compose config
+- name: Copy alertmanager and prometheus config
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/docker-compose.yml', dest: '{{ pm_dir }}/docker-compose.yml' }
+    - { src: 'files/alertmanager-conf.yml', dest: '{{ pm_dir }}/alertmanager/config.yml' }
+
+# Copy granafa config
+- name: Copy grafana config
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/system-overview.json', dest: '{{ grafana_dir }}/dashboards/system-overview.json' }
+    - { src: 'files/dashboards.yml', dest: '{{ grafana_dir }}/dashboards/dashboards.yml' }
+    - { src: 'files/datasource.yml', dest: '{{ grafana_dir }}/datasources/datasource.yml' }
+
+# Copy prometheus config
+- name: Copy prometheus config
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/prometheus.yml', dest: '{{ prometheus_dir }}/prometheus.yml' }
+    - { src: 'files/container_alerts.yml', dest: '{{ prometheus_dir }}/rules/container_alerts.yml' }
+    - { src: 'files/node_alerts.yml', dest: '{{ prometheus_dir }}/rules/node_alerts.yml' }
+    - { src: 'files/recording_rules.yml', dest: '{{ prometheus_dir }}/rules/recording_rules.yml' }
+
+# Start PM Stack
+- name: Start PM stack
+  ansible.builtin.command:
+    chdir: "{{ pm_dir }}"
+    cmd: "docker compose up -d"
+  register: compose_result
+  until: compose_result.rc == 0
+  retries: 5
+  delay: 10
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result.stdout_lines is defined
