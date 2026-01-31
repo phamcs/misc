@@ -55,7 +55,8 @@
   loop:
     - { src: 'files/system-overview.json', dest: '{{ grafana_dir }}/dashboards/system-overview.json' }
     - { src: 'files/dashboards.yml', dest: '{{ grafana_dir }}/dashboards/dashboards.yml' }
-    - { src: 'files/datasource.yml', dest: '{{ grafana_dir }}/datasources/datasource.yml' }
+    - { src: 'files/dashboards.yml', dest: '{{ grafana_dir }}/provisioning/dashboards/dashboards.yml' }
+    - { src: 'files/datasource.yml', dest: '{{ grafana_dir }}/provisioning/datasources/datasource.yml' }
 
 # Copy prometheus config
 - name: Copy prometheus config
