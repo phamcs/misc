@@ -31,7 +31,7 @@ scrape_configs:
     scrape_interval: 20s
     static_configs:
       # Scrape metrics from the Harbor exporter component
-      - targets: ['{{ harbor_ip }}:9090']
+      - targets: ['10.0.0.29:9090']
 
   - job_name: 'harbor-core'
     scrape_interval: 20s
@@ -39,7 +39,7 @@ scrape_configs:
       # Scrape metrics from the Harbor core component
       comp: ['core']
     static_configs:
-      - targets: ['{{ harbor_ip }}:9090']
+      - targets: ['10.0.0.29:9090']
 
   - job_name: 'harbor-registry'
     scrape_interval: 20s
@@ -47,7 +47,7 @@ scrape_configs:
       # Scrape metrics from the Harbor registry component
       comp: ['registry']
     static_configs:
-      - targets: ['{{ harbor_ip }}:9090']
+      - targets: ['10.0.0.29:9090']
 
   - job_name: 'harbor-jobservice'
     scrape_interval: 20s
@@ -55,4 +55,4 @@ scrape_configs:
       # Scrape metrics from the Harbor jobservice component
       comp: ['jobservice']
     static_configs:
-      - targets: ['{{ harbor_ip }}:9090']
+      - targets: ['10.0.0.29:9090']
