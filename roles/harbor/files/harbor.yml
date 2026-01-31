@@ -254,10 +254,10 @@ proxy:
     - jobservice
     - trivy
 
-# metric:
-#   enabled: false
-#   port: 9090
-#   path: /metrics
+metric:
+  enabled: true
+  port: 9090
+  path: /metrics
 
 # Trace related config
 # only can enable one trace provider(jaeger or otel) at the same time,
