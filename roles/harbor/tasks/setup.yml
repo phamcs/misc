@@ -41,7 +41,7 @@
     owner: root
   loop:
     - data
-    - cert
+    - certs
     - scripts
 
 # Copy repos script
@@ -74,8 +74,8 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/tls.cert', dest: '{{ harbor_dir }}/cert/tls.cert' }
-    - { src: 'files/tls.key', dest: '{{ harbor_dir }}/cert/tls.key' }
+    - { src: 'files/tls.cert', dest: '{{ harbor_dir }}/certs/tls.cert' }
+    - { src: 'files/tls.key', dest: '{{ harbor_dir }}/certs/tls.key' }
     - { src: 'files/harbor.yml', dest: '{{ harbor_dir }}/harbor.yml' }
 
 - name: Extract the tar.gz archive
