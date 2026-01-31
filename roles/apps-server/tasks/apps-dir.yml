@@ -10,7 +10,6 @@
   loop:
     - airsonic
     - compose
-    - dragonfly
     - grafana
     - influxdb
     - nginx

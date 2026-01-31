@@ -29,8 +29,7 @@
 - name: Start nginx loadbalancer
   ansible.builtin.command:
     chdir: "{{ compose_dir }}"
-    cmd: |
-      docker compose -f nginx-stack.yml up -d
+    cmd: "docker compose -f nginx-stack.yml up -d"
   register: compose_result
   until: compose_result.rc == 0
   retries: 5

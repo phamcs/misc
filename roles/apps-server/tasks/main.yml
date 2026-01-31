@@ -12,9 +12,6 @@
 - name: Deploy airsonic
   ansible.builtin.include_tasks: airsonic.yml
 
-- name: Setup dragonfly
-  ansible.builtin.include_tasks: dragonfly.yml
-
 - name: Setup grafana
   ansible.builtin.include_tasks: grafana.yml
 

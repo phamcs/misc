@@ -44,8 +44,8 @@ services:
     volumes:
       - ./log/manager:/var/log/dragonfly
       - ./config/manager.yaml:/etc/dragonfly/manager.yaml:ro
-      #- ./config/tls.cert:/etc/ssl/certs/server.crt:ro
-      #- ./config/tls.key:/etc/ssl/private/server.key:ro
+      - ./config/cert/tls.cert:/etc/ssl/certs/server.crt:ro
+      - ./config/cert/tls.key:/etc/ssl/private/server.key:ro
     healthcheck:
       test: ["CMD-SHELL", "/bin/grpc_health_probe -addr=:65003 || exit 1"]
       interval: 1s
@@ -122,5 +122,5 @@ services:
       - dnet
 
 networks:
-  dragonfly-net:
+  dnet:
     driver: bridge

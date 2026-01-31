@@ -2,7 +2,7 @@
 server:
   # # Access ip for other services,
   # # when local ip is different with access ip, advertiseIP should be set.
-  advertiseIP: {{ srv_ip }}
+  advertiseIP: "{{ srv_ip }}"
 # # Access port for other services,
 # # when local ip is different with access port, advertisePort should be set.
 # advertisePort: 8002

@@ -15,7 +15,7 @@ host:
 # hostname: ""
 #
   # ip is the advertise ip of the host.
-  ip: {{ srv_ip }}
+  ip: "{{ srv_ip }}"
 
 server:
   # pluginDir is the directory to store plugins.
@@ -69,7 +69,7 @@ upload:
 
 manager:
   # addr is manager addresses.
-  addr: http://{{ srv_ip }}:65003
+  addr: "http://{{ srv_ip }}:65003"
 # # CA certificate file path for mTLS.
 # caCert: /etc/ssl/certs/ca.crt
 # # GRPC client certificate file path for mTLS.

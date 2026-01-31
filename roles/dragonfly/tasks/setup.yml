@@ -1,10 +1,9 @@
 ---
-
 # Clone Dragonfly Repo
 - name: Clone dragonflydb
   ansible.builtin.git:
     repo: 'https://github.com/dragonflyoss/dragonfly.git'
-    dest: "{{ app_dir }}/dragonfly"
+    dest: "{{ dragonfly_dir }}"
     single_branch: yes
     version: main
     update: yes
@@ -13,10 +12,13 @@
 # Create Config Directory
 - name: Create config directory
   ansible.builtin.file:
-    path: "{{ app_dir }}/dragonfly/deploy/docker-compose/config"
+    path: "{{ df_compose_dir }}/{{ item }}"
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
+  loop:
+    - config
+    - ssl
 
 # Copy config files
 - name: Copy dragonfly config files
@@ -26,18 +28,18 @@
     mode: 0664
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/docker-compose.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/docker-compose.yaml' }
-    - { src: 'files/client.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/client.yaml' }
-    - { src: 'files/manager.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/manager.yaml' }
-    - { src: 'files/scheduler.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/scheduler.yaml' }
-    - { src: 'files/seed-client.yaml', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/seed-client.yaml' }
-    - { src: 'files/tls.cert', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/server.crt' }
-    - { src: 'files/tls.key', dest: '{{ app_dir }}/dragonfly/deploy/docker-compose/config/server.key' }
+    - { src: 'files/docker-compose.yaml', dest: '{{ df_compose_dir }}/docker-compose.yaml' }
+    - { src: 'files/client.yaml', dest: '{{ df_compose_dir }}/config/client.yaml' }
+    - { src: 'files/manager.yaml', dest: '{{ df_compose_dir }}/config/manager.yaml' }
+    - { src: 'files/scheduler.yaml', dest: '{{ df_compose_dir }}/config/scheduler.yaml' }
+    - { src: 'files/seed-client.yaml', dest: '{{ df_compose_dir }}/config/seed-client.yaml' }
+    - { src: 'files/tls.cert', dest: '{{ df_compose_dir }}/ssl/server.crt' }
+    - { src: 'files/tls.key', dest: '{{ df_compose_dir }}/ssl/server.key' }
 
 # Start Dragonfly
 - name: Start dragonfly
   ansible.builtin.command:
-    chdir: "{{ app_dir }}/dragonfly/deploy/docker-compose"
+    chdir: "{{ df_compose_dir }}"
     cmd: |
       ./run.sh
   register: compose_result
@@ -50,3 +52,15 @@
   ansible.builtin.debug:
     msg: "{{ item }}"
   loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result.stdout_lines is defined
+
+# Copy docker daemon config
+- name: Copy docker daemon config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "/etc/docker/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - daemon.json
+  notify: Restart docker
