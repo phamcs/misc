@@ -29,10 +29,6 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'files/docker-compose.yaml', dest: '{{ df_compose_dir }}/docker-compose.yaml' }
-    # - { src: 'files/client.yaml', dest: '{{ df_compose_dir }}/config/client.yaml' }
-    # - { src: 'files/manager.yaml', dest: '{{ df_compose_dir }}/config/manager.yaml' }
-    # - { src: 'files/scheduler.yaml', dest: '{{ df_compose_dir }}/config/scheduler.yaml' }
-    # - { src: 'files/seed-client.yaml', dest: '{{ df_compose_dir }}/config/seed-client.yaml' }
     - { src: 'files/tls.cert', dest: '{{ df_compose_dir }}/ssl/server.crt' }
     - { src: 'files/tls.key', dest: '{{ df_compose_dir }}/ssl/server.key' }
 
