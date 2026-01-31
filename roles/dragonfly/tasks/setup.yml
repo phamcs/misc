@@ -41,6 +41,7 @@
   ansible.builtin.shell:
     chdir: "{{ df_compose_dir }}"
     cmd: |
+      rm -f "{{ df_compose_dir }}/config/*"
       export IP="{{ srv_ip }}"
       ./run.sh
   register: compose_result
