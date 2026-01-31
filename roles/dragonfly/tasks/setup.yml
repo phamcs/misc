@@ -38,9 +38,10 @@
 
 # Start Dragonfly
 - name: Start dragonfly
-  ansible.builtin.command:
+  ansible.builtin.shell:
     chdir: "{{ df_compose_dir }}"
     cmd: |
+      export IP="{{ srv_ip }}"
       ./run.sh
   register: compose_result
   until: compose_result.rc == 0
