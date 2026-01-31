@@ -23,7 +23,6 @@
     - { src: 'files/airsonic.conf', dest: '{{ nginx_dir }}/conf.d/airsonic.conf' }
     - { src: 'files/tig.conf', dest: '{{ nginx_dir }}/conf.d/tig.conf' }
     - { src: 'files/vault.conf', dest: '{{ nginx_dir }}/conf.d/vault.conf' }
-    - { src: 'files/dragonfly.conf', dest: '{{ nginx_dir }}/conf.d/dragonfly.conf' }
 
 # Start Nginx Loadbalancer
 - name: Start nginx loadbalancer
