@@ -21,7 +21,6 @@
     - { src: 'files/{{ domain }}.cert', dest: '{{ nginx_dir }}/ssl/{{ domain }}.crt' }
     - { src: 'files/{{ domain }}.key', dest: '{{ nginx_dir }}/ssl/{{ domain }}.key' }
     - { src: 'files/airsonic.conf', dest: '{{ nginx_dir }}/conf.d/airsonic.conf' }
-    - { src: 'files/tig.conf', dest: '{{ nginx_dir }}/conf.d/tig.conf' }
     - { src: 'files/vault.conf', dest: '{{ nginx_dir }}/conf.d/vault.conf' }
 
 # Start Nginx Loadbalancer
