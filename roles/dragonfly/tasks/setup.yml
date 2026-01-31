@@ -44,7 +44,7 @@
       rm -f config/*.yaml
       export IP="{{ srv_ip }}"
       ./run.sh
-
+      docker start dragonfly-mysql dragonfly-redis
   register: compose_result
   until: compose_result.rc == 0
   retries: 5
