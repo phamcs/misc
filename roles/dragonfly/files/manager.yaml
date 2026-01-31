@@ -24,7 +24,7 @@ server:
   # REST server configure
   rest:
     # REST server address
-    addr: :8080
+    addr: "{{ srv_ip}}:8080"
     tls:
     # Certificate file path.
       cert: /etc/ssl/certs/server.crt
