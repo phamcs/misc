@@ -21,6 +21,7 @@
     - { src: 'files/tls.cert', dest: '{{ nginx_dir }}/ssl/tls.cert' }
     - { src: 'files/tls.key', dest: '{{ nginx_dir }}/ssl/tls.key' }
     - { src: 'files/nginx-lb.yaml', dest: '{{ nginx_dir }}/nginx-lb.yaml' }
+    - { src: 'files/dragonfly.conf', dest: '{{ nginx_dir }}/conf.d/dragonfly.conf' }
 
 # Deploy Nginx Load Balancer
 - name: Deploy nginx load balancer
@@ -31,14 +32,3 @@
   until: compose_result.rc == 0
   retries: 5
   delay: 10
-
-# Copy dragonfly config to nginx
-- name: Copy dragonfly config to nginx
-  ansible.builtin.template:
-    src: "templates/{{ item }}.j2"
-    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
-    mode: 0644
-    owner: "{{ app_user }}"
-  loop:
-    - dragonfly.conf
-  notify: Restart docker
