@@ -58,11 +58,13 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
+    devices:
+      - /dev/kmsg:/dev/kmsg:ro
     ports:
-      - "9092:9092"
+      - "8008:8008"
     command:
       - '--housekeeping_interval=15s'
-      - '--port=9092'
+      - '--port=8008'
     networks:
       - monitoring
     restart: unless-stopped
