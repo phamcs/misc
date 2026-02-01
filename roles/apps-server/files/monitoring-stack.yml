@@ -58,7 +58,9 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
-    priviledges: true
+    privileged: true
+    devices:
+      - /dev/kmsg:/dev/kmsg:ro
     ports:
       - "8008:8008"
     command:
