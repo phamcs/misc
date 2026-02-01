@@ -109,7 +109,6 @@ services:
   influxdb2:
     user: "1000"
     image: influxdb:latest
-    network_mode: bridge
     container_name: influxdb2
     ports:
       - "8086:8086"
@@ -135,7 +134,6 @@ services:
   ## Telegraf Service
   telegraf:
     image: telegraf:latest
-    network_mode: bridge
     pid: "host"
     container_name: telegraf
     depends_on:
