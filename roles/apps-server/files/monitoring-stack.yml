@@ -59,7 +59,10 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
     ports:
-      - "8008:8008"
+      - "9092:9092"
+    command:
+      - '--housekeeping_interval=15s'
+      - '--port=9092'
     networks:
       - monitoring
     restart: unless-stopped
