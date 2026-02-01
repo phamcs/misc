@@ -109,10 +109,10 @@ services:
       - "8086:8086"
     volumes:
       - type: bind
-        source: "{{ influxdb_dir }}/data"
+        source: /srv/AppData/monitoring/influxdb/data
         target: /var/lib/influxdb2
       - type: bind
-        source: "{{ influxdb_dir }}/config"
+        source: /srv/AppData/monitoring/influxdb/config
         target: /etc/influxdb2
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
@@ -139,7 +139,7 @@ services:
       - "8094:8094"
       - "8125:8125"
     volumes:
-      - /srv/AppData/telegraf/config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /srv/AppData/monitoring/telegraf/config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /sys:/host/sys:ro
       - /proc:/host/proc:ro
