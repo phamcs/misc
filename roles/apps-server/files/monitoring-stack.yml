@@ -58,8 +58,7 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
-    devices:
-      - /dev/kmsg:/dev/kmsg:ro
+    priviledges: true
     ports:
       - "8008:8008"
     command:
@@ -112,6 +111,8 @@ services:
     container_name: influxdb2
     ports:
       - "8086:8086"
+    networks:
+      - monitoring
     volumes:
       - type: bind
         source: /srv/AppData/monitoring/influxdb/data
@@ -143,6 +144,8 @@ services:
       - "8092:8092"
       - "8094:8094"
       - "8125:8125"
+    networks:
+      - monitoring
     volumes:
       - /srv/AppData/monitoring/telegraf/config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
