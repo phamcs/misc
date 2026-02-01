@@ -130,7 +130,6 @@ services:
     network_mode: bridge
     pid: "host"
     container_name: telegraf
-    user: "1000"
     depends_on:
       - influxdb2
     links:
