@@ -89,11 +89,12 @@
   loop:
     - portainer
     - node-export
+    - common
 
 # Copy common stack config
 - name: Copy common stack config
   ansible.builtin.copy:
-    src: "common-stack.yml"
+    src: "files/common-stack.yml"
     dest: "{{ common_dir }}/common-stack.yml"
     mode: 0644
     owner: "{{ app_user }}"
