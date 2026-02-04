@@ -21,12 +21,13 @@
     - { src: 'files/{{ domain }}.cert', dest: '{{ nginx_dir }}/ssl/{{ domain }}.crt' }
     - { src: 'files/{{ domain }}.key', dest: '{{ nginx_dir }}/ssl/{{ domain }}.key' }
     - { src: 'files/airsonic.conf', dest: '{{ nginx_dir }}/conf.d/airsonic.conf' }
+    - { src: 'files/grafana.conf', dest: '{{ nginx_dir }}/conf.d/grafana.conf' }
     - { src: 'files/vault.conf', dest: '{{ nginx_dir }}/conf.d/vault.conf' }
 
 # Start Nginx Loadbalancer
 - name: Start nginx loadbalancer
   ansible.builtin.command:
-    chdir: "{{ compose_dir }}"
+    chdir: "{{ nginx_dir }}"
     cmd: "docker compose -f nginx-stack.yml up -d"
   register: compose_result
   until: compose_result.rc == 0

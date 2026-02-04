@@ -9,10 +9,8 @@
     recurse: yes
   loop:
     - airsonic
-    - compose
     - monitoring
     - nginx
-    - portainer
     - vault
 
 # Copy apps stack
@@ -23,8 +21,8 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/airsonic-stack.yml', dest: '{{ compose_dir }}/airsonic-stack.yml' }
-    - { src: 'files/portainer-stack.yml', dest: '{{ compose_dir }}/portainer-stack.yml' }
-    - { src: 'files/nginx-stack.yml', dest: '{{ compose_dir }}/nginx-stack.yml' }
-    - { src: 'files/vault-stack.yml', dest: '{{ compose_dir }}/vault-stack.yml' }
+    - { src: 'files/airsonic-stack.yml', dest: '{{ airsonic_dir }}/airsonic-stack.yml' }
+    - { src: 'files/monitoring-stack.yml', dest: '{{ mon_dir }}/monitoring-stack.yml' }
+    - { src: 'files/nginx-stack.yml', dest: '{{ nginx_dir }}/nginx-stack.yml' }
+    - { src: 'files/vault-stack.yml', dest: '{{ vault_dir }}/vault-stack.yml' }
   

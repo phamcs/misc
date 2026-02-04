@@ -29,7 +29,7 @@
 # Start Vault
 - name: Start Vault
   ansible.builtin.command:
-    chdir: "{{ compose_dir }}"
+    chdir: "{{ vault_dir }}"
     cmd: "docker compose -f vault-stack.yml up -d"
   register: compose_result
   until: compose_result.rc == 0

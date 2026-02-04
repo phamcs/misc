@@ -18,10 +18,10 @@
     - thumbs
     - transcode
 
-# StartAirsonic Stack
+# Start Airsonic Stack
 - name: Start airsonic stack
   ansible.builtin.command:
-    chdir: "{{ compose_dir }}"
+    chdir: "{{ airsonic_dir }}"
     cmd: "docker compose -f airsonic-stack.yml up -d"
   register: compose_result
   until: compose_result.rc == 0
