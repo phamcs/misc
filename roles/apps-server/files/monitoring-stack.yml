@@ -67,8 +67,7 @@ services:
       - '--housekeeping_interval=15s'
       - '--port=8008'
       # Disable crio & podman
-      - '--crio=false'
-      - '--podman=false'
+      - '--docker_only=true'
     networks:
       - monitoring
     restart: unless-stopped
