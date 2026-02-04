@@ -79,6 +79,42 @@
     mode: 0755
     owner: "{{ app_user }}"
 
+# Create Common Directory
+- name: Create common directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/{{ item}}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - portainer
+    - node-export
+
+# Copy common stack config
+- name: Copy common stack config
+  ansible.builtin.copy:
+    src: "common-stack.yml"
+    dest: "{{ common_dir }}/common-stack.yml"
+    mode: 0644
+    owner: "{{ app_user }}"
+
+# Start Common Stack
+- name: Start common stack
+  ansible.builtin.command:
+    chdir: "{{ common_dir }}"
+    cmd: "docker compose -f common-stack.yml up -d"
+  register: compose_result
+  until: compose_result.rc == 0
+  retries: 5
+  delay: 10
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result.stdout_lines is defined
+
 # Copy docker config 
 - name: Copy daemon.json
   ansible.builtin.template:

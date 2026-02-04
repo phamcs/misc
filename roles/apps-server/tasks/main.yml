@@ -18,9 +18,6 @@
 - name: Setup telegraf
   ansible.builtin.include_tasks: monitoring.yml
 
-- name: Setup portainer
-  ansible.builtin.include_tasks: portainer.yml
-
 - name: Setup vault
   ansible.builtin.include_tasks: vault.yml
   

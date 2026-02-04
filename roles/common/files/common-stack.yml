@@ -1,0 +1,33 @@
+---
+# Setup Common Stack
+name: Common
+services:
+  # Node Exporter host metrics
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    # Use 'host' PID namespace to allow the exporter to see all host processes
+    pid: host
+    # Command line arguments for the node exporter
+    command:
+      - '--path.rootfs=/host'
+    ports:
+      # Expose the metrics port on the host
+      - '9100:9100'
+    volumes:
+      # Mount the host root filesystem into the container at /host as read-only (ro)
+      - '/:/host:ro'
+    restart: unless-stopped
+    network_mode: bridge
+  # Portainer for Docker management
+  portainer:
+    image: portainer/portainer-ce:lts
+    container_name: portainer
+    ports:
+      - "9000:9000"
+      - "9443:9443"
+    volumes:
+      - /srv/AppData/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    network_mode: bridge
