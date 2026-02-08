@@ -29,7 +29,19 @@ listener "tcp" {
   tls_max_version = "tls13"
   tls_disable = false
 }
+# Telemetry settings
+telemetry {
+  usage_gauge_period = "10m"
+  maximum_gauge_cardinality = 500
+  disable_hostname = false
+  enable_hostname_label = false
+  lease_metrics_epsilon = "1h"
+  num_lease_metrics_buckets = 168
+  add_lease_metrics_namespace_labels = false
+  filter_default = true
 
+  statsite_address = "$prometheus_ip:9090"
+}
 # Enterprise license_path
 # This will be required for enterprise as of v1.8
 #license_path = "/etc/vault.d/vault.hclic"

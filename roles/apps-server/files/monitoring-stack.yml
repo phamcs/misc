@@ -7,7 +7,7 @@ volumes:
   telegraf_data: {}
 
 networks:
-  monitoring:
+  mnet:
     driver: bridge
 
 name: monitoring
@@ -29,7 +29,7 @@ services:
     ports:
       - "9090:9090"
     networks:
-      - monitoring
+      - mnet
     restart: unless-stopped
 
   node-exporter:
@@ -46,7 +46,7 @@ services:
     ports:
       - "9100:9100"
     networks:
-      - monitoring
+      - mnet
     restart: unless-stopped
 
   cadvisor:
@@ -69,7 +69,7 @@ services:
       # Disable crio & podman
       - '--docker_only=true'
     networks:
-      - monitoring
+      - mnet
     restart: unless-stopped
 
   grafana:
@@ -94,7 +94,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - monitoring
+      - mnet
     restart: unless-stopped
 
   alertmanager:
@@ -108,7 +108,7 @@ services:
     ports:
       - "9093:9093"
     networks:
-      - monitoring
+      - mnet
     restart: unless-stopped
 
   ## Influxdb Service
@@ -119,7 +119,7 @@ services:
     ports:
       - "8086:8086"
     networks:
-      - monitoring
+      - mnet
     volumes:
       - type: bind
         source: /srv/AppData/monitoring/influxdb/data
@@ -151,7 +151,7 @@ services:
       - "8094:8094"
       - "8125:8125"
     networks:
-      - monitoring
+      - mnet
     volumes:
       - /srv/AppData/monitoring/telegraf/config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro

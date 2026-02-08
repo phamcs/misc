@@ -15,7 +15,7 @@
 - name: Deploy airsonic
   ansible.builtin.include_tasks: airsonic.yml
 
-- name: Setup telegraf
+- name: Setup monitoring
   ansible.builtin.include_tasks: monitoring.yml
 
 - name: Setup vault
