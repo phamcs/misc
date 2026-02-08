@@ -10,7 +10,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
-## [1.3.0] - 2025-102-5
+## [1.5.0] - 2026-02-07
+ 
+### Added
+   Monitoring to apps-server role
+### Changed
+  - Move portainer to common role
+  - Update app-server role
+### Fixed
+  - Update to use variables
+
+## [1.4.0] - 2026-02-05
+ 
+### Added
+   Dragonfly role
+### Changed
+  - Add dragonfly role
+  - Update dragonfly role
+  - Update app-server role
+### Fixed
+  - Update to use variables
+
+## [1.3.0] - 2025-10-25
  
 ### Added
    Harbor role
