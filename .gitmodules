@@ -1,0 +1,3 @@
+[submodule "ansible-generator"]
+	path = ansible-generator
+	url = https://github.com/kkirsche/ansible-generator.git
