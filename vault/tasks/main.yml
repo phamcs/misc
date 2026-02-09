@@ -8,4 +8,4 @@
     manager: auto
 
 - name: Setup vault
-  ansible.builtin.include_tasks: vault.yml
+  ansible.builtin.include_tasks: setup.yml
