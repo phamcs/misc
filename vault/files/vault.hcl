@@ -1,0 +1,62 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: BUSL-1.1
+
+# Full configuration options can be found at https://developer.hashicorp.com/vault/docs/configuration
+
+ui = true
+disable_mlock = true
+#mlock = true
+api_addr = "https://vault.superasian.net"
+cluster_addr = "https://vault.superasian.net:8201"
+plugin_directory = "/opt/vault/plugins"
+
+storage "raft" {
+  path = "/opt/vault/data"
+  node_id = "vault"
+}
+
+#storage "consul" {
+#  address = "127.0.0.1:8500"
+#  path    = "vault"
+#}
+
+# HTTP/HTTPS listener
+listener "tcp" {
+  address       = "0.0.0.0:8200"
+  tls_cert_file = "/opt/vault/tls/superasian.net.crt"
+  tls_key_file  = "/opt/vault/tls/superasian.net.key"
+  tls_min_version = "tls12"
+  tls_max_version = "tls13"
+  tls_disable = false
+}
+# Telemetry settings
+telemetry {
+  usage_gauge_period = "10m"
+  maximum_gauge_cardinality = 500
+  disable_hostname = false
+  enable_hostname_label = false
+  lease_metrics_epsilon = "1h"
+  num_lease_metrics_buckets = 168
+  add_lease_metrics_namespace_labels = false
+  filter_default = true
+
+  statsite_address = "{{ prometheus_ip }}:9090"
+}
+# Enterprise license_path
+# This will be required for enterprise as of v1.8
+#license_path = "/etc/vault.d/vault.hclic"
+
+# Example AWS KMS auto unseal
+#seal "awskms" {
+#  region = "us-east-1"
+#  kms_key_id = "REPLACE-ME"
+#}
+
+# Example HSM auto unseal
+#seal "pkcs11" {
+#  lib            = "/usr/vault/lib/libCryptoki2_64.so"
+#  slot           = "0"
+#  pin            = "AAAA-BBBB-CCCC-DDDD"
+#  key_label      = "vault-hsm-key"
+#  hmac_key_label = "vault-hsm-hmac-key"
+#}

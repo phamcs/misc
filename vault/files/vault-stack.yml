@@ -1,0 +1,30 @@
+---
+# Setup HashiCorp Vault
+name: Vault
+services:
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    user: "1000"
+    ports:
+    - "8201:8201"
+    - "8200:8200"
+    environment:
+      VAULT_API_ADDR: "https://vault.superasian.net"
+      #VAULT_SKIP_VERIFY: true
+      VAULT_LOG_FORMAT: json
+      VAULT_LOG_LEVEL: info
+      VAULT_CLIENT_TIMEOUT: 60s
+    cap_add:
+    - IPC_LOCK
+    volumes:
+      - /srv/AppData/vault/config:/etc/vault.d
+      - /srv/AppData/vault/ssl:/opt/vault/tls
+      - /srv/AppData/vault/logs:/var/log/vault
+      - /srv/AppData/vault/data:/opt/vault/data
+      - /srv/AppData/vault/plugins:/opt/vault/plugins
+    network_mode: bridge
+    restart: always
+    healthcheck:
+      retries: 5
+    entrypoint: vault server -config=/etc/vault.d/vault.hcl
