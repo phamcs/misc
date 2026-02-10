@@ -24,6 +24,7 @@
   loop:
     - { src: 'files/{{ domain }}.cert', dest: '{{ vault_dir }}/ssl/{{ domain }}.crt' }
     - { src: 'files/{{ domain }}.key', dest: '{{ vault_dir }}/ssl/{{ domain }}.key' }
+    - { src: 'files/vault-stack.yml', dest: '{{ vault_dir }}/vault-stack.yml' }
     - { src: 'files/vault.hcl', dest: '{{ vault_dir }}/config/vault.hcl' }
 
 # Start Vault
