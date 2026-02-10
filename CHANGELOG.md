@@ -73,3 +73,6 @@ straightforward as possible.
   - Renamed influxdb2 to influxdb
 ### Fixed
    README
+
+
+docker run cloudflare/cloudflared:latest tunnel --no-autoupdate run --token eyJhIjoiOWEyNmQwY2I4NDM4OTRhODY1NmFjZDUwNmYyZWJlOWMiLCJ0IjoiNzE2NDI4MDMtZGRjZi00ODNkLTk1Y2EtZGZjOTY0NmQ3Mjk1IiwicyI6Ik1XVXdOV1UzWTJZdE1ESTFPUzAwTkdFNUxUaGxZVE10TnpCbE9EZGpZbUUzWVRJMSJ9
