@@ -40,7 +40,7 @@ telemetry {
   add_lease_metrics_namespace_labels = false
   filter_default = true
 
-  statsite_address = "{{ prometheus_ip }}:9090"
+  statsite_address = "172.19.0.6:9090"
 }
 # Enterprise license_path
 # This will be required for enterprise as of v1.8

@@ -1,0 +1,16 @@
+---
+# Setup Nginx Load Balancer
+name: nginx-lb
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /srv/AppData/nginx/conf.d/:/etc/nginx/conf.d/
+      - /srv/AppData/nginx/ssl/:/etc/nginx/ssl/
+    network_mode: bridge

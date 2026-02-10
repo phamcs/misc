@@ -1,0 +1,40 @@
+---
+# Create Nginx Directory
+- name: Create nginx directory
+  ansible.builtin.file:
+    path: "{{ nginx_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - conf.d
+    - ssl
+
+# Copy certs & config
+- name: Copy certs & config
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/{{ domain }}.cert', dest: '{{ nginx_dir }}/ssl/{{ domain }}.crt' }
+    - { src: 'files/{{ domain }}.key', dest: '{{ nginx_dir }}/ssl/{{ domain }}.key' }
+    - { src: 'files/vault.conf', dest: '{{ nginx_dir }}/conf.d/vault.conf' }
+
+# Start Nginx Loadbalancer
+- name: Start nginx loadbalancer
+  ansible.builtin.command:
+    chdir: "{{ nginx_dir }}"
+    cmd: "docker compose -f nginx-stack.yml up -d"
+  register: compose_result
+  until: compose_result.rc == 0
+  retries: 5
+  delay: 10
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result.stdout_lines is defined
