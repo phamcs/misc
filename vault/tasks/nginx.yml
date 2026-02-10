@@ -20,6 +20,7 @@
   loop:
     - { src: 'files/{{ domain }}.cert', dest: '{{ nginx_dir }}/ssl/{{ domain }}.crt' }
     - { src: 'files/{{ domain }}.key', dest: '{{ nginx_dir }}/ssl/{{ domain }}.key' }
+    - { src: 'files/nginx-stack.yml', dest: '{{ nginx_dir }}/nginx-stack.yml' }
     - { src: 'files/vault.conf', dest: '{{ nginx_dir }}/conf.d/vault.conf' }
 
 # Start Nginx Loadbalancer
