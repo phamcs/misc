@@ -50,7 +50,7 @@
     group: "{{ artifactory_group }}"
   loop:
     - { src: 'files/docker-compose.yaml', dest: '{{ app_dir }}/{{ product }}-{{ version }}/docker-compose.yaml' }
-    #- { src: 'files/join.key', dest: '{{ app_dir }}/artifactory/var/etc/security/join.key' }
+    - { src: 'files/system.yaml', dest: '{{ app_dir }}/artifactory/var/etc/system.yaml' }
 
 # Start Artifactory
 - name: Start Artifactory

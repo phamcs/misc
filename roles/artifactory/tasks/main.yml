@@ -6,8 +6,10 @@
   ansible.builtin.package_facts:
     manager: auto
 
-- name: Setup nginx
-  ansible.builtin.include_tasks: nginx.yml
+- name: Include nginx role
+  ansible.builtin.include_role:
+    name: nginx
+    tasks_from: nginx
 
 - name: Setup artifactory
   ansible.builtin.include_tasks: setup.yml
