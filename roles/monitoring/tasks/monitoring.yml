@@ -1,6 +1,6 @@
 ---
-# Create Prometheus Monitoring stack directories
-- name: Create prometheus monitoring directories
+# Create Monitoring stack directories
+- name: Create monitoring directories
   ansible.builtin.file:
     path: "{{ mon_dir }}/{{ item }}"
     state: directory
@@ -69,6 +69,19 @@
     - dashboards
     - datasources
 
+# Create Prometheus Directory
+- name: Create prometheus directory
+  ansible.builtin.file:
+    path: "{{ prometheus_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - certs
+    - config
+    - data
+    - rules
+
 # Copy monitoring config & certs
 - name: Copy monitoring config & certs
   ansible.builtin.copy:
@@ -88,6 +101,9 @@
     - { src: 'files/container_alerts.yml', dest: '{{ prometheus_dir }}/rules/container_alerts.yml' }
     - { src: 'files/node_alerts.yml', dest: '{{ prometheus_dir }}/rules/node_alerts.yml' }
     - { src: 'files/recording_rules.yml', dest: '{{ prometheus_dir }}/rules/recording_rules.yml' }
+    - { src: 'files/{{ domain }}.cert', dest: '{{ prometheus_dir }}/certs/tls.crt' }
+    - { src: 'files/{{ domain }}.key', dest: '{{ prometheus_dir }}/certs/tls.key' }
+    - { src: 'files/vault-prod', dest: '{{ prometheus_dir }}/vault-prod' }
 
 # Start Monitoring Stack
 - name: Start Monitoring stack

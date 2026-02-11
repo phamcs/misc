@@ -13,10 +13,10 @@ straightforward as possible.
 ## [1.6.0] - 2026-02-10
  
 ### Added
-   Splitting up Monitoring role
+   Splitting Monitoring & Nginx role
 ### Changed
-  - Remove monitroing from apps-server role
-  - Update app-server role
+  - Remove monitoring & nginx from apps-server role
+  - Update apps-server role
 ### Fixed
   - Update to use variables
 
@@ -83,6 +83,3 @@ straightforward as possible.
   - Renamed influxdb2 to influxdb
 ### Fixed
    README
-
-
-docker run cloudflare/cloudflared:latest tunnel --no-autoupdate run --token eyJhIjoiOWEyNmQwY2I4NDM4OTRhODY1NmFjZDUwNmYyZWJlOWMiLCJ0IjoiNzE2NDI4MDMtZGRjZi00ODNkLTk1Y2EtZGZjOTY0NmQ3Mjk1IiwicyI6Ik1XVXdOV1UzWTJZdE1ESTFPUzAwTkdFNUxUaGxZVE10TnpCbE9EZGpZbUUzWVRJMSJ9

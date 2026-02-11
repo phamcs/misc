@@ -88,7 +88,6 @@
     owner: "{{ app_user }}"
   loop:
     - portainer
-    - node-export
     - common
 
 # Copy common stack config
