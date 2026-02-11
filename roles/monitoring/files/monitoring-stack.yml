@@ -1,0 +1,165 @@
+---
+# Main Monitoring Stack Docker Compose File
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+  influxdb_data: {}
+  telegraf_data: {}
+
+networks:
+  mnet:
+    driver: bridge
+
+name: monitoring
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=15d'      # Adjust retention period
+      - '--storage.tsdb.wal-compression'         # Compress write-ahead log
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    networks:
+      - mnet
+    restart: unless-stopped
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($|/)'
+    ports:
+      - "9100:9100"
+    networks:
+      - mnet
+    restart: unless-stopped
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    privileged: true
+    devices:
+      - /dev/kmsg:/dev/kmsg:ro
+    ports:
+      - "8008:8008"
+    command:
+      - '--housekeeping_interval=15s'
+      - '--port=8008'
+      # Disable crio & podman
+      - '--docker_only=true'
+    networks:
+      - mnet
+    restart: unless-stopped
+
+  grafana:
+    user: "1000"
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      #- "{{ grafana_dir }}/config:/etc/grafana"
+      #- "{{ grafana_dir }}/data:/var/lib/grafana"
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_DOMAIN=monitoring.superasian.net
+      - GF_SERVER_ROOT_URL=https://monitoring.superasian.net
+      - GF_SERVER_CERT_FILE=/etc/grafana/grafana.crt
+      - GF_SERVER_KEY_FILE=/etc/grafana/grafana.key
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    ports:
+      - "3000:3000"
+    networks:
+      - mnet
+    restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    volumes:
+      - ./alertmanager:/etc/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+    ports:
+      - "9093:9093"
+    networks:
+      - mnet
+    restart: unless-stopped
+
+  ## Influxdb Service
+  influxdb2:
+    user: "1000"
+    image: influxdb:latest
+    container_name: influxdb2
+    ports:
+      - "8086:8086"
+    networks:
+      - mnet
+    volumes:
+      - type: bind
+        source: /srv/AppData/monitoring/influxdb/data
+        target: /var/lib/influxdb2
+      - type: bind
+        source: /srv/AppData/monitoring/influxdb/config
+        target: /etc/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=k0ng
+      - DOCKER_INFLUXDB_INIT_PASSWORD=Influxdb123
+      - DOCKER_INFLUXDB_INIT_ORG=PHAMCS
+      - DOCKER_INFLUXDB_INIT_BUCKET=chooseBucketName
+      - DOCKER_INFLUXDB_INIT_RETENTION=1w
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=p9avK9R4234nWVeyC9YovQPL
+    restart: unless-stopped
+
+  ## Telegraf Service
+  telegraf:
+    image: telegraf:latest
+    pid: "host"
+    container_name: telegraf
+    depends_on:
+      - influxdb2
+    links:
+      - influxdb2
+    ports:
+      - "8092:8092"
+      - "8094:8094"
+      - "8125:8125"
+    networks:
+      - mnet
+    volumes:
+      - /srv/AppData/monitoring/telegraf/config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys:/host/sys:ro
+      - /proc:/host/proc:ro
+      - /etc:/host/etc:ro
+    environment:
+      - HOST_PROC=/host/proc
+      - HOST_SYS=/host/sys
+      - HOST_ETC=/host/etc
+    restart: unless-stopped

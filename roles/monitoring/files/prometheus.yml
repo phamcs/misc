@@ -1,0 +1,91 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# Load rules once and periodically evaluate them
+rule_files:
+  - "rules/*.yml"
+
+# Scrape configurations
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  # Scrape metrics for the Harbor exporter component
+  - job_name: 'harbor-exporter'
+    scrape_interval: 20s
+    static_configs:
+      - targets: ['10.0.0.29:9090']
+
+  # Scrape metrics for the Harbor core component
+  - job_name: 'harbor-core'
+    scrape_interval: 20s
+    params:
+      comp: ['core']
+    static_configs:
+      - targets: ['10.0.0.29:9090']
+
+  # Scrape metrics for the Harbor registry component
+  - job_name: 'harbor-registry'
+    scrape_interval: 20s
+    params:
+      comp: ['registry']
+    static_configs:
+      - targets: ['10.0.0.29:9090']
+
+  # Scrape metrics for the Harbor jobservice component
+  - job_name: 'harbor-jobservice'
+    scrape_interval: 20s
+    params:
+      comp: ['jobservice']
+    static_configs:
+      - targets: ['10.0.0.29:9090']
+
+  # Make sure node-exporter running on the following static nodes
+  - job_name: 'static-nodes'
+    static_configs:
+      - targets: ['10.0.0.16:9100', '10.0.0.30:9100', '10.0.0.25:9100', '10.0.0.252:9100', '10.0.0.36:9100', '10.0.0.76:9100', '10.0.0.19:9100']
+
+  # Scrape metrics for Production HashiCorp Vault 
+  - job_name: 'vault'
+    metrics_path: '/v1/sys/metrics'
+    params:
+      format: ['prometheus']
+    scheme: https
+    tls_config:
+      cert_file: '/etc/prometheus/tls.crt'
+      key_file: '/etc/prometheus/tls.key'
+    authorization:
+      credentials_file: /etc/prometheus/vault-prod
+    static_configs:
+    - targets: ['vault.superasian.net']
+
+  # Scrape metrics for Development HashiCorp Vault
+  - job_name: 'vault-dev'
+    metrics_path: '/v1/sys/metrics'
+    params:
+      format: ['prometheus']
+    scheme: https
+    tls_config:
+      cert_file: '/etc/prometheus/tls.crt'
+      key_file: '/etc/prometheus/tls.key'
+    authorization:
+      credentials_file: /etc/prometheus/vault-dev
+    static_configs:
+    - targets: ['dev.superasian.net']

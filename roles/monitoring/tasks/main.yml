@@ -1,0 +1,16 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Populate service facts
+  ansible.builtin.service_facts: {}
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Include nginx role
+  ansible.builtin.include_role:
+    name: nginx
+    tasks_from: nginx
+
+- name: Setup monitoring
+  ansible.builtin.include_tasks: monitoring.yml

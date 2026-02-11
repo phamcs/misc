@@ -1,0 +1,11 @@
+---
+
+# Setup Monitoring Stack
+- name: Setup Monitoring Stack
+  hosts: all
+  any_errors_fatal: true
+  become: true
+  become_user: root
+  roles:
+    - common
+    - role: monitoring

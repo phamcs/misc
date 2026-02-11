@@ -10,6 +10,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
+## [1.6.0] - 2026-02-10
+ 
+### Added
+   Splitting up Monitoring role
+### Changed
+  - Remove monitroing from apps-server role
+  - Update app-server role
+### Fixed
+  - Update to use variables
+
 ## [1.5.0] - 2026-02-07
  
 ### Added

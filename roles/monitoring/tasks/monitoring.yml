@@ -1,0 +1,107 @@
+---
+# Create Prometheus Monitoring stack directories
+- name: Create prometheus monitoring directories
+  ansible.builtin.file:
+    path: "{{ mon_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - alertmanager
+    - prometheus
+    - grafana
+    - influxdb
+    - telegraf
+
+# Create Influxdb Directory
+- name: Create influxdb directory
+  ansible.builtin.file:
+    path: "{{ influxdb_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - config
+    - data
+
+# Create Telegraf Directory
+- name: Create telegraf directory
+  ansible.builtin.file:
+    path: "{{ telegraf_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - config
+    - data
+
+# Copy Telegraf config
+- name: Copy telegraf config
+  ansible.builtin.copy:
+    src: "telegraf.conf"
+    dest: "{{ telegraf_dir }}/config/telegraf.conf"
+    mode: 0644
+    owner: "{{ app_user }}"
+
+# Create Grafana Directory
+- name: Create grafana directory
+  ansible.builtin.file:
+    path: "{{ grafana_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - certs
+    - config
+    - dashboards
+    - plugins
+    - provisioning
+
+# Create Grafana Sub Directory
+- name: Create grafana sub directory
+  ansible.builtin.file:
+    path: "{{ grafana_dir }}/provisioning/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - dashboards
+    - datasources
+
+# Copy monitoring config & certs
+- name: Copy monitoring config & certs
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/system-overview.json', dest: '{{ grafana_dir }}/dashboards/system-overview.json' }
+    - { src: 'files/dashboards.yml', dest: '{{ grafana_dir }}/dashboards/dashboards.yml' }
+    - { src: 'files/dashboards.yml', dest: '{{ grafana_dir }}/provisioning/dashboards/dashboards.yml' }
+    - { src: 'files/datasource.yml', dest: '{{ grafana_dir }}/provisioning/datasources/datasource.yml' }
+    - { src: 'files/{{ domain }}.cert', dest: '{{ grafana_dir }}/certs/grafana.crt' }
+    - { src: 'files/{{ domain }}.key', dest: '{{ grafana_dir }}/certs/grafana.key' }
+    - { src: 'files/alertmanager-conf.yml', dest: '{{ mon_dir }}/alertmanager/config.yml' }
+    - { src: 'files/prometheus.yml', dest: '{{ prometheus_dir }}/prometheus.yml' }
+    - { src: 'files/container_alerts.yml', dest: '{{ prometheus_dir }}/rules/container_alerts.yml' }
+    - { src: 'files/node_alerts.yml', dest: '{{ prometheus_dir }}/rules/node_alerts.yml' }
+    - { src: 'files/recording_rules.yml', dest: '{{ prometheus_dir }}/rules/recording_rules.yml' }
+
+# Start Monitoring Stack
+- name: Start Monitoring stack
+  ansible.builtin.command:
+    chdir: "{{ mon_dir }}"
+    cmd: "docker compose -f monitoring-stack.yml up -d"
+  register: compose_result
+  until: compose_result.rc == 0
+  retries: 5
+  delay: 10
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result.stdout_lines is defined
