@@ -60,7 +60,7 @@ scrape_configs:
   # Make sure node-exporter running on the following static nodes
   - job_name: 'static-nodes'
     static_configs:
-      - targets: ['10.0.0.16:9100', '10.0.0.30:9100', '10.0.0.25:9100', '10.0.0.252:9100', '10.0.0.36:9100', '10.0.0.76:9100', '10.0.0.19:9100']
+      - targets: ['10.0.0.16:9100', '10.0.0.30:9100', '10.0.0.25:9100', '10.0.0.252:9100', '10.0.0.36:9100', '10.0.0.76:9100']
 
   # Scrape metrics for Production HashiCorp Vault 
   - job_name: 'vault'
@@ -69,8 +69,8 @@ scrape_configs:
       format: ['prometheus']
     scheme: https
     tls_config:
-      cert_file: '/etc/prometheus/tls.crt'
-      key_file: '/etc/prometheus/tls.key'
+      cert_file: '/etc/prometheus/certs/tls.crt'
+      key_file: '/etc/prometheus/certs/tls.key'
     authorization:
       credentials_file: /etc/prometheus/vault-prod
     static_configs:
@@ -83,8 +83,8 @@ scrape_configs:
       format: ['prometheus']
     scheme: https
     tls_config:
-      cert_file: '/etc/prometheus/tls.crt'
-      key_file: '/etc/prometheus/tls.key'
+      cert_file: '/etc/prometheus/certs/tls.crt'
+      key_file: '/etc/prometheus/certs/tls.key'
     authorization:
       credentials_file: /etc/prometheus/vault-dev
     static_configs:

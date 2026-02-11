@@ -104,6 +104,7 @@
     - { src: 'files/recording_rules.yml', dest: '{{ prometheus_dir }}/rules/recording_rules.yml' }
     - { src: 'files/{{ domain }}.cert', dest: '{{ prometheus_dir }}/certs/tls.crt' }
     - { src: 'files/{{ domain }}.key', dest: '{{ prometheus_dir }}/certs/tls.key' }
+    - { src: 'files/monitoring.conf', dest: '{{ nginx_dir }}/conf.d/monitoring.conf' }
 
 # Start Monitoring Stack
 - name: Start Monitoring stack
