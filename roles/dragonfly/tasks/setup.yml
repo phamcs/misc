@@ -20,6 +20,15 @@
     - config
     - log
 
+- name: Create config directory
+  ansible.builtin.file:
+    path: "{{ df_compose_dir }}/config/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - cert
+
 # Copy config files
 - name: Copy dragonfly config files
   ansible.builtin.copy:
