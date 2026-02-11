@@ -1,5 +1,4 @@
 ---
-
 # Debian full system upgrade
 - name: Debian system updates
   ansible.builtin.apt:
