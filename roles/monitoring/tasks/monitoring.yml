@@ -96,6 +96,7 @@
     - { src: 'files/datasource.yml', dest: '{{ grafana_dir }}/provisioning/datasources/datasource.yml' }
     - { src: 'files/{{ domain }}.cert', dest: '{{ grafana_dir }}/certs/grafana.crt' }
     - { src: 'files/{{ domain }}.key', dest: '{{ grafana_dir }}/certs/grafana.key' }
+    - { src: 'files/monitoring-stack.yml', dest: '{{ mon_dir }}/monitoring-stack.yml' }
     - { src: 'files/alertmanager-conf.yml', dest: '{{ mon_dir }}/alertmanager/config.yml' }
     - { src: 'files/prometheus.yml', dest: '{{ prometheus_dir }}/prometheus.yml' }
     - { src: 'files/container_alerts.yml', dest: '{{ prometheus_dir }}/rules/container_alerts.yml' }
