@@ -18,7 +18,7 @@
     owner: "{{ app_user }}"
   loop:
     - config
-    - ssl
+    - log
 
 # Copy config files
 - name: Copy dragonfly config files
@@ -29,8 +29,8 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'files/docker-compose.yaml', dest: '{{ df_compose_dir }}/docker-compose.yaml' }
-    - { src: 'files/tls.cert', dest: '{{ df_compose_dir }}/ssl/server.crt' }
-    - { src: 'files/tls.key', dest: '{{ df_compose_dir }}/ssl/server.key' }
+    - { src: 'files/tls.cert', dest: '{{ df_compose_dir }}/config/cert/server.crt' }
+    - { src: 'files/tls.key', dest: '{{ df_compose_dir }}/config/cert/server.key' }
     - { src: 'files/dragonfly.conf', dest: '{{ nginx_dir }}/conf.d/dragonfly.conf' }
 
 # Start Dragonfly
