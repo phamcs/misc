@@ -62,10 +62,10 @@ services:
     devices:
       - /dev/kmsg:/dev/kmsg:ro
     ports:
-      - "8080:8080"
+      - "8085:8085"
     command:
       - '--housekeeping_interval=15s'
-      - '--port=8080'
+      - '--port=8085'
       # Disable crio & podman
       - '--docker_only=true'
     networks:

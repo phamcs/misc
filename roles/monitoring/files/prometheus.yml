@@ -25,7 +25,7 @@ scrape_configs:
 
   - job_name: 'cadvisor'
     static_configs:
-      - targets: ['cadvisor:8080']
+      - targets: ['cadvisor:8085']
 
   # Scrape metrics for the Harbor exporter component
   - job_name: 'harbor-exporter'
