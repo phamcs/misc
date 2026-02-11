@@ -10,6 +10,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
+## [2.0.0] - 2026-02-10
+ 
+### Added
+  Airsonic role
+### Changed
+  - Update registry role
+  - Rename apps-server to airsonic role
+  - Remove ansible-generator submodule
+### Fixed
+  - Update to use variables
+
 ## [1.6.0] - 2026-02-10
  
 ### Added

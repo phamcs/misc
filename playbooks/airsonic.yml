@@ -1,11 +1,12 @@
 ---
 
-# Setup Apps Server
-- name: Setup apps server
+# Setup Airsonic Server
+- name: Setup airsonic server
   hosts: all
   any_errors_fatal: true
   become: true
   become_user: root
   roles:
     - common
-    - role: apps-server
+    - role: airsonic
+      tags: airsonic

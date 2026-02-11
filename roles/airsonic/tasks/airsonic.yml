@@ -1,4 +1,15 @@
 ---
+# Create Apps Directory
+- name: Create apps directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - airsonic
+
 # Create Airsonic Directory
 - name: Create aisonic directories
   ansible.builtin.file:
@@ -17,6 +28,17 @@
     - podcasts
     - thumbs
     - transcode
+
+# Copy Airsonic config
+- name: Copy airsonic config
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/airsonic-stack.yml', dest: '{{ airsonic_dir }}/airsonic-stack.yml' }
+    - { src: 'files/airsonic.conf', dest: '{{ nginx_dir }}/conf.d/airsonic.conf' }
 
 # Start Airsonic Stack
 - name: Start airsonic stack
