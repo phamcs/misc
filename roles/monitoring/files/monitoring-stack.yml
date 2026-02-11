@@ -58,14 +58,16 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
+    environment:
+      - CADVISOR_HEALTHCHECK_URL=http://localhost:9092/healthz
     privileged: true
     devices:
       - /dev/kmsg:/dev/kmsg:ro
     ports:
-      - "8085:8085"
+      - "9092:9092"
     command:
       - '--housekeeping_interval=15s'
-      - '--port=8085'
+      - '--port=9092'
       # Disable crio & podman
       - '--docker_only=true'
     networks:
