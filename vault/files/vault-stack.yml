@@ -19,7 +19,7 @@ services:
     - IPC_LOCK
     volumes:
       - /srv/AppData/vault/config:/etc/vault.d
-      - /srv/AppData/vault/ssl:/opt/vault/tls
+      - /srv/AppData/vault/tls:/opt/vault/tls
       - /srv/AppData/vault/logs:/var/log/vault
       - /srv/AppData/vault/data:/opt/vault/data
       - /srv/AppData/vault/plugins:/opt/vault/plugins

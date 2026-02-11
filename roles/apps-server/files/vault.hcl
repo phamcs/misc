@@ -31,16 +31,15 @@ listener "tcp" {
 }
 # Telemetry settings
 telemetry {
+  prometheus = "127.0.0.1:9090"
   usage_gauge_period = "10m"
   maximum_gauge_cardinality = 500
-  disable_hostname = false
+  disable_hostname = true
   enable_hostname_label = false
   lease_metrics_epsilon = "1h"
   num_lease_metrics_buckets = 168
   add_lease_metrics_namespace_labels = false
   filter_default = true
-
-  statsite_address = "$prometheus_ip:9090"
 }
 # Enterprise license_path
 # This will be required for enterprise as of v1.8
