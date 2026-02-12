@@ -25,7 +25,7 @@
 
 - name: Copy and extract tar file
   ansible.builtin.unarchive:
-    src: "{{ jcr_url }}/{{ product }}-{{ version }}-compose.tar.gz"  # Path to the archive on the Ansible control machine
+    src: "{{ jcr_url }}"  # Path to the archive on the Ansible control machine
     dest: "{{ app_dir }}/"             # Absolute path on the remote host where the archive will be extracted
     remote_src: yes                     # Set to 'yes' if the archive is already on the remote host
     owner: "{{ app_user }}"            # (Optional) User to own the extracted files
@@ -36,7 +36,7 @@
 - name: Copy environment file
   ansible.builtin.template:
     src: "templates/artifactory-env.j2"
-    dest: "{{ app_dir }}/{{ product }}-{{ version }}/.env"
+    dest: "{{ app_dir }}/artifactory-jcr-{{ version }}/.env"
     mode: 0755
     owner: "{{ app_user }}"
 
@@ -56,7 +56,7 @@
 - name: Start Artifactory
   ansible.builtin.command:
     cmd: "docker compose -p rt up -d"
-    chdir: "{{ app_dir }}/{{ product }}-{{ version }}"
+    chdir: "{{ app_dir }}/artifactory-jcr-{{ version }}"
   register: compose_result
   until: compose_result.rc == 0
   retries: 5
