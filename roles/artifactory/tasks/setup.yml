@@ -36,7 +36,7 @@
 - name: Copy environment file
   ansible.builtin.template:
     src: "templates/artifactory-env.j2"
-    dest: "{{ app_dir }}/artifactory-jcr-{{ version }}/.env"
+    dest: "{{ app_dir }}/{{ product }}-{{ version }}/.env"
     mode: 0755
     owner: "{{ app_user }}"
 
@@ -56,7 +56,7 @@
 - name: Start Artifactory
   ansible.builtin.command:
     cmd: "docker compose -p rt up -d"
-    chdir: "{{ app_dir }}/artifactory-jcr-{{ version }}"
+    chdir: "{{ app_dir }}/{{ product }}-{{ version }}"
   register: compose_result
   until: compose_result.rc == 0
   retries: 5
