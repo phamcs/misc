@@ -39,7 +39,7 @@ services:
       - JF_SHARED_DATABASE_TYPE=postgresql
       # The following must match the POSTGRES_USER and POSTGRES_PASSWORD values passed to PostgreSQL
       - JF_SHARED_DATABASE_USERNAME=artifactory
-      - JF_SHARED_DATABASE_PASSWORD=password
+      - JF_SHARED_DATABASE_PASSWORD=P@ssw0rd
       - JF_SHARED_DATABASE_URL=jdbc:postgresql://10.0.0.252:5432/artifactory
       - JF_SHARED_DATABASE_DRIVER=org.postgresql.Driver
       - JF_SHARED_NODE_IP=${JF_SHARED_NODE_IP}
