@@ -11,5 +11,5 @@
     name: nginx
     tasks_from: nginx
 
-- name: Setup artifactory
-  ansible.builtin.include_tasks: setup.yml
+- name: Setup Dragonfly
+  ansible.builtin.include_tasks: dragonfly.yml

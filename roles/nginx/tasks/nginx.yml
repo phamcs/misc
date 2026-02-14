@@ -20,6 +20,7 @@
   loop:
     - { src: 'files/tls.cert', dest: '{{ nginx_dir }}/ssl/tls.crt' }
     - { src: 'files/tls.key', dest: '{{ nginx_dir }}/ssl/tls.key' }
+    - { src: 'files/nginx-stack.yml', dest: '{{ nginx_dir }}/nginx-stack.yml' }
 
 # Start Nginx Loadbalancer
 - name: Start nginx load balancer
