@@ -8,7 +8,8 @@
     manager: auto
 
 - name: Check if nginx container is running
-  ansible.builtin.shell: "docker ps --filter 'name=nginx' --filter 'status=running' --format '{{.Names}}'"
+  ansible.builtin.shell: |
+    {% raw %}docker ps --filter 'name=nginx' --filter 'status=running' --format "{{.Names}}"{% endraw %}
   register: nginx_container
   changed_when: false
 
