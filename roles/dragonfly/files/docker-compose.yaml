@@ -44,8 +44,8 @@ services:
     volumes:
       - ./log/manager:/var/log/dragonfly
       - ./config/manager.yaml:/etc/dragonfly/manager.yaml:ro
-      - ./config/cert/tls.cert:/etc/ssl/certs/server.crt:ro
-      - ./config/cert/tls.key:/etc/ssl/private/server.key:ro
+      - ./cert/tls.cert:/etc/ssl/certs/server.crt:ro
+      - ./cert/tls.key:/etc/ssl/private/server.key:ro
     healthcheck:
       test: ["CMD-SHELL", "/bin/grpc_health_probe -addr=:65003 || exit 1"]
       interval: 1s
