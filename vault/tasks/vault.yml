@@ -12,7 +12,7 @@
     - data
     - logs
     - plugins
-    - tls
+    - ssl
 
 # Copy vault config & cert
 - name: Copy vault config and cert
@@ -22,10 +22,11 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/{{ domain }}.cert', dest: '{{ vault_dir }}/tls/{{ domain }}.crt' }
-    - { src: 'files/{{ domain }}.key', dest: '{{ vault_dir }}/tls/{{ domain }}.key' }
+    - { src: 'files/tls.cert', dest: '{{ vault_dir }}/ssl/tls.crt' }
+    - { src: 'files/tls.key', dest: '{{ vault_dir }}/ssl/tls.key' }
     - { src: 'files/vault-stack.yml', dest: '{{ vault_dir }}/vault-stack.yml' }
     - { src: 'files/vault.hcl', dest: '{{ vault_dir }}/config/vault.hcl' }
+    - { src: 'files/vault.conf', dest: '{{ nginx_dir }}/conf.d/vault.conf' }
 
 # Start Vault
 - name: Start Vault

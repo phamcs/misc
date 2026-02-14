@@ -1,2 +1,5 @@
-app_dir: "/volume2/archive"
-
+base_dir: "/volume2/archive"
+app_dir: "{{ base_dir }}/apps"
+pxe_dir: "{{ app_dir }}/pxe"
+app_user: "k0ng"
+nfs_ip: "10.0.0.29"

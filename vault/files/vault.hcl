@@ -6,8 +6,8 @@
 ui = true
 disable_mlock = true
 #mlock = true
-api_addr = "https://dev.superasian.net"
-cluster_addr = "https://dev.superasian.net:8201"
+api_addr = "https://vault.superasian.net"
+cluster_addr = "https://vault.superasian.net:8201"
 plugin_directory = "/opt/vault/plugins"
 
 storage "raft" {
@@ -23,8 +23,8 @@ storage "raft" {
 # HTTP/HTTPS listener
 listener "tcp" {
   address       = "0.0.0.0:8200"
-  tls_cert_file = "/opt/vault/tls/superasian.net.crt"
-  tls_key_file  = "/opt/vault/tls/superasian.net.key"
+  tls_cert_file = "/opt/vault/ssl/tls.crt"
+  tls_key_file  = "/opt/vault/ssl/tls.key"
   tls_min_version = "tls12"
   tls_max_version = "tls13"
   tls_disable = false
@@ -39,8 +39,7 @@ telemetry {
   num_lease_metrics_buckets = 168
   add_lease_metrics_namespace_labels = false
   filter_default = true
-
-  statsite_address = "172.19.0.6:9090"
+  prometheus = "10.0.0.25:9090"
 }
 # Enterprise license_path
 # This will be required for enterprise as of v1.8

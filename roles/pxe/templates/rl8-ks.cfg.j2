@@ -10,9 +10,10 @@ ignoredisk --only-use=vda
 firstboot --enable
 
 # Network information
-network --bootproto=dhcp --device=enp6s18 --activate --hostname=localhost
-nfs --server=10.0.0.28 --dir=/volume2/archive/pxe/rl8
-repo --name="AppStream" --baseurl=nfs:10.0.0.28:/volume2/archive/pxe/rl8/AppStream
+network --bootproto=dhcp --device=enp6s18 ipv6=auto --no-activate --hostname=localhost
+nfs --server={{ nfs_ip }} --dir={{ pxe_dir }}/rl8
+repo --name="AppStream" --baseurl=nfs:{{ nfs_ip }}:{{ pxe_dir }}/rl8/AppStream
+repo --name="BaseOS" --baseurl=nfs:{{ nfs_ip }}:{{ pxe_dir }}/rl8/BaseOS
 # System bootloader configuration
 bootloader --location=none
 # Partition clearing information

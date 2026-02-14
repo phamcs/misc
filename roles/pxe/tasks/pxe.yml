@@ -1,13 +1,24 @@
 --- 
-
 # Create PXE structure
-- name: Create nginx structure
+- name: Create pxe structure
   ansible.builtin.file:
-    path: "{{ app_dir }}/PXE/{{ item }}"
+    path: "{{ pxe_dir }}/{{ item }}"
     state: directory
     mode: '0755'
     owner: "{{ app_user }}"
     recurse: yes
   loop:
     - images
-    - initd
+    - ks
+    - pxelinux.cfg
+
+# Cpoy PXE config
+- name: Copy PXE config
+  ansible.builtin.copy:
+    src: "item.src"
+    dest: "item.dest"
+    mode: '0644'
+    owner: "{{ app_user }}"
+  loop:
+    - 
+    
