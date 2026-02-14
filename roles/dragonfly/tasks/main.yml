@@ -6,10 +6,16 @@
   ansible.builtin.package_facts:
     manager: auto
 
+- name: Check if nginx container is running
+  ansible.builtin.shell: "docker ps --filter 'name=nginx' --filter 'status=running' --format '{{.Names}}'"
+  register: nginx_container
+  changed_when: false
+
 - name: Include nginx role
   ansible.builtin.include_role:
     name: nginx
     tasks_from: nginx
+  when: nginx_container.stdout != "running"
 
 - name: Setup Dragonfly
   ansible.builtin.include_tasks: dragonfly.yml
