@@ -1,8 +1,18 @@
 ---
+# Clone Dragonfly Repo
+- name: Clone dragonflydb
+  ansible.builtin.git:
+    repo: 'https://github.com/dragonflyoss/dragonfly.git'
+    dest: "{{ dragonfly_dir }}"
+    single_branch: yes
+    version: main
+    update: yes
+    force: yes
+
 # Create Config Directory
 - name: Create config directory
   ansible.builtin.file:
-    path: "{{ df_dir }}/{{ item }}"
+    path: "{{ df_compose_dir }}/{{ item }}"
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
@@ -10,16 +20,6 @@
     - cert
     - config
     - log
-
-# Download Dragonfly package
-- name: Copy and extract tar file
-  ansible.builtin.unarchive:
-    src: "{{ df_pkg }}"  # Path to the archive on the Ansible control machine
-    dest: "{{ df_dir }}"             # Absolute path on the remote host where the archive will be extracted
-    remote_src: no                    # Set to 'yes' if the archive is already on the remote host
-    owner: "{{ app_user }}"            # (Optional) User to own the extracted files
-    #mode: '0755'                       # (Optional) Permissions for the extracted files
-    #extra_opts: ['--strip-components=1'] # (Optional) Pass extra options to the unarchive command (e.g., to strip directories)
 
 # Copy config files
 - name: Copy dragonfly config files
@@ -29,15 +29,15 @@
     mode: 0664
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/docker-compose.yaml', dest: '{{ df_dir }}/docker-compose.yaml' }
-    - { src: 'files/tls.cert', dest: '{{ df_dir }}/cert/server.crt' }
-    - { src: 'files/tls.key', dest: '{{ df_dir }}/cert/server.key' }
+    - { src: 'files/docker-compose.yaml', dest: '{{ df_compose_dir }}/docker-compose.yaml' }
+    - { src: 'files/tls.cert', dest: '{{ df_compose_dir }}/cert/server.crt' }
+    - { src: 'files/tls.key', dest: '{{ df_compose_dir }}/cert/server.key' }
     - { src: 'files/dragonfly.conf', dest: '{{ nginx_dir }}/conf.d/dragonfly.conf' }
 
 # Start Dragonfly
 - name: Start dragonfly
   ansible.builtin.shell:
-    chdir: "{{ df_dir }}"
+    chdir: "{{ df_compose_dir }}"
     cmd: |
       rm -f config/*.yaml
       export IP="{{ srv_ip }}"
