@@ -20,12 +20,19 @@
     mode: '0644'
     owner: "{{ app_user }}"
   loop:
-    - { src: 'default', dest: '{{ pxe_dir }}/pxelinux.cfg/default' }
     - { src: 'pxelinux.0', dest: '{{ pxe_dir }}/pxelinux.0' }
     - { src: 'ldlinux.c32', dest: '{{ pxe_dir }}/ldlinux.c32' }
     - { src: 'libutil.c32', dest: '{{ pxe_dir }}/libutil.c32' }
     - { src: 'menu.c32', dest: '{{ pxe_dir }}/menu.c32' }
     - { src: 'memdisk', dest: '{{ pxe_dir }}/memdisk' }
+
+# Copy PXE default config
+- name: Copy PXE default config
+  ansible.builtin.template:
+    src: "default.j2"
+    dest: "{{ pxe_dir }}/pxelinux.cfg/default"
+    mode: '0644'
+    owner: "{{ app_user }}"
 
 # Download images
 - name: Download images
