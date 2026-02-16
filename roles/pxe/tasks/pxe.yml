@@ -27,5 +27,14 @@
     - { src: 'menu.c32', dest: '{{ pxe_dir }}/menu.c32' }
     - { src: 'memdisk', dest: '{{ pxe_dir }}/memdisk' }
 
-    
+# Download images
+- name: Download images
+  ansible.builtin.get_url:
+    url: "{{ images_url }}/{{ item }}"
+    dest: "{{ pxe_dir }}/images/{{ item }}"
+    mode: '0644'
+    owner: "{{ app_user }}"
+  loop:
+    - vmlinuz
+    - initrd.img    
     
