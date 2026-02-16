@@ -34,7 +34,6 @@
     dest: "{{ pxe_dir }}/images/{{ item }}"
     mode: '0644'
     owner: "{{ app_user }}"
-    remote_src: true
   loop:
     - vmlinuz
     - initrd.img    
