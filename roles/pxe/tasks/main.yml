@@ -1,5 +1,7 @@
 ---
 # Need to disable gathering facts and package facts to speed up the playbook execution, as they are not needed for this role.
+# This is running Synology so DHCP server and TFTP need to setup before execute this playbook, 
+# as the playbook will copy the config files and images to the PXE server, but it will not setup the DHCP server and TFTP server.
 # - name: Populate service facts
 #   ansible.builtin.service_facts: {}
 
