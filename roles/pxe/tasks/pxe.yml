@@ -15,8 +15,8 @@
 # Cpoy PXE config
 - name: Copy PXE config
   ansible.builtin.copy:
-    src: "item.src"
-    dest: "item.dest"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     mode: '0644'
     owner: "{{ app_user }}"
   loop:
