@@ -1,0 +1,10 @@
+---
+
+# Setup PXE host
+- name: Setup PXE Server
+  hosts: all
+  any_errors_fatal: true
+  become: true
+  become_user: root
+  roles:
+    - role: pxe
