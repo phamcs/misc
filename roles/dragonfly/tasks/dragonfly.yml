@@ -8,6 +8,7 @@
     version: main
     update: yes
     force: yes
+    onwer: "{{ app_user }}"
 
 # Create Config Directory
 - name: Create config directory
@@ -45,7 +46,7 @@
   register: compose_result
   until: compose_result.rc == 0
   retries: 5
-  delay: 10
+  delay: 15
 
 # Display compose output
 - name: Display compose result standard output lines

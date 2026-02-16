@@ -26,6 +26,7 @@
     - { src: 'files/tls.key', dest: '{{ vault_dir }}/ssl/tls.key' }
     - { src: 'files/vault-stack.yml', dest: '{{ vault_dir }}/vault-stack.yml' }
     - { src: 'files/vault.hcl', dest: '{{ vault_dir }}/config/vault.hcl' }
+    - { src: 'files/admin-policy.hcl', dest: '{{ vault_dir }}/config/admin-policy.hcl' }
     - { src: 'files/vault.conf', dest: '{{ nginx_dir }}/conf.d/vault.conf' }
 
 # Start Vault
