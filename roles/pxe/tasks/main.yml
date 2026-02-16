@@ -1,10 +1,10 @@
 ---
-# - name: Populate service facts
-#   ansible.builtin.service_facts: {}
+- name: Populate service facts
+  ansible.builtin.service_facts: {}
 
-# - name: Gather the package facts
-#   ansible.builtin.package_facts:
-#     manager: auto
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
 
 - name: Setup PXE
   ansible.builtin.include_tasks: pxe.yml
