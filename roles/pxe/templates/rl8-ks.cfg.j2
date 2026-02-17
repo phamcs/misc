@@ -11,9 +11,9 @@ firstboot --enable
 
 # Network information
 network --bootproto=dhcp --device=enp6s18 ipv6=auto --no-activate --hostname=localhost
-nfs --server={{ nfs_ip }} --dir={{ pxe_dir }}/rl8
-repo --name="AppStream" --baseurl=nfs:{{ nfs_ip }}:{{ pxe_dir }}/rl8/AppStream
-repo --name="BaseOS" --baseurl=nfs:{{ nfs_ip }}:{{ pxe_dir }}/rl8/BaseOS
+nfs --server={{ nfs_ip }} --dir=/NFS/rl8
+repo --name="AppStream" --baseurl=/NFS/rl8/AppStream
+repo --name="BaseOS" --baseurl=/NFS/rl8/BaseOS
 # System bootloader configuration
 bootloader --location=none
 # Partition clearing information
