@@ -58,7 +58,7 @@
   when: compose_result.stdout_lines is defined
 
 # Copy Airsonic nginx config
-- name: Copy dragonfly nginx config
+- name: Copy airsonic nginx config
   ansible.builtin.template:
     src: "templates/{{ item }}.j2"
     dest: "{{ nginx_dir }}/conf.d/{{ item }}"
