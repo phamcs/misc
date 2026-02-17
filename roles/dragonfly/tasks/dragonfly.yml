@@ -8,7 +8,6 @@
     version: main
     update: yes
     force: yes
-    onwer: "{{ app_user }}"
 
 # Create Config Directory
 - name: Create config directory
