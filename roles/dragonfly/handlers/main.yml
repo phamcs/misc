@@ -14,7 +14,7 @@
     docker restart nginx
   register: nginx_restart
   changed_when: nginx_restart.rc == 0
-  sync: 1
+  async: 1
   poll: 0
 
 - name: Reboot host
