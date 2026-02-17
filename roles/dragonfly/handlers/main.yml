@@ -13,7 +13,6 @@
   ansible.builtin.command: |
     docker restart nginx
     docker restart nginx-exporter
-  changed_when: false
   async: 1
   poll: 0
 
