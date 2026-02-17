@@ -6,6 +6,6 @@ menu title PXE Menu
 
 LABEL Rocky Linux 8
 MENU LABEL Rocky Linux 8
-KERNEL images/vmlinuz inst.ks=ks/rl8-ks.cfg
+KERNEL images/vmlinuz inst.ks=nfs:{{ nfs_ip }}:/NFS/ks/rl8-ks.cfg
 initrd images/initrd.img
-append netboot=nfs root=/dev/nfs nfsroot='{{ nfs_ip }}:/NFS/rl8 initrd=images/initrd.img' inst.ks=nfs:'{{ nfs_ip }}:/NFS/ks/rl8-ks.cfg'
+append netboot=nfs root=/dev/nfs nfsroot={{ nfs_ip }}:/NFS/rl8 initrd=images/initrd.img inst.ks=nfs:{{ nfs_ip }}:/NFS/ks/rl8-ks.cfg
