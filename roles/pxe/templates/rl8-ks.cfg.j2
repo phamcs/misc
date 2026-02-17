@@ -8,17 +8,21 @@ ignoredisk --only-use=vda
 #cdrom
 # Run the Setup Agent on first boot
 firstboot --enable
+reboot
 
 # Network information
-network --bootproto=dhcp --device=enp6s18 ipv6=auto --no-activate --hostname=localhost
-nfs --server={{ nfs_ip }} --dir=/NFS/rl8
-repo --name="AppStream" --baseurl=/NFS/rl8/AppStream
-repo --name="BaseOS" --baseurl=/NFS/rl8/BaseOS
+network --bootproto=dhcp --device=net0 --ipv6=disable --no-activate --hostname=localhost
+#url --url=ftp://10.0.0.29/NFS/rl8
+nfs --server=10.0.0.29 --dir=/NFS/rl8
+#harddrive --partition=sda1 --dir=/srv/NFS/rl8
+#repo --name="AppStream" --baseurl=/NFS/rl8/AppStream
+#repo --name="BaseOS" --baseurl=/NFS/rl8/BaseOS
 # System bootloader configuration
 bootloader --location=none
 # Partition clearing information
 clearpart --none --initlabel
 # Disk partitioning information
+#autopart
 part pv.555 --fstype="lvmpv" --ondisk=vda --size=50175
 part /boot --fstype="xfs" --ondisk=vda --size=1024
 volgroup rl --pesize=4096 pv.555
@@ -31,8 +35,20 @@ logvol /var --fstype="xfs" --size=10240 --name=var --vgname=rl
 %packages
 @^graphical-server-environment
 kexec-tools
+@guest-agents --optional
+@standard     --optional
+cockpit-*
+pcp-system-tools
 
+autofs
+nfs-utils
 %end
+
+%addon com_redhat_kdump --disable --reserve-mb=auto
+%end
+
+firewall --enabled --ssh
+selinux --disabled
 
 # Keyboard layouts
 keyboard --xlayouts='us'
@@ -42,8 +58,8 @@ lang en_US.UTF-8
 # Network information
 #network --bootproto=dhcp --device=ens18 --hostname=localhost
 
-# Run the Setup Agent on first boot
-#firstboot --enable
+#  Disable first boot
+firstboot --disable
 
 # System timezone
 timezone America/Denver
@@ -52,7 +68,26 @@ timezone America/Denver
 rootpw --iscrypted $6$Qq21FOGWlPuCSaif$asaKw6sBLaHz3gbqTQcECsHhXLAR6A8LZARHCNKkD8CYPXodEZ/KbOGVcen.GOBRLoSl3wOYu8e2zj2qg/jJO0
 user --groups=wheel --name=k0ng --password=$6$Knxb8YGwlQNl6irJ$XQ7pFgLnjsCdntIuQgpQdxF3SRDW2O9sYF21udzlcwOz0uxE1AX6SupXTr.7gdbK8Bpk162nj4/UeN5yb4ihh1 --iscrypted --gecos="Pham Computer Science"
 
-%addon ADDON_placeholder --enable --reserve-mb=auto
+%post --interpreter=/bin/sh
+# Disable history
+echo "unset HISTFILE" > /etc/profile.d/unset-histfile.sh
+echo "history -c; rm -f ~/.bash_history ~/.lesshst ~/.viminfo" > /etc/bash.bash_logout
+
+# Disable SELinux
+# cp -afv /etc/selinux/config /etc/selinux/config.backup
+# sed -E -e "s|^ *SELINUX *= *enforcing *$|SELINUX=disabled|gi" -i /etc/selinux/config
+
+# Disable DNS lookup and GSSAPI (Kerberos)
+cp -afv /etc/ssh/sshd_config /etc/ssh/sshd_config.backup
+sed -E -e "s|^ *GSSAPIAuthentication +yes *$|GSSAPIAuthentication no|gi" -i /etc/ssh/sshd_config
+sed -E -e "s|^ *UseDNS +yes *$|UseDNS no|gi" -i /etc/ssh/sshd_config
+
+# Disable password and root login
+sed -E -e "s|^ *PasswordAuthentication +yes *$|PasswordAuthentication no|gi" -i /etc/ssh/sshd_config
+sed -E -e "s|^ *PermitRootLogin +yes *$|PermitRootLogin no|gi" -i /etc/ssh/sshd_config
+
+# Set cryptographic policies
+update-crypto-policies --set FUTURE
 %end
 
 %anaconda
