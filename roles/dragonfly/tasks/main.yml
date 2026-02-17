@@ -17,7 +17,6 @@
     name: nginx
     tasks_from: nginx
   when: nginx_container.stdout != "running"
-  notify: Restart nginx
 
 - name: Setup Dragonfly
   ansible.builtin.include_tasks: dragonfly.yml
