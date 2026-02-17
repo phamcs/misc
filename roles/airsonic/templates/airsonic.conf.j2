@@ -1,7 +1,7 @@
 # Setup Upstream
 upstream airsonic {
    least_conn;
-   server 10.0.0.25:4040;
+   server {{ srv_ip }}:4040;
 }
 # Redirect HTTP to HTTPS
 server {

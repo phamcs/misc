@@ -12,7 +12,6 @@
 - name: Restart nginx
   ansible.builtin.command: |
     docker restart nginx
-    docker restart nginx-exporter
   async: 1
   poll: 0
 

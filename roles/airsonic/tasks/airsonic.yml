@@ -38,7 +38,7 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'files/airsonic-stack.yml', dest: '{{ airsonic_dir }}/airsonic-stack.yml' }
-    - { src: 'files/airsonic.conf', dest: '{{ nginx_dir }}/conf.d/airsonic.conf' }
+    #- { src: 'files/airsonic.conf', dest: '{{ nginx_dir }}/conf.d/airsonic.conf' }
 
 # Start Airsonic Stack
 - name: Start airsonic stack
@@ -56,3 +56,14 @@
     msg: "{{ item }}"
   loop: "{{ compose_result.stdout_lines }}"
   when: compose_result.stdout_lines is defined
+
+# Copy Airsonic nginx config
+- name: Copy dragonfly nginx config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - airsonic.conf
+  notify: Restart nginx
