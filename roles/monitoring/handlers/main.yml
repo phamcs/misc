@@ -15,6 +15,12 @@
     state: restarted
     name: firewalld
 
+- name: Restart nginx
+  ansible.builtin.command: |
+    docker restart nginx
+  async: 1
+  poll: 0
+
 - name: Reboot host
   ansible.builtin.reboot:
     reboot_timeout: 300

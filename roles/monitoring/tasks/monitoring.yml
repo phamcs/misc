@@ -104,7 +104,7 @@
     - { src: 'files/recording_rules.yml', dest: '{{ prometheus_dir }}/rules/recording_rules.yml' }
     - { src: 'files/tls.cert', dest: '{{ prometheus_dir }}/certs/tls.crt' }
     - { src: 'files/tls.key', dest: '{{ prometheus_dir }}/certs/tls.key' }
-    - { src: 'files/monitoring.conf', dest: '{{ nginx_dir }}/conf.d/monitoring.conf' }
+    #- { src: 'files/monitoring.conf', dest: '{{ nginx_dir }}/conf.d/monitoring.conf' }
 
 # Start Monitoring Stack
 - name: Start Monitoring stack
@@ -122,3 +122,14 @@
     msg: "{{ item }}"
   loop: "{{ compose_result.stdout_lines }}"
   when: compose_result.stdout_lines is defined
+
+# Copy Monitoring nginx config
+- name: Copy monitoring nginx config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - monitoring.conf
+  notify: Restart nginx
