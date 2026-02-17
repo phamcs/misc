@@ -22,7 +22,7 @@
     - config
     - log
 
-# Copy config files
+# Copy dragonfly config files
 - name: Copy dragonfly config files
   ansible.builtin.copy:
     src: "{{ item.src }}"
@@ -33,7 +33,7 @@
     - { src: 'files/docker-compose.yaml', dest: '{{ df_compose_dir }}/docker-compose.yaml' }
     - { src: 'files/tls.cert', dest: '{{ df_compose_dir }}/cert/server.crt' }
     - { src: 'files/tls.key', dest: '{{ df_compose_dir }}/cert/server.key' }
-    - { src: 'files/dragonfly.conf', dest: '{{ nginx_dir }}/conf.d/dragonfly.conf' }
+    #- { src: 'files/dragonfly.conf', dest: '{{ nginx_dir }}/conf.d/dragonfly.conf' }
 
 # Start Dragonfly
 - name: Start dragonfly
@@ -54,6 +54,17 @@
     msg: "{{ item }}"
   loop: "{{ compose_result.stdout_lines }}"
   when: compose_result.stdout_lines is defined
+
+# Copy Dragonfly nginx config
+- name: Copy dragonfly nginx config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - dragonfly.conf
+  notify: Restart nginx
 
 # Copy docker daemon config
 - name: Copy docker daemon config

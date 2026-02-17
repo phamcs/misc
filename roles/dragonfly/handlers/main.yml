@@ -9,6 +9,14 @@
     state: restarted
     name: systemd-sysctl
 
+- name: Restart nginx
+  ansible.builtin.command: |
+    docker restart nginx
+  register: nginx_restart
+  changed_when: nginx_restart.rc == 0
+  sync: 1
+  poll: 0
+
 - name: Reboot host
   ansible.builtin.reboot:
     reboot_timeout: 300

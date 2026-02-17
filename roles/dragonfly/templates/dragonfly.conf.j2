@@ -1,6 +1,6 @@
 upstream backend {
    least_conn;
-   server 10.0.0.25:8080;
+   server "{{ srv_ip }}:8080";
 }
 # Redirect HTTP to HTTPS
 server {

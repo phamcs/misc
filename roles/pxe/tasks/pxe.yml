@@ -9,7 +9,6 @@
     recurse: yes
   loop:
     - images
-    - ks
     - pxelinux.cfg
 
 # Cpoy PXE config
