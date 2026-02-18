@@ -15,10 +15,14 @@
 # Create registry structure
 - name: Create registry data
   ansible.builtin.file:
-    path: "{{ registry_dir }}/data"
+    path: "{{ registry_dir }}/{{ item }}"
     state: directory
     mode: '0755'
     owner: root
+  loop:
+    - data
+    - auth
+    - repos
 
 - name: Create registry domain
   ansible.builtin.file:
@@ -43,7 +47,7 @@
 - name: Copy repos to registry
   ansible.builtin.template:
     src: "templates/{{ item }}.j2"
-    dest: "{{ registry_dir }}/{{ item }}"
+    dest: "{{ registry_dir }}/repos/{{ item }}"
     mode: 0755
     owner: "{{ app_user }}"
   loop:
