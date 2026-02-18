@@ -71,7 +71,7 @@
   register: result
   until: result.status == 200
   retries: 10
-  delay: 15
+  delay: 30
 
 # End User License Agreement
 - name: Accept End User License Agreement
