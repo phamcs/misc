@@ -9,7 +9,6 @@
     owner: "{{ app_user }}"
     recurse: yes
   loop:
-    - docker-registry-ui
     - registry
 
 # Create registry structure
@@ -23,6 +22,7 @@
     - data
     - auth
     - repos
+    - ui
 
 - name: Create registry domain
   ansible.builtin.file:
@@ -68,7 +68,7 @@
 - name: Clone docker-registry-ui
   ansible.builtin.git:
     repo: 'https://github.com/Joxit/docker-registry-ui.git'
-    dest: "{{ registry_ui_dir }}"
+    dest: "{{ registry_dir }}/ui"
     single_branch: yes
     version: main
     update: yes
