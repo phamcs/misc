@@ -15,3 +15,14 @@ router:
 observability:
     consumption:
         allow: ""
+proxies:   #Proxies configuration
+  art-proxy:   #The unique ID of the proxy setting
+    domain: superasian.net   #The proxy domain/realm name
+    host: artifactory.superasian.net   #The name of the proxy host
+    #ntHost: nthostproxy1   #The computer name of the machine (the machine connecting to the NTLM proxy)
+    #password: password   #The proxy password when authentication credentials are required
+    port: 443   #The proxy port number
+    #redirectedToHosts: redirectedproxy1   #An optional list of newline or comma separated host names to which this proxy may redirect requests. The credentials defined for the proxy are reused by requests redirected to all of these hosts.
+    #username: user   #The proxy username when authentication credentials are required
+    #platformDefault: false   #When set, this proxy will be the default proxy for new remote repositories and for internal HTTP requests issued by Artifactory. Will also be used as proxy for all other services in the platform (for example: Xray, Distribution, etc) 
+    services: jfrt   #An optional list of newline or comma separated services names to which this proxy be the default of. The options are jfrt, jfmc, jfxr, jfds

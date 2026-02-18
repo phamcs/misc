@@ -6,6 +6,6 @@ artifactory_group: "1030"
 version: "7.125.12"
 product: "artifactory-jcr"
 srv_ip: "10.0.0.25"
-#jcr_url: "https://www.superasian.net/repo"
-jcr_url: "https://releases.jfrog.io/{{ version }}/jfrog-{{ product }}-{{ version}}-compose.tar.gz"
+repo_url: "https://www.superasian.net/repo"
+#jcr_url: "https://releases.jfrog.io/{{ version }}/jfrog-{{ product }}-{{ version}}-compose.tar.gz"
 #curl -g -L -O -J 'https://releases.jfrog.io/{{ version }}/{{ product }}-{{ version}}-compose.tar.gz'
