@@ -60,7 +60,6 @@
     - postgres
     - rockylinux
     - ubuntu
-    - repo-clean
 
 # Clone registry-ui repo
 - name: Clone docker-registry-ui
