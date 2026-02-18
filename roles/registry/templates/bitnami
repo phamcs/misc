@@ -1,6 +1,6 @@
 #!/bin/bash
 bitnami="docker.io/bitnami"
-superasian="registry.superasian.net/library/bitnami"
+superasian="harbor.superasian.net/library/bitnami"
 apps=("cosign"
       "dotnet-sdk"
       "git"

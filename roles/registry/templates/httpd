@@ -1,7 +1,15 @@
 #!/bin/bash
 httpd="docker.io/httpd"
-superasian="registry.superasian.net/library/httpd"
-tags=("latest" "2.4" "2.4-alpine" "2.4-bookworm" "2" "2-alpine" "2-bookworm")
+superasian="harbor.superasian.net/library/httpd"
+tags=("latest"
+      "2.4"
+      "2.4-alpine"
+      "2.4-bookworm"
+      "2.4-trixie"
+      "2"
+      "2-alpine"
+      "2-bookworm"
+      "2-trixie")
     for tag in ${tags[@]}; do
         docker pull $httpd:$tag
         docker tag $httpd:$tag $superasian:$tag
