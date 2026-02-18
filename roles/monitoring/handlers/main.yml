@@ -10,11 +10,6 @@
     state: restarted
     name: systemd-sysctl
 
-- name: Restart firewalld
-  ansible.builtin.service:
-    state: restarted
-    name: firewalld
-
 - name: Restart nginx
   ansible.builtin.command: |
     docker restart nginx

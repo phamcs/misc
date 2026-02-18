@@ -62,6 +62,16 @@
     - ubuntu
     - repo-clean
 
+# Clone registry-ui repo
+- name: Clone docker-registry-ui
+  ansible.builtin.git:
+    repo: 'https://github.com/Joxit/docker-registry-ui.git'
+    dest: "{{ app_dir }}/docker-registry-ui"
+    single_branch: yes
+    version: main
+    update: yes
+    force: yes
+
 # Start registry stack
 - name: Start registry stack
   ansible.builtin.command:
@@ -78,6 +88,18 @@
     msg: "{{ item }}"
   loop: "{{ compose_result.stdout_lines }}"
   when: compose_result.stdout_lines is defined
+
+# Copy registry nginx config
+- name: Copy registry nginx config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - registry.conf
+    - registry-ui.conf
+  notify: Restart nginx
 
 # Add daemon config
 - name: Copy daemon.json
