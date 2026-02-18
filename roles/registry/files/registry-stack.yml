@@ -17,7 +17,7 @@ services:
       - /srv/AppData/registry:/var/lib/registry
       - /srv/AppData/registry/data:/data
     networks:
-      - regnet
+      - rnet
       
   registry-ui:
     image: joxit/docker-registry-ui:latest
@@ -43,10 +43,10 @@ services:
     volumes:
       - /srv/AppData/registry/ui:/opt/docker-registry-ui
     networks:
-      - regnet
+      - rnet
 
 networks:
-  regnet:
+  rnet:
     driver: bridge
 
 volumes:

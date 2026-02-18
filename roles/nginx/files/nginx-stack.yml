@@ -19,6 +19,7 @@ services:
   nginx-exporter:
     image: nginx/nginx-prometheus-exporter:1.5.1
     container_name: nginx-exporter
+    restart: unless-stopped
     ports:
       - 9113:9113
     command: >
