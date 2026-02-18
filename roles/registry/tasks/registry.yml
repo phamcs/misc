@@ -38,8 +38,6 @@
     - { src: 'files/registry-stack.yml', dest: '{{ registry_dir }}/registry-stack.yml' }
     - { src: 'files/tls.cert', dest: '/etc/docker/certs.d/{{ domain }}/tls.cert' }
     - { src: 'files/tls.key', dest: '/etc/docker/certs.d/{{ domain }}/tls.key' }
-    - { src: 'files/registry.conf', dest: '{{ nginx_dir }}/conf.d/registry.conf' }
-    - { src: 'files/registry-ui.conf', dest: '{{ nginx_dir }}/conf.d/registry-ui.conf' }
 
 # Copy repos to registry
 - name: Copy repos to registry
