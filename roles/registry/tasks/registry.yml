@@ -48,6 +48,7 @@
     owner: "{{ app_user }}"
   loop:
     - apache
+    - artifactory
     - bitnami
     - debian
     - gitlab-ee
