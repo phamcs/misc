@@ -9,13 +9,17 @@
     group: "{{ artifactory_group }}"
 
 # Create Artifactory Directory
-- name: Create artifactory config directory
+- name: Create artifactory directory
   ansible.builtin.file:
-    path: "{{ app_dir }}/artifactory/var/etc"
+    path: "{{ app_dir }}/artifactory/{{ item }}"
     state: directory
     mode: 0755
     owner: "{{ artifactory_user }}"
     group: "{{ artifactory_group }}"
+  loop:
+    - app
+    - var
+    - var/etc
 
 # Remove all existing files in artifactory directory
 - name: Remove existing files in artifactory directory
@@ -25,7 +29,7 @@
 
 - name: Copy and extract tar file
   ansible.builtin.unarchive:
-    src: "{{ jcr_url }}"  # Path to the archive on the Ansible control machine
+    src: "{{ repo_url }}/{{ product }}-{{ version }}-compose.tar.gz"  # Path to the archive on the Ansible control machine
     dest: "{{ app_dir }}/"             # Absolute path on the remote host where the archive will be extracted
     remote_src: yes                     # Set to 'yes' if the archive is already on the remote host
     owner: "{{ app_user }}"            # (Optional) User to own the extracted files

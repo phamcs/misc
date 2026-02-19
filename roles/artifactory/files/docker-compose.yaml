@@ -1,7 +1,7 @@
 services:
   artifactory:
     user: "1030:1030"
-    image: releases-docker.jfrog.io/jfrog/artifactory-jcr:7.125.12
+    image: releases-docker.jfrog.io/jfrog/artifactory-oss:7.125.12
     container_name: artifactory
     volumes:
       - /srv/AppData/artifactory:/var/opt/jfrog/artifactory
@@ -21,8 +21,8 @@ services:
       - JF_SHARED_DATABASE_URL=jdbc:postgresql://10.0.0.252:5432/artifactory
       - JF_SHARED_DATABASE_DRIVER=org.postgresql.Driver
       - JF_SHARED_NODE_IP=10.0.0.25
-      - JF_SHARED_NODE_ID=artifactory-jcr
-      - JF_SHARED_NODE_NAME=artifactory-jcr
+      - JF_SHARED_NODE_ID=artifactory-oss
+      - JF_SHARED_NODE_NAME=artifactory-oss
       - JF_ROUTER_ENTRYPOINTS_EXTERNALPORT=8082
     ports:
       - ${JF_ROUTER_ENTRYPOINTS_EXTERNALPORT}:${JF_ROUTER_ENTRYPOINTS_EXTERNALPORT} # for router communication
