@@ -7,6 +7,7 @@
     mode: 0755
     owner: "{{ artifactory_user }}"
     group: "{{ artifactory_group }}"
+    recurse: yes
 
 # Create Artifactory Directory
 - name: Create artifactory directory
