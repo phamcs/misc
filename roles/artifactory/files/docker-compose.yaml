@@ -1,7 +1,7 @@
 services:
   artifactory:
     user: "1030:1030"
-    image: releases-docker.jfrog.io/jfrog/artifactory-oss:7.125.12
+    image: releases-docker.jfrog.io/jfrog/artifactory-oss:7.125.11
     container_name: artifactory
     volumes:
       - /srv/AppData/artifactory:/var/opt/jfrog/artifactory
