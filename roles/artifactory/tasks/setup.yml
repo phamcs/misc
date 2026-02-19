@@ -21,7 +21,7 @@
     - app
     - var
     - var/etc
-    - var/etc/security
+
 
 # Remove all existing files in artifactory directory
 - name: Remove existing files in artifactory directory
@@ -56,8 +56,6 @@
     group: "{{ artifactory_group }}"
   loop:
     - { src: 'files/system.yaml', dest: '{{ app_dir }}/artifactory/var/etc/system.yaml' }
-    - { src: 'files/join.key', dest: '{{ app_dir }}/artifactory/var/etc/security/join.key' }
-    - { src: 'files/master.key', dest: '{{ app_dir }}/artifactory/var/etc/security/master.key' }
 
 # Copy docker compose yaml
 - name: Copy docker-compose config
