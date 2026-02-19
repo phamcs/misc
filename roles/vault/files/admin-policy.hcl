@@ -81,11 +81,6 @@ path "transit/*" {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
 
-# List, create, update, and delete alicloud secrets
-path "alicloud/*" {
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
 # List, create, update, and delete aws secrets
 path "aws/*" {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
@@ -101,28 +96,8 @@ path "gcp/*" {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
 
-# List, create, update, and delete gcpkms secrets
-path "gcpkms/*" {
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
-# List, create, update, and delete consul secrets
-path "consul/*" {
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
 # List, create, update, and delete database secrets
 path "database/*" {
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
-# List, create, update, and delete nomad secrets
-path "nomad/*" {
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
-# List, create, update, and delete rabbitmq secrets
-path "rabbitmq/*" {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
 
