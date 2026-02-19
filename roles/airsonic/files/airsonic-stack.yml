@@ -12,7 +12,7 @@ services:
       - JAVA_OPTS=-Xmx256m -Dserver.forward-headers-strategy=NATIVE
     volumes:
       - /srv/AppData/airsonic/config:/config
-      - /srv/dev-disk-by-uuid-0f1ce4fb-a25f-4257-9694-42f14e05b571/MUSIC:/music
+      - /srv/dev-disk-by-uuid-f2668ead-ef46-4eed-8b8d-5c9102603668/MUSIC:/music
       - /srv/AppData/airsonic/playlists:/playlists
       - /srv/AppData/airsonic/podcasts:/podcasts
       - /srv/AppData/airsonic/media:/media #optional

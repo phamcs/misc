@@ -1,5 +1,4 @@
 ---
-
 # Create Apps Directory
 - name: Create apps directory
   ansible.builtin.file:
