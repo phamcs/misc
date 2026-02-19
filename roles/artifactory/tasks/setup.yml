@@ -93,7 +93,7 @@
     src: "templates/{{ item }}.j2"
     dest: "{{ nginx_dir }}/conf.d/{{ item }}"
     mode: 0644
-    owner: root
+    owner: "{{ app_user }}"
   loop:
     - artifactory.conf
   notify: Restart nginx
