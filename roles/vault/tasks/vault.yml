@@ -27,7 +27,6 @@
     - { src: 'files/vault-stack.yml', dest: '{{ vault_dir }}/vault-stack.yml' }
     - { src: 'files/vault.hcl', dest: '{{ vault_dir }}/config/vault.hcl' }
     - { src: 'files/admin-policy.hcl', dest: '{{ vault_dir }}/config/admin-policy.hcl' }
-    - { src: 'files/vault.conf', dest: '{{ nginx_dir }}/conf.d/vault.conf' }
 
 # Start Vault
 - name: Start Vault
@@ -45,3 +44,14 @@
     msg: "{{ item }}"
   loop: "{{ compose_result.stdout_lines }}"
   when: compose_result.stdout_lines is defined
+
+# Copy Vault nginx config
+- name: Copy dragonfly nginx config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - vault.conf
+  notify: Restart nginx
