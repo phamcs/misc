@@ -19,8 +19,8 @@ server {
     rewrite ^/ui$ /ui/ redirect;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_session_cache shared:SSL:1m;
-    ssl_certificate      /etc/nginx/ssl/superasian.net.crt;
-    ssl_certificate_key  /etc/nginx/ssl/superasian.net.key;
+    ssl_certificate      /etc/nginx/ssl/tls.crt;
+    ssl_certificate_key  /etc/nginx/ssl/tls.key;
 
     # Proxy to the Vault server
     location / {

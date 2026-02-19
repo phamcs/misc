@@ -20,6 +20,15 @@ storage "raft" {
 #  path    = "vault"
 #}
 
+# Configure transit auto unseal
+seal "transit" {
+  address = "http://10.0.0.30:8200"
+  token="hvs.CAESIMVgII23bJdnIAq23exgOd73B8Zl9lSeB-5pWDSm8bB3Gh4KHGh2cy5aZXR1bWx1NHlicTlUN0dBejBzalhUbjM"
+  tls_disable = true
+  key_name = "autounseal"
+  mount_path = "transit/"
+}
+
 # HTTP/HTTPS listener
 listener "tcp" {
   address       = "0.0.0.0:8200"
@@ -33,13 +42,13 @@ listener "tcp" {
 telemetry {
   usage_gauge_period = "10m"
   maximum_gauge_cardinality = 500
-  disable_hostname = false
   enable_hostname_label = false
   lease_metrics_epsilon = "1h"
   num_lease_metrics_buckets = 168
   add_lease_metrics_namespace_labels = false
   filter_default = true
-  prometheus = "10.0.0.25:9090"
+  disable_hostname = true
+  prometheus_retention_time = "12h"
 }
 # Enterprise license_path
 # This will be required for enterprise as of v1.8
