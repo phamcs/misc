@@ -85,3 +85,14 @@
   until: ula_result.rc == 0
   retries: 5
   delay: 10
+
+# Copy Artifactory nginx config
+- name: Copy Artifactory nginx config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - artifactory.conf
+  notify: Restart nginx
