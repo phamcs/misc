@@ -21,6 +21,7 @@
     - app
     - var
     - var/etc
+    - var/etc/security
 
 # Remove all existing files in artifactory directory
 - name: Remove existing files in artifactory directory
