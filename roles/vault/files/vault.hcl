@@ -20,15 +20,6 @@ storage "raft" {
 #  path    = "vault"
 #}
 
-# Configure transit auto unseal
-seal "transit" {
-  address = "http://10.0.0.30:8200"
-  token="hvs.CAESIMVgII23bJdnIAq23exgOd73B8Zl9lSeB-5pWDSm8bB3Gh4KHGh2cy5aZXR1bWx1NHlicTlUN0dBejBzalhUbjM"
-  tls_disable = true
-  key_name = "autounseal"
-  mount_path = "transit/"
-}
-
 # HTTP/HTTPS listener
 listener "tcp" {
   address       = "0.0.0.0:8200"
