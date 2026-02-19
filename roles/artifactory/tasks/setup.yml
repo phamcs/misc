@@ -22,7 +22,6 @@
     - var
     - var/etc
 
-
 # Remove all existing files in artifactory directory
 - name: Remove existing files in artifactory directory
   ansible.builtin.command:
