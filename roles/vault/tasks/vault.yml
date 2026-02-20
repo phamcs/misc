@@ -25,8 +25,24 @@
     - { src: 'files/tls.cert', dest: '{{ vault_dir }}/ssl/tls.crt' }
     - { src: 'files/tls.key', dest: '{{ vault_dir }}/ssl/tls.key' }
     - { src: 'files/vault-stack.yml', dest: '{{ vault_dir }}/vault-stack.yml' }
-    - { src: 'files/vault.hcl', dest: '{{ vault_dir }}/config/vault.hcl' }
-    - { src: 'files/admin-policy.hcl', dest: '{{ vault_dir }}/config/admin-policy.hcl' }
+
+# Copy Vault config
+- name: Copy Vault config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ vault_dir }}/config/{{ item }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - vault.hcl
+    - admin-policy.hcl
+
+# Copy Terraform plugin
+- name: Copy Terraform plugin
+  ansible.builtin.shell: |
+    curl -L {{ repo_url }}/terraform_1.14.5_linux_amd64 -o {{ vault_dir }}/plugins/terraform
+    chmod 0755 {{ vault_dir }}/plugins/terraform
+    # Must register plugin before use see >> https://developer.hashicorp.com/vault/docs/commands/plugin/register
 
 # Start Vault
 - name: Start Vault
@@ -46,7 +62,7 @@
   when: compose_result.stdout_lines is defined
 
 # Copy Vault nginx config
-- name: Copy dragonfly nginx config
+- name: Copy vault nginx config
   ansible.builtin.template:
     src: "templates/{{ item }}.j2"
     dest: "{{ nginx_dir }}/conf.d/{{ item }}"
