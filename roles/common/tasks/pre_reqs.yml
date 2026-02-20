@@ -55,6 +55,19 @@
     - ansible_facts.services["firewalld.service"] is defined
     - ansible_facts.services["firewalld.service"].status != "not-found"
 
+# Disable SELINUX
+- name: Set SELinux to permissive
+  ansible.builtin.replace:
+    path: /etc/selinux/config
+    regexp: '^SELINUX=.*'
+    replace: 'SELINUX=disabled'
+  register: selinux_config
+
+- name: Reboot to apply changes if modified
+  ansible.builtin.reboot:
+    reboot_timeout: 300
+  when: selinux_config.changed
+
 # Install omvextra & docker compose
 - name: Install omvextra & docker compose
   ansible.builtin.shell:
