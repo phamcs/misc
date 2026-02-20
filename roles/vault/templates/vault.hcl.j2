@@ -6,8 +6,8 @@
 ui = true
 disable_mlock = true
 #mlock = true
-api_addr = "https://vault.superasian.net"
-cluster_addr = "https://vault.superasian.net:8201"
+api_addr = "https://{{ domain }}"
+cluster_addr = "https://{{ domain }}:8201"
 plugin_directory = "/opt/vault/plugins"
 
 storage "raft" {

@@ -9,6 +9,12 @@
   when:
     - ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
 
+# Display system upgrade output
+- name: Display update output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ apt_update_result.stdout_lines }}"
+
 # Redhat full system upgrade
 - name: "[RHEL] Update packages"
   ansible.builtin.dnf:
