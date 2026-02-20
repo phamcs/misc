@@ -117,8 +117,8 @@
 - name: Display compose result standard output lines
   ansible.builtin.debug:
     msg: "{{ item }}"
-  loop: "{{ compose_result.results|d() }}"
-  when: compose_result.results is defined
+  loop: "{{ compose_result.stdout }}"
+  when: compose_result.stdout is defined
 
 # Copy docker config 
 - name: Copy daemon.json
