@@ -28,6 +28,19 @@
   when: reboot_required_file.stat.exists == true
   notify: Reboot host
 
+# Disable SELINUX that turn on by default in RHEL 8+ and cause issues with docker
+- name: Set SELinux to permissive
+  ansible.builtin.replace:
+    path: /etc/selinux/config
+    regexp: '^SELINUX=.*'
+    replace: 'SELINUX=disabled'
+  register: selinux_config
+
+- name: Reboot to apply changes if modified
+  ansible.builtin.reboot:
+    reboot_timeout: 300
+  when: selinux_config.changed
+
 # Install docker for (RHEL) platform
 - name: Install & Enable docker
   ansible.builtin.shell:
@@ -38,4 +51,3 @@
       systemctl enable docker --now
   when:
     - ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
-

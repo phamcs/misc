@@ -28,26 +28,13 @@
   when: reboot_required_file.stat.exists == true
   notify: Reboot host
 
-# Disable Firewalld
-- name: Disable FIREWALLD
-  ansible.builtin.systemd:
-    name: firewalld
-    state: stopped
-    enabled: false
+# Install omvextra & docker compose
+- name: Install omvextra & docker compose
+  ansible.builtin.shell:
+    cmd: |
+      apt update && apt install -y apt-transport-https bmon ca-certificates curl git htop lm-sensors python-is-python3 strace wget zip unzip   
+      wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash
+      apt update && apt install -y openmediavault-compose openmediavault-hosts openmediavault-fail2ban 
+      apt update && apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   when:
-    - ansible_facts.services["firewalld.service"] is defined
-    - ansible_facts.services["firewalld.service"].status != "not-found"
-
-# Disable SELINUX
-- name: Set SELinux to permissive
-  ansible.builtin.replace:
-    path: /etc/selinux/config
-    regexp: '^SELINUX=.*'
-    replace: 'SELINUX=disabled'
-  register: selinux_config
-
-- name: Reboot to apply changes if modified
-  ansible.builtin.reboot:
-    reboot_timeout: 300
-  when: selinux_config.changed
-
+    - ansible_os_family == 'Debian'
