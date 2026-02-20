@@ -14,6 +14,7 @@
   ansible.builtin.debug:
     msg: "{{ item }}"
   loop: "{{ apt_update_result.stdout_lines }}"
+  when: apt_update_result.stdout_lines is defined
 
 # Redhat full system upgrade
 - name: "[RHEL] Update packages"
@@ -117,8 +118,8 @@
 - name: Display compose result standard output lines
   ansible.builtin.debug:
     msg: "{{ item }}"
-  loop: "{{ compose_result.stdout }}"
-  when: compose_result.stdout is defined
+  loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result.stdout_lines is defined
 
 # Copy docker config 
 - name: Copy daemon.json
