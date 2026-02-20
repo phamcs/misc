@@ -1,0 +1,53 @@
+---
+# Debian full system upgrade
+- name: Debian system updates
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: dist
+    autoremove: yes
+  register: apt_update_result
+  when:
+    - ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
+
+# Display system upgrade output
+- name: Display update output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ apt_update_result.stdout_lines }}"
+  when: apt_update_result.stdout_lines is defined
+
+# Check for reboot-required file
+- name: Check for reboot-required file
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+  register: reboot_required_file
+
+- name: Notify handler if reboot is required
+  ansible.builtin.debug:
+    msg: "Reboot is required for {{ inventory_hostname }}"
+  when: reboot_required_file.stat.exists == true
+  notify: Reboot host
+
+# Disable Firewalld
+- name: Disable FIREWALLD
+  ansible.builtin.systemd:
+    name: firewalld
+    state: stopped
+    enabled: false
+  when:
+    - ansible_facts.services["firewalld.service"] is defined
+    - ansible_facts.services["firewalld.service"].status != "not-found"
+
+# Disable SELINUX
+- name: Set SELinux to permissive
+  ansible.builtin.replace:
+    path: /etc/selinux/config
+    regexp: '^SELINUX=.*'
+    replace: 'SELINUX=disabled'
+  register: selinux_config
+
+- name: Reboot to apply changes if modified
+  ansible.builtin.reboot:
+    reboot_timeout: 300
+  when: selinux_config.changed
+

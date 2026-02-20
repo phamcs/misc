@@ -6,17 +6,27 @@
   ansible.builtin.package_facts:
     manager: auto
 
-- name: Check if nginx container is running
-  ansible.builtin.shell: |
-    {% raw %}docker ps --filter 'name=nginx' --filter 'status=running' --format "{{.Names}}"{% endraw %}
-  register: nginx_container
-  changed_when: false
+- name: Include Debian-specific tasks
+  ansible.builtin.include_tasks: debian.yml
+  when:
+    - ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
 
-- name: Include nginx role
-  ansible.builtin.include_role:
-    name: nginx
-    tasks_from: nginx
-  when: nginx_container.stdout != "running"
+- name: Include RedHat-specific tasks
+  ansible.builtin.include_tasks: rhel.yml
+  when:
+    - ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
 
 - name: Satisfy OS Pre-Reqs
   ansible.builtin.include_tasks: pre_reqs.yml
+
+# - name: Check if nginx container is running
+#   ansible.builtin.shell: |
+#     {% raw %}docker ps --filter 'name=nginx' --filter 'status=running' --format "{{.Names}}"{% endraw %}
+#   register: nginx_container
+#   changed_when: false
+
+# - name: Include nginx role
+#   ansible.builtin.include_role:
+#     name: nginx
+#     tasks_from: nginx
+#   when: nginx_container.stdout != "running"
