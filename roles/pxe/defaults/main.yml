@@ -1,6 +1,4 @@
-base_dir: "/volume2/archive"
-app_dir: "{{ base_dir }}/apps"
-pxe_dir: "{{ app_dir }}/pxe"
 app_user: "k0ng"
+base_dir: "/var/services/homes/{{ app_user }}"
 nfs_ip: "10.0.0.29"
 images_url: "https://www.superasian.net/repo"
