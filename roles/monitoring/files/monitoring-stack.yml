@@ -99,6 +99,7 @@ services:
     restart: unless-stopped
 
   loki:
+    user: "1000"
     image: grafana/loki:latest
     container_name: loki
     networks:
@@ -114,6 +115,7 @@ services:
         target: /etc/loki
     command: 
       - '--config.file=/etc/loki/loki-config.yml'
+      - '--validation.allow-structured-metadata=false'
     restart: unless-stopped
 
   promtail:
