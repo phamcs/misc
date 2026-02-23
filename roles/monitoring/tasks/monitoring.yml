@@ -46,24 +46,6 @@
   loop:
     - data
 
-# Create Telegraf Directory
-- name: Create telegraf directory
-  ansible.builtin.file:
-    path: "{{ telegraf_dir }}/{{ item }}"
-    state: directory
-    mode: 0755
-    owner: "{{ app_user }}"
-  loop:
-    - data
-
-# Copy Telegraf config
-- name: Copy telegraf config
-  ansible.builtin.copy:
-    src: "telegraf.conf"
-    dest: "{{ telegraf_dir }}/telegraf.conf"
-    mode: 0644
-    owner: "{{ app_user }}"
-
 # Create Grafana Directory
 - name: Create grafana directory
   ansible.builtin.file:
@@ -101,6 +83,16 @@
     - data
     - rules
 
+# Create Telegraf Directory
+- name: Create telegraf directory
+  ansible.builtin.file:
+    path: "{{ telegraf_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - data
+
 # Copy monitoring config & certs
 - name: Copy monitoring config & certs
   ansible.builtin.copy:
@@ -120,6 +112,7 @@
     - { src: 'files/promtail-config.yml', dest: '{{ promtail_dir }}/promtail-config.yml' }
     - { src: 'files/loki-config.yml', dest: '{{ loki_dir }}/loki-config.yml' }
     - { src: 'files/prometheus.yml', dest: '{{ prometheus_dir }}/prometheus.yml' }
+    - { src: 'files/telegraf.conf', dest: '{{ telegraf_dir }}/telegraf.conf' }
     - { src: 'files/container_alerts.yml', dest: '{{ prometheus_dir }}/rules/container_alerts.yml' }
     - { src: 'files/node_alerts.yml', dest: '{{ prometheus_dir }}/rules/node_alerts.yml' }
     - { src: 'files/recording_rules.yml', dest: '{{ prometheus_dir }}/rules/recording_rules.yml' }
