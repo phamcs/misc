@@ -24,7 +24,6 @@
     mode: 0755
     owner: "{{ app_user }}"
   loop:
-    - config
     - data
 
 # Create Loki Directory
@@ -35,7 +34,6 @@
     mode: 0755
     owner: "{{ app_user }}"
   loop:
-    - config
     - data
 
 # Create Promtail Directory
@@ -46,7 +44,6 @@
     mode: 0755
     owner: "{{ app_user }}"
   loop:
-    - config
     - data
 
 # Create Telegraf Directory
@@ -57,7 +54,6 @@
     mode: 0755
     owner: "{{ app_user }}"
   loop:
-    - config
     - data
 
 # Copy Telegraf config
@@ -102,7 +98,6 @@
     owner: "{{ app_user }}"
   loop:
     - certs
-    - config
     - data
     - rules
 
