@@ -13,7 +13,7 @@
     - pxe/images
     - pxe/pxelinux.cfg
 
-# Cpoy PXE config
+# Copy PXE config
 - name: Copy PXE config
   ansible.builtin.copy:
     src: "{{ item.src }}"
@@ -28,6 +28,16 @@
     - { src: 'memdisk', dest: '{{ base_dir }}/pxe/memdisk' }
     - { src: 'requirements.txt', dest: '{{ base_dir }}/el_tracker/requirements.txt' }
     - { src: '.bashrc', dest: '{{ base_dir }}/.bashrc' }
+
+# Copy python install script
+- name: Copy PXE config
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0755'
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'install_python', dest: '{{ base_dir }}/install_python' }
 
 # Copy PXE default config
 - name: Copy PXE default config
@@ -50,9 +60,14 @@
     
 # Setup Python for user
 - name: Setup Python for user
-  ansible.builtin.shell: |
-    - '/volume1/\@appstore/Python3.9/usr/bin/python3.9 -m ensurepip'
-    - '/volume1/\@appstore/Python3.9/usr/bin/python3.9 -m pip install --upgrade pip setuptools wheel'
-    - '/volume1/\@appstore/Python3.9/usr/bin/python3.9 -m pip install virtualenv'
-  args:
-    executable: /bin/bash
+  ansible.builtin.command: |
+    ./install_python
+  register: py_install
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ py_install.stdout_lines }}"
+  when: py_install.stdout_lines is defined
+    
