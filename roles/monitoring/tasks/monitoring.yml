@@ -60,7 +60,7 @@
 - name: Copy telegraf config
   ansible.builtin.copy:
     src: "telegraf.conf"
-    dest: "{{ telegraf_dir }}/config/telegraf.conf"
+    dest: "{{ telegraf_dir }}/telegraf.conf"
     mode: 0644
     owner: "{{ app_user }}"
 
