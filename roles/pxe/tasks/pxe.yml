@@ -37,7 +37,7 @@
     mode: '0755'
     owner: "{{ app_user }}"
   loop:
-    - { src: 'install_python', dest: '{{ base_dir }}/install_python' }
+    - { src: 'setup_venv', dest: '{{ base_dir }}/setup_venv' }
 
 # Copy PXE default config
 - name: Copy PXE default config
@@ -60,8 +60,8 @@
     
 # Setup Python for user
 - name: Setup Python for user
-  ansible.builtin.command: |
-    ./install_python
+  ansible.builtin.shell: |
+    ./setup_venv
   register: py_install
 
 # Display compose output
