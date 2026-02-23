@@ -50,8 +50,8 @@
 # Setup Python for user
 - name: Setup Python for user
   ansible.builtin.shell: |
-    - echo "export PATH=$PATH:/var/services/homes/{{ app_user }}/pxe" >> /var/services/homes/{{ app_user }}/.bashrc
-    - echo "export PATH=$PATH:/volume1/@appstore/Python3.9/usr/bin/" >> /var/services/homes/{{ app_user }}/.bashrc
+    - "echo 'export PATH=$PATH:/var/services/homes/{{ app_user }}/pxe' >> /var/services/homes/{{ app_user }}/.bashrc"
+    - "echo 'export PATH=$PATH:/volume1/@appstore/Python3.9/usr/bin/' >> /var/services/homes/{{ app_user }}/.bashrc"
     - source /var/services/homes/{{ app_user }}/.bashrc
     - python3.9 -m ensurepip
     - python3.9 -m pip install --upgrade pip setuptools wheel
