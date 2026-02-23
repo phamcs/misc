@@ -8,10 +8,10 @@
     owner: "{{ app_user }}"
     recurse: yes
   loop:
-    - apps
-    - apps/pxe
-    - apps/pxe/images
-    - apps/pxe/pxelinux.cfg
+    - el_tracker
+    - pxe
+    - pxe/images
+    - pxe/pxelinux.cfg
 
 # Cpoy PXE config
 - name: Copy PXE config
@@ -21,28 +21,40 @@
     mode: '0644'
     owner: "{{ app_user }}"
   loop:
-    - { src: 'pxelinux.0', dest: '{{ base_dir }}/apps/pxe/pxelinux.0' }
-    - { src: 'ldlinux.c32', dest: '{{ base_dir }}/apps/pxe/ldlinux.c32' }
-    - { src: 'libutil.c32', dest: '{{ base_dir }}/apps/pxe/libutil.c32' }
-    - { src: 'menu.c32', dest: '{{ base_dir }}/apps/pxe/menu.c32' }
-    - { src: 'memdisk', dest: '{{ base_dir }}/apps/pxe/memdisk' }
+    - { src: 'pxelinux.0', dest: '{{ base_dir }}/pxe/pxelinux.0' }
+    - { src: 'ldlinux.c32', dest: '{{ base_dir }}/pxe/ldlinux.c32' }
+    - { src: 'libutil.c32', dest: '{{ base_dir }}/pxe/libutil.c32' }
+    - { src: 'menu.c32', dest: '{{ base_dir }}/pxe/menu.c32' }
+    - { src: 'memdisk', dest: '{{ base_dir }}/pxe/memdisk' }
+    - { src: 'requirements.txt', dest: '{{ base_dir }}/el_tracker/requirements.txt' }
 
 # Copy PXE default config
 - name: Copy PXE default config
   ansible.builtin.template:
     src: "default.j2"
-    dest: "{{ base_dir }}/apps/pxe/pxelinux.cfg/default"
+    dest: "{{ base_dir }}/pxe/pxelinux.cfg/default"
     mode: '0644'
     owner: "{{ app_user }}"
 
 # Download images
 - name: Download images
   ansible.builtin.get_url:
-    url: "{{ images_url }}/{{ item }}"
-    dest: "{{ base_dir }}/apps/pxe/images/{{ item }}"
+    url: "{{ repo_url }}/{{ item }}"
+    dest: "{{ base_dir }}/pxe/images/{{ item }}"
     mode: '0644'
     owner: "{{ app_user }}"
   loop:
     - vmlinuz
     - initrd.img    
     
+# Setup Python for user
+- name: Setup Python for user
+  ansible.builtin.shell: |
+    - echo 'export PATH=$PATH:/var/services/homes/{{ app_user }}/pxe' >> /var/services/homes/{{ app_user }}/.bashrc
+    - echo 'export PATH=$PATH:/volume1/\@appstore/Python3.9/usr/bin/' >> /var/services/homes/{{ app_user }}/.bashrc
+    - source /var/services/homes/{{ app_user }}/.bashrc
+    - python3.9 -m ensurepip
+    - python3.9 -m pip install --upgrade pip setuptools wheel
+    - python3.9 -m pip install virtualenv
+  args:
+    executable: /bin/bash
