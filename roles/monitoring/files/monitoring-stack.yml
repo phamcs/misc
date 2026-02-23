@@ -112,7 +112,7 @@ services:
       - type: bind
         source: /srv/AppData/monitoring/loki
         target: /etc/loki
-      - /srv/AppData/monitoring/loki/loki-config.yml:/etc/loki/loki-config.yaml
+      - /srv/AppData/monitoring/loki/loki-config.yml:/etc/loki/loki-config.yml
     command: 
       - '--config.file=/etc/loki/loki-config.yaml'
     restart: unless-stopped
