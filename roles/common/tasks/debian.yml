@@ -9,12 +9,12 @@
   when:
     - ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
 
-# Display system upgrade output
-- name: Display update output lines
-  ansible.builtin.debug:
-    msg: "{{ item }}"
-  loop: "{{ apt_update_result.stdout_lines }}"
-  when: apt_update_result.stdout_lines is defined
+# # Display system upgrade output
+# - name: Display update output lines
+#   ansible.builtin.debug:
+#     msg: "{{ item }}"
+#   loop: "{{ apt_update_result.stdout_lines }}"
+#   when: apt_update_result.stdout_lines is defined
 
 # Check for reboot-required file
 - name: Check for reboot-required file

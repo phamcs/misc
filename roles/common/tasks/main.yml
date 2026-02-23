@@ -8,11 +8,13 @@
 
 - name: Include Debian-specific tasks
   ansible.builtin.include_tasks: debian.yml
-  when: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
+  when:
+    - ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
 
 - name: Include RedHat-specific tasks
   ansible.builtin.include_tasks: rhel.yml
-  when: ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
+  when:
+    - ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
 
 - name: Satisfy OS Pre-Reqs
   ansible.builtin.include_tasks: pre_reqs.yml
