@@ -51,7 +51,6 @@
 # Setup Python for user
 - name: Setup Python for user
   ansible.builtin.shell: |
-    - source {{ base_dir }}/.bashrc
     - /volume1/\@appstore/Python3.9/usr/bin/python3.9 -m ensurepip
     - /volume1/\@appstore/Python3.9/usr/bin/python3.9 -m pip install --upgrade pip setuptools wheel
     - /volume1/\@appstore/Python3.9/usr/bin/python3.9 -m pip install virtualenv
