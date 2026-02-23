@@ -6,8 +6,6 @@
     upgrade: dist
     autoremove: yes
   register: apt_update_result
-  # when:
-  #   - ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
 
 # Display system upgrade output
 - name: Display update output lines

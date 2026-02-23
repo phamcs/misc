@@ -38,7 +38,6 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'files/airsonic-stack.yml', dest: '{{ airsonic_dir }}/airsonic-stack.yml' }
-    #- { src: 'files/airsonic.conf', dest: '{{ nginx_dir }}/conf.d/airsonic.conf' }
 
 # Start Airsonic Stack
 - name: Start airsonic stack

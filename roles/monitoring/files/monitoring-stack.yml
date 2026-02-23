@@ -112,9 +112,8 @@ services:
       - type: bind
         source: /srv/AppData/monitoring/loki
         target: /etc/loki
-      - /srv/AppData/monitoring/loki/loki-config.yml:/etc/loki/loki-config.yml
     command: 
-      - '--config.file=/etc/loki/loki-config.yaml'
+      - '--config.file=/etc/loki/loki-config.yml'
     restart: unless-stopped
 
   promtail:
@@ -136,9 +135,8 @@ services:
       - type: bind
         source: /srv/AppData/monitoring/promtail
         target: /etc/promtail
-      - /srv/AppData/monitoring/promtail/promtail-config.yml:/etc/promtail/promtail-config.yaml
     command: 
-      - '--config.file=/etc/promtail/promtail-config.yaml'
+      - '--config.file=/etc/promtail/promtail-config.yml'
     restart: unless-stopped
   
   alertmanager:
