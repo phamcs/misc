@@ -63,6 +63,7 @@
   ansible.builtin.shell: |
     ./setup_venv
   register: py_install
+  until: py_install.rc == 0
 
 # Display compose output
 - name: Display compose result standard output lines
