@@ -80,7 +80,7 @@ services:
     container_name: grafana
     volumes:
       - /srv/AppData/monitoring/grafana:/var/lib/grafana
-      - /srv/AppData/monitoring/grafana/config:/etc/grafana"
+      - /srv/AppData/monitoring/grafana:/etc/grafana"
       - /srv/AppData/monitoring/grafana/provisioning:/etc/grafana/provisioning
       - /srv/AppData/monitoring/grafana/dashboards:/var/lib/grafana/dashboards
     environment:
@@ -110,9 +110,9 @@ services:
         source: /srv/AppData/monitoring/loki/data
         target: /tmp/loki
       - type: bind
-        source: /srv/AppData/monitoring/loki/config
+        source: /srv/AppData/monitoring/loki
         target: /etc/loki
-      - ./loki-config.yml:/etc/loki/loki-config.yaml
+      - /srv/AppData/monitoring/loki/loki-config.yml:/etc/loki/loki-config.yaml
     command: 
       - '--config.file=/etc/loki/loki-config.yaml'
     restart: unless-stopped
@@ -134,9 +134,9 @@ services:
         target: /var/log
         read_only: true
       - type: bind
-        source: /srv/AppData/monitoring/promtail/config
+        source: /srv/AppData/monitoring/promtail
         target: /etc/promtail
-      - ./promtail-config.yml:/etc/promtail/promtail-config.yaml
+      - /srv/AppData/monitoring/promtail/promtail-config.yml:/etc/promtail/promtail-config.yaml
     command: 
       - '--config.file=/etc/promtail/promtail-config.yaml'
     restart: unless-stopped
@@ -169,7 +169,7 @@ services:
         source: /srv/AppData/monitoring/influxdb/data
         target: /var/lib/influxdb2
       - type: bind
-        source: /srv/AppData/monitoring/influxdb/config
+        source: /srv/AppData/monitoring/influxdb
         target: /etc/influxdb2
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
@@ -197,7 +197,7 @@ services:
     networks:
       - mnet
     volumes:
-      - /srv/AppData/monitoring/telegraf/config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /srv/AppData/monitoring/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /sys:/host/sys:ro
       - /proc:/host/proc:ro
