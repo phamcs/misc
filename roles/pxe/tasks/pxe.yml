@@ -61,7 +61,7 @@
 # Setup Python for user
 - name: Setup Python for user
   ansible.builtin.shell: |
-    sudo ./setup_venv
+    ./setup_venv
   register: py_install
   until: py_install.rc == 0
 
