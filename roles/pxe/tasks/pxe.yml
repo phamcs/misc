@@ -58,7 +58,7 @@
     - vmlinuz
     - initrd.img    
     
-# Setup Python for user
+# Setup Python for synology. Make sure python3.9 installed from Package Center before run playbook
 - name: Setup Python for user
   ansible.builtin.shell: |
     ./setup_venv
