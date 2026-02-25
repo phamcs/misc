@@ -32,3 +32,7 @@ schema_config:
       index:
         prefix: index_
         period: 24h
+
+limits_config:
+  volume_enabled: true
+  discover_log_levels: true
