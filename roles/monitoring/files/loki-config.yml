@@ -47,3 +47,8 @@ limits_config:
   #allow_structured_metadata: true
   per_stream_rate_limit: 15MB
   per_stream_rate_limit_burst: 20MB
+
+ruler:
+  alertmanager_url: http://localhost:9093
+  rule_path: /loki/rules
+  alertmanager_notification_queue_capacity: 10000
