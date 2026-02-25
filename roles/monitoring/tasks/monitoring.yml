@@ -146,10 +146,3 @@
   loop:
     - monitoring.conf
   notify: Restart nginx
-
-# Copy docker daemon.json
-- name: Copy docker daemon.json
-  ansible.builtin.template:
-    src: "daemon.json.j2"
-    dest: "/etc/docker/daemon.json"
-  notify: Restart docker
