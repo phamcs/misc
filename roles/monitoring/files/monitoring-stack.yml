@@ -117,7 +117,7 @@ services:
       - '--validation.discover-log-levels=true'
       - '--pattern-ingester.enabled=true'
       - '--ingester.wal-enabled=true'
-      # Disable structured metadata to reduce log size and improve performance and needed for schema v13 upgrade
+      # Disable structured metadata to reduce log size, improve performance and needed for schema v13 upgrade
       - '--validation.allow-structured-metadata=false'
     restart: unless-stopped
     # healthcheck:

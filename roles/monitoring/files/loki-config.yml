@@ -16,25 +16,15 @@ common:
     kvstore:
       store: inmemory
 
+ingester:
+  max_chunk_age: 72h
+
 query_range:
   results_cache:
     cache:
       embedded_cache:
         enabled: true
         max_size_mb: 100
-
-schema_config:
-  configs:
-    - from: 2024-01-01
-      store: tsdb
-      object_store: filesystem
-      schema: v13
-      index:
-        prefix: index_
-        period: 24h
-
-ingester:
-  max_chunk_age: 72h
 
 limits_config:
   volume_enabled: true
@@ -53,3 +43,13 @@ limits_config:
 
 ruler:
   alertmanager_url: http://alertmanager:9093
+
+schema_config:
+  configs:
+    - from: 2022-02-02
+      store: tsdb
+      object_store: filesystem
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
