@@ -111,7 +111,7 @@ services:
       - /srv/AppData/monitoring/loki:/etc/loki
     command: 
       - '--config.file=/etc/loki/loki-config.yml'
-      # Disable structured metadata to reduce log size and improve performance needed for schema v13 upgrade
+      # Disable structured metadata to reduce log size and improve performance and needed for schema v13 upgrade
       - '--validation.allow-structured-metadata=false'
     restart: unless-stopped
 
@@ -134,7 +134,7 @@ services:
       - type: bind
         source: /var/log
         target: /var/log
-        read_only: false
+        read_only: true
       - type: bind
         source: /srv/AppData/monitoring/promtail
         target: /etc/promtail
