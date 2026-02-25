@@ -33,6 +33,9 @@ schema_config:
         prefix: index_
         period: 24h
 
+ingester:
+  max_chunk_age: 72h
+
 limits_config:
   volume_enabled: true
   discover_log_levels: true
@@ -49,6 +52,4 @@ limits_config:
   per_stream_rate_limit_burst: 20MB
 
 ruler:
-  alertmanager_url: http://localhost:9093
-  rule_path: /loki/rules
-  alertmanager_notification_queue_capacity: 10000
+  alertmanager_url: http://alertmanager:9093
