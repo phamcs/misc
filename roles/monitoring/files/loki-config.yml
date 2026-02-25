@@ -16,9 +16,6 @@ common:
     kvstore:
       store: inmemory
 
-position:
-  filename: /tmp/loki/positions.yaml
-
 query_range:
   results_cache:
     cache:

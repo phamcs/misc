@@ -111,6 +111,7 @@ services:
       - /srv/AppData/monitoring/loki:/etc/loki
     command: 
       - '--config.file=/etc/loki/loki-config.yml'
+      - '--config.expand-env=true'
       - '--target=all'
       - '--validation.discover-log-levels=true'
       - '--pattern-ingester.enabled=true'
