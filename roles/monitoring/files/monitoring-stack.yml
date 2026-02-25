@@ -107,7 +107,7 @@ services:
     ports:
       - 3100:3100
     volumes:
-      - /srv/AppData/monitoring/loki/data:/tmp/loki
+      - /srv/AppData/monitoring/loki/data:/loki
       - /srv/AppData/monitoring/loki:/etc/loki
       - /srv/AppData/monitoring/loki/loki-config.yml:/etc/loki/loki-config.yml:ro
     command: 
@@ -116,7 +116,7 @@ services:
       - '--target=all'
       - '--validation.discover-log-levels=true'
       - '--pattern-ingester.enabled=true'
-      - '--ingester.wal-enabled=true'
+      #- '--ingester.wal-enabled=true'
       # Disable structured metadata to reduce log size and improve performance and needed for schema v13 upgrade
       - '--validation.allow-structured-metadata=false'
     restart: unless-stopped
