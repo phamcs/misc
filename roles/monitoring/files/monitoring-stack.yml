@@ -136,13 +136,11 @@ services:
     networks:
       - mnet
     volumes:
-      - type: bind
-        source: /var/log
-        target: /var/log
-        read_only: true
-      - type: bind
-        source: /srv/AppData/monitoring/promtail
-        target: /etc/promtail
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /srv/AppData/monitoring/promtail/promtail-config.yaml:/etc/promtail/config.yaml
+      - /srv/AppData/monitoring/promtail:/etc/promtail
     command: 
       - '--config.file=/etc/promtail/promtail-config.yml'
     restart: unless-stopped
