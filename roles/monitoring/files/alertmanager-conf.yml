@@ -11,8 +11,8 @@ route:
 receivers:
 - name: 'email-notifications'
   email_configs:
-  - to: 'your-email@example.com'
-    from: 'alertmanager@example.com'
-    smarthost: smtp.example.com:587
-    auth_username: 'your-username'
-    auth_password: 'your-password'
+  - to: 'admin@superasian.net'
+    from: 'admin@superasian.net'
+    smarthost: smtp.superasian.net:587
+    auth_username: 'guest'
+    auth_password: 'guest'
