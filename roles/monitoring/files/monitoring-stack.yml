@@ -134,8 +134,7 @@ services:
       options:
         tag: promtail
     depends_on:
-      loki:
-        condition: service_healthy
+      - loki
     links:
       - loki
     ports:
