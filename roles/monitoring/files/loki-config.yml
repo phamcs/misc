@@ -36,7 +36,7 @@ schema_config:
 limits_config:
   volume_enabled: true
   discover_log_levels: true
-  enforce_metric_name: false
+  #enforce_metric_name: false
   reject_old_samples: true
   reject_old_samples_max_age: 168h
   max_cache_freshness_per_query: 10m
