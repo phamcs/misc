@@ -17,7 +17,7 @@ services:
     container_name: prometheus
     volumes:
       - /srv/AppData/monitoring/prometheus:/etc/prometheus
-      - /srv/AppData/monitoring/prometheus/certs/:/etc/prometheus/certs
+      - /srv/AppData/monitoring/prometheus/certs:/etc/prometheus/certs
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -107,14 +107,11 @@ services:
     ports:
       - 3100:3100
     volumes:
-      - type: bind
-        source: /srv/AppData/monitoring/loki/data
-        target: /tmp/loki
-      - type: bind
-        source: /srv/AppData/monitoring/loki
-        target: /etc/loki
+      - /srv/AppData/monitoring/loki/data:/tmp/loki
+      - /srv/AppData/monitoring/loki:/etc/loki
     command: 
       - '--config.file=/etc/loki/loki-config.yml'
+      # Disable structured metadata to reduce log size and improve performance needed for schema v13 upgrade
       - '--validation.allow-structured-metadata=false'
     restart: unless-stopped
 
@@ -137,7 +134,7 @@ services:
       - type: bind
         source: /var/log
         target: /var/log
-        read_only: true
+        read_only: false
       - type: bind
         source: /srv/AppData/monitoring/promtail
         target: /etc/promtail
