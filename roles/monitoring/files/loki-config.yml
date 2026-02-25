@@ -36,3 +36,15 @@ schema_config:
 limits_config:
   volume_enabled: true
   discover_log_levels: true
+  enforce_metric_name: false
+  reject_old_samples: true
+  reject_old_samples_max_age: 168h
+  max_cache_freshness_per_query: 10m
+  split_queries_by_interval: 15m
+  retention_period: 72h       #new
+  max_query_series: 5000
+  ingestion_rate_mb: 24           # default = 4 (MB)
+  ingestion_burst_size_mb: 36     # default = 6 (MB)
+  #allow_structured_metadata: true
+  per_stream_rate_limit: 15MB
+  per_stream_rate_limit_burst: 20MB
