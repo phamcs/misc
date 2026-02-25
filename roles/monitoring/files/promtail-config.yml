@@ -31,7 +31,7 @@ scrape_configs:
       - "localhost"
     labels:
       job: libvirtlogs
-      __path__: /var/log/libvirt/*log
+      __path__: /var/log/libvirt/qemu/*log
 
 - job_name: journal-systemd-promtail
   journal:
