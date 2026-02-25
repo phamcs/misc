@@ -7,6 +7,6 @@
     "loki-retries": "5",
     "loki-max-backoff": "800ms",
     "loki-timeout": "1s",
-    "loki-external-labels": "job=docker,host={{.Name}}"
+    "loki-external-labels": "job=docker,host='{{.Name}}'"
   }
 }
