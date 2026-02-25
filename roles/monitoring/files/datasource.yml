@@ -16,13 +16,3 @@ datasources:
     isDefault: false
     readOnly: false
     editable: true
-
-  - name: InfluxDB
-    type: influxdb
-    access: proxy
-    user: k0ng
-    password: Influxdb123
-    url: http://influxdb2:8086
-    isDefault: false
-    readOnly: false
-    editable: true

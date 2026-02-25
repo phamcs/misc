@@ -121,6 +121,10 @@ services:
   promtail:
     image: grafana/promtail:latest
     container_name: promtail
+    logging:
+      driver: journald
+      options:
+        tag: promtail
     depends_on:
       - loki
     links:

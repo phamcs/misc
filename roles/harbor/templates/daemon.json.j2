@@ -1,4 +1,10 @@
 {
   "data-root": "/var/lib/docker",
-  "insecure-registries": ["https://{{ domain }}"]
+  "insecure-registries": ["https://{{ domain }}"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3",
+    "labels-regex": "^.+"
+  }
 }

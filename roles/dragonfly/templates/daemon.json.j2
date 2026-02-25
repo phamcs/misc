@@ -1,4 +1,10 @@
 {
   "data-root": "/var/lib/docker",
-  "registry-mirrors": ["http://127.0.0.1:65003"]
+  "registry-mirrors": ["http://127.0.0.1:65003"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3",
+    "labels-regex": "^.+"
+  }
 }
