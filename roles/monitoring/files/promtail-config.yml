@@ -17,14 +17,6 @@ scrape_configs:
       job: varlogs
       __path__: /var/log/*log
 
-- job_name: nginx
-  static_configs:
-  - targets:
-      - "localhost"
-    labels:
-      job: nginxlogs
-      __path__: /var/log/nginx/*log
-
 - job_name: libvirt
   static_configs:
   - targets:
@@ -32,21 +24,6 @@ scrape_configs:
     labels:
       job: libvirtlogs
       __path__: /var/log/libvirt/qemu/*log
-
-- job_name: journal-systemd-promtail
-  journal:
-    json: false
-    max_age: 1h
-    labels:
-      instance: promtail
-      env: production
-      job: journal-systemd-promtail
-  relabel_configs:
-    - source_labels: ['__journal__systemd_unit']
-      target_label: 'unit'
-    - source_labels: ['__journal__systemd_unit']
-      action: keep
-      regex: 'promtail.service'
 
 - job_name: containers
   static_configs:
