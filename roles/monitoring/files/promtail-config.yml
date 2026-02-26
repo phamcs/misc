@@ -37,6 +37,7 @@ scrape_configs:
   pipeline_stages:
   - json:
       expressions:
+        level: level
         log: log
         stream: stream
         time: time
@@ -46,6 +47,14 @@ scrape_configs:
         stack_name: attrs."com.docker.stack.namespace"
         swarm_service_name: attrs."com.docker.swarm.service.name"
         swarm_task_name: attrs."com.docker.swarm.task.name"
+  
+  # Add error handling
+  - match:
+      selector: '{__error__="JSONParseError"}'
+      stages:
+        - drop:
+            drop_counter_reason: json_parse_error
+
   - regex:
       expression: "^/var/lib/docker/containers/(?P<container_id>.{12}).+/.+-json.log$"
       source: filename
