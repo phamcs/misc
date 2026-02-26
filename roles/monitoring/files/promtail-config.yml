@@ -3,7 +3,7 @@ server:
   grpc_listen_port: 0
 
 positions:
-  filename: /var/promtail/positions.yml
+  filename: /tmp/positions.yml
   sync_period: 10s
 
 clients:

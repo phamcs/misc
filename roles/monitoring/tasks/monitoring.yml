@@ -110,7 +110,7 @@
     - { src: 'files/monitoring-stack.yml', dest: '{{ mon_dir }}/monitoring-stack.yml' }
     - { src: 'files/alertmanager-conf.yml', dest: '{{ mon_dir }}/alertmanager/config.yml' }
     - { src: 'files/promtail-config.yml', dest: '{{ promtail_dir }}/promtail-config.yml' }
-    - { src: 'files/positions.yml', dest: '{{ promtail_dir }}/positions.yml' }
+    - { src: 'files/positions.yml', dest: '{{ promtail_dir }}/data/positions.yml' }
     - { src: 'files/loki-config.yml', dest: '{{ loki_dir }}/loki-config.yml' }
     - { src: 'files/prometheus.yml', dest: '{{ prometheus_dir }}/prometheus.yml' }
     - { src: 'files/telegraf.conf', dest: '{{ telegraf_dir }}/telegraf.conf' }

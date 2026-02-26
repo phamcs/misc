@@ -140,8 +140,8 @@ services:
       - /var/log:/var/log:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /srv/AppData/monitoring/promtail/positions.yml:/var/promtail/positions.yml
-      - /srv/AppData/monitoring/promtail/promtail-config.yaml:/etc/promtail/config.yaml
+      - /srv/AppData/monitoring/promtail/data/positions.yml:/var/promtail/positions.yml
+      - /srv/AppData/monitoring/promtail/promtail-config.yml:/etc/promtail/config.yml
       - /srv/AppData/monitoring/promtail:/etc/promtail
     command: 
       - '--config.file=/etc/promtail/promtail-config.yml'
