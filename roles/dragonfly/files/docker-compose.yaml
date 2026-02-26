@@ -4,6 +4,7 @@ services:
   redis:
     image: redis:6-alpine
     container_name: dragonfly-redis
+    restart: unless-stopped
     command: >
       --requirepass dragonfly
     healthcheck:
@@ -19,6 +20,7 @@ services:
   mysql:
     image: mariadb:10.6
     container_name: dragonfly-mysql
+    restart: unless-stopped
     environment:
       - MARIADB_USER=dragonfly
       - MARIADB_PASSWORD=dragonfly

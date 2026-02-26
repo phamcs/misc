@@ -12,7 +12,7 @@ receivers:
 - name: 'email-notifications'
   email_configs:
   - to: 'admin@superasian.net'
-    from: 'admin@superasian.net'
+    from: 'k0ng@superasian.net'
     smarthost: smtp.superasian.net:587
     auth_username: 'guest'
     auth_password: 'guest'

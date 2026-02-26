@@ -1,11 +1,5 @@
 ---
 # Main Monitoring Stack Docker Compose File
-# volumes:
-#   prometheus_data: {}
-#   grafana_data: {}
-#   influxdb_data: {}
-#   telegraf_data: {}
-
 networks:
   mnet:
     driver: bridge
@@ -15,6 +9,12 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
+    ogging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: prometheus
     volumes:
       - /srv/AppData/monitoring/prometheus:/etc/prometheus
       - /srv/AppData/monitoring/prometheus/certs:/etc/prometheus/certs
@@ -35,6 +35,12 @@ services:
   node-exporter:
     image: prom/node-exporter:latest
     container_name: node-exporter
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: node-exporter
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -52,6 +58,12 @@ services:
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: cadvisor
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -78,6 +90,12 @@ services:
     user: "1000"
     image: grafana/grafana:latest
     container_name: grafana
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: grafana
     volumes:
       - /srv/AppData/monitoring/grafana:/var/lib/grafana
       - /srv/AppData/monitoring/grafana:/etc/grafana"
@@ -102,6 +120,12 @@ services:
     user: "1000"
     image: grafana/loki:latest
     container_name: loki
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: loki
     networks:
       - mnet
     ports:
@@ -125,8 +149,10 @@ services:
     image: grafana/promtail:latest
     container_name: promtail
     logging:
-      driver: json-file
+      driver: "json-file"
       options:
+        max-size: "10m"
+        max-file: "3"
         tag: promtail
     depends_on:
       - loki
@@ -149,6 +175,12 @@ services:
   alertmanager:
     image: prom/alertmanager:latest
     container_name: alertmanager
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: alertmanager
     volumes:
       - /srv/AppData/monitoring/alertmanager:/etc/alertmanager
     command:
@@ -165,6 +197,12 @@ services:
     user: "1000"
     image: influxdb:latest
     container_name: influxdb2
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: influxdb2
     ports:
       - "8086:8086"
     networks:
@@ -191,6 +229,12 @@ services:
     image: telegraf:latest
     pid: "host"
     container_name: telegraf
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: telegraf
     depends_on:
       - influxdb2
     links:
