@@ -125,7 +125,7 @@ services:
     image: grafana/promtail:latest
     container_name: promtail
     logging:
-      driver: journald
+      driver: json-file
       options:
         tag: promtail
     depends_on:
@@ -140,6 +140,7 @@ services:
       - /var/log:/var/log:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /srv/AppData/monitoring/promtail/positions.yml:/var/promtail/positions.yml
       - /srv/AppData/monitoring/promtail/promtail-config.yaml:/etc/promtail/config.yaml
       - /srv/AppData/monitoring/promtail:/etc/promtail
     command: 
