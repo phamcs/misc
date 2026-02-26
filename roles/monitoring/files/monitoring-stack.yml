@@ -14,7 +14,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-        tag: prometheus
+        tag: "docker.{{.Name}}"
     volumes:
       - /srv/AppData/monitoring/prometheus:/etc/prometheus
       - /srv/AppData/monitoring/prometheus/certs:/etc/prometheus/certs
@@ -40,7 +40,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-        tag: node-exporter
+        tag: "docker.{{.Name}}"
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -63,7 +63,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-        tag: cadvisor
+        tag: "docker.{{.Name}}"
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -95,7 +95,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-        tag: grafana
+        tag: "docker.{{.Name}}"
     volumes:
       - /srv/AppData/monitoring/grafana:/var/lib/grafana
       - /srv/AppData/monitoring/grafana:/etc/grafana"
@@ -125,7 +125,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-        tag: loki
+        tag: "docker.{{.Name}}"
     networks:
       - mnet
     ports:
@@ -153,7 +153,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-        tag: promtail
+        tag: "docker.{{.Name}}"
     depends_on:
       - loki
     links:
@@ -180,7 +180,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-        tag: alertmanager
+        tag: "docker.{{.Name}}"
     volumes:
       - /srv/AppData/monitoring/alertmanager:/etc/alertmanager
     command:
@@ -202,7 +202,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-        tag: influxdb2
+        tag: "docker.{{.Name}}"
     ports:
       - "8086:8086"
     networks:
@@ -234,7 +234,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-        tag: telegraf
+        tag: "docker.{{.Name}}"
     depends_on:
       - influxdb2
     links:
