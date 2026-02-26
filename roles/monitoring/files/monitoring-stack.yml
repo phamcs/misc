@@ -9,7 +9,7 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    ogging:
+    logging:
       driver: "json-file"
       options:
         max-size: "10m"
