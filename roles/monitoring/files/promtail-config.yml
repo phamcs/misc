@@ -62,3 +62,19 @@ scrape_configs:
       swarm_task_name:
   - output:
       source: log
+
+  - metrics:
+      http_requests_total:
+        type: Counter
+        description: "Total HTTP requests"
+        source: status
+        config:
+          match_all: true
+          action: inc
+
+      http_request_size_bytes:
+        type: Histogram
+        description: "HTTP request size"
+        source: size
+        config:
+          buckets: [100, 1000, 10000, 100000, 1000000]
