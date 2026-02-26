@@ -24,7 +24,7 @@ services:
       - 9113:9113
     command: >
       --nginx.scrape-uri=https://airsonic.superasian.net/nginx_status
-      --nginx.scrape-uri=https://dragonfly.superasian.net/nginx_status
+      --nginx.scrape-uri=https://harbor.superasian.net/nginx_status
       --nginx.scrape-uri=https://monitoring.superasian.net/nginx_status
       --nginx.scrape-uri=https://registry.superasian.net/nginx_status
     network_mode: bridge
