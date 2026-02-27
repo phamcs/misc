@@ -19,6 +19,7 @@ services:
       OTEL_TRACES_EXPORTER: none
     volumes:
       - /srv/AppData/registry:/var/lib/registry
+      - /srv/AppData/registry/auth:/auth
       - /srv/AppData/registry/data:/data
     networks:
       - rnet
