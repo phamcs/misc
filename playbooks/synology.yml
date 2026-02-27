@@ -8,6 +8,7 @@
   roles:
     - synology
   vars:
+    ansible_python_interpreter: /var/services/homes/k0ng/el_tracker/elenv/bin/python3
     synology_dsm_user_home_service_enable: true                # Enable User Home Service
     synology_dsm_user_home_location: "/volume1/homes"          # Set home directory location
     synology_dsm_user_home_enable_recycle_bin: false           # Disable recycle bin for user homes
