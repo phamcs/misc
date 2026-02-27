@@ -5,7 +5,7 @@
       base_url: '{{ synology_dsm_base_url }}'
       login_cookie: '{{ synology_dsm_login_cookie | default(omit) }}'
   block:
-    - include_tasks: login.yml
+    #- include_tasks: login.yml
 
     #- name: Query API info
     #  synology_dsm_api_request:
