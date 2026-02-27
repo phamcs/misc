@@ -34,7 +34,7 @@
 
 - assert:
     that:
-    - check_file.stat.exists == False
+      - check_file.stat.exists == False
 
 - name: Check the file /preseed/ubuntu.seed is added
   stat:
@@ -43,7 +43,7 @@
 
 - assert:
     that:
-    - check_file.stat.exists == True
+      - check_file.stat.exists == True
 
 - block:
     - name: Get the content of file test02.cfg
@@ -52,12 +52,12 @@
 
     - set_fact:
         file_contents: "{{ get_file_content.stdout }}"
-  when: ansible_distribution == 'RedHat' and ansible_distribution_version is version('7.9', '==')
+  when: ansible_facts.distribution == 'RedHat' and ansible_facts.distribution_version is version('7.9', '==')
 
 - name: Get the content of file test02.cfg
   set_fact:
     file_contents: "{{ lookup('file', mount_root_dir + '/test02.cfg') }}"
-  when: not (ansible_distribution == 'RedHat' and ansible_distribution_version is version('7.9', '=='))
+  when: not (ansible_facts.distribution == 'RedHat' and ansible_facts.distribution_version is version('7.9', '=='))
 
 - fail: msg="Failed to replace the file test02.cfg"
   when: file_contents != "test"
@@ -71,5 +71,5 @@
 - name: Delete line of file test02.cfg
   ansible.builtin.lineinfile:
     path: "{{ test_dir }}/test02.cfg"
-    regexp: "test" 
+    regexp: "test"
     state: absent

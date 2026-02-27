@@ -1,12 +1,10 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 # Copyright (c) 2017-2018 Dell EMC Inc.
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
+from __future__ import annotations
 
 DOCUMENTATION = r"""
 module: redfish_info
@@ -17,20 +15,19 @@ description:
 extends_documentation_fragment:
   - community.general.attributes
   - community.general.attributes.info_module
+  - community.general.redfish
 attributes:
   check_mode:
     version_added: 3.3.0
     # This was backported to 2.5.4 and 1.3.11 as well, since this was a bugfix
 options:
   category:
-    required: false
     description:
       - List of categories to execute on OOB controller.
     default: ['Systems']
     type: list
     elements: str
   command:
-    required: false
     description:
       - List of commands to execute on OOB controller.
     type: list
@@ -65,21 +62,16 @@ options:
     type: int
     default: 60
   update_handle:
-    required: false
     description:
       - Handle to check the status of an update in progress.
     type: str
     version_added: '6.1.0'
   ciphers:
-    required: false
-    description:
-      - SSL/TLS Ciphers to use for the request.
-      - When a list is provided, all ciphers are joined in order with V(:).
-      - See the L(OpenSSL Cipher List Format,https://www.openssl.org/docs/manmaster/man1/openssl-ciphers.html#CIPHER-LIST-FORMAT) for more details.
-      - The available ciphers is dependent on the Python and OpenSSL/LibreSSL versions.
-    type: list
-    elements: str
     version_added: 9.2.0
+  validate_certs:
+    version_added: 10.6.0
+  ca_path:
+    version_added: 10.6.0
 
 author: "Jose Delarosa (@jose-delarosa)"
 """
@@ -195,6 +187,14 @@ EXAMPLES = r"""
   community.general.redfish_info:
     category: Systems
     command: GetNicInventory,GetBiosAttributes
+    baseuri: "{{ baseuri }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+
+- name: Get configuration of the AccountService
+  community.general.redfish_info:
+    category: Accounts
+    command: GetAccountServiceConfig
     baseuri: "{{ baseuri }}"
     username: "{{ username }}"
     password: "{{ password }}"
@@ -367,6 +367,14 @@ EXAMPLES = r"""
     username: "{{ username }}"
     password: "{{ password }}"
 
+- name: Get power restore policy
+  community.general.redfish_info:
+    category: Systems
+    command: GetPowerRestorePolicy
+    baseuri: "{{ baseuri }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+
 - name: Check the availability of the service with a timeout of 5 seconds
   community.general.redfish_info:
     category: Service
@@ -387,21 +395,53 @@ result:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.general.plugins.module_utils.redfish_utils import RedfishUtils
+
+from ansible_collections.community.general.plugins.module_utils.redfish_utils import (
+    REDFISH_COMMON_ARGUMENT_SPEC,
+    RedfishUtils,
+)
 
 CATEGORY_COMMANDS_ALL = {
-    "Systems": ["GetSystemInventory", "GetPsuInventory", "GetCpuInventory",
-                "GetMemoryInventory", "GetNicInventory", "GetHealthReport",
-                "GetStorageControllerInventory", "GetDiskInventory", "GetVolumeInventory",
-                "GetBiosAttributes", "GetBootOrder", "GetBootOverride", "GetVirtualMedia", "GetBiosRegistries"],
-    "Chassis": ["GetFanInventory", "GetPsuInventory", "GetChassisPower",
-                "GetChassisThermals", "GetChassisInventory", "GetHealthReport", "GetHPEThermalConfig", "GetHPEFanPercentMin"],
-    "Accounts": ["ListUsers"],
+    "Systems": [
+        "GetSystemInventory",
+        "GetPsuInventory",
+        "GetCpuInventory",
+        "GetMemoryInventory",
+        "GetNicInventory",
+        "GetHealthReport",
+        "GetStorageControllerInventory",
+        "GetDiskInventory",
+        "GetVolumeInventory",
+        "GetBiosAttributes",
+        "GetBootOrder",
+        "GetBootOverride",
+        "GetVirtualMedia",
+        "GetBiosRegistries",
+        "GetPowerRestorePolicy",
+    ],
+    "Chassis": [
+        "GetFanInventory",
+        "GetPsuInventory",
+        "GetChassisPower",
+        "GetChassisThermals",
+        "GetChassisInventory",
+        "GetHealthReport",
+        "GetHPEThermalConfig",
+        "GetHPEFanPercentMin",
+    ],
+    "Accounts": ["ListUsers", "GetAccountServiceConfig"],
     "Sessions": ["GetSessions"],
-    "Update": ["GetFirmwareInventory", "GetFirmwareUpdateCapabilities", "GetSoftwareInventory",
-               "GetUpdateStatus"],
-    "Manager": ["GetManagerNicInventory", "GetVirtualMedia", "GetLogs", "GetNetworkProtocols",
-                "GetHealthReport", "GetHostInterfaces", "GetManagerInventory", "GetServiceIdentification"],
+    "Update": ["GetFirmwareInventory", "GetFirmwareUpdateCapabilities", "GetSoftwareInventory", "GetUpdateStatus"],
+    "Manager": [
+        "GetManagerNicInventory",
+        "GetVirtualMedia",
+        "GetLogs",
+        "GetNetworkProtocols",
+        "GetHealthReport",
+        "GetHostInterfaces",
+        "GetManagerInventory",
+        "GetServiceIdentification",
+    ],
     "Service": ["CheckAvailability"],
 }
 
@@ -419,81 +459,77 @@ CATEGORY_COMMANDS_DEFAULT = {
 def main():
     result = {}
     category_list = []
+    argument_spec = dict(
+        category=dict(type="list", elements="str", default=["Systems"]),
+        command=dict(type="list", elements="str"),
+        baseuri=dict(required=True),
+        username=dict(),
+        password=dict(no_log=True),
+        auth_token=dict(no_log=True),
+        timeout=dict(type="int", default=60),
+        update_handle=dict(),
+        manager=dict(),
+    )
+    argument_spec.update(REDFISH_COMMON_ARGUMENT_SPEC)
     module = AnsibleModule(
-        argument_spec=dict(
-            category=dict(type='list', elements='str', default=['Systems']),
-            command=dict(type='list', elements='str'),
-            baseuri=dict(required=True),
-            username=dict(),
-            password=dict(no_log=True),
-            auth_token=dict(no_log=True),
-            timeout=dict(type='int', default=60),
-            update_handle=dict(),
-            manager=dict(),
-            ciphers=dict(type='list', elements='str'),
-        ),
+        argument_spec,
         required_together=[
-            ('username', 'password'),
+            ("username", "password"),
         ],
         required_one_of=[
-            ('username', 'auth_token'),
+            ("username", "auth_token"),
         ],
         mutually_exclusive=[
-            ('username', 'auth_token'),
+            ("username", "auth_token"),
         ],
         supports_check_mode=True,
     )
 
     # admin credentials used for authentication
-    creds = {'user': module.params['username'],
-             'pswd': module.params['password'],
-             'token': module.params['auth_token']}
+    creds = {"user": module.params["username"], "pswd": module.params["password"], "token": module.params["auth_token"]}
 
     # timeout
-    timeout = module.params['timeout']
+    timeout = module.params["timeout"]
 
     # update handle
-    update_handle = module.params['update_handle']
+    update_handle = module.params["update_handle"]
 
     # manager
-    manager = module.params['manager']
-
-    # ciphers
-    ciphers = module.params['ciphers']
+    manager = module.params["manager"]
 
     # Build root URI
-    root_uri = "https://" + module.params['baseuri']
-    rf_utils = RedfishUtils(creds, root_uri, timeout, module, ciphers=ciphers)
+    root_uri = f"https://{module.params['baseuri']}"
+    rf_utils = RedfishUtils(creds, root_uri, timeout, module)
 
     # Build Category list
-    if "all" in module.params['category']:
+    if "all" in module.params["category"]:
         for entry in CATEGORY_COMMANDS_ALL:
             category_list.append(entry)
     else:
         # one or more categories specified
-        category_list = module.params['category']
+        category_list = module.params["category"]
 
     for category in category_list:
         command_list = []
         # Build Command list for each Category
         if category in CATEGORY_COMMANDS_ALL:
-            if not module.params['command']:
+            if not module.params["command"]:
                 # True if we don't specify a command --> use default
                 command_list.append(CATEGORY_COMMANDS_DEFAULT[category])
-            elif "all" in module.params['command']:
+            elif "all" in module.params["command"]:
                 for entry in range(len(CATEGORY_COMMANDS_ALL[category])):
                     command_list.append(CATEGORY_COMMANDS_ALL[category][entry])
             # one or more commands
             else:
-                command_list = module.params['command']
+                command_list = module.params["command"]
                 # Verify that all commands are valid
                 for cmd in command_list:
                     # Fail if even one command given is invalid
                     if cmd not in CATEGORY_COMMANDS_ALL[category]:
-                        module.fail_json(msg="Invalid Command: %s" % cmd)
+                        module.fail_json(msg=f"Invalid Command: {cmd}")
         else:
             # Fail if even one category given is invalid
-            module.fail_json(msg="Invalid Category: %s" % category)
+            module.fail_json(msg=f"Invalid Category: {category}")
 
         # Organize by Categories / Commands
         if category == "Service":
@@ -505,8 +541,8 @@ def main():
         elif category == "Systems":
             # execute only if we find a Systems resource
             resource = rf_utils._find_systems_resource()
-            if resource['ret'] is False:
-                module.fail_json(msg=resource['msg'])
+            if resource["ret"] is False:
+                module.fail_json(msg=resource["msg"])
 
             for command in command_list:
                 if command == "GetSystemInventory":
@@ -535,12 +571,14 @@ def main():
                     result["virtual_media"] = rf_utils.get_multi_virtualmedia(category)
                 elif command == "GetBiosRegistries":
                     result["bios_registries"] = rf_utils.get_bios_registries()
+                elif command == "GetPowerRestorePolicy":
+                    result["power_restore_policy"] = rf_utils.get_multi_power_restore_policy()
 
         elif category == "Chassis":
             # execute only if we find Chassis resource
             resource = rf_utils._find_chassis_resource()
-            if resource['ret'] is False:
-                module.fail_json(msg=resource['msg'])
+            if resource["ret"] is False:
+                module.fail_json(msg=resource["msg"])
 
             for command in command_list:
                 if command == "GetFanInventory":
@@ -563,18 +601,20 @@ def main():
         elif category == "Accounts":
             # execute only if we find an Account service resource
             resource = rf_utils._find_accountservice_resource()
-            if resource['ret'] is False:
-                module.fail_json(msg=resource['msg'])
+            if resource["ret"] is False:
+                module.fail_json(msg=resource["msg"])
 
             for command in command_list:
                 if command == "ListUsers":
                     result["user"] = rf_utils.list_users()
+                elif command == "GetAccountServiceConfig":
+                    result["accountservice_config"] = rf_utils.get_accountservice_properties()
 
         elif category == "Update":
             # execute only if we find UpdateService resources
             resource = rf_utils._find_updateservice_resource()
-            if resource['ret'] is False:
-                module.fail_json(msg=resource['msg'])
+            if resource["ret"] is False:
+                module.fail_json(msg=resource["msg"])
 
             for command in command_list:
                 if command == "GetFirmwareInventory":
@@ -589,8 +629,8 @@ def main():
         elif category == "Sessions":
             # execute only if we find SessionService resources
             resource = rf_utils._find_sessionservice_resource()
-            if resource['ret'] is False:
-                module.fail_json(msg=resource['msg'])
+            if resource["ret"] is False:
+                module.fail_json(msg=resource["msg"])
 
             for command in command_list:
                 if command == "GetSessions":
@@ -599,8 +639,8 @@ def main():
         elif category == "Manager":
             # execute only if we find a Manager service resource
             resource = rf_utils._find_managers_resource()
-            if resource['ret'] is False:
-                module.fail_json(msg=resource['msg'])
+            if resource["ret"] is False:
+                module.fail_json(msg=resource["msg"])
 
             for command in command_list:
                 if command == "GetManagerNicInventory":
@@ -624,5 +664,5 @@ def main():
     module.exit_json(redfish_facts=result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

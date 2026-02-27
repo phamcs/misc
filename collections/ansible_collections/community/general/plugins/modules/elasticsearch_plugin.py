@@ -1,13 +1,10 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 # Copyright (c) 2015, Mathew Davies <thepixeldeveloper@googlemail.com>
 # Copyright (c) 2017, Sam Doran <sdoran@redhat.com>
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
-
+from __future__ import annotations
 
 DOCUMENTATION = r"""
 module: elasticsearch_plugin
@@ -44,13 +41,11 @@ options:
       - Is only used if the state would change, which is solely checked based on the name parameter. If, for example, the
         plugin is already installed, changing this has no effect.
       - For ES 1.x use O(url).
-    required: false
     type: str
   url:
     description:
       - Set exact URL to download the plugin from (Only works for ES 1.x).
       - For ES 2.x and higher, use src.
-    required: false
     type: str
   timeout:
     description:
@@ -66,7 +61,7 @@ options:
     type: bool
   plugin_bin:
     description:
-      - Location of the plugin binary. If this file is not found, the default plugin binaries will be used.
+      - Location of the plugin binary. If this file is not found, the default plugin binaries are used.
     type: path
   plugin_dir:
     description:
@@ -83,7 +78,7 @@ options:
     type: str
   version:
     description:
-      - Version of the plugin to be installed. If plugin exists with previous version, it will NOT be updated.
+      - Version of the plugin to be installed. If plugin exists with previous version, it is NOT updated.
     type: str
 """
 
@@ -119,16 +114,9 @@ import os
 
 from ansible.module_utils.basic import AnsibleModule
 
+PACKAGE_STATE_MAP = dict(present="install", absent="remove")
 
-PACKAGE_STATE_MAP = dict(
-    present="install",
-    absent="remove"
-)
-
-PLUGIN_BIN_PATHS = tuple([
-    '/usr/share/elasticsearch/bin/elasticsearch-plugin',
-    '/usr/share/elasticsearch/bin/plugin'
-])
+PLUGIN_BIN_PATHS = tuple(["/usr/share/elasticsearch/bin/elasticsearch-plugin", "/usr/share/elasticsearch/bin/plugin"])
 
 
 def parse_plugin_repo(string):
@@ -145,7 +133,7 @@ def parse_plugin_repo(string):
     # remove es- prefix
     for string in ("elasticsearch-", "es-"):
         if repo.startswith(string):
-            return repo[len(string):]
+            return repo[len(string) :]
 
     return repo
 
@@ -157,39 +145,48 @@ def is_plugin_present(plugin_name, plugin_dir):
 def parse_error(string):
     reason = "ERROR: "
     try:
-        return string[string.index(reason) + len(reason):].strip()
+        return string[string.index(reason) + len(reason) :].strip()
     except ValueError:
         return string
 
 
 def install_plugin(module, plugin_bin, plugin_name, version, src, url, proxy_host, proxy_port, timeout, force):
-    cmd_args = [plugin_bin, PACKAGE_STATE_MAP["present"]]
-    is_old_command = (os.path.basename(plugin_bin) == 'plugin')
+    cmd = [plugin_bin, PACKAGE_STATE_MAP["present"]]
+    is_old_command = os.path.basename(plugin_bin) == "plugin"
 
     # Timeout and version are only valid for plugin, not elasticsearch-plugin
     if is_old_command:
         if timeout:
-            cmd_args.append("--timeout %s" % timeout)
+            cmd.append("--timeout")
+            cmd.append(timeout)
 
         if version:
-            plugin_name = plugin_name + '/' + version
-            cmd_args[2] = plugin_name
+            plugin_name = f"{plugin_name}/{version}"
+            cmd[2] = plugin_name
 
     if proxy_host and proxy_port:
-        cmd_args.append("-DproxyHost=%s -DproxyPort=%s" % (proxy_host, proxy_port))
+        java_opts = [
+            f"-Dhttp.proxyHost={proxy_host}",
+            f"-Dhttp.proxyPort={proxy_port}",
+            f"-Dhttps.proxyHost={proxy_host}",
+            f"-Dhttps.proxyPort={proxy_port}",
+        ]
+        module.run_command_environ_update = dict(
+            CLI_JAVA_OPTS=" ".join(java_opts),  # Elasticsearch 8.x
+            ES_JAVA_OPTS=" ".join(java_opts),
+        )  # Older Elasticsearch versions
 
     # Legacy ES 1.x
     if url:
-        cmd_args.append("--url %s" % url)
+        cmd.append("--url")
+        cmd.append(url)
 
     if force:
-        cmd_args.append("--batch")
+        cmd.append("--batch")
     if src:
-        cmd_args.append(src)
+        cmd.append(src)
     else:
-        cmd_args.append(plugin_name)
-
-    cmd = " ".join(cmd_args)
+        cmd.append(plugin_name)
 
     if module.check_mode:
         rc, out, err = 0, "check mode", ""
@@ -198,15 +195,13 @@ def install_plugin(module, plugin_bin, plugin_name, version, src, url, proxy_hos
 
     if rc != 0:
         reason = parse_error(out)
-        module.fail_json(msg="Installing plugin '%s' failed: %s" % (plugin_name, reason), err=err)
+        module.fail_json(msg=f"Installing plugin '{plugin_name}' failed: {reason}", err=err)
 
     return True, cmd, out, err
 
 
 def remove_plugin(module, plugin_bin, plugin_name):
-    cmd_args = [plugin_bin, PACKAGE_STATE_MAP["absent"], parse_plugin_repo(plugin_name)]
-
-    cmd = " ".join(cmd_args)
+    cmd = [plugin_bin, PACKAGE_STATE_MAP["absent"], parse_plugin_repo(plugin_name)]
 
     if module.check_mode:
         rc, out, err = 0, "check mode", ""
@@ -215,7 +210,7 @@ def remove_plugin(module, plugin_bin, plugin_name):
 
     if rc != 0:
         reason = parse_error(out)
-        module.fail_json(msg="Removing plugin '%s' failed: %s" % (plugin_name, reason), err=err)
+        module.fail_json(msg=f"Removing plugin '{plugin_name}' failed: {reason}", err=err)
 
     return True, cmd, out, err
 
@@ -235,8 +230,8 @@ def get_plugin_bin(module, plugin_bin=None):
 
         # Get separate lists of dirs and binary names from the full paths to the
         # plugin binaries.
-        plugin_dirs = list(set([os.path.dirname(x) for x in bin_paths]))
-        plugin_bins = list(set([os.path.basename(x) for x in bin_paths]))
+        plugin_dirs = list({os.path.dirname(x) for x in bin_paths})
+        plugin_bins = list({os.path.basename(x) for x in bin_paths})
 
         # Check for the binary names in the default system paths as well as the path
         # specified in the module arguments.
@@ -246,7 +241,9 @@ def get_plugin_bin(module, plugin_bin=None):
                 break
 
     if not valid_plugin_bin:
-        module.fail_json(msg='%s does not exist and no other valid plugin installers were found. Make sure Elasticsearch is installed.' % plugin_bin)
+        module.fail_json(
+            msg=f"{plugin_bin} does not exist and no other valid plugin installers were found. Make sure Elasticsearch is installed."
+        )
 
     return valid_plugin_bin
 
@@ -256,18 +253,18 @@ def main():
         argument_spec=dict(
             name=dict(required=True),
             state=dict(default="present", choices=list(PACKAGE_STATE_MAP.keys())),
-            src=dict(default=None),
-            url=dict(default=None),
+            src=dict(),
+            url=dict(),
             timeout=dict(default="1m"),
-            force=dict(type='bool', default=False),
+            force=dict(type="bool", default=False),
             plugin_bin=dict(type="path"),
             plugin_dir=dict(default="/usr/share/elasticsearch/plugins/", type="path"),
-            proxy_host=dict(default=None),
-            proxy_port=dict(default=None),
-            version=dict(default=None)
+            proxy_host=dict(),
+            proxy_port=dict(),
+            version=dict(),
         ),
         mutually_exclusive=[("src", "url")],
-        supports_check_mode=True
+        supports_check_mode=True,
     )
 
     name = module.params["name"]
@@ -293,7 +290,9 @@ def main():
         module.exit_json(changed=False, name=name, state=state)
 
     if state == "present":
-        changed, cmd, out, err = install_plugin(module, plugin_bin, name, version, src, url, proxy_host, proxy_port, timeout, force)
+        changed, cmd, out, err = install_plugin(
+            module, plugin_bin, name, version, src, url, proxy_host, proxy_port, timeout, force
+        )
 
     elif state == "absent":
         changed, cmd, out, err = remove_plugin(module, plugin_bin, name)
@@ -301,5 +300,5 @@ def main():
     module.exit_json(changed=changed, cmd=cmd, name=name, state=state, url=url, timeout=timeout, stdout=out, stderr=err)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

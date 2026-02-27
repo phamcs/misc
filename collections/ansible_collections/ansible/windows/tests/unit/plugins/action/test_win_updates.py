@@ -2,11 +2,6 @@
 # (c) 2018, Jordan Borean <jborean@redhat.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-# Make coding more python3-ish
-from __future__ import absolute_import, division, print_function
-
-__metaclass__ = type
-
 import ntpath
 import json
 import os
@@ -165,11 +160,7 @@ def win_updates_init(task_args, async_val=0, check_mode=False, connection=None):
 
     connection = connection or MagicMock()
 
-    # Used for older Ansible versions
-    play_context = MagicMock()
-    play_context.check_mode = check_mode
-
-    plugin = win_updates.ActionModule(task, connection, play_context, loader=None, templar=None,
+    plugin = win_updates.ActionModule(task, connection, MagicMock(), loader=None, templar=None,
                                       shared_loader_obj=None)
     return plugin
 

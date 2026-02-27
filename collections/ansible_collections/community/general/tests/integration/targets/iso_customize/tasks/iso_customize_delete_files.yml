@@ -10,7 +10,7 @@
     delete_files:
       - "test01.cfg"
 
-- debug: var=ansible_distribution
+- debug: var=ansible_facts.distribution
 
 - include_tasks: iso_mount.yml
   vars:
@@ -25,7 +25,7 @@
 
 - assert:
     that:
-    - check_file.stat.exists == False
+      - check_file.stat.exists == False
 
 - name: Umount ISO
   mount:

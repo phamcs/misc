@@ -1,13 +1,10 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 # Copyright (c) Ansible project
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from __future__ import absolute_import, division, print_function
-
-__metaclass__ = type
+from __future__ import annotations
 
 DOCUMENTATION = r"""
 module: keycloak_realm_keys_metadata_info
@@ -18,8 +15,8 @@ version_added: 9.3.0
 
 description:
   - This module allows you to get Keycloak realm keys metadata using the Keycloak REST API.
-  - The names of module options are snake_cased versions of the camelCase ones found in the Keycloak API and its documentation at
-    U(https://www.keycloak.org/docs-api/latest/rest-api/index.html).
+  - The names of module options are snake_cased versions of the camelCase ones found in the Keycloak API and its documentation
+    at U(https://www.keycloak.org/docs-api/latest/rest-api/index.html).
 attributes:
   action_group:
     version_added: 10.2.0
@@ -89,8 +86,13 @@ keys_metadata:
 """
 
 from ansible.module_utils.basic import AnsibleModule
+
 from ansible_collections.community.general.plugins.module_utils.identity.keycloak.keycloak import (
-    KeycloakAPI, KeycloakError, get_token, keycloak_argument_spec)
+    KeycloakAPI,
+    KeycloakError,
+    get_token,
+    keycloak_argument_spec,
+)
 
 
 def main():
@@ -104,8 +106,11 @@ def main():
     module = AnsibleModule(
         argument_spec=argument_spec,
         supports_check_mode=True,
-        required_one_of=([["token", "auth_realm", "auth_username", "auth_password"]]),
-        required_together=([["auth_realm", "auth_username", "auth_password"]]),
+        required_one_of=(
+            [["token", "auth_realm", "auth_username", "auth_password", "auth_client_id", "auth_client_secret"]]
+        ),
+        required_together=([["auth_username", "auth_password"]]),
+        required_by={"refresh_token": "auth_realm"},
     )
 
     result = dict(changed=False, msg="", keys_metadata="")
@@ -123,9 +128,7 @@ def main():
     keys_metadata = kc.get_realm_keys_metadata_by_id(realm=realm)
 
     result["keys_metadata"] = keys_metadata
-    result["msg"] = "Get realm keys metadata successful for ID {realm}".format(
-        realm=realm
-    )
+    result["msg"] = f"Get realm keys metadata successful for ID {realm}"
     module.exit_json(**result)
 
 

@@ -1,44 +1,44 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2022, Alexei Znamensky <russoz@gmail.com>
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
-
+from __future__ import annotations
 
 import json
-
+import typing as t
 
 from ansible_collections.community.general.plugins.module_utils.cmd_runner import CmdRunner, cmd_runner_fmt
 
+if t.TYPE_CHECKING:
+    from ansible.module_utils.basic import AnsibleModule
+
 
 pipx_common_argspec = {
-    "global": dict(type='bool', default=False),
-    "executable": dict(type='path'),
+    "global": dict(type="bool", default=False),
+    "executable": dict(type="path"),
 }
 
 
 _state_map = dict(
-    install='install',
-    install_all='install-all',
-    present='install',
-    uninstall='uninstall',
-    absent='uninstall',
-    uninstall_all='uninstall-all',
-    inject='inject',
-    uninject='uninject',
-    upgrade='upgrade',
-    upgrade_shared='upgrade-shared',
-    upgrade_all='upgrade-all',
-    reinstall='reinstall',
-    reinstall_all='reinstall-all',
-    pin='pin',
-    unpin='unpin',
+    install="install",
+    install_all="install-all",
+    present="install",
+    uninstall="uninstall",
+    absent="uninstall",
+    uninstall_all="uninstall-all",
+    inject="inject",
+    uninject="uninject",
+    upgrade="upgrade",
+    upgrade_shared="upgrade-shared",
+    upgrade_all="upgrade-all",
+    reinstall="reinstall",
+    reinstall_all="reinstall-all",
+    pin="pin",
+    unpin="unpin",
 )
 
 
-def pipx_runner(module, command, **kwargs):
+def pipx_runner(module: AnsibleModule, command, **kwargs) -> CmdRunner:
     arg_formats = dict(
         state=cmd_runner_fmt.as_map(_state_map),
         name=cmd_runner_fmt.as_list(),
@@ -48,15 +48,15 @@ def pipx_runner(module, command, **kwargs):
         inject_packages=cmd_runner_fmt.as_list(),
         force=cmd_runner_fmt.as_bool("--force"),
         include_injected=cmd_runner_fmt.as_bool("--include-injected"),
-        index_url=cmd_runner_fmt.as_opt_val('--index-url'),
-        python=cmd_runner_fmt.as_opt_val('--python'),
+        index_url=cmd_runner_fmt.as_opt_val("--index-url"),
+        python=cmd_runner_fmt.as_opt_val("--python"),
         system_site_packages=cmd_runner_fmt.as_bool("--system-site-packages"),
-        _list=cmd_runner_fmt.as_fixed(['list', '--include-injected', '--json']),
+        _list=cmd_runner_fmt.as_fixed(["list", "--include-injected", "--json"]),
         editable=cmd_runner_fmt.as_bool("--editable"),
-        pip_args=cmd_runner_fmt.as_opt_eq_val('--pip-args'),
-        suffix=cmd_runner_fmt.as_opt_val('--suffix'),
+        pip_args=cmd_runner_fmt.as_opt_eq_val("--pip-args"),
+        suffix=cmd_runner_fmt.as_opt_val("--suffix"),
         spec_metadata=cmd_runner_fmt.as_list(),
-        version=cmd_runner_fmt.as_fixed('--version'),
+        version=cmd_runner_fmt.as_fixed("--version"),
     )
     arg_formats["global"] = cmd_runner_fmt.as_bool("--global")
 
@@ -64,43 +64,55 @@ def pipx_runner(module, command, **kwargs):
         module,
         command=command,
         arg_formats=arg_formats,
-        environ_update={'USE_EMOJI': '0'},
+        environ_update={"USE_EMOJI": "0", "PIPX_USE_EMOJI": "0"},
         check_rc=True,
-        **kwargs
+        **kwargs,
     )
     return runner
 
 
-def make_process_list(mod_helper, **kwargs):
-    def process_list(rc, out, err):
-        if not out:
-            return []
+def _make_entry(venv_name, venv, include_injected, include_deps):
+    entry = {
+        "name": venv_name,
+        "version": venv["metadata"]["main_package"]["package_version"],
+        "pinned": venv["metadata"]["main_package"].get("pinned"),
+    }
+    if include_injected:
+        entry["injected"] = {k: v["package_version"] for k, v in venv["metadata"]["injected_packages"].items()}
+    if include_deps:
+        entry["dependencies"] = list(venv["metadata"]["main_package"]["app_paths_of_dependencies"])
+    return entry
 
-        results = []
+
+def make_process_dict(include_injected, include_deps=False):
+    def process_dict(rc, out, err):
+        if not out:
+            return {}
+
+        results = {}
         raw_data = json.loads(out)
+        for venv_name, venv in raw_data["venvs"].items():
+            results[venv_name] = _make_entry(venv_name, venv, include_injected, include_deps)
+
+        return results, raw_data
+
+    return process_dict
+
+
+def make_process_list(mod_helper, **kwargs):
+    #
+    # ATTENTION!
+    #
+    # The function `make_process_list()` is deprecated and will be removed in community.general 13.0.0
+    #
+    process_dict = make_process_dict(mod_helper, **kwargs)
+
+    def process_list(rc, out, err):
+        res_dict, raw_data = process_dict(rc, out, err)
+
         if kwargs.get("include_raw"):
             mod_helper.vars.raw_output = raw_data
 
-        if kwargs["name"]:
-            if kwargs["name"] in raw_data['venvs']:
-                data = {kwargs["name"]: raw_data['venvs'][kwargs["name"]]}
-            else:
-                data = {}
-        else:
-            data = raw_data['venvs']
-
-        for venv_name, venv in data.items():
-            entry = {
-                'name': venv_name,
-                'version': venv['metadata']['main_package']['package_version'],
-                'pinned': venv['metadata']['main_package'].get('pinned'),
-            }
-            if kwargs.get("include_injected"):
-                entry['injected'] = {k: v['package_version'] for k, v in venv['metadata']['injected_packages'].items()}
-            if kwargs.get("include_deps"):
-                entry['dependencies'] = list(venv['metadata']['main_package']['app_paths_of_dependencies'])
-            results.append(entry)
-
-        return results
+        return [entry for name, entry in res_dict.items() if name == kwargs.get("name")]
 
     return process_list

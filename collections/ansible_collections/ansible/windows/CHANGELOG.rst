@@ -4,6 +4,71 @@ Ansible Windows Release Notes
 
 .. contents:: Topics
 
+v3.3.0
+======
+
+Release Summary
+---------------
+
+Release summary for v3.3.0
+
+Minor Changes
+-------------
+
+- Add official support for Ansible 2.20
+- win_environment - Add the return value ``env_values`` which is a copy of the existing ``values`` return value. The documentation for ``values`` has been removed to discourage use of that version due to the inability to use ``values`` with dot notation in a Jinja2 template due to the conflict with the Python ``values`` attribute.
+
+Bugfixes
+--------
+
+- Update various action plugin calls to avoid some deprecated or old methods.
+- win_get_url - Fix force=no not doing HEAD request if checksum is not set
+- win_powershell - Fix up async support for Ansible 2.19 when running ``win_powershell`` - https://github.com/ansible-collections/ansible.windows/issues/828
+- win_reboot - Use full path to ``shutdown.exe`` to avoid relying on ``PATH`` lookups to find - https://github.com/ansible-collections/ansible.windows/issues/826
+
+v3.2.0
+======
+
+Release Summary
+---------------
+
+Release summary for v3.2.0
+
+Minor Changes
+-------------
+
+- win_find - add support for 'any' to find both directories and files (https://github.com/ansible-collections/ansible.windows/issues/797).
+- win_template - Preserve user-supplied value for ``ansible_managed`` when set on Ansible Core 2.19+.
+
+Bugfixes
+--------
+
+- win_copy - report correct information about symlinks in action plugin.
+- win_service - Fix crash when attempting to create a service with the ``--check`` flag.
+
+v3.1.0
+======
+
+Release Summary
+---------------
+
+Release summary for v3.1.0
+
+Minor Changes
+-------------
+
+- setup - add "CloudStack KVM Hypervisor" for Windows VM in virtual facts (https://github.com/ansible-collections/ansible.windows/pull/785).
+- setup - added ``ansible_product_uuid`` to align with Python facts - https://github.com/ansible-collections/ansible.windows/issues/789
+- win_dns_client - add support for suffixsearchlist (https://github.com/ansible-collections/ansible.windows/issues/656).
+- win_powershell - Add support for running scripts on a Windows host with an active Windows Application Control policy in place. Scripts that are unsigned will be run in Constrained Language Mode while scripts that are signed and trusted by the remote host's WDAC policy will be run in Full Language Mode.
+- win_powershell - Added the ``path`` and ``remote_src`` options which can be used to specify a local or remote PowerShell script to run.
+- win_shell - Add support for running scripts on a Windows host with an active Windows Application Control policy in place. Scripts will always run in Contrained Language Mode as they are executed in memory, use the ``ansible.windows.win_powershell`` module to run signed scripts in Full Language Mode on a WDAC enabled host.
+
+Bugfixes
+--------
+
+- win_package - fail to remove package when no product id is provided with path as an URL (https://github.com/ansible-collections/ansible.windows/issues/667).
+
 v3.0.0
 ======
 

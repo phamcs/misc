@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2022, Alexei Znamensky
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -172,8 +171,8 @@ cmd_echo_tests:
   - name: use cmd {{ remote_tmp_dir }}/echo
     condition: >
       {{
-        ansible_distribution != "MacOSX" and
-        not (ansible_distribution == "CentOS" and ansible_distribution_major_version is version('7.0', '<'))
+        ansible_facts.distribution != "MacOSX" and
+        not (ansible_facts.distribution == "CentOS" and ansible_facts.distribution_major_version is version('7.0', '<'))
       }}
     copy_to: "{{ remote_tmp_dir }}"
     cmd: "{{ remote_tmp_dir }}/echo"
@@ -197,8 +196,8 @@ cmd_echo_tests:
     cmd: echo
     condition: >
       {{
-        ansible_distribution != "MacOSX" and
-        not (ansible_distribution == "CentOS" and ansible_distribution_major_version is version('7.0', '<'))
+        ansible_facts.distribution != "MacOSX" and
+        not (ansible_facts.distribution == "CentOS" and ansible_facts.distribution_major_version is version('7.0', '<'))
       }}
     copy_to: "{{ remote_tmp_dir }}"
     path_prefix: "{{ remote_tmp_dir }}"
@@ -253,3 +252,5 @@ cmd_echo_tests:
     assertions:
       - >
         "No such file or directory" in test_result.msg
+        or
+        "Error executing command." == test_result.msg

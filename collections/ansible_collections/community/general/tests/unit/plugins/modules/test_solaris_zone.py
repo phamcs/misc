@@ -2,21 +2,18 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
+from __future__ import annotations
 
 import json
 import platform
 
 import pytest
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.general.plugins.modules import (
-    solaris_zone
-)
-from ansible_collections.community.general.tests.unit.plugins.modules.utils import (
+from ansible_collections.community.internal_test_tools.tests.unit.plugins.modules.utils import (
     set_module_args,
 )
 
+from ansible_collections.community.general.plugins.modules import solaris_zone
 
 ZONEADM = "/usr/sbin/zoneadm"
 
@@ -54,16 +51,16 @@ def test_zone_create(mocked_zone_create, capfd):
     """
     test zone creation
     """
-    set_module_args(
+    with set_module_args(
         {
             "name": "z1",
             "state": "installed",
             "path": "/zones/z1",
             "_ansible_check_mode": False,
         }
-    )
-    with pytest.raises(SystemExit):
-        solaris_zone.main()
+    ):
+        with pytest.raises(SystemExit):
+            solaris_zone.main()
 
     out, err = capfd.readouterr()
     results = json.loads(out)
@@ -75,16 +72,16 @@ def test_zone_delete(mocked_zone_delete, capfd):
     """
     test zone deletion
     """
-    set_module_args(
+    with set_module_args(
         {
             "name": "z1",
             "state": "absent",
             "path": "/zones/z1",
             "_ansible_check_mode": False,
         }
-    )
-    with pytest.raises(SystemExit):
-        solaris_zone.main()
+    ):
+        with pytest.raises(SystemExit):
+            solaris_zone.main()
 
     out, err = capfd.readouterr()
     results = json.loads(out)
@@ -99,17 +96,17 @@ def test_zone_create_invalid_names(mocked_zone_create, capfd):
     # 1. Invalid character ('!').
     # 2. Zone name > 64 characters.
     # 3. Zone name beginning with non-alphanumeric character.
-    for invalid_name in ('foo!bar', 'z' * 65, '_zone'):
-        set_module_args(
+    for invalid_name in ("foo!bar", "z" * 65, "_zone"):
+        with set_module_args(
             {
                 "name": invalid_name,
                 "state": "installed",
-                "path": "/zones/" + invalid_name,
+                "path": f"/zones/{invalid_name}",
                 "_ansible_check_mode": False,
             }
-        )
-        with pytest.raises(SystemExit):
-            solaris_zone.main()
+        ):
+            with pytest.raises(SystemExit):
+                solaris_zone.main()
 
         out, err = capfd.readouterr()
         results = json.loads(out)

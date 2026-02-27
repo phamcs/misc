@@ -1,13 +1,10 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 #
 # Copyright Ansible Project
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
-
+from __future__ import annotations
 
 DOCUMENTATION = r"""
 module: lldp
@@ -22,7 +19,11 @@ attributes:
     support: none
   diff_mode:
     support: none
-options: {}
+options:
+  multivalues:
+    description: If lldpctl outputs an attribute multiple time represent all values as a list.
+    type: bool
+    default: false
 author: "Andy Hill (@andyhky)"
 notes:
   - Requires C(lldpd) running and LLDP enabled on switches.
@@ -48,39 +49,60 @@ from ansible.module_utils.basic import AnsibleModule
 
 
 def gather_lldp(module):
-    cmd = [module.get_bin_path('lldpctl'), '-f', 'keyvalue']
+    cmd = [module.get_bin_path("lldpctl"), "-f", "keyvalue"]
     rc, output, err = module.run_command(cmd)
     if output:
         output_dict = {}
         current_dict = {}
-        lldp_entries = output.split("\n")
+        lldp_entries = output.strip().split("\n")
 
+        final = ""
         for entry in lldp_entries:
-            if entry.startswith('lldp'):
+            if entry.startswith("lldp"):
                 path, value = entry.strip().split("=", 1)
                 path = path.split(".")
                 path_components, final = path[:-1], path[-1]
+            elif final in current_dict and isinstance(current_dict[final], str):
+                current_dict[final] += f"\n{entry}"
+                continue
+            elif final in current_dict and isinstance(current_dict[final], list):
+                current_dict[final][-1] += f"\n{entry}"
+                continue
             else:
-                value = current_dict[final] + '\n' + entry
+                continue
 
             current_dict = output_dict
             for path_component in path_components:
                 current_dict[path_component] = current_dict.get(path_component, {})
+                if not isinstance(current_dict[path_component], dict):
+                    current_dict[path_component] = {"value": current_dict[path_component]}
                 current_dict = current_dict[path_component]
-            current_dict[final] = value
+
+            if final in current_dict and isinstance(current_dict[final], dict) and module.params["multivalues"]:
+                current_dict = current_dict[final]
+                final = "value"
+
+            if final not in current_dict or not module.params["multivalues"]:
+                current_dict[final] = value
+            elif isinstance(current_dict[final], str):
+                current_dict[final] = [current_dict[final], value]
+            elif isinstance(current_dict[final], list):
+                current_dict[final].append(value)
+
         return output_dict
 
 
 def main():
-    module = AnsibleModule({})
+    module_args = dict(multivalues=dict(type="bool", default=False))
+    module = AnsibleModule(module_args)
 
     lldp_output = gather_lldp(module)
     try:
-        data = {'lldp': lldp_output['lldp']}
+        data = {"lldp": lldp_output["lldp"]}
         module.exit_json(ansible_facts=data)
     except TypeError:
         module.fail_json(msg="lldpctl command failed. is lldpd running?")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

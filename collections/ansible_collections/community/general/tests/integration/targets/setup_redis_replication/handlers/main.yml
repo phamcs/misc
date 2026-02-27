@@ -14,7 +14,7 @@
   args:
     name: "{{ item }}"
     state: absent
-  loop: "{{ redis_packages[ansible_distribution] }}"
+  loop: "{{ redis_packages[ansible_facts.distribution] }}"
   listen: cleanup redis
 
 - name: remove pip packages
@@ -28,12 +28,12 @@
     path: "{{ item }}"
     state: absent
   loop:
-  - "{{ master_conf }}"
-  - "{{ master_datadir }}"
-  - "{{ master_logdir }}"
-  - /var/run/redis_{{ master_port }}.pid
-  - "{{ replica_conf }}"
-  - "{{ replica_datadir }}"
-  - "{{ replica_logdir }}"
-  - /var/run/redis_{{ replica_port }}.pid
+    - "{{ master_conf }}"
+    - "{{ master_datadir }}"
+    - "{{ master_logdir }}"
+    - /var/run/redis_{{ master_port }}.pid
+    - "{{ replica_conf }}"
+    - "{{ replica_datadir }}"
+    - "{{ replica_logdir }}"
+    - /var/run/redis_{{ replica_port }}.pid
   listen: cleanup redis

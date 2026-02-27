@@ -2,7 +2,7 @@
  "collection_info": {
   "namespace": "community",
   "name": "windows",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "authors": [
    "Jordan Borean @jborean93",
    "Matt Davis @nitzmahone"
@@ -26,7 +26,7 @@
   "name": "FILES.json",
   "ftype": "file",
   "chksum_type": "sha256",
-  "chksum_sha256": "dcb41d895bf6fea718f64f5b232f5b8e50d22e27d481074238845960058ddb53",
+  "chksum_sha256": "40c0eeeb2c5ccb60a31cc5f48cdf9c541cde1b5148a3cc2d9b494ebce08e8b46",
   "format": 1
  },
  "format": 1

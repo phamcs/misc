@@ -4,6 +4,33 @@ Ansible Utils Collection Release Notes
 
 .. contents:: Topics
 
+v6.0.1
+======
+
+Bugfixes
+--------
+
+- Add a cleanup step that removes empty {} and [] values from lists in keep_keys_from_dict_n_list()
+
+Documentation Changes
+---------------------
+
+- Fix the description of the reduce_on_network filter.
+- Fix the module name in ipmath filter.
+
+v6.0.0
+======
+
+Release Summary
+---------------
+
+With this release, the minimum required version of `ansible-core` for this collection is `2.16.0`. The last version known to be compatible with `ansible-core` versions below `2.16` is v5.1.2.
+
+Major Changes
+-------------
+
+- Bumping `requires_ansible` to `>=2.16.0`, since previous ansible-core versions are EoL now.
+
 v5.1.2
 ======
 

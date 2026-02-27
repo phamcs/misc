@@ -37,7 +37,8 @@
 
 - name: Map a realm role to client service account
   vars:
-    - roles: [ {'name': '{{ role }}'} ]
+    roles:
+      - name: '{{ role }}'
   community.general.keycloak_user_rolemapping:
     auth_keycloak_url: "{{ url }}"
     auth_realm: "{{ admin_realm }}"
@@ -53,11 +54,12 @@
   assert:
     that:
       - result is changed
-      - result.end_state | selectattr("clientRole", "eq", false) | selectattr("name", "eq", "{{role}}") | list | count > 0
+      - result.end_state | selectattr("clientRole", "eq", false) | selectattr("name", "eq", role) | list | count > 0
 
 - name: Unmap a realm role from client service account
   vars:
-    - roles: [ {'name': '{{ role }}'} ]
+    roles:
+      - name: '{{ role }}'
   community.general.keycloak_user_rolemapping:
     auth_keycloak_url: "{{ url }}"
     auth_realm: "{{ admin_realm }}"
@@ -74,8 +76,8 @@
     that:
       - result is changed
       - (result.end_state | length) == (result.existing | length) - 1
-      - result.existing | selectattr("clientRole", "eq", false) | selectattr("name", "eq", "{{role}}") | list | count > 0
-      - result.end_state | selectattr("clientRole", "eq", false) | selectattr("name", "eq", "{{role}}") | list | count == 0
+      - result.existing | selectattr("clientRole", "eq", false) | selectattr("name", "eq", role) | list | count > 0
+      - result.end_state | selectattr("clientRole", "eq", false) | selectattr("name", "eq", role) | list | count == 0
 
 - name: Delete existing realm role
   community.general.keycloak_role:
@@ -86,6 +88,18 @@
     realm: "{{ realm }}"
     name: "{{ role }}"
     state: absent
+
+- name: Create second client (for cross-client role mapping test)
+  community.general.keycloak_client:
+    auth_keycloak_url: "{{ url }}"
+    auth_realm: "{{ admin_realm }}"
+    auth_username: "{{ admin_user }}"
+    auth_password: "{{ admin_password }}"
+    realm: "{{ realm }}"
+    client_id: "{{ client_id_2 }}"
+    service_accounts_enabled: true
+    state: present
+  register: client_2
 
 - name: Create new client role
   community.general.keycloak_role:
@@ -99,9 +113,54 @@
     description: "{{ description_1 }}"
     state: present
 
+- name: Map a client role to a user with no existing roles for that client
+  vars:
+    roles:
+      - name: '{{ role }}'
+  community.general.keycloak_user_rolemapping:
+    auth_keycloak_url: "{{ url }}"
+    auth_realm: "{{ admin_realm }}"
+    auth_username: "{{ admin_user }}"
+    auth_password: "{{ admin_password }}"
+    realm: "{{ realm }}"
+    client_id: "{{ client_id }}"
+    service_account_user_client_id: "{{ client_id_2 }}"
+    roles: "{{ roles }}"
+    state: present
+  register: result
+
+- name: Assert client role is assigned to user with no prior roles
+  assert:
+    that:
+      - result is changed
+      - result.end_state | selectattr("clientRole", "eq", true) | selectattr("name", "eq", role) | list | count > 0
+
+- name: Unmap the cross-client role mapping
+  vars:
+    roles:
+      - name: '{{ role }}'
+  community.general.keycloak_user_rolemapping:
+    auth_keycloak_url: "{{ url }}"
+    auth_realm: "{{ admin_realm }}"
+    auth_username: "{{ admin_user }}"
+    auth_password: "{{ admin_password }}"
+    realm: "{{ realm }}"
+    client_id: "{{ client_id }}"
+    service_account_user_client_id: "{{ client_id_2 }}"
+    roles: "{{ roles }}"
+    state: absent
+  register: result
+
+- name: Assert cross-client role mapping is removed
+  assert:
+    that:
+      - result is changed
+      - result.end_state == []
+
 - name: Map a client role to client service account
   vars:
-    - roles: [ {'name': '{{ role }}'} ]
+    roles:
+      - name: '{{ role }}'
   community.general.keycloak_user_rolemapping:
     auth_keycloak_url: "{{ url }}"
     auth_realm: "{{ admin_realm }}"
@@ -118,11 +177,12 @@
   assert:
     that:
       - result is changed
-      - result.end_state | selectattr("clientRole", "eq", true) | selectattr("name", "eq", "{{role}}") | list | count > 0
+      - result.end_state | selectattr("clientRole", "eq", true) | selectattr("name", "eq", role) | list | count > 0
 
 - name: Unmap a client role from client service account
   vars:
-    - roles: [ {'name': '{{ role }}'} ]
+    roles:
+      - name: '{{ role }}'
   community.general.keycloak_user_rolemapping:
     auth_keycloak_url: "{{ url }}"
     auth_realm: "{{ admin_realm }}"
@@ -140,4 +200,4 @@
     that:
       - result is changed
       - result.end_state == []
-      - result.existing | selectattr("clientRole", "eq", true) | selectattr("name", "eq", "{{role}}") | list | count > 0
+      - result.existing | selectattr("clientRole", "eq", true) | selectattr("name", "eq", role) | list | count > 0

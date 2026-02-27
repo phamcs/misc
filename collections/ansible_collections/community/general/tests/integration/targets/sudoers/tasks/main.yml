@@ -13,7 +13,7 @@
 - name: Install sudo package
   ansible.builtin.package:
     name: sudo
-  when: ansible_os_family != 'Darwin'
+  when: ansible_facts.os_family != 'Darwin'
 
 - name: Ensure sudoers directory exists
   ansible.builtin.file:
@@ -211,13 +211,13 @@
   command:
     cmd: which visudo
   register: which_visudo
-  when: ansible_os_family != 'Darwin'
+  when: ansible_facts.os_family != 'Darwin'
 
 - name: Prevent visudo being executed
   file:
     path: "{{ which_visudo.stdout }}"
     mode: '-x'
-  when: ansible_os_family != 'Darwin'
+  when: ansible_facts.os_family != 'Darwin'
 
 - name: Attempt command without full path to executable, but enforcing validation with no visudo present
   community.general.sudoers:
@@ -227,9 +227,9 @@
     commands: systemctl
     validation: required
   ignore_errors: true
-  when: ansible_os_family != 'Darwin'
+  when: ansible_facts.os_family != 'Darwin'
   register: edge_case_3
-  
+
 - name: Revoke non-existing rule
   community.general.sudoers:
     name: non-existing-rule
@@ -278,12 +278,14 @@
     that:
       - not revoke_rule_1_stat.stat.exists
       - not revoke_non_existing_rule_stat.stat.exists
-      
+
 - name: Check edge case responses
   ansible.builtin.assert:
     that:
       - edge_case_1 is failed
       - "'Failed to validate sudoers rule' in edge_case_1.msg"
+      - edge_case_1.stdout is defined
+      - edge_case_1.stderr is defined
       - edge_case_2 is not failed
 
 - name: Check missing validation edge case
@@ -291,4 +293,4 @@
     that:
       - edge_case_3 is failed
       - "'Failed to find required executable' in edge_case_3.msg"
-  when: ansible_os_family != 'Darwin'
+  when: ansible_facts.os_family != 'Darwin'

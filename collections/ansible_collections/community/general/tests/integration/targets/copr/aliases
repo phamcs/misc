@@ -7,3 +7,5 @@ needs/root
 skip/macos
 skip/osx
 skip/freebsd
+skip/rhel10.0  # FIXME
+skip/rhel10.1  # FIXME

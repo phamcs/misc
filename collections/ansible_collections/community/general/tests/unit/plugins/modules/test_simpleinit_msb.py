@@ -2,15 +2,17 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from __future__ import (absolute_import, division, print_function)
-__metaclass__ = type
+from __future__ import annotations
 
+from unittest.mock import patch
 
-from ansible_collections.community.general.tests.unit.compat.mock import patch
-from ansible_collections.community.general.tests.unit.plugins.modules.utils import AnsibleFailJson, ModuleTestCase, set_module_args
+from ansible_collections.community.internal_test_tools.tests.unit.plugins.modules.utils import (
+    AnsibleFailJson,
+    ModuleTestCase,
+    set_module_args,
+)
 
 from ansible_collections.community.general.plugins.modules.simpleinit_msb import SimpleinitMSB, build_module
-
 
 _TELINIT_LIST = """
 RUNLEVEL SCRIPT
@@ -84,117 +86,138 @@ _TELINIT_STATUS_RUNNING_NOT = """
 
 
 class TestSimpleinitMSB(ModuleTestCase):
-
     def setUp(self):
-        super(TestSimpleinitMSB, self).setUp()
+        super().setUp()
 
     def tearDown(self):
-        super(TestSimpleinitMSB, self).tearDown()
+        super().tearDown()
 
-    def init_module(self, args):
-        set_module_args(args)
-
-        return SimpleinitMSB(build_module())
-
-    @patch('os.path.exists', return_value=True)
-    @patch('ansible.module_utils.basic.AnsibleModule.get_bin_path', return_value="/sbin/telinit")
+    @patch("os.path.exists", return_value=True)
+    @patch("ansible.module_utils.basic.AnsibleModule.get_bin_path", return_value="/sbin/telinit")
     def test_get_service_tools(self, *args, **kwargs):
-        simpleinit_msb = self.init_module({
-            'name': 'smgl-suspend-single',
-            'state': 'running',
-        })
+        with set_module_args(
+            {
+                "name": "smgl-suspend-single",
+                "state": "running",
+            }
+        ):
+            simpleinit_msb = SimpleinitMSB(build_module())
 
-        simpleinit_msb.get_service_tools()
+            simpleinit_msb.get_service_tools()
 
-        self.assertEqual(simpleinit_msb.telinit_cmd, "/sbin/telinit")
+            self.assertEqual(simpleinit_msb.telinit_cmd, "/sbin/telinit")
 
-    @patch('ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.execute_command')
+    @patch("ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.execute_command")
     def test_service_exists(self, execute_command):
-        simpleinit_msb = self.init_module({
-            'name': 'smgl-suspend-single',
-            'state': 'running',
-        })
+        with set_module_args(
+            {
+                "name": "smgl-suspend-single",
+                "state": "running",
+            }
+        ):
+            simpleinit_msb = SimpleinitMSB(build_module())
 
-        execute_command.return_value = (0, _TELINIT_LIST, "")
+            execute_command.return_value = (0, _TELINIT_LIST, "")
 
-        simpleinit_msb.service_exists()
-
-    @patch('ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.execute_command')
-    def test_service_exists_not(self, execute_command):
-        simpleinit_msb = self.init_module({
-            'name': 'ntp',
-            'state': 'running',
-        })
-
-        execute_command.return_value = (0, _TELINIT_LIST, "")
-
-        with self.assertRaises(AnsibleFailJson) as context:
             simpleinit_msb.service_exists()
 
-        self.assertEqual("telinit could not find the requested service: ntp", context.exception.args[0]["msg"])
+    @patch("ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.execute_command")
+    def test_service_exists_not(self, execute_command):
+        with set_module_args(
+            {
+                "name": "ntp",
+                "state": "running",
+            }
+        ):
+            simpleinit_msb = SimpleinitMSB(build_module())
 
-    @patch('ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.service_exists')
-    @patch('ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.execute_command')
+            execute_command.return_value = (0, _TELINIT_LIST, "")
+
+            with self.assertRaises(AnsibleFailJson) as context:
+                simpleinit_msb.service_exists()
+
+            self.assertEqual("telinit could not find the requested service: ntp", context.exception.args[0]["msg"])
+
+    @patch("ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.service_exists")
+    @patch("ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.execute_command")
     def test_check_service_enabled(self, execute_command, service_exists):
-        simpleinit_msb = self.init_module({
-            'name': 'nscd',
-            'state': 'running',
-            'enabled': 'true',
-        })
+        with set_module_args(
+            {
+                "name": "nscd",
+                "state": "running",
+                "enabled": "true",
+            }
+        ):
+            simpleinit_msb = SimpleinitMSB(build_module())
 
-        service_exists.return_value = True
-        execute_command.return_value = (0, _TELINIT_LIST_ENABLED, "")
+            service_exists.return_value = True
+            execute_command.return_value = (0, _TELINIT_LIST_ENABLED, "")
 
-        self.assertTrue(simpleinit_msb.service_enabled())
+            self.assertTrue(simpleinit_msb.service_enabled())
 
-        # Race condition check
-        with patch('ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.service_enabled', return_value=False):
-            execute_command.return_value = (0, "", _TELINIT_ALREADY_ENABLED)
+            # Race condition check
+            with patch(
+                "ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.service_enabled",
+                return_value=False,
+            ):
+                execute_command.return_value = (0, "", _TELINIT_ALREADY_ENABLED)
 
-            simpleinit_msb.service_enable()
+                simpleinit_msb.service_enable()
 
-            self.assertFalse(simpleinit_msb.changed)
+                self.assertFalse(simpleinit_msb.changed)
 
-    @patch('ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.service_exists')
-    @patch('ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.execute_command')
+    @patch("ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.service_exists")
+    @patch("ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.execute_command")
     def test_check_service_disabled(self, execute_command, service_exists):
-        simpleinit_msb = self.init_module({
-            'name': 'sysstat',
-            'state': 'stopped',
-            'enabled': 'false',
-        })
+        with set_module_args(
+            {
+                "name": "sysstat",
+                "state": "stopped",
+                "enabled": "false",
+            }
+        ):
+            simpleinit_msb = SimpleinitMSB(build_module())
 
-        service_exists.return_value = True
-        execute_command.return_value = (0, _TELINIT_LIST_DISABLED, "")
+            service_exists.return_value = True
+            execute_command.return_value = (0, _TELINIT_LIST_DISABLED, "")
 
-        self.assertFalse(simpleinit_msb.service_enabled())
+            self.assertFalse(simpleinit_msb.service_enabled())
 
-        # Race condition check
-        with patch('ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.service_enabled', return_value=True):
-            execute_command.return_value = (0, "", _TELINIT_ALREADY_DISABLED)
+            # Race condition check
+            with patch(
+                "ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.service_enabled",
+                return_value=True,
+            ):
+                execute_command.return_value = (0, "", _TELINIT_ALREADY_DISABLED)
 
-            simpleinit_msb.service_enable()
+                simpleinit_msb.service_enable()
 
-            self.assertFalse(simpleinit_msb.changed)
+                self.assertFalse(simpleinit_msb.changed)
 
-    @patch('ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.service_control')
+    @patch("ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.service_control")
     def test_check_service_running(self, service_control):
-        simpleinit_msb = self.init_module({
-            'name': 'sshd',
-            'state': 'running',
-        })
+        with set_module_args(
+            {
+                "name": "sshd",
+                "state": "running",
+            }
+        ):
+            simpleinit_msb = SimpleinitMSB(build_module())
 
-        service_control.return_value = (0, _TELINIT_STATUS_RUNNING, "")
+            service_control.return_value = (0, _TELINIT_STATUS_RUNNING, "")
 
-        self.assertFalse(simpleinit_msb.get_service_status())
+            self.assertFalse(simpleinit_msb.get_service_status())
 
-    @patch('ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.service_control')
+    @patch("ansible_collections.community.general.plugins.modules.simpleinit_msb.SimpleinitMSB.service_control")
     def test_check_service_running_not(self, service_control):
-        simpleinit_msb = self.init_module({
-            'name': 'smgl-metalog',
-            'state': 'running',
-        })
+        with set_module_args(
+            {
+                "name": "smgl-metalog",
+                "state": "running",
+            }
+        ):
+            simpleinit_msb = SimpleinitMSB(build_module())
 
-        service_control.return_value = (0, _TELINIT_STATUS_RUNNING_NOT, "")
+            service_control.return_value = (0, _TELINIT_STATUS_RUNNING_NOT, "")
 
-        self.assertFalse(simpleinit_msb.get_service_status())
+            self.assertFalse(simpleinit_msb.get_service_status())

@@ -1,22 +1,27 @@
-# -*- coding: utf-8 -*-
 # (c) 2020, Alexei Znamensky <russoz@gmail.com>
 # Copyright (c) 2020, Ansible Project
 # Simplified BSD License (see LICENSES/BSD-2-Clause.txt or https://opensource.org/licenses/BSD-2-Clause)
 # SPDX-License-Identifier: BSD-2-Clause
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
+from __future__ import annotations
+
+import typing as t
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.general.plugins.module_utils.mh.exceptions import ModuleHelperException as _MHE
+
 from ansible_collections.community.general.plugins.module_utils.mh.deco import module_fails_on_exception
+from ansible_collections.community.general.plugins.module_utils.mh.exceptions import ModuleHelperException as _MHE
 
 
-class ModuleHelperBase(object):
-    module = None
+class ModuleHelperBase:
+    module: dict[str, t.Any] | None = None  # TODO: better spec using t.TypedDict
     ModuleHelperException = _MHE
-    _delegated_to_module = (
-        'check_mode', 'get_bin_path', 'warn', 'deprecate',
+    _delegated_to_module: tuple[str, ...] = (
+        "check_mode",
+        "get_bin_path",
+        "warn",
+        "deprecate",
+        "debug",
     )
 
     def __init__(self, module=None):
@@ -36,13 +41,13 @@ class ModuleHelperBase(object):
     def verbosity(self):
         return self.module._verbosity
 
-    def do_raise(self, *args, **kwargs):
+    def do_raise(self, *args, **kwargs) -> t.NoReturn:
         raise _MHE(*args, **kwargs)
 
     def __getattr__(self, attr):
         if attr in self._delegated_to_module:
             return getattr(self.module, attr)
-        raise AttributeError("ModuleHelperBase has no attribute '%s'" % (attr, ))
+        raise AttributeError(f"ModuleHelperBase has no attribute '{attr}'")
 
     def __init_module__(self):
         pass
@@ -57,14 +62,14 @@ class ModuleHelperBase(object):
         raise NotImplementedError()
 
     @property
-    def changed(self):
+    def changed(self) -> bool:
         try:
             return self.__changed__()
         except NotImplementedError:
             return self._changed
 
     @changed.setter
-    def changed(self, value):
+    def changed(self, value: bool) -> None:
         self._changed = value
 
     def has_changed(self):
@@ -80,8 +85,8 @@ class ModuleHelperBase(object):
         self.__run__()
         self.__quit_module__()
         output = self.output
-        if 'failed' not in output:
-            output['failed'] = False
+        if "failed" not in output:
+            output["failed"] = False
         self.module.exit_json(changed=self.has_changed(), **output)
 
     @classmethod
