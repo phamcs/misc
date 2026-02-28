@@ -11,3 +11,6 @@ collections:
 
   - name: ansible.windows
     source: https://galaxy.ansible.com
+
+  - name: tafeen.synology
+    source: https://galaxy.ansible.com
