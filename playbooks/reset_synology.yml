@@ -43,5 +43,5 @@
         - el_tracker
         - .bashrc
         - NoteStation.dss
-        - setup_venv
+        - pysetup
       ignore_errors: true
