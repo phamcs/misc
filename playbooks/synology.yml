@@ -5,7 +5,5 @@
   any_errors_fatal: true
   become: true
   become_user: root
-  collections:
-    - tafeen.synology
   roles:
     - synology

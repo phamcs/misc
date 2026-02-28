@@ -1,6 +1,8 @@
 ---
 # Setup Shares
 - name: Setup Share AppData
+  collections:
+    - tafeen.synology
   ansible.builtin.import_role:
     name: tafeen.syno_add_shares
   vars:
