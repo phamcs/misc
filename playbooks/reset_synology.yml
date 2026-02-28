@@ -43,7 +43,7 @@
         - el_tracker
         - .bashrc
         - NoteStation.nsx
-        - SYNOAMDFX8350.dss
-        - SYNOQ8300.dss
+        - SYNO7AMDFX8350.dss
+        - SYNO7Q8300.dss
         - pysetup
       ignore_errors: true
