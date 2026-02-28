@@ -6,16 +6,19 @@
   vars:
     syno_upgrade_packages: true
     syno_packages:
+        - Apache2.4
+        - DhcpServer
+        - DNSServer
         - Docker
         - FileStation
+        - LogCenter
+        - Node.js_v18
+        - NoteStation
         - Perl
-        #- Python3.9
-        - Photos
-        - phpMyAdmin
+        - SynologyApplicationService
         - SynologyPhotos
         - TextEditor
-        - DHCPServer
-        - DNSServer
+
   register: pkg_install
   until: pkg_install.rc == 0
 
