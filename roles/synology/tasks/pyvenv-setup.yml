@@ -1,6 +1,32 @@
 ---
 # Setup Python for synology. Make sure python3.9 installed from Package Center before run playbook
+# Copy python install script
+- name: Copy python install script
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0755'
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'pysetup', dest: '{{ base_dir }}/pysetup' }
+
+# Setup Python for user
 - name: Setup Python for user
+  ansible.builtin.shell: |
+    ./pysetup
+  args:
+    chdir: "{{ base_dir }}"
+  register: py_install
+  until: py_install.rc == 0
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ py_install.stdout_lines }}"
+  when: py_install.stdout_lines is defined
+
+- name: Setup pyvenv for user
   ansible.builtin.shell: |
     cd el_tracker && \
     /usr/local/bin/python3.9 -m venv elvenv && \
