@@ -28,6 +28,7 @@
     - { src: 'memdisk', dest: '{{ base_dir }}/pxe/memdisk' }
     - { src: 'requirements.txt', dest: '{{ base_dir }}/el_tracker/requirements.txt' }
     - { src: '.bashrc', dest: '{{ base_dir }}/.bashrc' }
+    - { src: 'NoteStation.dss', dest: '{{ base_dir }}/NoteStation.dss' }
 
 # Copy python install script
 - name: Copy PXE config
