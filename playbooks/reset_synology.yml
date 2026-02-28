@@ -1,6 +1,6 @@
 ---
-# Setup Synology DSM
-- name: Setup Synology DSM
+# Reset Synology DSM
+- name: Reset Synology DSM
   hosts: all
   any_errors_fatal: true
   become: true
@@ -42,6 +42,8 @@
         - pxe
         - el_tracker
         - .bashrc
-        - NoteStation.dss
+        - NoteStation.nsx
+        - SYNOAMDFX8350.dss
+        - SYNOQ8300.dss
         - pysetup
       ignore_errors: true
