@@ -3,7 +3,7 @@
 - name: Setup Python for user
   ansible.builtin.shell: |
     cd el_tracker && \
-    /bin/python3 -m venv elvenv && \
+    /usr/local/bin/python3.9 -m venv elvenv && \
     source elvenv/bin/activate && \
     pip install --upgrade pip && \
     pip install -r requirements.txt
