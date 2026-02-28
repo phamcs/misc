@@ -43,4 +43,5 @@
         - el_tracker
         - .bashrc
         - NoteStation.dss
+        - setup_venv
       ignore_errors: true
