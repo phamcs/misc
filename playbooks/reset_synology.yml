@@ -9,7 +9,6 @@
     syno_packages:
       - DhcpServer
       - DNSServer
-      - FileStation
       - LogCenter
       - NoteStation
       - Perl
