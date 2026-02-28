@@ -18,7 +18,6 @@
         - SynologyApplicationService
         - SynologyPhotos
         - TextEditor
-
   register: pkg_install
   until: pkg_install.rc == 0
 
