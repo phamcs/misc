@@ -9,15 +9,16 @@
         - Apache2.4
         - DhcpServer
         - DNSServer
-        - Docker
+        #- Docker
         - FileStation
         - LogCenter
-        - Node.js_v18
+        #- Node.js_v18
         - NoteStation
         - Perl
-        - SynologyApplicationService
-        - SynologyPhotos
+        #- SynologyApplicationService
+        #- SynologyPhotos
         - TextEditor
+        - WebStation
   register: pkg_install
   until: pkg_install.rc == 0
 

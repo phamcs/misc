@@ -1,6 +1,6 @@
 ---
 # Setup Shares
-- name: Setup Share AppData
+- name: Setup Application Data Share
   ansible.builtin.import_role:
     name: tafeen.synology.syno_add_shares
   vars:
@@ -14,12 +14,36 @@
             - guest
           RW: 
             - k0ng
-  register: shares_setup
-  until: shares_setup.rc == 0
+  register: appdata_setup
+  until: appdata_setup.rc == 0
+
+# Display shares setup output
+- name: Display AppData setup result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ appdata_setup.stdout_lines }}"
+  when: appdata_setup.stdout_lines is defined
+
+- name: Setup Docker Share
+  ansible.builtin.import_role:
+    name: tafeen.synology.syno_add_shares
+  vars:
+    syno_shares:
+      - name: docker
+        description: Docker Folder
+        path: /volume1/docker
+        recycle: false
+        rights:
+          RO:
+            - guest
+          RW: 
+            - k0ng
+  register: docker_setup
+  until: docker_setup.rc == 0
 
 # Display shares setup output
 - name: Display shares setup result standard output lines
   ansible.builtin.debug:
     msg: "{{ item }}"
-  loop: "{{ shares_setup.stdout_lines }}"
-  when: shares_setup.stdout_lines is defined
+  loop: "{{ docker_setup.stdout_lines }}"
+  when: docker_setup.stdout_lines is defined
