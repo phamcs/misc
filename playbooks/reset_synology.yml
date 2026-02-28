@@ -31,9 +31,16 @@
     - name: Remove shares
       ansible.builtin.command: |
         /usr/syno/bin/synoshare --del {{ item }} TRUE
-        rm -rf /var/services/homes/k0ng/pxe
-        rm -rf /var/services/homes/k0ng/el_tracker
       loop:
         - AppData
         - docker
+      ignore_errors: true
+
+    - name: Remove PXE folder and contents
+      ansible.builtin.shell: rm -rf /var/services/homes/k0ng/{{ item }}
+      loop:
+        - pxe
+        - el_tracker
+        - .bashrc
+        - NoteStation.dss
       ignore_errors: true
