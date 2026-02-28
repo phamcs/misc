@@ -10,7 +10,7 @@
         # For example, Node.js_18 must be installed before SynologyPhotos, otherwise SynologyPhotos installation will fail due to missing Node.js_v18 dependency.
         - DhcpServer
         - DNSServer
-        #- Docker
+        - Docker
         - FileStation
         - LogCenter
         - NoteStation

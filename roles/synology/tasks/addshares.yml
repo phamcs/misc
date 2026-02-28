@@ -1,5 +1,5 @@
 ---
-# Setup Shares
+# Setup AppData Shares
 - name: Setup Application Data Share
   ansible.builtin.import_role:
     name: tafeen.synology.syno_add_shares
@@ -17,20 +17,21 @@
   register: appdata_setup
   until: appdata_setup.rc == 0
 
-# Display shares setup output
-- name: Display AppData setup result standard output lines
+# Display AppData shares output
+- name: Display AppData shares result standard output lines
   ansible.builtin.debug:
     msg: "{{ item }}"
   loop: "{{ appdata_setup.stdout_lines }}"
   when: appdata_setup.stdout_lines is defined
 
+# Setup Docker Shares
 - name: Setup Docker Share
   ansible.builtin.import_role:
     name: tafeen.synology.syno_add_shares
   vars:
     syno_shares:
       - name: docker
-        description: Docker Folder
+        description: Docker Data
         path: /volume1/docker
         recycle: false
         rights:
@@ -41,9 +42,59 @@
   register: docker_setup
   until: docker_setup.rc == 0
 
-# Display shares setup output
-- name: Display shares setup result standard output lines
+# Display Docker shares output
+- name: Display Docker shares result standard output lines
   ansible.builtin.debug:
     msg: "{{ item }}"
   loop: "{{ docker_setup.stdout_lines }}"
   when: docker_setup.stdout_lines is defined
+
+# Setup Web Share
+- name: Setup Web Share
+  ansible.builtin.import_role:
+    name: tafeen.synology.syno_add_shares
+  vars:
+    syno_shares:
+      - name: web
+        description: WebStation Folder
+        path: /volume1/web
+        recycle: false
+        rights:
+          RO:
+            - guest
+          RW: 
+            - k0ng
+  register: web_setup
+  until: web_setup.rc == 0
+
+# Display Web shares output
+- name: Display Web shares result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ web_setup.stdout_lines }}"
+  when: web_setup.stdout_lines is defined
+
+# Setup Web_Packages Share
+- name: Setup Web Packages Share
+  ansible.builtin.import_role:
+    name: tafeen.synology.syno_add_shares
+  vars:
+    syno_shares:
+      - name: web_packages
+        description: WebStation Packages Folder
+        path: /volume1/web_packages
+        recycle: false
+        rights:
+          RO:
+            - guest
+          RW: 
+            - k0ng
+  register: web_packages_setup
+  until: web_packages_setup.rc == 0
+
+# Display Web packages shares output
+- name: Display Web packages shares result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ web_packages_setup.stdout_lines }}"
+  when: web_packages_setup.stdout_lines is defined
