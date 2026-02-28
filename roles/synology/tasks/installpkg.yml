@@ -1,10 +1,8 @@
 ---
 # Install packages on Synology DSM
 - name: Install packages
-  collections:
-    - tafeen.synology
   ansible.builtin.import_role:
-    name: collections/ansible_collections/tafeen.syno_pkg_install
+    name: tafeen.synology.syno_pkg_install
   vars:
     syno_upgrade_packages: true
     syno_packages:
