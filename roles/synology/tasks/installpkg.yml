@@ -6,7 +6,8 @@
   vars:
     syno_upgrade_packages: true
     syno_packages:
-        #- Apache2.4
+        # Dependencies must install before application, otherwise installation will fail due to missing dependencies.
+        # For example, Node.js_18 must be installed before SynologyApplicationService, otherwise Node.js_v18 installation will fail due to missing SynologyApplicationService dependency.
         - DhcpServer
         - DNSServer
         #- Docker
@@ -14,11 +15,12 @@
         - LogCenter
         - NoteStation
         - Perl
-        - SynologyApplicationService
+        - WebStation
         - Node.js_v18
+        - SynologyApplicationService
         - SynologyPhotos
         - TextEditor
-        - WebStation
+        
   register: pkg_install
   until: pkg_install.rc == 0
 
