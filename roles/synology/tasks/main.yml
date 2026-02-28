@@ -12,4 +12,7 @@
 # Setup PXE Server
 - name: Setup PXE Server
   ansible.builtin.include_tasks: pxe.yml
-  
+
+# Setup Python venv and install requirements
+- name: Setup Python venv and install requirements
+  ansible.builtin.include_tasks: pyvenv-setup.yml

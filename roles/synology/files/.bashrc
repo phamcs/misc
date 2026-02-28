@@ -55,4 +55,4 @@ extract() {
         echo "'$1' is not a valid file"
     fi
 }
-export PATH=$PATH:/var/services/homes/k0ng/pxe:/volume1/\@appstore/Python3.9/usr/bin/:/usr/local/bin
+export PATH=$PATH:/volume1/\@appstore/Python3.9/usr/bin/

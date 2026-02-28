@@ -30,16 +30,6 @@
     - { src: '.bashrc', dest: '{{ base_dir }}/.bashrc' }
     - { src: 'NoteStation.dss', dest: '{{ base_dir }}/NoteStation.dss' }
 
-# Copy python install script
-- name: Copy PXE config
-  ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: '0755'
-    owner: "{{ app_user }}"
-  loop:
-    - { src: 'setup_venv', dest: '{{ base_dir }}/setup_venv' }
-
 # Copy PXE default config
 - name: Copy PXE default config
   ansible.builtin.template:
@@ -58,11 +48,23 @@
   loop:
     - vmlinuz
     - initrd.img    
-    
+
+# Copy python install script
+- name: Copy python install script
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0755'
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'setup_python', dest: '{{ base_dir }}/setup_python' }
+
 # Setup Python for synology. Make sure python3.9 installed from Package Center before run playbook
 - name: Setup Python for user
   ansible.builtin.shell: |
-    ./setup_venv
+    ./setup_python
+  args:
+    chdir: "{{ base_dir }}"
   register: py_install
   until: py_install.rc == 0
 
@@ -72,4 +74,4 @@
     msg: "{{ item }}"
   loop: "{{ py_install.stdout_lines }}"
   when: py_install.stdout_lines is defined
-    
+  

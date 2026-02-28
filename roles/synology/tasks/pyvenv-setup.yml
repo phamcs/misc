@@ -1,0 +1,23 @@
+---
+# Setup Python for synology. Make sure python3.9 installed from Package Center before run playbook
+- name: Setup Python for user
+  ansible.builtin.shell: |
+    source {{ base_dir }}/.bashrc && \
+    cd el_tracker && \
+    python3.9 -m venv elvenv && \
+    source elvenv/bin/activate && \
+    pip install --upgrade pip && \
+    pip install -r requirements.txt
+  args:
+    chdir: "{{ base_dir }}"
+  become: true
+  become_user: "{{ app_user }}"
+  register: pyvenv_install
+  until: pyvenv_install.rc == 0
+
+# Display pyvenv output
+- name: Display pyvenv result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ pyvenv_install.stdout_lines }}"
+  when: pyvenv_install.stdout_lines is defined
