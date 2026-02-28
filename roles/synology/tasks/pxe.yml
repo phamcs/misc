@@ -1,0 +1,74 @@
+--- 
+# Create PXE structure
+- name: Create pxe structure
+  ansible.builtin.file:
+    path: "{{ base_dir }}/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ app_user }}"
+    recurse: yes
+  loop:
+    - el_tracker
+    - pxe
+    - pxe/images
+    - pxe/pxelinux.cfg
+
+# Copy PXE config
+- name: Copy PXE config
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0644'
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'pxelinux.0', dest: '{{ base_dir }}/pxe/pxelinux.0' }
+    - { src: 'ldlinux.c32', dest: '{{ base_dir }}/pxe/ldlinux.c32' }
+    - { src: 'libutil.c32', dest: '{{ base_dir }}/pxe/libutil.c32' }
+    - { src: 'menu.c32', dest: '{{ base_dir }}/pxe/menu.c32' }
+    - { src: 'memdisk', dest: '{{ base_dir }}/pxe/memdisk' }
+    - { src: 'requirements.txt', dest: '{{ base_dir }}/el_tracker/requirements.txt' }
+    - { src: '.bashrc', dest: '{{ base_dir }}/.bashrc' }
+
+# Copy python install script
+- name: Copy PXE config
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0755'
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'setup_venv', dest: '{{ base_dir }}/setup_venv' }
+
+# Copy PXE default config
+- name: Copy PXE default config
+  ansible.builtin.template:
+    src: "default.j2"
+    dest: "{{ base_dir }}/pxe/pxelinux.cfg/default"
+    mode: '0644'
+    owner: "{{ app_user }}"
+
+# Download images
+- name: Download images
+  ansible.builtin.get_url:
+    url: "{{ repo_url }}/{{ item }}"
+    dest: "{{ base_dir }}/pxe/images/{{ item }}"
+    mode: '0644'
+    owner: "{{ app_user }}"
+  loop:
+    - vmlinuz
+    - initrd.img    
+    
+# Setup Python for synology. Make sure python3.9 installed from Package Center before run playbook
+- name: Setup Python for user
+  ansible.builtin.shell: |
+    ./setup_venv
+  register: py_install
+  until: py_install.rc == 0
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ py_install.stdout_lines }}"
+  when: py_install.stdout_lines is defined
+    

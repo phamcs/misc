@@ -1,0 +1,27 @@
+---
+# Install packages on Synology DSM
+- name: Install packages
+  ansible.builtin.import_role:
+    name: tafeen.syno_pkg_install
+  vars:
+    syno_upgrade_packages: true
+    syno_packages:
+        - Docker
+        - FileStation
+        - Perl
+        - Python3.9
+        - Photos
+        - phpMyAdmin
+        - SynologyPhotos
+        - TextEditor
+        - DHCPServer
+        - DNSServer
+  register: pkg_install
+  until: pkg_install.rc == 0
+
+# Display install output
+- name: Display install result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ pkg_install.stdout_lines }}"
+  when: pkg_install.stdout_lines is defined

@@ -1,22 +1,11 @@
 ---
-# Setup Synology host
+# Setup Synology DSM
 - name: Setup Synology DSM
   hosts: all
   any_errors_fatal: true
   become: true
   become_user: root
+  collections:
+    - tafeen.synology
   roles:
-    - agaffney.synology_dsm
-  vars:
-    synology_dsm_nfs_enable: true  # Enable NFS
-    synology_dsm_smb_enable: true  # Enable SMB
-    synology_dsm_afp_enable: false # Disable AFP
-    synology_dsm_ssh_enable: true     # Enable SSH
-    synology_dsm_ssh_port: 22         # Set SSH port
-    synology_dsm_telnet_enable: false # Disable Telnet
-    synology_dsm_user_home_service_enable: true                # Enable User Home Service
-    synology_dsm_user_home_location: "/volume1/homes"          # Set home directory location
-    synology_dsm_user_home_enable_recycle_bin: false           # Disable recycle bin for user homes
-    synology_dsm_package_sources:
-      - name: "Synnology Community Package Source"
-        feed: "https://packages.synnocommunity.com"
+    - synology

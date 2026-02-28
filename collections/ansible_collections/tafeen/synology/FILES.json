@@ -1,0 +1,306 @@
+{
+ "files": [
+  {
+   "name": ".",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "LICENSE",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+   "format": 1
+  },
+  {
+   "name": "plugins",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/README.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "854081319843a15a95afeee3d0d6f5a17bd7f57ec0ad89e6c96e1481d4e8f64a",
+   "format": 1
+  },
+  {
+   "name": "meta",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "meta/runtime.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "df18179bb2f5447a56ac92261a911649b96821c0b2c08eea62d5cc6b0195203f",
+   "format": 1
+  },
+  {
+   "name": "roles",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_pkg_install",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_pkg_install/tasks",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_pkg_install/tasks/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "6efa2dd7fa00159e5cdc1d92b30cf57098ef04766d1edd0c8a34aa8b06b04ce6",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_pkg_install/README.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "243fbeb9dd13d7fa4607f1775e2d33e2ccc753b1c2dcac52df998d632835abb8",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_pkg_install/defaults",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_pkg_install/defaults/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "a841887d03d644cb8298460f906f7963f043867db7dbcf5ae011a0359f0bf8e4",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_crontab",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_crontab/tasks",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_crontab/tasks/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "232312bbae037462bc140bd0aefcf43c97f48d0d1b3bdb408222a4cd12015255",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_crontab/README.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "9b2a508738de223405d686fe3ae3d746f55531758f016deda997a83aab19c9c7",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_crontab/defaults",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_crontab/defaults/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "48ac2de38fe6a8b5a28092466e1ddb86445cde28a12de6bb3af5d36b1b75b2c0",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_crontab/handlers",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_crontab/handlers/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "4e62c8d729ee70976fa7377a6af0aca683f685dd68c7cb82e24930eb4c7ad287",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_shares",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_shares/tasks",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_shares/tasks/add_rights.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "adfa19efc212bccf0870db65b296d6a161a84dccea4145ae4d4cfb3df3dba29b",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_shares/tasks/create_share.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "590b62aef2285629688341a5d6b4e88e2fa457865e04defea94df0f430f0a758",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_shares/tasks/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "bd911b02f4c82816a4ef41402736242ee11c4f5d6b2f14ef320f8d340b4e9e34",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_shares/tasks/single_right.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "fcb4143d0ba900dd17d69930ca0eb66d3281842cee74f282ff190a6054017dda",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_shares/README.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "8fc1c22515cc4d69d8c8eb09f5d1d4209123a2dca1d0257fed054f76c62e27cf",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_shares/defaults",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_shares/defaults/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "b8a20b22eeefeaaf3967dbbf253166fc737823a812aeb686766086570fa9527a",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_accounts",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_accounts/tasks",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_accounts/tasks/add_account.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "28abc33621dbbb20eef0a73401b6df7b6030ad7c7d9cf039e19a509d757450b1",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_accounts/tasks/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "44d6d4bb7314041d810450ca184df35d0913b4f98ac1586fc74c82753cbfed44",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_accounts/meta",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_accounts/meta/argument_specs.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "7523c25414bd6a72c2414867de22e1ceef1c04cb3f09240e88503ba477c9e6a6",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_accounts/README.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "7365bd446053f7d63b5e2b5d2685987d25ed9d141035b67df0f13b894c1c7358",
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_accounts/defaults",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/syno_add_accounts/defaults/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "f4a1530c35267689b332106bf7225f2c68b4fa730356b5d7d07cd2754070b842",
+   "format": 1
+  },
+  {
+   "name": "README.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "48643733d4a37928e61945ce7f8d58b477ecb8cd8310284b374119ad35a3a6c4",
+   "format": 1
+  },
+  {
+   "name": ".gitignore",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "79f5cbbb1f9d9911c93bb5a422b92cfcdce33145e3cef0ff9871df11fcbac94a",
+   "format": 1
+  },
+  {
+   "name": ".vscode",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": ".vscode/settings.json",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "67ee8752f6c7c2eb10ce4849749d886d420f398ca30f244848f791a5b668144b",
+   "format": 1
+  }
+ ],
+ "format": 1
+}

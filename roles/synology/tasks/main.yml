@@ -1,31 +1,15 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for roles/synology
-- name: wrapper block
-  module_defaults:
-    library/synology_dsm_api_request:
-      base_url: '{{ synology_dsm_base_url }}'
-      login_cookie: '{{ synology_dsm_login_cookie | default(omit) }}'
-  block:
-    #- include_tasks: login.yml
+# Setup shares folder
+- name: Setup Synology shares
+  ansible.builtin.include_tasks: addshares.yml
 
-    #- name: Query API info
-    #  synology_dsm_api_request:
-    #    cgi_name: query.cgi
-    #    api_name: SYNO.API.Info
-    #    api_method: query
-    #    api_params:
-    #      query: all
+# Install packages
+- name: Install Synology packages
+  ansible.builtin.include_tasks: installpkg.yml
 
-    - name: Query system status
-      synology_dsm_api_request:
-        api_name: SYNO.Core.System.Status
-        api_method: get
-
-    - include_tasks: terminal.yml
-
-    - include_tasks: users.yml
-
-    - include_tasks: package_sources.yml
-
-    - include_tasks: file_services.yml
+# Setup PXE Server
+- name: Setup PXE Server
+  ansible.builtin.include_tasks: pxe.yml
+  
