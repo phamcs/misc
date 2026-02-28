@@ -3,7 +3,6 @@
   hosts: all
   become: true
   become_user: root
-  become_method: sudo
   tasks:
 
     - name: Install Debian packages

@@ -1,5 +1,4 @@
 ---
-
 # Setup Airsonic Server
 - name: Setup airsonic server
   hosts: all
@@ -8,5 +7,4 @@
   become_user: root
   roles:
     - common
-    - role: airsonic
-      tags: airsonic
+    - airsonic

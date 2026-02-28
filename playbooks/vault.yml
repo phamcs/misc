@@ -1,10 +1,10 @@
 ---
-# Setup Vault host
-- name: Setup Harbor
+# Setup Vault Server
+- name: Setup Vault Server
   hosts: all
   any_errors_fatal: true
   become: true
   become_user: root
   roles:
     - common
-    - role: vault
+    - vault

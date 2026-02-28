@@ -1,5 +1,4 @@
 ---
-
 # Setup Monitoring Stack
 - name: Setup Monitoring Stack
   hosts: all
@@ -8,4 +7,4 @@
   become_user: root
   roles:
     - common
-    - role: monitoring
+    - monitoring

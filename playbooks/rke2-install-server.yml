@@ -1,3 +1,5 @@
+---
+# Install RKE2 server instance
 - name: Install rke2 first server instance
   hosts: all
   become: true

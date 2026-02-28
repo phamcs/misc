@@ -1,5 +1,4 @@
 ---
-
 # Setup Registry host
 - name: Setup registry host
   hosts: all
@@ -8,4 +7,4 @@
   become_user: root
   roles:
     - common
-    - role: registry
+    - registry

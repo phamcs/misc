@@ -1,3 +1,5 @@
+---
+# Install RKE2 agent node
 - name: Install rke2 agent node
   hosts: all # Including all hosts and excluding the master nodes.
   become: true

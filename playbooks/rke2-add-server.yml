@@ -1,4 +1,6 @@
-- name: install rke2 server
+---
+# Install RKE2 server instance
+- name: Install rke2 server
   hosts: all
   become: true
   vars_files:

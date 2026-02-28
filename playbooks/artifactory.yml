@@ -1,5 +1,4 @@
 ---
-
 # Setup Artifactory
 - name: Setup artifactory host
   hosts: all
@@ -8,4 +7,4 @@
   become_user: root
   roles:
     - common
-    - role: artifactory
+    - artifactory
