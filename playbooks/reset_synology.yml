@@ -28,3 +28,10 @@
       loop_control:
         loop_var: package
       when: package in synopkg_list.stdout_lines
+
+    - name: Remove shares
+      ansible.builtin.command: /usr/syno/bin/synoshare --remove {{ item }}
+      loop:
+        - AppData
+        - docker
+      ignore_errors: true
