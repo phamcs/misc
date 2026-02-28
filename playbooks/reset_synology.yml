@@ -1,0 +1,30 @@
+---
+# Setup Synology DSM
+- name: Setup Synology DSM
+  hosts: all
+  any_errors_fatal: true
+  become: true
+  become_user: root
+  vars:
+    syno_packages:
+      - DhcpServer
+      - DNSServer
+      - FileStation
+      - LogCenter
+      - NoteStation
+      - Perl
+      - WebStation
+      - TextEditor
+  tasks:
+    - name: Get list of installed packages
+      when: true
+      changed_when: false
+      ansible.builtin.command: /usr/syno/bin/synopkg list --name
+      register: synopkg_list
+
+    - name: Remove all installed packages
+      ansible.builtin.command: /usr/syno/bin/synopkg uninstall {{ package }}
+      loop: "{{ syno_packages }}"
+      loop_control:
+        loop_var: package
+      when: package in synopkg_list.stdout_lines
