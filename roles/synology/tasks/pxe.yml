@@ -57,12 +57,12 @@
     mode: '0755'
     owner: "{{ app_user }}"
   loop:
-    - { src: 'setup_python', dest: '{{ base_dir }}/setup_python' }
+    - { src: 'pysetup', dest: '{{ base_dir }}/pysetup' }
 
 # Setup Python for synology. Make sure python3.9 installed from Package Center before run playbook
 - name: Setup Python for user
   ansible.builtin.shell: |
-    ./setup_python
+    ./pysetup
   args:
     chdir: "{{ base_dir }}"
   register: py_install
