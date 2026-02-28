@@ -29,7 +29,7 @@
       when: package in synopkg_list.stdout_lines
 
     - name: Remove shares
-      ansible.builtin.command: /usr/syno/bin/synoshare --remove {{ item }}
+      ansible.builtin.command: /usr/syno/bin/synoshare --del {{ item }} true
       loop:
         - AppData
         - docker
