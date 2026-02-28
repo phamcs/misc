@@ -4,7 +4,7 @@
   collections:
     - tafeen.synology
   ansible.builtin.import_role:
-    name: tafeen.syno_pkg_install
+    name: galaxy.tafeen.syno_pkg_install
   vars:
     syno_upgrade_packages: true
     syno_packages:
