@@ -40,5 +40,4 @@
   ansible.builtin.debug:
     msg: "{{ item }}"
   loop: "{{ ipa_install_result.stdout_lines }}"
-  verbose: true
   when: ipa_install_result.stdout_lines is defined

@@ -16,5 +16,4 @@
       ansible.builtin.debug:
         msg: "{{ item }}"
       loop: "{{ ipa_uninstall_result.stdout_lines }}"
-      verbose: true
       when: ipa_uninstall_result.stdout_lines is defined
