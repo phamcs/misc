@@ -17,8 +17,7 @@
 
 # Configure FreeIPA server with default settings
 - name: Configure FreeIPA server
-  ansible.builtin.command:
-    cmd: |
+  ansible.builtin.shell: |
       ipa-server-install --unattended \
       --realm={{ realm }} \
       --domain={{ domain }} \
