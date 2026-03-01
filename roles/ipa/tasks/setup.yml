@@ -12,7 +12,7 @@
 - name: Display FreeIPA package installation result
   ansible.builtin.debug:
     msg: "{{ item }}"
-  loop: "{{ ipa_packages.results | flatten }}"
+  loop: "{{ ipa_packages.results }}"
   when: ipa_packages.results is defined
 
 # Configure FreeIPA server with default settings
