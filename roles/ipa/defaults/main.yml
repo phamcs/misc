@@ -1,0 +1,10 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for roles/ipa
+app_dir: "/srv/AppData"
+app_user: "k0ng"
+domain: "superasian.net"
+realm: "SUPERASIAN.NET"
+admin_password: "Letmein123"
+ds_password: "Letmein123"
+hostname: "ipa.superasian.net"

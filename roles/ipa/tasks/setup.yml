@@ -1,0 +1,44 @@
+---
+# Install freeipa-server and freeipa-server-dns packages
+- name: Install FreeIPA Server and DNS packages
+  ansible.builtin.dnf:
+    name:
+      - freeipa-server
+      - freeipa-server-dns
+    state: latest
+  register: ipa_packages
+
+# Display the result of package installation
+- name: Display FreeIPA package installation result
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ ipa_packages.results | map(attribute='stdout_lines') | flatten }}"
+  when: ipa_packages.results is defined
+
+# Configure FreeIPA server with default settings
+- name: Configure FreeIPA server
+  ansible.builtin.command:
+    cmd: |
+      ipa-server-install --unattended \
+      --realm={{ realm }} \
+      --domain={{ domain }} \
+      --ds-password={{ ds_password }} \
+      --admin-password={{ admin_password }} \
+      --mkhomedir \
+      --hostname={{ hostname }} \
+      --no-pkinit \
+      --setup-dns \
+      --no-forwarders \
+      --no-host-dns \
+      --allow-zone-overlap
+  register: ipa_install_result
+  until: ipa_install_result.rc == 0
+  retries: 3
+  delay: 30
+
+# Display the result of FreeIPA server installation
+- name: Display FreeIPA installation result
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ ipa_install_result.stdout_lines }}"
+  when: ipa_install_result.stdout_lines is defined

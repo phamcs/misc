@@ -8,8 +8,7 @@
     exclude: "{{ gbt_packages_versionlock|d() }}"
     use_backend: dnf4
   register: _gbt_packages_update_output
-  when:
-    - ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
+  when: ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
 
 # Output for debug
 - name: "[RHEL] [INFO] Print installed/updated packages"
@@ -42,12 +41,11 @@
   when: selinux_config.changed
 
 # Install docker for (RHEL) platform
-- name: Install & Enable docker
+- name: Install docker and dependencies
   ansible.builtin.shell:
     cmd: |
       dnf -y install ca-certificates curl git strace wget unzip zip
       dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
-      dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin python39 python3-pip python3-setuptools nfs-utils net-tools
       systemctl enable docker --now
-  when:
-    - ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
+  when: ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
