@@ -10,8 +10,6 @@
       - DhcpServer
       - DNSServer
       - LogCenter
-      - git
-      - node-exporter
       - NoteStation
       - Perl
       - WebStation
