@@ -11,11 +11,13 @@
         - DhcpServer
         - DNSServer
         - LogCenter
+        - git
+        - node-exporter
         - NoteStation
         - Perl
         - WebStation
         - TextEditor
-        
+
   register: pkg_install
   until: pkg_install.rc == 0
 
