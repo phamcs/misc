@@ -1,4 +1,4 @@
-app_dir: "/srv/AppData"
+app_dir: "/srv/dev-disk-by-uuid-ff1b1617-0bd4-45a8-8a10-e859b8de7f80/ARCHIVE"
 app_user: "k0ng"
 domain: "harbor.superasian.net"
 github_url: "https://github.com/goharbor/harbor/releases/download"
