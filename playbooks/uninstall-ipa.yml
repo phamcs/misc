@@ -1,0 +1,20 @@
+---
+# Uninstall FreeIPA Server
+- name: Uninstall FreeIPA Server
+  hosts: all
+  any_errors_fatal: true
+  become: true
+  become_user: root
+
+  tasks:
+    - name: Uninstall FreeIPA Server
+      ansible.builtin.shell: |
+        ipa-server-install --uninstall -U
+      register: ipa_uninstall_result
+
+    - name: Display FreeIPA uninstallation result
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop: "{{ ipa_uninstall_result.stdout_lines }}"
+      verbosity: 3
+      when: ipa_uninstall_result.stdout_lines is defined
