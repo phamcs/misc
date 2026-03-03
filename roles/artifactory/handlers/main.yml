@@ -15,6 +15,13 @@
   async: 1
   poll: 0
 
+# handlers file for artifactory
+
+- name: Restart artifactory
+  ansible.builtin.service:
+    name: artifactory
+    state: restarted
+
 - name: Reboot host
   ansible.builtin.reboot:
     reboot_timeout: 300
