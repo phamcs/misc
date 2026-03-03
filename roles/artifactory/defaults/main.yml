@@ -8,8 +8,12 @@ version: "7.125.11"
 product: "artifactory-oss"
 srv_ip: "10.0.0.25"
 repo_url: "https://www.superasian.net/repo"
-#jcr_url: "https://releases.jfrog.io/{{ version }}/jfrog-{{ product }}-{{ version}}-compose.tar.gz"
-#curl -g -L -O -J 'https://releases.jfrog.io/{{ version }}/{{ product }}-{{ version}}-compose.tar.gz'
-# To determine your distribution, run lsb_release -c or cat /etc/os-release
-# Example:echo "deb https://releases.jfrog.io/artifactory/artifactory-pro-debs xenial main" | sudo tee -a /etc/apt/sources.list;
+# defaults file for artifactory
+
+# The location where Artifactory should store data.
+artifactory_file_store_dir: /srv/dev-disk-by-uuid-ff1b1617-0bd4-45a8-8a10-e859b8de7f80/ARCHIVE
+
+# The type of installation of artifactory.
+# Choose from "oss", "jcr" or "cpp-ce".
+artifactory_flavour: oss
 
