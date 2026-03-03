@@ -32,12 +32,12 @@
     dest: "/etc/docker/daemon.json"
   notify: Restart docker
 
-# Add containerd config
-- name: Copy containerd config
-  ansible.builtin.template:
-    src: "config.toml.j2"
-    dest: "/etc/containerd/config.toml"
-  notify: Restart containerd
+# # Add containerd config
+# - name: Copy containerd config
+#   ansible.builtin.template:
+#     src: "config.toml.j2"
+#     dest: "/etc/containerd/config.toml"
+#   notify: Restart containerd
 
 # Create Harbor Directories
 - name: Create Harbor data directory
