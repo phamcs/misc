@@ -1,0 +1,40 @@
+---
+# Configure JFrog APT repository
+- name: Trust JFrog gpg key
+  ansible.builtin.apt_key:
+    url: "https://releases.jfrog.io/artifactory/api/gpg/key/public" # Public URL for the JFrog GPG key
+    state: present
+    validate_certs: false # Set to true if you manage your own CAs
+
+# Install the JFrog APT repository
+- name: Install deb repository
+  ansible.builtin.apt_repository:
+    repo: "deb https://releases.jfrog.io/artifactory/artifactory-debs {{ ansible_distribution_release | lower }} main"
+    state: present
+    update_cache: true # Updates the apt cache after adding the repository
+  when: ansible_os_family == 'Debian'
+
+# Install the JFrog YUM repository
+- name: Install yum repository
+  ansible.builtin.yum_repository:
+    name: "jfrog-artifactory"
+    description: "JFrog Artifactory Repository"
+    baseurl: "https://releases.jfrog.io/artifactory/artifactory-rpms/{{ ansible_distribution | lower }}/{{ ansible_distribution_major_version }}/"
+    gpgkey: "https://releases.jfrog.io/artifactory/api/gpg/key/public"
+    gpgcheck: yes
+    enabled: yes
+  when: ansible_os_family == 'RedHat'
+
+# Install the JFrog package
+- name: Install JFrog Artifactory
+  ansible.builtin.package:
+    name: "{{ product }}"
+    state: present
+  register: install_result
+
+# Restart Artifactory if the installation was successful
+- name: Restart Artifactory
+  ansible.builtin.service:
+    name: artifactory
+    state: restarted
+  when: install_result.changed and install_result.rc == 0
