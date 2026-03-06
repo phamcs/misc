@@ -3,12 +3,12 @@
 
 # Loopback
 127.0.0.1   localhost
-127.0.1.1   {{ inventory_hostname_short }} {{ inventory_hostname }}
+127.0.1.1   {{ inventory_hostname_short }}.{{ domain }} {{ inventory_hostname }}
 ::1         localhost ip6-localhost ip6-loopback
 
 # Cluster members
 {% for host in groups['all'] %}
 {% if hostvars[host]['ansible_default_ipv4'] is defined %}
-{{ hostvars[host]['ansible_default_ipv4']['address'] }}  {{ host }} {{ host.split('.')[0] }}
+{{ hostvars[host]['ansible_default_ipv4']['address'] }}  {{ host }}.{{ domain }} {{ host.split('.')[0] }}
 {% endif %}
 {% endfor %}
