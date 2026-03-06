@@ -8,6 +8,7 @@
     group: root
     mode: '0644'
     backup: true
+  notify: Restart systemd-sysctl
 
 # Install freeipa-server and freeipa-server-dns packages
 - name: Install FreeIPA Server and DNS packages
