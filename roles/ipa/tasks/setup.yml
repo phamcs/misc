@@ -1,4 +1,14 @@
 ---
+# Setup hostname and /etc/hosts for FreeIPA server
+- name: Deploy /etc/hosts from template
+  ansible.builtin.template:
+    src: hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+
 # Install freeipa-server and freeipa-server-dns packages
 - name: Install FreeIPA Server and DNS packages
   ansible.builtin.dnf:
@@ -41,3 +51,29 @@
     msg: "{{ item }}"
   loop: "{{ ipa_install_result.stdout_lines }}"
   when: ipa_install_result.stdout_lines is defined
+
+# Verify that the FreeIPA server is running
+- name: Verify FreeIPA server is running
+  ansible.builtin.shell: |
+      systemctl is-active ipa.service
+  register: ipa_status_result
+  until: ipa_status_result.stdout == "active"
+  retries: 5
+  delay: 10
+
+# Initialize the FreeIPA server as admin user to create the initial Kerberos ticket
+- name: Initialize FreeIPA server as admin user to create initial Kerberos ticket
+  ansible.builtin.shell: |
+      echo "{{ admin_password }}" | kinit admin@{{ realm }}
+  register: ipa_init_result
+  until: ipa_init_result.rc == 0
+  retries: 3
+  delay: 10
+  when: ipa_install_result.rc == 0
+
+# Display the result of FreeIPA server initialization
+- name: Display FreeIPA initialization result
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ ipa_init_result.stdout_lines }}"
+  when: ipa_init_result.stdout_lines is defined
