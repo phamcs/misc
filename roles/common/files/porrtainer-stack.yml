@@ -1,8 +1,6 @@
 ---
-# Setup Common Stack
-name: Common
+# Setup Portainer Stack
 services:
-  # Portainer for Docker management
   portainer:
     image: portainer/portainer-ce:lts
     container_name: portainer

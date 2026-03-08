@@ -1,28 +1,28 @@
 ---
-# Setup AppData Shares
-- name: Setup Application Data Share
+# Setup Archive Shares
+- name: Setup Archive Data Share
   ansible.builtin.import_role:
     name: tafeen.synology.syno_add_shares
   vars:
     syno_shares:
-      - name: AppData
-        description: Application Data
-        path: /volume1/AppData
+      - name: archive
+        description: Archive Data
+        path: /volume2/archive
         recycle: false
         rights:
           RO:
             - guest
           RW:
             - k0ng
-  register: appdata_setup
-  until: appdata_setup.rc == 0
+  register: archive_setup
+  until: archive_setup.rc == 0
 
-# Display AppData shares output
-- name: Display AppData shares result standard output lines
+# Display archive shares output
+- name: Display archive shares result standard output lines
   ansible.builtin.debug:
     msg: "{{ item }}"
-  loop: "{{ appdata_setup.stdout_lines }}"
-  when: appdata_setup.stdout_lines is defined
+  loop: "{{ archive_setup.stdout_lines }}"
+  when: archive_setup.stdout_lines is defined
 
 # Setup Docker Shares
 - name: Setup Docker Share

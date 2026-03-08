@@ -1,9 +1,8 @@
 ---
 # vars file for artifactory
-
 artifactory_home: /etc/opt/jfrog/artifactory
 artifactory_logs: /opt/jfrog/artifactory/var/log
-
+artifactory_file_store_dir: "{{ app_dir }}/artifactory"
 artifactory_package: jfrog-artifactory-{{ artifactory_flavour }}
 
 # vars for docker compose

@@ -26,21 +26,20 @@
     owner: "{{ app_user }}"
   loop:
     - portainer
-    - common
 
 # Copy common stack config
 - name: Copy common stack config
   ansible.builtin.copy:
-    src: "files/common-stack.yml"
-    dest: "{{ common_dir }}/common-stack.yml"
+    src: "files/portainer-stack.yml"
+    dest: "{{ portainer_dir }}/portainer-stack.yml"
     mode: 0644
     owner: "{{ app_user }}"
 
 # Start Common Stack
 - name: Start common stack
   ansible.builtin.command:
-    chdir: "{{ common_dir }}"
-    cmd: "docker compose -f common-stack.yml up -d"
+    chdir: "{{ portainer_dir }}"
+    cmd: "docker compose -f portainer-stack.yml up -d"
   register: compose_result
   until: compose_result.rc == 0
   retries: 5
@@ -53,7 +52,7 @@
   loop: "{{ compose_result.stdout_lines }}"
   when: compose_result.stdout_lines is defined
 
-# Copy docker config 
+# Copy docker config
 - name: Copy daemon.json
   ansible.builtin.template:
     src: "daemon.json.j2"
