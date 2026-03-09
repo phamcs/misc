@@ -10,9 +10,15 @@ services:
       - TZ=America/Denver
       - CONTEXT_PATH=/
       - JAVA_OPTS=-Xmx256m -Dserver.forward-headers-strategy=NATIVE
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"
     volumes:
       - /srv/AppData/airsonic/config:/config
-      - /srv/dev-disk-by-uuid-f2668ead-ef46-4eed-8b8d-5c9102603668/MUSIC:/music
+      - /srv/dev-disk-by-uuid-941826aa-601a-4a70-b951-5e5a358957f7/MUSIC:/music
       - /srv/AppData/airsonic/playlists:/playlists
       - /srv/AppData/airsonic/podcasts:/podcasts
       - /srv/AppData/airsonic/media:/media #optional

@@ -134,7 +134,7 @@ services:
       - /srv/AppData/monitoring/loki/data:/loki
       - /srv/AppData/monitoring/loki:/etc/loki
       - /srv/AppData/monitoring/loki/loki-config.yml:/etc/loki/loki-config.yml:ro
-    command: 
+    command:
       - '--config.file=/etc/loki/loki-config.yml'
       - '--config.expand-env=true'
       - '--target=all'
@@ -165,13 +165,14 @@ services:
     volumes:
       - /var/log:/var/log:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /srv/AppData/airsonic/config:/var/airsonic:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /srv/AppData/monitoring/promtail/promtail-config.yml:/etc/promtail/config.yml
       - /srv/AppData/monitoring/promtail:/etc/promtail
-    command: 
+    command:
       - '--config.file=/etc/promtail/promtail-config.yml'
     restart: unless-stopped
-  
+
   alertmanager:
     image: prom/alertmanager:latest
     container_name: alertmanager
