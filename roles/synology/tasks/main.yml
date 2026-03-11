@@ -16,3 +16,7 @@
 # Setup Python venv and install requirements
 - name: Setup Python venv and install requirements
   ansible.builtin.include_tasks: pyvenv-setup.yml
+
+# Setup Tools
+- name: Setup Tools
+  ansible.builtin.include_tasks: tools.yml
