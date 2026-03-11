@@ -5,24 +5,24 @@
     name: tafeen.synology.syno_add_shares
   vars:
     syno_shares:
-      - name: archive
-        description: Archive Data
-        path: /volume2/archive
+      - name: apps
+        description: Apps Data
+        path: /volume1/apps
         recycle: false
         rights:
           RO:
             - guest
           RW:
             - k0ng
-  register: archive_setup
-  until: archive_setup.rc == 0
+  register: apps_setup
+  until: apps_setup.rc == 0
 
 # Display archive shares output
 - name: Display archive shares result standard output lines
   ansible.builtin.debug:
     msg: "{{ item }}"
-  loop: "{{ archive_setup.stdout_lines }}"
-  when: archive_setup.stdout_lines is defined
+  loop: "{{ apps_setup.stdout_lines }}"
+  when: apps_setup.stdout_lines is defined
 
 # Setup Docker Shares
 - name: Setup Docker Share
