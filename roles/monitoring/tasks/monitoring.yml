@@ -13,7 +13,7 @@
     - influxdb
     - loki
     - prometheus
-    - promtail    
+    - promtail
     - telegraf
 
 # Create Influxdb Directory
@@ -56,6 +56,7 @@
   loop:
     - certs
     - config
+    - data
     - dashboards
     - plugins
     - provisioning

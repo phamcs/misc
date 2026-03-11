@@ -74,7 +74,7 @@ scrape_configs:
     params:
       comp: ['prometheus-nginx-exporter']
     static_configs:
-      - targets: ['10.0.0.25:9113', '10.0.0.16:9113']
+      - targets: ['10.0.0.25:9113', '10.0.0.16:9113', '10.0.0.30:9113']
 
   # Scrape metrics for Production HashiCorp Vault
   - job_name: 'vault'
