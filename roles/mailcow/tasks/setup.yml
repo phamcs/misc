@@ -32,9 +32,10 @@
 
 # Generate the mailcow configuration file from a template
 - name: Generate mailcow.conf from template
-  chdir: "{{ mailcow_dir }}"
-  ansible.builtin.shell: |
-    ./generate_config.sh -f {{ hostname }} -b master -i
+  ansible.builtin.shell:
+    cmd:
+      ./generate_config.sh -f {{ hostname }} -b master -i
+    chdir: "{{ mailcow_dir }}"
   register: mailcow_config_result
   until: mailcow_config_result.rc == 0
   retries: 3
