@@ -22,13 +22,15 @@
 # Copy mailcow config & compose files
 - name: Copy config & compose files
   ansible.builtin.copy:
-    src: " {{ item }}"
-    dest: "{{ mailcow_dir }}/{{ item }}"
+    src: " {{ item.src }}"
+    dest: "{{ item.dest }}"
     owner: "{{ app_user }}"
     mode: '0644'
   loop:
-    - mailcow.conf
-    - docker-compose.yml
+    - src: mailcow.conf
+      dest: "{{ mailcow_dir }}/mailcow.conf"
+    - src: docker-compose.yml
+      dest: "{{ mailcow_dir }}/docker-compose.yml"
 
 # Start the Mailcow server using docker-compose
 - name: Start Mailcow server
