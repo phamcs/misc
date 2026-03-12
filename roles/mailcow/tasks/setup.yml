@@ -65,7 +65,7 @@
 - name: Start Mailcow server
   ansible.builtin.shell:
     cmd: |
-      docker-compose up -d
+      docker compose up -d
     chdir: "{{ mailcow_dir }}"
   register: mailcow_start_result
   until: mailcow_start_result.rc == 0
