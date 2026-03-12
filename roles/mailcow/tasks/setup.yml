@@ -31,7 +31,7 @@
 - name: Generate mailcow.conf from template
   ansible.builtin.shell:
     cmd:
-      ./generate_config.sh -f {{ hostname }} -b master -i
+      ./generate_config.sh --domain {{ domain }} --hostname {{ hostname }} -b master -f -i
     chdir: "{{ mailcow_dir }}"
   register: mailcow_config_result
   until: mailcow_config_result.rc == 0
