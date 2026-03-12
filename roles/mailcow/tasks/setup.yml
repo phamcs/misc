@@ -19,9 +19,6 @@
     force: true
     update: true
   register: mailcow_clone_result
-  until: mailcow_clone_result.rc == 0
-  retries: 3
-  delay: 30
 
 # Display the result of cloning the Mailcow repository
 - name: Display Mailcow clone result
