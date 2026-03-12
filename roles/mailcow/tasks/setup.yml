@@ -19,12 +19,6 @@
     force: true
     update: true
 
-# Remove the env link to mailcow.conf file if it exists
-- name: Remove env link to mailcow.conf if it exists
-  ansible.builtin.file:
-    path: "{{ mailcow_dir }}/.env"
-    state: absent
-
 # Copy mailcow config & compose files
 - name: Copy config & compose files
   ansible.builtin.copy:
@@ -32,19 +26,11 @@
     dest: "{{ item.dest }}"
     owner: "{{ app_user }}"
     mode: '0644'
+    follow: yes
+    force: yes
   loop:
     - { src: 'files/mailcow.conf', dest: '{{ mailcow_dir }}/mailcow.conf' }
     - { src: 'files/docker-compose.yml', dest: '{{ mailcow_dir }}/docker-compose.yml' }
-
-# Create links for mailcow.conf
-- name: Create links for mailcow.conf
-  ansible.builtin.file:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    state: link
-    owner: "{{ app_user }}"
-  loop:
-    - { src: '{{ mailcow_dir }}/mailcow.conf', dest: '{{ mailcow_dir }}/.env' }
 
 # Start the Mailcow server using docker-compose
 - name: Start Mailcow server
