@@ -32,8 +32,7 @@
   ansible.builtin.copy:
     src: " {{ item }}"
     dest: "{{ mailcow_dir }}/{{ item }}"
-    owner: root
-    group: root
+    owner: "{{ app_user }}"
     mode: '0644'
   loop:
     - mailcow.conf

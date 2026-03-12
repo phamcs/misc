@@ -2,6 +2,7 @@
 ---
 # defaults file for roles/mailcow
 app_dir: "/srv/AppData"
+app_user: "k0ng"
 mailcow_dir: "{{ app_dir }}/mailcow"
 domain: "superasian.net"
 hostname: "mailcow.superasian.net"
