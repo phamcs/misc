@@ -10,7 +10,7 @@
       ansible.builtin.shell: |
         cd /srv/AppData/mailcow
         docker compose down -v --rmi all --remove-orphans
-        rm -rf data/assets/ data/certs/ data/dovecot/ data/git/ data/httpd/ data/letsencrypt/ data/logs/ data/mysql/ data/postfix/ data/redis/ data/rspamd/ data/unbound/
+        rm -rf /srv/AppData/mailcow
       register: reset_mailcow_result
       until: reset_mailcow_result.rc == 0
       retries: 3
