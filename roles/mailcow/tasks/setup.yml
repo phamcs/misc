@@ -27,17 +27,6 @@
   loop: "{{ mailcow_clone_result.stdout_lines }}"
   when: mailcow_clone_result.stdout_lines is defined
 
-# # Generate the mailcow configuration file from a template
-# - name: Generate mailcow.conf from template
-#   ansible.builtin.shell:
-#     cmd:
-#       ./generate_config.sh --domain {{ domain }} --hostname {{ hostname }} -b master -f -i
-#     chdir: "{{ mailcow_dir }}"
-#   register: mailcow_config_result
-#   until: mailcow_config_result.rc == 0
-#   retries: 3
-#   delay: 30
-
 # Copy mailcow config & compose files
 - name: Copy config & compose files
   ansible.builtin.copy:
