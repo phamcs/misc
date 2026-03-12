@@ -10,7 +10,7 @@
     backup: true
   notify: Restart systemd-sysctl
 
-# Clone the Mailcow repository and set up the necessary directory structure.
+# Clone the Mailcow repository
 - name: Clone the Mailcow repository
   ansible.builtin.git:
     repo: 'https://github.com/mailcow/mailcow-dockerized.git'
@@ -18,14 +18,7 @@
     version: master
     force: true
     update: true
-  register: mailcow_clone_result
-
-# Display the result of cloning the Mailcow repository
-- name: Display Mailcow clone result
-  ansible.builtin.debug:
-    msg: "{{ item }}"
-  loop: "{{ mailcow_clone_result.stdout_lines }}"
-  when: mailcow_clone_result.stdout_lines is defined
+    remote_src: yes
 
 # Copy mailcow config & compose files
 - name: Copy config & compose files
