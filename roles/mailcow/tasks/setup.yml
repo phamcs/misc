@@ -13,7 +13,7 @@
 # Clone the Mailcow repository and set up the necessary directory structure.
 - name: Clone the Mailcow repository
   ansible.builtin.git:
-    repo: 'git clone https://github.com/mailcow/mailcow-dockerized.git'
+    repo: 'https://github.com/mailcow/mailcow-dockerized.git'
     dest: "{{ mailcow_dir }}"
     version: master
     force: true
