@@ -18,7 +18,6 @@
     version: master
     force: true
     update: true
-    remote_src: yes
 
 # Copy mailcow config & compose files
 - name: Copy config & compose files
