@@ -1,0 +1,7 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for roles/mailcow
+app_dir: "/srv/AppData"
+domain: "superasian.net"
+hostname: "mail.superasian.net"
+admin_email: "admin@superasian.net"

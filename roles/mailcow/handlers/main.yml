@@ -1,0 +1,16 @@
+#SPDX-License-Identifier: MIT-0
+---
+# handlers file for roles/mailcow
+- name: Restart systemd-sysctl
+  ansible.builtin.service:
+    state: restarted
+    name: systemd-sysctl
+
+- name: Restart firewalld
+  ansible.builtin.service:
+    state: restarted
+    name: firewalld
+
+- name: Reboot host
+  ansible.builtin.reboot:
+    reboot_timeout: 300

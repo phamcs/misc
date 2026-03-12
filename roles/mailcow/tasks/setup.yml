@@ -1,0 +1,81 @@
+---
+# Setup hostname and /etc/hosts for FreeIPA server
+- name: Deploy /etc/hosts from template
+  ansible.builtin.template:
+    src: hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  notify: Restart systemd-sysctl
+
+# Clone the Mailcow repository and set up the necessary directory structure.
+- name: Clone the Mailcow repository
+  ansible.builtin.git:
+    repo: 'git clone https://github.com/mailcow/mailcow-dockerized.git'
+    dest: "{{ mailcow_dir }}"
+    version: master
+    force: true
+    update: true
+  register: mailcow_clone_result
+  until: mailcow_clone_result.rc == 0
+  retries: 3
+  delay: 30
+
+# Display the result of cloning the Mailcow repository
+- name: Display Mailcow clone result
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ mailcow_clone_result.stdout_lines }}"
+  when: mailcow_clone_result.stdout_lines is defined
+
+# Generate the mailcow configuration file from a template
+- name: Generate mailcow.conf from template
+  chdir: "{{ mailcow_dir }}"
+  ansible.builtin.shell: |
+    ./generate_config.sh -f {{ hostname }} -b master -i
+  register: mailcow_config_result
+  until: mailcow_config_result.rc == 0
+  retries: 3
+  delay: 30
+
+# Copy mailcow config & compose files
+- name: Copy config & compose files
+  ansible.builtin.copy:
+    src: " {{ item }}"
+    dest: "{{ mailcow_dir }}/{{ item }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop:
+    - mailcow.conf
+    - docker-compose.yml
+  register: mailcow_copy_result
+  until: mailcow_copy_result.rc == 0
+  retries: 3
+  delay: 10
+
+# Display the result of copying the Mailcow config and compose files
+- name: Display Mailcow copy result
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ mailcow_copy_result.results }}"
+  when: mailcow_copy_result.results is defined
+
+# Start the Mailcow server using docker-compose
+- name: Start Mailcow server
+  chdir: "{{ mailcow_dir }}"
+  ansible.builtin.shell: |
+    docker-compose up -d
+  register: mailcow_start_result
+  until: mailcow_start_result.rc == 0
+  retries: 3
+  delay: 30
+
+# Display the result of starting the Mailcow server
+- name: Display Mailcow start result
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ mailcow_start_result.stdout_lines }}"
+  when: mailcow_start_result.stdout_lines is defined

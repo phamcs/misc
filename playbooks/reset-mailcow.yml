@@ -1,0 +1,17 @@
+---
+# Setup Mailcow server
+- name: Setup Mailcow server
+  hosts: all
+  any_errors_fatal: true
+  become: true
+  become_user: root
+  tasks:
+    - name: Reset mailcow
+      ansible.builtin.shell: |
+        cd /srv/AppData/mailcow-dockerized
+        docker-compose down -v --remove-orphans
+        rm -rf data/assets/ data/certs/ data/dovecot/ data/git/ data/httpd/ data/letsencrypt/ data/logs/ data/mysql/ data/postfix/ data/redis/ data/rspamd/ data/unbound/
+      register: reset_mailcow_result
+      until: reset_mailcow_result.rc == 0
+      retries: 3
+      delay: 30
