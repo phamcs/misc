@@ -50,9 +50,6 @@
     - mailcow.conf
     - docker-compose.yml
   register: mailcow_copy_result
-  until: mailcow_copy_result.rc == 0
-  retries: 3
-  delay: 10
 
 # Display the result of copying the Mailcow config and compose files
 - name: Display Mailcow copy result
