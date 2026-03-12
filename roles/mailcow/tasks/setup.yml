@@ -65,9 +65,10 @@
 
 # Start the Mailcow server using docker-compose
 - name: Start Mailcow server
-  chdir: "{{ mailcow_dir }}"
-  ansible.builtin.shell: |
-    docker-compose up -d
+  ansible.builtin.shell:
+    cmd: |
+      docker-compose up -d
+    chdir: "{{ mailcow_dir }}"
   register: mailcow_start_result
   until: mailcow_start_result.rc == 0
   retries: 3
