@@ -12,19 +12,12 @@
 # Create Apps Directory
 - name: Create apps directory
   ansible.builtin.file:
-    path: "{{ common_dir }}"
-    state: directory
-    mode: 0755
-    owner: "{{ app_user }}"
-
-# Create Common Directory
-- name: Create common directory
-  ansible.builtin.file:
-    path: "{{ app_dir }}/{{ item}}"
+    path: "{{ app_dir }}/{{ item }}"
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
   loop:
+    - common
     - portainer
 
 # Copy common stack config
