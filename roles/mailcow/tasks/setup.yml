@@ -27,10 +27,8 @@
     owner: "{{ app_user }}"
     mode: '0644'
   loop:
-    - src: mailcow.conf
-      dest: "{{ mailcow_dir }}/mailcow.conf"
-    - src: docker-compose.yml
-      dest: "{{ mailcow_dir }}/docker-compose.yml"
+    - { src: 'files/mailcow.conf', dest: '{{ mailcow_dir }}/mailcow.conf' }
+    - { src: 'files/docker-compose.yml', dest: '{{ mailcow_dir }}/docker-compose.yml' }
 
 # Start the Mailcow server using docker-compose
 - name: Start Mailcow server
