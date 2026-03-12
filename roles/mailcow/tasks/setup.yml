@@ -49,14 +49,6 @@
   loop:
     - mailcow.conf
     - docker-compose.yml
-  register: mailcow_copy_result
-
-# Display the result of copying the Mailcow config and compose files
-- name: Display Mailcow copy result
-  ansible.builtin.debug:
-    msg: "{{ item }}"
-  loop: "{{ mailcow_copy_result.results }}"
-  when: mailcow_copy_result.results is defined
 
 # Start the Mailcow server using docker-compose
 - name: Start Mailcow server
