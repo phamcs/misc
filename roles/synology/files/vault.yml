@@ -1,10 +1,9 @@
 ---
 # Setup HashiCorp Vault
-name: Vault
 services:
   vault:
     image: hashicorp/vault:latest
-    container_name: vault
+    container_name: vault-dev
     user: "1026"
     ports:
     - "8201:8201"
@@ -18,11 +17,11 @@ services:
     cap_add:
     - IPC_LOCK
     volumes:
-      - /volume1/docker/vault/config:/etc/vault.d
-      - /volume1/docker/vault/ssl:/opt/vault/ssl
-      - /volume1/docker/vault/logs:/var/log/vault
-      - /volume1/docker/vault/data:/opt/vault/data
-      - /volume1/docker/vault/plugins:/opt/vault/plugins
+      - /volume1/apps/vault/config:/etc/vault.d
+      - /volume1/apps/vault/ssl:/opt/vault/ssl
+      - /volume1/apps/vault/logs:/var/log/vault
+      - /volume1/apps/vault/data:/opt/vault/data
+      - /volume1/apps/vault/plugins:/opt/vault/plugins
     network_mode: bridge
     restart: always
     healthcheck:
