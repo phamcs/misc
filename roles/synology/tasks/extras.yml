@@ -9,26 +9,21 @@
     mode: '0755'                       # (Optional) Permissions for the extracted files
     #extra_opts: ['--strip-components=1'] # (Optional) Pass extra options to the unarchive command (e.g., to strip directories)
 
-# Download vault binary for synology
-- name: Download vault binary
+# Download binaries for synology
+- name: Download binaries
   ansible.builtin.get_url:
-    url: "{{ repo_url }}/vault_1.21.3_linux_amd64"
-    dest: "/usr/local/bin/vault"
+    url: "{{ repo_url }}/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
     mode: '0755'
     owner: root
-
-# Download vault docker credential helper for synology
-- name: Download vault docker credential helper
-  ansible.builtin.get_url:
-    url: "{{ repo_url }}/docker-credential-vault-login"
-    dest: "/usr/local/bin/docker-credential-vault-login"
-    mode: '0755'
-    owner: root
+  loop:
+    - vault
+    - docker-credential-vault-login
 
 # Create apps directory for synology
 - name: Create apps directory
   ansible.builtin.file:
-    path: "{{ base_dir }}/{{ item }}"
+    path: "/volume1/apps/{{ item }}"
     state: directory
     owner: "{{ app_user }}"
     mode: '0755'
@@ -47,10 +42,10 @@
     mode: '0644'
     owner: "{{ app_user }}"
   loop:
-    - { src: 'portainer.yml', dest: '{{ base_dir }}/portainer/docker-compose.yml' }
-    - { src: 'quake3.yml', dest: '{{ base_dir }}/quake3/docker-compose.yml' }
-    - { src: 'q3server.cfg', dest: '{{ base_dir }}/quake3/q3server.cfg' }
-    - { src: 'maprotation.cfg', dest: '{{ base_dir }}/quake3/maprotation.cfg' }
-    - { src: 'vault.yml', dest: '{{ base_dir }}/vault/docker-compose.yml' }
-    - { src: 'uptime-kuma.yml', dest: '{{ base_dir }}/uptime-kuma/docker-compose.yml' }
-    - { src: 'ut99-server.yml', dest: '{{ base_dir }}/ut99-server/docker-compose.yml' }
+    - { src: 'portainer.yml', dest: '/volume1/apps/portainer/docker-compose.yml' }
+    - { src: 'quake3.yml', dest: '/volume1/apps/quake3/docker-compose.yml' }
+    - { src: 'q3server.cfg', dest: '/volume1/apps/quake3/q3server.cfg' }
+    - { src: 'maprotation.cfg', dest: '/volume1/apps/quake3/maprotation.cfg' }
+    - { src: 'vault.yml', dest: '/volume1/apps/vault/docker-compose.yml' }
+    - { src: 'uptime-kuma.yml', dest: '/volume1/apps/uptime-kuma/docker-compose.yml' }
+    - { src: 'ut99-server.yml', dest: '/volume1/apps/ut99-server/docker-compose.yml' }
