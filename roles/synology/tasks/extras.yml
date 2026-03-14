@@ -25,13 +25,6 @@
     mode: '0755'
     owner: root
 
-# Download Jfrog cli for synology
-- name: Download Jfrog cli
-  ansible.builtin.shell:
-    cmd: |
-      curl -fL https://install-cli.jfrog.io | sh
-      chmod +x /usr/local/bin/jf
-
 # Create apps directory for synology
 - name: Create apps directory
   ansible.builtin.file:
