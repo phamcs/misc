@@ -1,0 +1,16 @@
+---
+# Setup Quake3 Server
+services:
+  quake3-server:
+    image: heyvaldemar/quake3-server:latest
+    container_name: quake3_server
+    restart: unless-stopped
+    ports:
+      - "27960:27960/udp" # Main game port
+    volumes:
+      # Mount the local directory to the container's baseq3 folder
+      - "./:/usr/share/games/quake3/baseq3/"
+    environment:
+      # Optional: Adjust variables if the image supports them (check image specific docs)
+      # Examples might include variables for server name, map, etc.
+      # Refer to the specific [Docker Hub documentation](https://hub.docker.com/r/heyvaldemar/quake3-server) for supported variables.

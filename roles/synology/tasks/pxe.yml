@@ -1,4 +1,4 @@
---- 
+---
 # Create PXE structure
 - name: Create pxe structure
   ansible.builtin.file:
@@ -27,7 +27,8 @@
     - { src: 'menu.c32', dest: '{{ base_dir }}/pxe/menu.c32' }
     - { src: 'memdisk', dest: '{{ base_dir }}/pxe/memdisk' }
     - { src: 'requirements.txt', dest: '{{ base_dir }}/el_tracker/requirements.txt' }
-    - { src: '.bashrc', dest: '{{ base_dir }}/.bashrc' }
+    - { src: 'bashrc', dest: '{{ base_dir }}/.bashrc' }
+    - { src: 'bash_profile', dest: '{{ base_dir }}/.bash_profile' }
     - { src: 'NoteStation.nsx', dest: '{{ base_dir }}/NoteStation.nsx' }
     - { src: 'SYNO7AMDFX8350.dss', dest: '{{ base_dir }}/SYNO7AMDFX8350.dss' }
     - { src: 'SYNO7Q8300.dss', dest: '{{ base_dir }}/SYNO7Q8300.dss' }
@@ -50,4 +51,3 @@
   loop:
     - vmlinuz
     - initrd.img
-  

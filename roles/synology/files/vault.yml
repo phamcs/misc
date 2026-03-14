@@ -1,0 +1,30 @@
+---
+# Setup HashiCorp Vault
+name: Vault
+services:
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    user: "1026"
+    ports:
+    - "8201:8201"
+    - "8200:8200"
+    environment:
+      VAULT_API_ADDR: "http://10.0.0.36:8200"
+      #VAULT_SKIP_VERIFY: true
+      VAULT_LOG_FORMAT: json
+      VAULT_LOG_LEVEL: info
+      VAULT_CLIENT_TIMEOUT: 60s
+    cap_add:
+    - IPC_LOCK
+    volumes:
+      - /volume1/docker/vault/config:/etc/vault.d
+      - /volume1/docker/vault/ssl:/opt/vault/ssl
+      - /volume1/docker/vault/logs:/var/log/vault
+      - /volume1/docker/vault/data:/opt/vault/data
+      - /volume1/docker/vault/plugins:/opt/vault/plugins
+    network_mode: bridge
+    restart: always
+    healthcheck:
+      retries: 5
+    entrypoint: vault server -config=/etc/vault.d/vault.hcl

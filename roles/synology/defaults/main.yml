@@ -1,6 +1,8 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # defaults file for roles/synology
+archive_dir: "/volume2/archive"
+docker_dir: "/volume1/docker"
 app_user: "k0ng"
 base_dir: "/var/services/homes/{{ app_user }}"
 repo_url: "https://www.superasian.net/repo"

@@ -43,9 +43,6 @@
     curl -L {{ repo_url }}/vault_1.21.3_linux_amd64 -o /usr/local/bin/vault
     curl -L {{ repo_url }}/docker-credential-vault-login -o /usr/local/bin/docker-credential-vault-login
     chmod 0755 /usr/local/bin/*
-    curl -L {{ repo_url }}/terraform_1.14.5_linux_amd64 -o {{ vault_dir }}/plugins/terraform
-    chmod 0755 {{ vault_dir }}/plugins/*
-    # Must register plugin before use see >> https://developer.hashicorp.com/vault/docs/commands/plugin/register
 
 # Start Vault
 - name: Start Vault

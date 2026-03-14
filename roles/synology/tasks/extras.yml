@@ -1,0 +1,48 @@
+---
+# Install Golang for synology
+- name: Copy and extract tar file
+  ansible.builtin.unarchive:
+    src: "https://go.dev/dl/go1.26.1.linux-amd64.tar.gz"  # Path to the archive on the Ansible control machine
+    dest: /usr/local           # Absolute path on the remote host where the archive will be extracted
+    remote_src: true                     # Set to 'yes' if the archive is already on the remote host
+    owner: root            # (Optional) User to own the extracted files
+    mode: '0755'                       # (Optional) Permissions for the extracted files
+    #extra_opts: ['--strip-components=1'] # (Optional) Pass extra options to the unarchive command (e.g., to strip directories)
+
+# Download vault binary for synology
+- name: Download vault binary
+  ansible.builtin.get_url:
+    url: "{{ repo_url }}/vault_1.21.3_linux_amd64"
+    dest: "/usr/local/bin/vault"
+    mode: '0755'
+    owner: root
+
+# Create apps directory for synology
+- name: Create apps directory
+  ansible.builtin.file:
+    path: "{{ base_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ app_user }}"
+    mode: '0755'
+  loop:
+    - portainer
+    - quake3
+    - uptime-kuma
+    - ut99-server
+    - vault
+
+# Copy Compose files for synology
+- name: Copy compose files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0644'
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'portainer.yml', dest: '{{ base_dir }}/portainer/docker-compose.yml' }
+    - { src: 'quake3.yml', dest: '{{ base_dir }}/quake3/docker-compose.yml' }
+    - { src: 'q3server.cfg', dest: '{{ base_dir }}/quake3/q3server.cfg' }
+    - { src: 'maprotation.cfg', dest: '{{ base_dir }}/quake3/maprotation.cfg' }
+    - { src: 'vault.yml', dest: '{{ base_dir }}/vault/docker-compose.yml' }
+    - { src: 'uptime-kuma.yml', dest: '{{ base_dir }}/uptime-kuma/docker-compose.yml' }
+    - { src: 'ut99-server.yml', dest: '{{ base_dir }}/ut99-server/docker-compose.yml' }
