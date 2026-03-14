@@ -15,7 +15,7 @@ services:
       - "9000:9000"
       - "9443:9443"
     volumes:
-      - /volume1/docker/portainer:/data
+      - /volume1/apps/portainer:/data
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     network_mode: bridge

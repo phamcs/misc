@@ -1,0 +1,11 @@
+*.retry
+.cache/
+
+venv/
+.venv/
+
+test_inventory*
+inventory*
+
+*.swp
+*.vagrant

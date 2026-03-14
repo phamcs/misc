@@ -24,6 +24,31 @@
   loop: "{{ archive_setup.stdout_lines }}"
   when: archive_setup.stdout_lines is defined
 
+# Setup Apps Shares
+- name: Setup Apps Data Share
+  ansible.builtin.import_role:
+    name: tafeen.synology.syno_add_shares
+  vars:
+    syno_shares:
+      - name: apps
+        description: Apps Data
+        path: /volume1/apps
+        recycle: false
+        rights:
+          RO:
+            - guest
+          RW:
+            - k0ng
+  register: apps_setup
+  until: apps_setup.rc == 0
+
+# Display apps shares output
+- name: Display apps shares result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ apps_setup.stdout_lines }}"
+  when: apps_setup.stdout_lines is defined
+
 # Setup Docker Shares
 - name: Setup Docker Share
   ansible.builtin.import_role:
