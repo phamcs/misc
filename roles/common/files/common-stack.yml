@@ -1,6 +1,7 @@
 ---
-# Setup Portainer Stack
+# Setup Common Stack
 services:
+  # Setup Portainer
   portainer:
     image: portainer/portainer-ce:lts
     container_name: portainer
@@ -19,7 +20,7 @@ services:
     restart: unless-stopped
     network_mode: bridge
 
-  # Setup Node Exporter
+  # Setup Node-Exporter
   node-exporter:
     image: prom/node-exporter:latest
     container_name: node-exporter

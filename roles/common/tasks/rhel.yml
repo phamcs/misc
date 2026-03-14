@@ -27,6 +27,16 @@
   when: reboot_required_file.stat.exists == true
   notify: Reboot host
 
+# Disable Firewalld
+- name: Disable FIREWALLD
+  ansible.builtin.systemd:
+    name: firewalld
+    state: stopped
+    enabled: false
+  when:
+    - ansible_facts.services["firewalld.service"] is defined
+    - ansible_facts.services["firewalld.service"].status != "not-found"
+
 # Disable SELINUX that turn on by default in RHEL 8+ and cause issues with docker
 - name: Set SELinux to permissive
   ansible.builtin.replace:

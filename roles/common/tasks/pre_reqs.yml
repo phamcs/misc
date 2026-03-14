@@ -1,14 +1,4 @@
 ---
-# Disable Firewalld
-- name: Disable FIREWALLD
-  ansible.builtin.systemd:
-    name: firewalld
-    state: stopped
-    enabled: false
-  when:
-    - ansible_facts.services["firewalld.service"] is defined
-    - ansible_facts.services["firewalld.service"].status != "not-found"
-
 # Create Apps Directory
 - name: Create apps directory
   ansible.builtin.file:
