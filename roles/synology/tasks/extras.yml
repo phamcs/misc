@@ -17,10 +17,25 @@
     mode: '0755'
     owner: root
 
+# Download vault docker credential helper for synology
+- name: Download vault docker credential helper
+  ansible.builtin.get_url:
+    url: "{{ repo_url }}/docker-credential-vault-login"
+    dest: "/usr/local/bin/docker-credential-vault-login"
+    mode: '0755'
+    owner: root
+
+# Download Jfrog cli for synology
+- name: Download Jfrog cli
+  ansible.builtin.shell:
+    cmd: |
+      curl -fL https://install-cli.jfrog.io | sh
+      chmod +x /usr/local/bin/jf
+
 # Create apps directory for synology
 - name: Create apps directory
   ansible.builtin.file:
-    path: "{{ apps_dir }}/{{ item }}"
+    path: "{{ app_dir }}/{{ item }}"
     state: directory
     owner: "{{ app_user }}"
     mode: '0755'
@@ -39,10 +54,10 @@
     mode: '0644'
     owner: "{{ app_user }}"
   loop:
-    - { src: 'portainer.yml', dest: '{{ apps_dir }}/portainer/docker-compose.yml' }
-    - { src: 'quake3.yml', dest: '{{ apps_dir }}/quake3/docker-compose.yml' }
-    - { src: 'q3server.cfg', dest: '{{ apps_dir }}/quake3/q3server.cfg' }
-    - { src: 'maprotation.cfg', dest: '{{ apps_dir }}/quake3/maprotation.cfg' }
-    - { src: 'vault.yml', dest: '{{ apps_dir }}/vault/docker-compose.yml' }
-    - { src: 'uptime-kuma.yml', dest: '{{ apps_dir }}/uptime-kuma/docker-compose.yml' }
-    - { src: 'ut99-server.yml', dest: '{{ apps_dir }}/ut99-server/docker-compose.yml' }
+    - { src: 'portainer.yml', dest: '{{ app_dir }}/portainer/docker-compose.yml' }
+    - { src: 'quake3.yml', dest: '{{ app_dir }}/quake3/docker-compose.yml' }
+    - { src: 'q3server.cfg', dest: '{{ app_dir }}/quake3/q3server.cfg' }
+    - { src: 'maprotation.cfg', dest: '{{ app_dir }}/quake3/maprotation.cfg' }
+    - { src: 'vault.yml', dest: '{{ app_dir }}/vault/docker-compose.yml' }
+    - { src: 'uptime-kuma.yml', dest: '{{ app_dir }}/uptime-kuma/docker-compose.yml' }
+    - { src: 'ut99-server.yml', dest: '{{ app_dir }}/ut99-server/docker-compose.yml' }
