@@ -23,11 +23,7 @@ storage "raft" {
 # HTTP/HTTPS listener
 listener "tcp" {
   address       = "0.0.0.0:8200"
-  tls_cert_file = "/opt/vault/ssl/tls.crt"
-  tls_key_file  = "/opt/vault/ssl/tls.key"
-  tls_min_version = "tls12"
-  tls_max_version = "tls13"
-  tls_disable = false
+  tls_disable = true
 }
 # Telemetry settings
 telemetry {
