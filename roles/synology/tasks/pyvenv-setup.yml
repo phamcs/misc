@@ -18,6 +18,16 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'pysetup', dest: '{{ base_dir }}/pysetup' }
+    - { src: 'enable_vault_secrets', dest: '{{ base_dir }}/enable_vault_secrets' }
+
+# Copy python install script
+- name: Copy python install script
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0644'
+    owner: "{{ app_user }}"
+  loop:
     - { src: 'requirements.txt', dest: '{{ base_dir }}/el_tracker/requirements.txt' }
     - { src: 'bashrc', dest: '{{ base_dir }}/.bashrc' }
     - { src: 'bash_profile', dest: '{{ base_dir }}/.bash_profile' }

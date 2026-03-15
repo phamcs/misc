@@ -9,7 +9,9 @@ services:
       - "27960:27960/udp" # Main game port
     volumes:
       # Mount the local directory to the container's baseq3 folder
-      - "./:/usr/share/games/quake3/baseq3/"
+      - "/volume1/apps/quake3:/usr/share/games/quake3/baseq3/"
+      - "/volume1/apps/quake3/q3server.cfg:/usr/share/games/quake3/baseq3/q3server.cfg:ro"
+      - "/volume1/apps/quake3/maprotation.cfg:/usr/share/games/quake3/baseq3/maprotation.cfg:ro"
     environment:
       # Optional: Adjust variables if the image supports them (check image specific docs)
       # Examples might include variables for server name, map, etc.
