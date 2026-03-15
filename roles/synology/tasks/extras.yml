@@ -65,5 +65,8 @@
     - { src: 'maprotation.cfg', dest: '/volume1/apps/quake3/maprotation.cfg' }
     - { src: 'vault.yml', dest: '/volume1/apps/vault/docker-compose.yml' }
     - { src: 'vault.hcl', dest: '/volume1/apps/vault/config/vault.hcl' }
+    - { src: 'admin-policy.hcl', dest: '/volume1/apps/vault/config/admin-policy.hcl' }
+    - { src: 'autounseal.hcl', dest: '/volume1/apps/vault/config/autounseal.hcl' }
     - { src: 'uptime-kuma.yml', dest: '/volume1/apps/uptime-kuma/docker-compose.yml' }
     - { src: 'ut99-server.yml', dest: '/volume1/apps/ut99-server/docker-compose.yml' }
+    - { src: 'scripts.zip', dest: '/volume2/archive/scripts/scripts.zip' }
