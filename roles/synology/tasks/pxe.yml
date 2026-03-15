@@ -30,7 +30,7 @@
 - name: Copy PXE default config
   ansible.builtin.template:
     src: "default.j2"
-    dest: "{{ base_dir }}/pxe/pxelinux.cfg/default"
+    dest: "/volume1/apps/pxe/pxelinux.cfg/default"
     mode: '0644'
     owner: "{{ app_user }}"
 
@@ -38,7 +38,7 @@
 - name: Download images
   ansible.builtin.get_url:
     url: "{{ repo_url }}/{{ item }}"
-    dest: "{{ base_dir }}/pxe/images/{{ item }}"
+    dest: "/volume1/apps/pxe/images/{{ item }}"
     mode: '0644'
     owner: "{{ app_user }}"
   loop:
