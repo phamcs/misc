@@ -6,19 +6,21 @@
     state: directory
     mode: '0755'
     owner: "{{ app_user }}"
+    group: "users"
     recurse: yes
   loop:
     - pxe
     - pxe/images
     - pxe/pxelinux.cfg
 
-# Copy PXE config
-- name: Copy PXE config
+# Copy PXE files
+- name: Copy PXE files
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: '0644'
     owner: "{{ app_user }}"
+    group: "users"
   loop:
     - { src: 'pxelinux.0', dest: '/volume1/apps/pxe/pxelinux.0' }
     - { src: 'ldlinux.c32', dest: '/volume1/apps/pxe/ldlinux.c32' }
@@ -33,6 +35,7 @@
     dest: "/volume1/apps/pxe/pxelinux.cfg/default"
     mode: '0644'
     owner: "{{ app_user }}"
+    group: "users"
 
 # Download images
 - name: Download images
@@ -41,6 +44,7 @@
     dest: "/volume1/apps/pxe/images/{{ item }}"
     mode: '0644'
     owner: "{{ app_user }}"
+    group: "users"
   loop:
     - vmlinuz
     - initrd.img

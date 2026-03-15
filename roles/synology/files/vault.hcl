@@ -6,8 +6,8 @@
 ui = true
 disable_mlock = true
 #mlock = true
-api_addr = "http://10.0.0.36:8200"
-cluster_addr = "https://10.0.0.36:8201"
+api_addr = "http://127.0.0.1:8200"
+cluster_addr = "https://127.0.0.1:8201"
 plugin_directory = "/opt/vault/plugins"
 
 storage "raft" {

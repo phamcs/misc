@@ -25,7 +25,7 @@ services:
       - UT_SERVERURL="CTF-Face?game=BotPack.CTFGame?mutator=BotPack.InstaGibDM,MVES.MapVote,FlagAnnouncementsV2.FlagAnnouncements"
       - UT_SERVERNAME="My UT Server"
       - UT_ADMINNAME="UTAdmin"
-      - UT_ADMINEMAIL="no@one.com"
+      - UT_ADMINEMAIL="admin@superasian.net"
       - UT_MOTD1="Have Fun"
       - UT_ADMINPWD="admin"
       - UT_WEBADMINUSER="admin"

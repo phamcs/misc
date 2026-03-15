@@ -9,7 +9,7 @@ services:
     - "8201:8201"
     - "8200:8200"
     environment:
-      VAULT_API_ADDR: "http://10.0.0.36:8200"
+      VAULT_API_ADDR: "http://127.0.0.1:8200"
       #VAULT_SKIP_VERIFY: true
       VAULT_LOG_FORMAT: json
       VAULT_LOG_LEVEL: info
