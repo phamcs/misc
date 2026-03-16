@@ -2,8 +2,8 @@
 # Copy bash stuff
 - name: Copy bash stuff
   ansible.builtin.copy:
-    src: "{{ intem.src}}"
-    dest: "{{ intem.dest}}"
+    src: "{{ item.src}}"
+    dest: "{{ item.dest}}"
     mode: 0644
     owner: "{{ app_user }}"
   loop:
