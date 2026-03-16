@@ -8,5 +8,5 @@
   ansible.builtin.package_facts:
     manager: auto
 
-- name: Setup Mailcow Server on RHEL 9 or Rocky 9
+- name: Setup Mailcow Server
   ansible.builtin.include_tasks: setup.yml

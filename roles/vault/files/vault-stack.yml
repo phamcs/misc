@@ -28,3 +28,28 @@ services:
     healthcheck:
       retries: 5
     entrypoint: vault server -config=/etc/vault.d/vault.hcl
+  goldfish:
+    # Using the image provided by a community maintainer
+    image: mvisonneau/goldfish:latest
+    container_name: goldfish
+    user: "1000"
+    ports:
+      # Map container port 8443 to host port 443
+      - "8443:443"
+    environment:
+      # REQUIRED: The address of your running Vault server
+      - VAULT_ADDR=https://vault.superasian.net
+      # Optional: You can provide a token directly, but it's more secure to log in via the UI
+      # - VAULT_TOKEN="your-vault-token"
+      - VAULT_SKIP_VERIFY=true
+    cap_add:
+    - IPC_LOCK
+    volumes:
+      - /srv/AppData/vault/config/goldfish.hcl:/etc/goldfish/goldfish.hcl:ro
+      - /srv/AppData/vault/ssl/tls.crt:/etc/ssl/goldfish.crt:ro
+      - /srv/AppData/vault/ssl/tls.key:/etc/ssl/goldfish.key:ro
+    restart: unless-stopped
+    depends_on:
+      - vault
+    network_mode: bridge
+    entrypoint: goldfish -config=/etc/goldfish/goldfish.hcl

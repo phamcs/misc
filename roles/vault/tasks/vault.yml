@@ -6,7 +6,6 @@
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
-    recurse: yes
   loop:
     - config
     - data
@@ -26,16 +25,19 @@
     - { src: 'files/tls.key', dest: '{{ vault_dir }}/ssl/tls.key' }
     - { src: 'files/vault-stack.yml', dest: '{{ vault_dir }}/vault-stack.yml' }
 
-# Copy Vault config
-- name: Copy Vault config
+# Copy Vault & Goldfish config
+- name: Copy Vault & Goldfish config
   ansible.builtin.template:
     src: "templates/{{ item }}.j2"
     dest: "{{ vault_dir }}/config/{{ item }}"
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - vault.hcl
+    - autounseal.hcl
     - admin-policy.hcl
+    - goldfish-policy.hcl
+    - goldfish.hcl
+    - vault.hcl
 
 # Download binaries & plugins
 - name: Download binaries & plugins
