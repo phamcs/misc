@@ -22,17 +22,24 @@
     - mailcow.conf
     - docker-compose.yml
 
+# Create ssl directory
+- name: Create ssl directory
+  ansible.builtin.file:
+    path: "{{ mailcow_dir }}/data/assets/ssl"
+    state: directory
+    mode: '0755'
+    owner: root
+
 # Copy certs & config
 - name: Copy certs & config
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0644
-    owner: "{{ app_user }}"
+    owner: root
   loop:
     - { src: 'files/tls.cert', dest: '{{ mailcow_dir }}/data/assets/ssl/cert.pem' }
     - { src: 'files/tls.key', dest: '{{ mailcow_dir }}/data/assets/ssl/key.pem' }
-
 
 # Start the Mailcow server using docker-compose
 - name: Start Mailcow server
