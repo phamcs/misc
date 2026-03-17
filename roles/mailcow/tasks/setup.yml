@@ -1,15 +1,4 @@
 ---
-# Setup hostname and /etc/hosts for FreeIPA server
-# - name: Deploy /etc/hosts from template
-#   ansible.builtin.template:
-#     src: hosts.j2
-#     dest: /etc/hosts
-#     owner: root
-#     group: root
-#     mode: '0644'
-#     backup: true
-#   notify: Restart systemd-sysctl
-
 # Clone the Mailcow repository
 - name: Clone the Mailcow repository
   ansible.builtin.git:
