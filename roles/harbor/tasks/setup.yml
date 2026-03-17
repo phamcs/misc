@@ -32,12 +32,14 @@
     dest: "/etc/docker/daemon.json"
   notify: Restart docker
 
-# # Add containerd config
-# - name: Copy containerd config
-#   ansible.builtin.template:
-#     src: "config.toml.j2"
-#     dest: "/etc/containerd/config.toml"
-#   notify: Restart containerd
+- name: Extract the tar.gz archive
+  ansible.builtin.unarchive:
+    src: "{{ github_url }}/{{ harbor_version }}/harbor-offline-installer-{{ harbor_version }}.tgz"
+    dest: "{{ harbor_dir }}"
+    remote_src: yes
+    owner: "{{ app_user }}"
+    #mode: "0755"
+    extra_opts: ['--strip-components=1'] # Optional: To remove the top-level directory during extraction
 
 # Create Harbor Directories
 - name: Create Harbor data directory
@@ -83,15 +85,6 @@
     - { src: 'files/tls.cert', dest: '{{ harbor_dir }}/certs/tls.cert' }
     - { src: 'files/tls.key', dest: '{{ harbor_dir }}/certs/tls.key' }
     - { src: 'files/harbor.yml', dest: '{{ harbor_dir }}/harbor.yml' }
-
-- name: Extract the tar.gz archive
-  ansible.builtin.unarchive:
-    src: "{{ github_url }}/{{ harbor_version }}/harbor-offline-installer-{{ harbor_version }}.tgz"
-    dest: "{{ harbor_dir }}"
-    remote_src: yes
-    owner: "{{ app_user }}"
-    #mode: "0755"
-    extra_opts: ['--strip-components=1'] # Optional: To remove the top-level directory during extraction
 
 # Check the system for error
 - name: Check system for error

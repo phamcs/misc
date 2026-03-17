@@ -1,6 +1,6 @@
 ---
-# Setup Mailcow server
-- name: Setup Mailcow server
+# Reset Mailcow server
+- name: Reset Mailcow server
   hosts: all
   any_errors_fatal: true
   become: true
