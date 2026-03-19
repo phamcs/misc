@@ -4,7 +4,7 @@
 # example.org is _not_ a valid hostname, use a fqdn here.
 # Default admin user is "admin"
 # Default password is "moohoo"
-MAILCOW_HOSTNAME=mail.superasian.net
+MAILCOW_HOSTNAME={{ hostname }}
 
 # Password hash algorithm
 # Only certain password hash algorithm are supported. For a fully list of supported schemes,
@@ -104,7 +104,7 @@ MAILDIR_GC_TIME=7200
 #ADDITIONAL_SAN=srv1.example.net
 # ...or combine wildcard and static names:
 #ADDITIONAL_SAN=imap.*,srv1.example.com
-ADDITIONAL_SAN=*.superasian.net
+ADDITIONAL_SAN=*.{{ domain }}
 
 # Obtain certificates for autodiscover.* and autoconfig.* domains.
 # This can be useful to switch off in case you are in a scenario where a reverse proxy already handles those.
@@ -178,7 +178,7 @@ FTS_HEAP=128
 FTS_PROCS=1
 
 # Allow admins to log into SOGo as email user (without any password)
-ALLOW_ADMIN_EMAIL_LOGIN=n
+ALLOW_ADMIN_EMAIL_LOGIN=y
 
 # Enable watchdog (watchdog-mailcow) to restart unhealthy containers
 USE_WATCHDOG=y
