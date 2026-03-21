@@ -1,0 +1,6 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for roles/mariadb
+app_dir: "/srv/AppData"
+app_user: "k0ng"
+mariadb_dir: "{{ app_dir }}/mariadb"

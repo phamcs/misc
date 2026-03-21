@@ -1,0 +1,39 @@
+---
+- name: Populate service facts
+  ansible.builtin.service_facts: {}
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+# Create mariadb dirctories
+- name: Create mariadb directories
+  ansible.builtin.file:
+    path: "{{ mariadb_dir }}/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ app_user }}"
+  loop:
+    - backup
+    - config
+    - data
+    - scripts
+    - secrets
+
+# Copy config files
+- name: Copy config files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: root
+  loop:
+    - { src: 'files/backup-mysql.sh', dest: '{{ mariadb_dir }}/scripts/backup-mysql.sh' }
+    - { src: 'files/Dockerfile', dest: '{{ mariadb_dir }}/Dockerfile' }
+    - { src: '50-server.cnf', dest: '{{ mariadb_dir}}/config/50-server.cnf'}
+
+# Create secrets
+- name: Create secrets
+  ansible.builtin.shell: |
+    openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ mariadb_dir }}/secrets/db.txt
+    openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ mariadb_dir }}/secrets/app.txt
