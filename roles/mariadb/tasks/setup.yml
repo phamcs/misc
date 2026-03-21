@@ -34,6 +34,37 @@
 
 # Create secrets
 - name: Create secrets
-  ansible.builtin.shell: |
-    openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ mariadb_dir }}/secrets/db.txt
-    openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ mariadb_dir }}/secrets/app.txt
+  ansible.builtin.command:
+    argv:
+      openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ mariadb_dir }}/secrets/db.txt
+      openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ mariadb_dir }}/secrets/app.txt
+  register: secrets_value
+  when: not secrets_value.stat.exists
+
+# Copy db-staging nginx config
+- name: Copy db-staging nginx config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - db-ui.conf
+  notify: Restart nginx
+
+# Start mariadb stack
+- name: Start mariadb stack
+  ansible.builtin.command:
+    chdir: "{{ mariadb_dir }}"
+    cmd: "docker compose -f mariadb.yml up -d"
+  register: compose_result
+  until: compose_result.rc == 0
+  retries: 5
+  delay: 10
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result.stdout_lines is defined

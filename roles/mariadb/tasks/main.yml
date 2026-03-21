@@ -1,3 +1,24 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for roles/mariadb
+- name: Populate service facts
+  ansible.builtin.service_facts: {}
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Check if nginx container is running
+  ansible.builtin.shell: |
+    {% raw %}docker ps --filter 'name=nginx' --filter 'status=running' --format "{{.Names}}"{% endraw %}
+  register: nginx_container
+  changed_when: false
+
+- name: Include nginx role
+  ansible.builtin.include_role:
+    name: nginx
+    tasks_from: nginx
+  when: nginx_container.stdout != "running"
+
+- name: Setup Harbor
+  ansible.builtin.include_tasks: setup.yml
