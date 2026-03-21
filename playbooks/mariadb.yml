@@ -6,5 +6,5 @@
   become: true
   become_user: root
   roles:
-    - common
+    #- common
     - mariadb
