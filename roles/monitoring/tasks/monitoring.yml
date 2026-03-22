@@ -119,14 +119,10 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'files/system-overview.json', dest: '{{ grafana_dir }}/dashboards/system-overview.json' }
-    - { src: 'files/Harbor-19716_rev1.json', dest: '{{ grafana_dir }}/dashboards/Harbor-19716_rev1.json' }
     - { src: 'files/Linux-Exporter-Node-14513_rev2.json', dest: '{{ grafana_dir }}/dashboards/Linux-Exporter-Node-14513_rev2.json' }
-    - { src: 'files/Promtail-20881_rev1.json', dest: '{{ grafana_dir }}/dashboards/Promtail-20881_rev1.json' }
     - { src: 'files/dashboards.yml', dest: '{{ grafana_dir }}/dashboards/dashboards.yml' }
     - { src: 'files/dashboards.yml', dest: '{{ grafana_dir }}/provisioning/dashboards/dashboards.yml' }
     - { src: 'files/datasource.yml', dest: '{{ grafana_dir }}/provisioning/datasources/datasource.yml' }
-    - { src: 'files/NGINX-12767_rev2.json', dest: '{{ grafana_dir }}/provisioning/dashboards/NGINX-12767_rev2.json' }
-    - { src: 'files/Vault-12904_rev2.json', dest: '{{ grafana_dir }}/provisioning/dashboards/Vault-12904_rev2.json' }
     - { src: 'files/tls.cert', dest: '{{ grafana_dir }}/certs/grafana.crt' }
     - { src: 'files/tls.key', dest: '{{ grafana_dir }}/certs/grafana.key' }
     - { src: 'files/monitoring-stack.yml', dest: '{{ mon_dir }}/monitoring-stack.yml' }
