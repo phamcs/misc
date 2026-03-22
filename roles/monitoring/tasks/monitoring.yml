@@ -75,7 +75,7 @@
 # Change Grafana data directory permission >> https://github.com/grafana/grafana/issues/41217
 - name: Change Grafana data directory permission
   ansible.builtin.file:
-    path: "{{ grafana_dir }}/data"
+    path: "{{ grafana_dir }}"
     state: directory
     mode: 0755
     owner: "472"
