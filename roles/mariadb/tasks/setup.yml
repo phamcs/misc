@@ -39,7 +39,6 @@
       openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ mariadb_dir }}/secrets/db.txt
       openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ mariadb_dir }}/secrets/app.txt
   register: secrets_value
-  when: not secrets_value.stat.exists
 
 # Copy db-staging nginx config
 - name: Copy db-staging nginx config
