@@ -103,11 +103,13 @@
     mode: 0755
     owner: "{{ app_user }}"
   loop:
+    - blocks
     - config
     - data
     - generator
     - generator/blocks
     - generator/wal
+    - wal
 
 # Copy monitoring config & certs
 - name: Copy monitoring config & certs
