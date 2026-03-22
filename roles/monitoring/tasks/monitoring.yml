@@ -72,6 +72,16 @@
     - dashboards
     - datasources
 
+# Change Grafana data directory permission
+- name: Change Grafana data directory permission
+  ansible.builtin.file:
+    path: "{{ grafana_dir }}/data"
+    state: directory
+    mode: 0755
+    owner: "472"
+    group: "472"
+  recurse: yes
+
 # Create Prometheus Directory
 - name: Create Prometheus directory
   ansible.builtin.file:
