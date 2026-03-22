@@ -37,7 +37,7 @@ services:
     restart: unless-stopped
 
   tempo:
-    image: grafana/tempo:latest
+    image: grafana/tempo:2.10.0
     container_name: tempo
     user: "1000"
     logging:
@@ -116,7 +116,7 @@ services:
 
   grafana:
     user: "1000"
-    image: grafana/grafana-enterprise:latest
+    image: grafana/grafana:latest
     container_name: grafana
     logging:
       driver: "json-file"
