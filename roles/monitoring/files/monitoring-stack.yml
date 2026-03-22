@@ -127,10 +127,15 @@ services:
       - /srv/AppData/monitoring/grafana/certs:/etc/grafana/certs
       - /srv/AppData/monitoring/grafana/data:/var/lib/grafana
       - /srv/AppData/monitoring/grafana/config:/etc/grafana
-      - /srv/AppData/monitoring/grafana/config/grafana.ini:/etc/grafana/grafana.ini:ro
+      #- /srv/AppData/monitoring/grafana/config/grafana.ini:/etc/grafana/grafana.ini:ro
       - /srv/AppData/monitoring/grafana/provisioning:/etc/grafana/provisioning
       - /srv/AppData/monitoring/grafana/dashboards:/var/lib/grafana/dashboards
     environment:
+      - GF_DATABASE_TYPE=postgres
+      - GF_DATABASE_HOST=10.0.0.252:5432
+      - GF_DATABASE_NAME=grafana
+      - GF_DATABASE_USER=grafana
+      - GF_DATABASE_PASSWORD=DAs8Ay4UWhjayE9VPqoUcPOQDrl98Y1oms2shAYgb8
       - GF_LOG_LEVEL=debug
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin

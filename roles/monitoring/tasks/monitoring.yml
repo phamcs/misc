@@ -121,7 +121,7 @@
     - { src: 'files/datasource.yml', dest: '{{ grafana_dir }}/provisioning/datasources/datasource.yml' }
     - { src: 'files/tls.cert', dest: '{{ grafana_dir }}/certs/grafana.crt' }
     - { src: 'files/tls.key', dest: '{{ grafana_dir }}/certs/grafana.key' }
-    - { src: 'files/grafana.ini', dest: '{{ grafana_dir }}/config/grafana.ini' }
+    #- { src: 'files/grafana.ini', dest: '{{ grafana_dir }}/config/grafana.ini' }
     - { src: 'files/monitoring-stack.yml', dest: '{{ mon_dir }}/monitoring-stack.yml' }
     - { src: 'files/alertmanager-conf.yml', dest: '{{ mon_dir }}/alertmanager/config.yml' }
     - { src: 'files/promtail-config.yml', dest: '{{ promtail_dir }}/promtail-config.yml' }
