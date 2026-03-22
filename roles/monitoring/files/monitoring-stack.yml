@@ -3,6 +3,8 @@
 networks:
   backend:
     driver: bridge
+volumes:
+  grafana_data: {}
 
 name: monitoring
 services:
@@ -115,7 +117,7 @@ services:
 
   grafana:
     # https://github.com/grafana/grafana/issues/41217
-    user: "0:0"
+    user: "1000"
     image: grafana/grafana:latest
     container_name: grafana
     logging:
@@ -126,7 +128,7 @@ services:
         tag: "{{.Name}}"
     volumes:
       - /srv/AppData/monitoring/grafana/certs:/etc/grafana/certs
-      - /srv/AppData/monitoring/grafana/data:/var/lib/grafana:rw:Z
+      - grafana_data:/var/lib/grafana
       - /srv/AppData/monitoring/grafana:/etc/grafana
       #- /srv/AppData/monitoring/grafana/config/grafana.ini:/etc/grafana/grafana.ini
       - /srv/AppData/monitoring/grafana/provisioning:/etc/grafana/provisioning
