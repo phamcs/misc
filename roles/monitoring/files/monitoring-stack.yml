@@ -117,7 +117,7 @@ services:
 
   grafana:
     # https://github.com/grafana/grafana/issues/41217
-    user: "1000"
+    user: "472:1000"
     image: grafana/grafana:latest
     container_name: grafana
     logging:
@@ -139,7 +139,7 @@ services:
       - GF_DATABASE_NAME=grafana
       - GF_DATABASE_USER=grafana
       - GF_DATABASE_PASSWORD=DAs8Ay4UWhjayE9VPqoUcPOQDrl98Y1oms2shAYgb8
-      - GF_PATHS_CONFIG="/etc/grafana/grafana.ini"
+      - GF_PATHS_CONFIG=/etc/grafana/grafana.ini
       - GF_LOG_LEVEL=debug
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
