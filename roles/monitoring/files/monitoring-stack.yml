@@ -114,7 +114,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    user: "0"
+    user: "1000"
     image: grafana/grafana:latest
     container_name: grafana
     logging:
@@ -131,13 +131,13 @@ services:
       - /srv/AppData/monitoring/grafana/provisioning:/etc/grafana/provisioning
       - /srv/AppData/monitoring/grafana/dashboards:/var/lib/grafana/dashboards
     environment:
-      - GF_DATABASE_TYPE=postgres
-      - GF_DATABASE_HOST=10.0.0.252:5432
-      - GF_DATABASE_NAME=grafana
-      - GF_DATABASE_USER=grafana
-      - GF_DATABASE_PASSWORD=DAs8Ay4UWhjayE9VPqoUcPOQDrl98Y1oms2shAYgb8
-      - GF_PATHS_CONFIG="/etc/grafana/grafana.ini"
-      - GF_LOG_LEVEL=debug
+      # - GF_DATABASE_TYPE=postgres
+      # - GF_DATABASE_HOST=10.0.0.252:5432
+      # - GF_DATABASE_NAME=grafana
+      # - GF_DATABASE_USER=grafana
+      # - GF_DATABASE_PASSWORD=DAs8Ay4UWhjayE9VPqoUcPOQDrl98Y1oms2shAYgb8
+      # #- GF_PATHS_CONFIG="/etc/grafana/grafana.ini"
+      # - GF_LOG_LEVEL=debug
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_USERS_ALLOW_SIGN_UP=false
