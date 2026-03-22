@@ -98,7 +98,7 @@
 # Create Tempo Directory
 - name: Create Tempo directory
   ansible.builtin.file:
-    path: "{{ telegraf_dir }}/{{ item }}"
+    path: "{{ tempo_dir }}/{{ item }}"
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
