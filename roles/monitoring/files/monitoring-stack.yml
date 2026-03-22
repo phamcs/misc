@@ -114,7 +114,8 @@ services:
     restart: unless-stopped
 
   grafana:
-    user: "472"
+    # https://github.com/grafana/grafana/issues/41217
+    user: "472:1000"
     image: grafana/grafana:latest
     container_name: grafana
     logging:
