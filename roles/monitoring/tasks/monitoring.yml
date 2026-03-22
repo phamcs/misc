@@ -105,6 +105,7 @@
   loop:
     - config
     - data
+    - generator
 
 # Copy monitoring config & certs
 - name: Copy monitoring config & certs
