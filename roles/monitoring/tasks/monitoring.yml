@@ -139,14 +139,14 @@
     - { src: 'files/tempo.yml', dest: '{{ tempo_dir }}/config/tempo.yml' }
 
 # Change Grafana data directory permission >> https://github.com/grafana/grafana/issues/41217
-- name: Change Grafana data directory permission
-  ansible.builtin.file:
-    path: "{{ grafana_dir }}"
-    state: directory
-    mode: 0775
-    owner: "472"
-    group: "root"
-    recurse: yes
+# - name: Change Grafana data directory permission
+#   ansible.builtin.file:
+#     path: "{{ grafana_dir }}"
+#     state: directory
+#     mode: 0775
+#     owner: "472"
+#     group: "root"
+#     recurse: yes
 
 # Start Monitoring Stack
 - name: Start Monitoring stack
