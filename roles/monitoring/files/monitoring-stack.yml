@@ -114,7 +114,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    user: "$(id -u)"
+    user: "$(id -u grafana)"
     image: grafana/grafana:latest
     container_name: grafana
     logging:
