@@ -52,7 +52,7 @@
   ansible.builtin.file:
     path: "{{ grafana_dir }}/{{ item }}"
     state: directory
-    mode: 0755
+    mode: 0775
     owner: "{{ app_user }}"
   loop:
     - certs
