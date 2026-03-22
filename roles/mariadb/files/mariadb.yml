@@ -44,7 +44,7 @@ services:
     environment:
       PMA_HOST: mariadb
     ports:
-      - "8080:80"
+      - "8090:80"
     networks:
       - backend
     depends_on:
