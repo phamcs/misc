@@ -118,7 +118,7 @@ services:
   grafana:
     # https://github.com/grafana/grafana/issues/41217
     user: "472:1000"
-    image: grafana/grafana:latest
+    image: grafana/grafana-enterprise:latest
     container_name: grafana
     logging:
       driver: "json-file"
