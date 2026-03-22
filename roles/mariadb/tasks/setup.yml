@@ -31,6 +31,7 @@
     - { src: 'files/backup-mysql.sh', dest: '{{ mariadb_dir }}/scripts/backup-mysql.sh' }
     - { src: 'files/Dockerfile', dest: '{{ mariadb_dir }}/Dockerfile' }
     - { src: '50-server.cnf', dest: '{{ mariadb_dir}}/config/50-server.cnf'}
+    - { src: 'mariadb.yml', dest: '{{ mariadb_dir}}/mariadb.yml'}
 
 # Create secrets
 - name: Create secrets
