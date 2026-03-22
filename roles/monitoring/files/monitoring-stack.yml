@@ -126,7 +126,7 @@ services:
     volumes:
       - /srv/AppData/monitoring/grafana/certs:/etc/grafana/certs
       - /srv/AppData/monitoring/grafana/data:/var/lib/grafana:rw
-      - /srv/AppData/monitoring/grafana/config:/etc/grafana
+      - /srv/AppData/monitoring/grafana:/etc/grafana
       #- /srv/AppData/monitoring/grafana/config/grafana.ini:/etc/grafana/grafana.ini
       - /srv/AppData/monitoring/grafana/provisioning:/etc/grafana/provisioning
       - /srv/AppData/monitoring/grafana/dashboards:/var/lib/grafana/dashboards

@@ -56,7 +56,6 @@
     owner: "{{ app_user }}"
   loop:
     - certs
-    - config
     - data
     - dashboards
     - plugins
