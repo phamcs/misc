@@ -143,9 +143,9 @@
   ansible.builtin.file:
     path: "{{ grafana_dir }}"
     state: directory
-    mode: 0755
+    mode: 0775
     owner: "472"
-    group: "472"
+    group: "root"
     recurse: yes
 
 # Start Monitoring Stack
