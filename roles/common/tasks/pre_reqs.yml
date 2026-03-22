@@ -13,10 +13,13 @@
 # Copy common stack config
 - name: Copy common stack config
   ansible.builtin.copy:
-    src: "files/common-stack.yml"
-    dest: "{{ common_dir }}/common-stack.yml"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     mode: 0644
     owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/common-stack.yml', dest: '{{ common_dir }}/common-stack.yml'}
+    - { src: 'files/rl8-ks.cfg', dest: '{{ common_dir }}/rl8-ks.cfg'}
 
 # Start Common Stack
 - name: Start common stack

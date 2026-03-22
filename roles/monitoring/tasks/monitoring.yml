@@ -1,6 +1,6 @@
 ---
 # Create Monitoring stack directories
-- name: Create monitoring directories
+- name: Create Monitoring directories
   ansible.builtin.file:
     path: "{{ mon_dir }}/{{ item }}"
     state: directory
@@ -15,9 +15,10 @@
     - prometheus
     - promtail
     - telegraf
+    - tempo
 
 # Create Influxdb Directory
-- name: Create influxdb directory
+- name: Create Influxdb directory
   ansible.builtin.file:
     path: "{{ influxdb_dir }}/{{ item }}"
     state: directory
@@ -27,7 +28,7 @@
     - data
 
 # Create Loki Directory
-- name: Create loki directory
+- name: Create Loki directory
   ansible.builtin.file:
     path: "{{ loki_dir }}/{{ item }}"
     state: directory
@@ -47,7 +48,7 @@
     - data
 
 # Create Grafana Directory
-- name: Create grafana directory
+- name: Create Grafana directory
   ansible.builtin.file:
     path: "{{ grafana_dir }}/{{ item }}"
     state: directory
@@ -62,7 +63,7 @@
     - provisioning
 
 # Create Grafana Sub Directory
-- name: Create grafana sub directory
+- name: Create Grafana sub directory
   ansible.builtin.file:
     path: "{{ grafana_dir }}/provisioning/{{ item }}"
     state: directory
@@ -73,7 +74,7 @@
     - datasources
 
 # Create Prometheus Directory
-- name: Create prometheus directory
+- name: Create Prometheus directory
   ansible.builtin.file:
     path: "{{ prometheus_dir }}/{{ item }}"
     state: directory
@@ -85,13 +86,24 @@
     - rules
 
 # Create Telegraf Directory
-- name: Create telegraf directory
+- name: Create Telegraf directory
   ansible.builtin.file:
     path: "{{ telegraf_dir }}/{{ item }}"
     state: directory
     mode: 0755
     owner: "{{ app_user }}"
   loop:
+    - data
+
+# Create Tempo Directory
+- name: Create Tempo directory
+  ansible.builtin.file:
+    path: "{{ telegraf_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - config
     - data
 
 # Copy monitoring config & certs
@@ -108,6 +120,7 @@
     - { src: 'files/datasource.yml', dest: '{{ grafana_dir }}/provisioning/datasources/datasource.yml' }
     - { src: 'files/tls.cert', dest: '{{ grafana_dir }}/certs/grafana.crt' }
     - { src: 'files/tls.key', dest: '{{ grafana_dir }}/certs/grafana.key' }
+    - { src: 'files/grafana.ini', dest: '{{ grafana_dir }}/config/grafana.ini' }
     - { src: 'files/monitoring-stack.yml', dest: '{{ mon_dir }}/monitoring-stack.yml' }
     - { src: 'files/alertmanager-conf.yml', dest: '{{ mon_dir }}/alertmanager/config.yml' }
     - { src: 'files/promtail-config.yml', dest: '{{ promtail_dir }}/promtail-config.yml' }
@@ -119,6 +132,7 @@
     - { src: 'files/recording_rules.yml', dest: '{{ prometheus_dir }}/rules/recording_rules.yml' }
     - { src: 'files/tls.cert', dest: '{{ prometheus_dir }}/certs/tls.crt' }
     - { src: 'files/tls.key', dest: '{{ prometheus_dir }}/certs/tls.key' }
+    - { src: 'files/tempo.yml', dest: '{{ tempo_dir }}/config/tempo.yml' }
 
 # Start Monitoring Stack
 - name: Start Monitoring stack

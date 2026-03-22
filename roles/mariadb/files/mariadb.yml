@@ -12,7 +12,7 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
       MARIADB_PASSWORD_FILE: /run/secrets/mysql_app_password
-      MARIADB_DATABASE: goldfish
+      MARIADB_DATABASE: metrics
       MARIADB_USER: apps_user
     ports:
       - "3306:3306"
@@ -37,6 +37,21 @@ services:
     - MYSQL_HOST=mariadb
     secrets:
       - mysql_root_password
+
+  mysqld-exporter:
+    image: prom/mysqld-exporter:latest
+    container_name: mysqld-exporter
+    restart: unless-stopped
+    ports:
+      - "9104:9104"
+    networks:
+      - backend
+    volumes:
+      - /srv/AppData/mariadb/config/custom.cnf:/etc/mysql/conf.d/my.cnf:ro
+    command:
+      - "--config.my-cnf=/etc/mysql/conf.d/my.cnf"
+    depends_on:
+      - mariadb
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
