@@ -115,7 +115,7 @@ services:
 
   grafana:
     # https://github.com/grafana/grafana/issues/41217
-    user: "472:1000"
+    user: "0:0"
     image: grafana/grafana:latest
     container_name: grafana
     logging:
@@ -126,7 +126,7 @@ services:
         tag: "{{.Name}}"
     volumes:
       - /srv/AppData/monitoring/grafana/certs:/etc/grafana/certs
-      - /srv/AppData/monitoring/grafana/data:/var/lib/grafana:rw
+      - /srv/AppData/monitoring/grafana/data:/var/lib/grafana:rw:Z
       - /srv/AppData/monitoring/grafana:/etc/grafana
       #- /srv/AppData/monitoring/grafana/config/grafana.ini:/etc/grafana/grafana.ini
       - /srv/AppData/monitoring/grafana/provisioning:/etc/grafana/provisioning
