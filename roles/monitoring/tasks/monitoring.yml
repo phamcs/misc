@@ -119,8 +119,9 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'files/system-overview.json', dest: '{{ grafana_dir }}/dashboards/system-overview.json' }
-    - { src: 'files/Linux-Node-Exporter-14513_rev2.json', dest: '{{ grafana_dir }}/dashboards/Linux-Node-Exporter-14513_rev2.json' }
     - { src: 'files/Harbor-19716_rev1.json', dest: '{{ grafana_dir }}/dashboards/Harbor-19716_rev1.json' }
+    - { src: 'files/Linux-Node-Exporter-14513_rev2.json', dest: '{{ grafana_dir }}/dashboards/Linux-Node-Exporter-14513_rev2.json' }
+    - { src: 'files/Promtail-20881_rev1.json', dest: '{{ grafana_dir }}/dashboards/Promtail-20881_rev1.json' }
     - { src: 'files/dashboards.yml', dest: '{{ grafana_dir }}/dashboards/dashboards.yml' }
     - { src: 'files/dashboards.yml', dest: '{{ grafana_dir }}/provisioning/dashboards/dashboards.yml' }
     - { src: 'files/datasource.yml', dest: '{{ grafana_dir }}/provisioning/datasources/datasource.yml' }
