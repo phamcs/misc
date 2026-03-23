@@ -2,7 +2,6 @@
 .cache/
 
 .env*
-*env*
 
 venv/
 .venv/
