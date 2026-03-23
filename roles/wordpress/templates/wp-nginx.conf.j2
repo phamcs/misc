@@ -1,0 +1,73 @@
+# nginx/default.conf - Nginx configuration for WordPress with PHP-FPM
+
+server {
+    listen 443 ssl;
+    server_name {{ domain }} www.{{ domain }};
+
+    ssl_certificate /etc/nginx/ssl/tls.crt;
+    ssl_certificate_key /etc/nginx/ssl/tls.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    root /var/www/html;
+    index index.php index.html;
+
+    # Maximum upload size (match php uploads.ini)
+    client_max_body_size 64M;
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+
+    # Gzip compression for faster page loads
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml text/javascript image/svg+xml;
+    gzip_min_length 256;
+
+    # Main location block
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    # Pass PHP requests to PHP-FPM
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        # Connect to the WordPress PHP-FPM container
+        fastcgi_pass wordpress:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        # Increase timeouts for slow admin pages
+        fastcgi_read_timeout 300;
+    }
+
+    # Cache static assets for 30 days
+    location ~* \.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+    }
+
+    # Deny access to sensitive files
+    location ~ /\.ht {
+        deny all;
+    }
+
+    location = /wp-config.php {
+        deny all;
+    }
+
+    location ~* /xmlrpc\.php$ {
+        deny all;
+    }
+
+    # Deny access to hidden files
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+}

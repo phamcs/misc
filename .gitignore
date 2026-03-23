@@ -1,6 +1,9 @@
 *.retry
 .cache/
 
+.env*
+*env*
+
 venv/
 .venv/
 

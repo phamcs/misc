@@ -1,7 +1,7 @@
 #SPDX-License-Identifier: MIT-0
 galaxy_info:
   author: Doan Pham
-  description: Setup mariadb and backup in containers
+  description: Setup Wordpress stack
   company: Pham Computer Science
 
   # If the issue tracker for your role is not on github, uncomment the

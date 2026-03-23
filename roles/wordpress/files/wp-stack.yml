@@ -1,6 +1,7 @@
 ---
-name: mariadb
+name: Wordpress
 services:
+  # Setup MariaDB
   mariadb:
     image: mariadb:latest
     container_name: mariadb
@@ -12,7 +13,7 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
       MARIADB_PASSWORD_FILE: /run/secrets/mysql_app_password
-      MARIADB_DATABASE: metrics
+      MARIADB_DATABASE: wordpress
       MARIADB_USER: apps_user
     ports:
       - "3306:3306"
@@ -21,7 +22,7 @@ services:
       - /srv/AppData/mariadb/data:/var/lib/mysql
     networks:
       - backend
-
+  # Setup MariaDB-ackup
   backup:
     build:
       context: .
@@ -37,7 +38,7 @@ services:
     - MYSQL_HOST=mariadb
     secrets:
       - mysql_root_password
-
+  # Setup mysqld-exporter
   mysqld-exporter:
     image: prom/mysqld-exporter:latest
     container_name: mysqld-exporter
@@ -52,7 +53,41 @@ services:
       - "--config.my-cnf=/etc/mysql/conf.d/my.cnf"
     depends_on:
       - mariadb
-
+  # Setup Wordpress
+  wordpress:
+    image: wordpress:6-php8.3-fpm-alpine
+    container_name: wordpress
+    restart: unless-stopped
+    secrets:
+      - mysql_root_password
+      - mysql_app_password
+    volumes:
+      # WordPress installation files
+      - /srv/AppData/wordpress:/var/www/html
+      # Custom PHP settings for uploads
+      - /srv/AppData/wordpress/config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
+    environment:
+      WORDPRESS_DB_HOST: mariadb:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: apps_user
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      # Security keys - generate at https://api.wordpress.org/secret-key/1.1/salt/
+      WORDPRESS_AUTH_KEY: ${WP_AUTH_KEY}
+      WORDPRESS_SECURE_AUTH_KEY: ${WP_SECURE_AUTH_KEY}
+      WORDPRESS_LOGGED_IN_KEY: ${WP_LOGGED_IN_KEY}
+      WORDPRESS_NONCE_KEY: ${WP_NONCE_KEY}
+      WORDPRESS_AUTH_SALT: ${WP_AUTH_SALT}
+      WORDPRESS_SECURE_AUTH_SALT: ${WP_SECURE_AUTH_SALT}
+      WORDPRESS_LOGGED_IN_SALT: ${WP_LOGGED_IN_SALT}
+      WORDPRESS_NONCE_SALT: ${WP_NONCE_SALT}
+      # Table prefix
+      WORDPRESS_TABLE_PREFIX: wp_
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - backend
+  # Setup phpmyadmin for Web-GUI
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: always

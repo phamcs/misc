@@ -1,10 +1,10 @@
 ---
-# Setup MariaDB
-- name: Setup MariaDB
+# Setup Wordpress
+- name: Setup Wordpress
   hosts: all
   any_errors_fatal: true
   become: true
   become_user: root
   roles:
     #- common
-    - mariadb
+    - wordpress
