@@ -26,12 +26,17 @@ services:
   wordpress:
     image: wordpress:latest
     container_name: wordpress
+    build:
+      context: .
+      dockerfile: wp.Dockerfile
     restart: unless-stopped
     volumes:
       # WordPress installation files
       - /srv/AppData/wordpress/data:/var/www/html
       # Custom PHP settings for uploads
       - /srv/AppData/wordpress/config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
+    depends_on:
+      - mariadb
     environment:
       WORDPRESS_DB_HOST: mariadb:3306
       WORDPRESS_DB_NAME: wordpress
@@ -48,7 +53,7 @@ services:
       # WORDPRESS_NONCE_SALT: ${WP_NONCE_SALT}
       # # Table prefix
       WORDPRESS_TABLE_PREFIX: wp_
-    command: '--default-authentication-plugin=mysql_native_password'
+    command: /bin/bash -c "set -ex; composer update --prefer-dist; exec docker-entrypoint.sh apache2-foreground"
     networks:
       - backend
   # Setup MariaDB-ackup
