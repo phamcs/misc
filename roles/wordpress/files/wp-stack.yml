@@ -51,7 +51,7 @@ services:
     command: '--default-authentication-plugin=mysql_native_password'
     depends_on:
       - mariadb
-    link:
+    links:
       - mariadb
     networks:
       - backend
