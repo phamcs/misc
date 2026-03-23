@@ -32,7 +32,7 @@
     - { src: 'files/Dockerfile', dest: '{{ mariadb_dir }}/Dockerfile' }
     - { src: 'files/50-server.cnf', dest: '{{ mariadb_dir}}/config/50-server.cnf'}
     - { src: 'files/mysqld-exporter.cnf', dest: '{{ mariadb_dir}}/config/mysqld-exporter.cnf'}
-    - { src: 'files/mariadb-stack.yml', dest: '{{ wp_dir}}/mariadb-stack.yml'}
+    - { src: 'files/mariadb-stack.yml', dest: '{{ mariadb_dir}}/mariadb-stack.yml'}
 
 # Create secrets
 - name: Create secrets
