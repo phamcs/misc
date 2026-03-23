@@ -49,10 +49,6 @@ services:
       # # Table prefix
       WORDPRESS_TABLE_PREFIX: wp_
     command: '--default-authentication-plugin=mysql_native_password'
-    depends_on:
-      - mariadb
-    links:
-      - mariadb
     networks:
       - backend
   # Setup MariaDB-ackup
