@@ -53,6 +53,8 @@ services:
       # WORDPRESS_NONCE_SALT: ${WP_NONCE_SALT}
       # # Table prefix
       WORDPRESS_TABLE_PREFIX: wp_
+    ports:
+      - 8443:443
     command: /bin/bash -c "set -ex; composer update --prefer-dist; exec docker-entrypoint.sh apache2-foreground"
     networks:
       - backend
