@@ -1,5 +1,5 @@
 MYSQL_ROOT_PASSWORD=$(cat /srv/AppData/mariadb/secrets/db.txt)
-MYSQL_PASSWORD=your-$(cat /srv/AppData/mariadb/secrets/app.txt)
+MYSQL_PASSWORD=$(cat /srv/AppData/mariadb/secrets/app.txt)
 
 WP_AUTH_KEY=pX>7VhL?T+f-Qxx>Z)+|2^!fh(AJa/|htyV;.GAMNu>E9UQQ&p|]3B IMaZb5s+q
 WP_SECURE_AUTH_KEY=bE|UOM++sI/jK6~Kmcx@|`RulB-#DG1J4Uzz#]A||mlf59x7<R@ATT&&s+B[g2_=
