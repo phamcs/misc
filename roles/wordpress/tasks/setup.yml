@@ -43,6 +43,7 @@
     - { src: 'files/backup-mysql.sh', dest: '{{ mariadb_dir }}/scripts/backup-mysql.sh' }
     - { src: 'files/Dockerfile', dest: '{{ mariadb_dir }}/Dockerfile' }
     - { src: 'files/50-server.cnf', dest: '{{ mariadb_dir}}/config/50-server.cnf'}
+    - { src: 'files/mysqld-exporte.cnf', dest: '{{ mariadb_dir}}/config/mysqld-exporter.cnf'}
     - { src: 'files/wp-stack.yml', dest: '{{ wp_dir}}/wp-stack.yml'}
     - { src: 'files/wp.Dockerfile', dest: '{{ wp_dir}}/Dockerfile'}
     - { src: 'files/composer.phar', dest: '{{ wp_dir}}/composer'}
