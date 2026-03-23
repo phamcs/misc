@@ -24,7 +24,7 @@ services:
       - backend
   # Setup Wordpress
   wordpress:
-    image: wordpress:cli-php8.4
+    image: wordpress:latest
     container_name: wordpress
     restart: unless-stopped
     secrets:
@@ -39,18 +39,18 @@ services:
       WORDPRESS_DB_HOST: mariadb:3306
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_USER: apps_user
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_PASSWORD: ${mysql_app_password}
       # Security keys - generate at https://api.wordpress.org/secret-key/1.1/salt/
-      WORDPRESS_AUTH_KEY: ${WP_AUTH_KEY}
-      WORDPRESS_SECURE_AUTH_KEY: ${WP_SECURE_AUTH_KEY}
-      WORDPRESS_LOGGED_IN_KEY: ${WP_LOGGED_IN_KEY}
-      WORDPRESS_NONCE_KEY: ${WP_NONCE_KEY}
-      WORDPRESS_AUTH_SALT: ${WP_AUTH_SALT}
-      WORDPRESS_SECURE_AUTH_SALT: ${WP_SECURE_AUTH_SALT}
-      WORDPRESS_LOGGED_IN_SALT: ${WP_LOGGED_IN_SALT}
-      WORDPRESS_NONCE_SALT: ${WP_NONCE_SALT}
-      # Table prefix
-      WORDPRESS_TABLE_PREFIX: wp_
+      # WORDPRESS_AUTH_KEY: ${WP_AUTH_KEY}
+      # WORDPRESS_SECURE_AUTH_KEY: ${WP_SECURE_AUTH_KEY}
+      # WORDPRESS_LOGGED_IN_KEY: ${WP_LOGGED_IN_KEY}
+      # WORDPRESS_NONCE_KEY: ${WP_NONCE_KEY}
+      # WORDPRESS_AUTH_SALT: ${WP_AUTH_SALT}
+      # WORDPRESS_SECURE_AUTH_SALT: ${WP_SECURE_AUTH_SALT}
+      # WORDPRESS_LOGGED_IN_SALT: ${WP_LOGGED_IN_SALT}
+      # WORDPRESS_NONCE_SALT: ${WP_NONCE_SALT}
+      # # Table prefix
+      # WORDPRESS_TABLE_PREFIX: wp_
     depends_on:
       mariadb:
         condition: service_healthy
