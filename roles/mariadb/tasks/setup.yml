@@ -20,18 +20,6 @@
     - scripts
     - secrets
 
-# Create wordpress dirctories
-- name: Create wordpress directories
-  ansible.builtin.file:
-    path: "{{ wp_dir }}/{{ item }}"
-    state: directory
-    mode: '0755'
-    owner: "{{ app_user }}"
-  loop:
-    - backup
-    - config
-    - data
-
 # Copy config files
 - name: Copy config files
   ansible.builtin.copy:
@@ -44,11 +32,7 @@
     - { src: 'files/Dockerfile', dest: '{{ mariadb_dir }}/Dockerfile' }
     - { src: 'files/50-server.cnf', dest: '{{ mariadb_dir}}/config/50-server.cnf'}
     - { src: 'files/mysqld-exporter.cnf', dest: '{{ mariadb_dir}}/config/mysqld-exporter.cnf'}
-    - { src: 'files/wp-stack.yml', dest: '{{ wp_dir}}/wp-stack.yml'}
-    - { src: 'files/wp.Dockerfile', dest: '{{ wp_dir}}/Dockerfile'}
-    - { src: 'files/composer.phar', dest: '{{ wp_dir}}/composer'}
-    - { src: 'files/uploads.ini', dest: '{{ wp_dir}}/config/uploads.ini'}
-    #- { src: 'files/wp-env.txt', dest: '{{ wp_dir}}/.env'}
+    - { src: 'files/mariadb-stack.yml', dest: '{{ wp_dir}}/mariadb-stack.yml'}
 
 # Create secrets
 - name: Create secrets
@@ -66,14 +50,13 @@
     owner: root
   loop:
     - db-ui.conf
-    - wp-nginx.conf
   notify: Restart nginx
 
 # Start Wordpress stack
 - name: Start Wordpress stack
   ansible.builtin.command:
-    chdir: "{{ wp_dir }}"
-    cmd: "docker compose -f wp-stack.yml up -d"
+    chdir: "{{ mariadb_dir }}"
+    cmd: "docker compose -f mariadb-stack.yml up -d"
   register: compose_result
   until: compose_result.rc == 0
   retries: 5

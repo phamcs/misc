@@ -1,5 +1,5 @@
 [client]
 user = users_app
 password = J6w63kbn4TlghfiRv62YHg
-host = mariadb # Use the MySQL service name as the hostname
+host = mariadb
 port = 3306
