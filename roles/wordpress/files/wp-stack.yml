@@ -70,7 +70,7 @@ services:
       WORDPRESS_DB_HOST: mariadb:3306
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_USER: apps_user
-      WORDPRESS_DB_PASSWORD: ${MARIADB_PASSWORD}
+      WORDPRESS_DB_PASSWORD: ${MARIADB_PASSWORD_FILE}
       # Security keys - generate at https://api.wordpress.org/secret-key/1.1/salt/
       WORDPRESS_AUTH_KEY: ${WP_AUTH_KEY}
       WORDPRESS_SECURE_AUTH_KEY: ${WP_SECURE_AUTH_KEY}
