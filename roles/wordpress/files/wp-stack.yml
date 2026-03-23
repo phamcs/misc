@@ -22,37 +22,6 @@ services:
       - /srv/AppData/mariadb/data:/var/lib/mysql
     networks:
       - backend
-  # Setup MariaDB-ackup
-  backup:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: mariadb-backup
-    restart: always
-    tty: true
-    networks:
-      - backend
-    volumes:
-    - /srv/AppData/mariadb/backup:/backup/mysql
-    environment:
-    - MYSQL_HOST=mariadb
-    secrets:
-      - mysql_root_password
-  # Setup mysqld-exporter
-  mysqld-exporter:
-    image: prom/mysqld-exporter:latest
-    container_name: mysqld-exporter
-    restart: unless-stopped
-    ports:
-      - "9104:9104"
-    networks:
-      - backend
-    volumes:
-      - /srv/AppData/mariadb/config/custom.cnf:/etc/mysql/conf.d/my.cnf:ro
-    command:
-      - "--config.my-cnf=/etc/mysql/conf.d/my.cnf"
-    depends_on:
-      - mariadb
   # Setup Wordpress
   wordpress:
     image: wordpress:6-php8.3-fpm-alpine
@@ -87,6 +56,37 @@ services:
         condition: service_healthy
     networks:
       - backend
+  # Setup MariaDB-ackup
+  backup:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mariadb-backup
+    restart: always
+    tty: true
+    networks:
+      - backend
+    volumes:
+    - /srv/AppData/mariadb/backup:/backup/mysql
+    environment:
+    - MYSQL_HOST=mariadb
+    secrets:
+      - mysql_root_password
+  # Setup mysqld-exporter
+  mysqld-exporter:
+    image: prom/mysqld-exporter:latest
+    container_name: mysqld-exporter
+    restart: unless-stopped
+    ports:
+      - "9104:9104"
+    networks:
+      - backend
+    volumes:
+      - /srv/AppData/mariadb/config/custom.cnf:/etc/mysql/conf.d/my.cnf:ro
+    command:
+      - "--config.my-cnf=/etc/mysql/conf.d/my.cnf"
+    depends_on:
+      - mariadb
   # Setup phpmyadmin for Web-GUI
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
