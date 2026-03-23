@@ -84,9 +84,9 @@ services:
     networks:
       - backend
     volumes:
-      - /srv/AppData/mariadb/config/mysqld-exporter.cnf:/etc/mysql/conf.d/my.cnf:ro
+      - /srv/AppData/mariadb/config/mysqld-exporter.cnf:/etc/mysql/conf.d/mysqld-exporter.cnf:ro
     command:
-      - "--config.my-cnf=/etc/mysql/conf.d/my.cnf"
+      - "--config.my-cnf=/etc/mysql/conf.d/mysqld-exporter.cnf"
     depends_on:
       - mariadb
   # Setup phpmyadmin for Web-GUI
