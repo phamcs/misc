@@ -45,7 +45,7 @@
     - { src: 'files/50-server.cnf', dest: '{{ mariadb_dir}}/config/50-server.cnf'}
     - { src: 'files/wp-stack.yml', dest: '{{ wp_dir}}/wp-stack.yml'}
     - { src: 'files/uploads.ini', dest: '{{ wp_dir}}/config/uploads.ini'}
-    - { src: 'files/wp-env.txt', dest: '{{ wp_dir}}/.env'}
+    #- { src: 'files/wp-env.txt', dest: '{{ wp_dir}}/.env'}
 
 # Create secrets
 - name: Create secrets
