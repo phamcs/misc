@@ -24,7 +24,7 @@ services:
       - backend
   # Setup Wordpress
   wordpress:
-    image: wordpress:6-php8.4-fpm-alpine
+    image: bitnami/wordpress:latest
     container_name: wordpress
     restart: unless-stopped
     secrets:
