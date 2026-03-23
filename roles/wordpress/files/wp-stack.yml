@@ -30,6 +30,8 @@ services:
       context: .
       dockerfile: wp.Dockerfile
     restart: unless-stopped
+    secrets:
+      - mysql_root_password
     volumes:
       # WordPress installation files
       - /srv/AppData/wordpress/data:/var/www/html
@@ -40,8 +42,8 @@ services:
     environment:
       WORDPRESS_DB_HOST: mariadb:3306
       WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_DB_USER: apps_user
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_USER: root
+      #WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
       # Security keys - generate at https://api.wordpress.org/secret-key/1.1/salt/
       # WORDPRESS_AUTH_KEY: ${WP_AUTH_KEY}
       # WORDPRESS_SECURE_AUTH_KEY: ${WP_SECURE_AUTH_KEY}
