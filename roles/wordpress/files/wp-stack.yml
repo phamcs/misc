@@ -24,7 +24,7 @@ services:
       - backend
   # Setup Wordpress
   wordpress:
-    image: bitnami/wordpress:latest
+    image: wordpress:cli-php8.4
     container_name: wordpress
     restart: unless-stopped
     secrets:
