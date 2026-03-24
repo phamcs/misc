@@ -22,8 +22,8 @@ services:
       - /srv/AppData/registry/auth:/auth
       - /srv/AppData/registry/data:/data
     networks:
-      - rnet
-      
+      - backend
+
   registry-ui:
     image: joxit/docker-registry-ui:latest
     restart: always
@@ -48,12 +48,8 @@ services:
     volumes:
       - /srv/AppData/registry/ui:/opt/docker-registry-ui
     networks:
-      - rnet
+      - backend
 
 networks:
-  rnet:
+  backend:
     driver: bridge
-
-volumes:
-  data:
-    driver: local

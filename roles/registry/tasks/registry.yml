@@ -1,6 +1,6 @@
 ---
-# Create Apps Directory
-- name: Create apps directory
+# Create Registry Directory
+- name: Create Registry directory
   ansible.builtin.file:
     path: "{{ app_dir }}/{{ item }}"
     state: directory
@@ -9,23 +9,14 @@
     recurse: yes
   loop:
     - registry
-
-# Create registry structure
-- name: Create registry data
-  ansible.builtin.file:
-    path: "{{ registry_dir }}/{{ item }}"
-    state: directory
-    mode: '0755'
-    owner: root
-  loop:
-    - data
-    - auth
-    - repos
-    - ui
+    - registry/data
+    - registry/auth
+    - registry/repos
+    - registry/ui
 
 - name: Create registry domain
   ansible.builtin.file:
-    path: /etc/docker/certs.d/{{ domain }}
+    path: "/etc/docker/certs.d/registry.{{ domain }}"
     state: directory
     mode: '0755'
     owner: root
@@ -39,8 +30,8 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'files/registry-stack.yml', dest: '{{ registry_dir }}/registry-stack.yml' }
-    - { src: 'files/tls.cert', dest: '/etc/docker/certs.d/{{ domain }}/tls.cert' }
-    - { src: 'files/tls.key', dest: '/etc/docker/certs.d/{{ domain }}/tls.key' }
+    - { src: 'files/tls.cert', dest: '/etc/docker/certs.d/registry.{{ domain }}/tls.cert' }
+    - { src: 'files/tls.key', dest: '/etc/docker/certs.d/registry.{{ domain }}/tls.key' }
 
 # Copy repos to registry
 - name: Copy repos to registry
@@ -110,4 +101,3 @@
     mode: 0644
     owner: root
   notify: Restart docker
-    

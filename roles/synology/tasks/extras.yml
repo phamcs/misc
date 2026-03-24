@@ -19,6 +19,7 @@
   loop:
     - vault
     - docker-credential-vault-login
+    - kubectl
 
 # Create apps directory for synology
 - name: Create apps directory

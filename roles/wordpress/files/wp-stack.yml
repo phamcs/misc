@@ -1,27 +1,6 @@
 ---
 name: Wordpress
 services:
-  # Setup MariaDB
-  mariadb:
-    image: mariadb:latest
-    container_name: mariadb
-    restart: always
-    user: "1000"
-    secrets:
-      - mysql_root_password
-      - mysql_app_password
-    environment:
-      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
-      MARIADB_PASSWORD_FILE: /run/secrets/mysql_app_password
-      MARIADB_DATABASE: wordpress
-      MARIADB_USER: apps_user
-    ports:
-      - "3306:3306"
-    volumes:
-      - /srv/AppData/mariadb/config/50-server.cnf:/etc/mysql/mariadb.conf.d/50-server.cnf:ro
-      - /srv/AppData/mariadb/data:/var/lib/mysql
-    networks:
-      - backend
   # Setup Wordpress
   wordpress:
     image: wordpress:latest
@@ -58,57 +37,4 @@ services:
     ports:
       - 8080:80
     command: /bin/bash -c "set -ex; composer update --prefer-dist; exec docker-entrypoint.sh apache2-foreground"
-    networks:
-      - backend
-  # Setup MariaDB-ackup
-  backup:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: mariadb-backup
-    restart: always
-    tty: true
-    networks:
-      - backend
-    volumes:
-    - /srv/AppData/mariadb/backup:/backup/mysql
-    environment:
-    - MYSQL_HOST=mariadb
-    secrets:
-      - mysql_root_password
-  # Setup mysqld-exporter
-  mysqld-exporter:
-    image: prom/mysqld-exporter:latest
-    container_name: mysqld-exporter
-    restart: unless-stopped
-    ports:
-      - "9104:9104"
-    networks:
-      - backend
-    volumes:
-      - /srv/AppData/mariadb/config/mysqld-exporter.cnf:/etc/mysql/conf.d/mysqld-exporter.cnf:ro
-    command:
-      - "--config.my-cnf=/etc/mysql/conf.d/mysqld-exporter.cnf"
-    depends_on:
-      - mariadb
-  # Setup phpmyadmin for Web-GUI
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: mariadb
-    ports:
-      - "8090:80"
-    networks:
-      - backend
-    depends_on:
-      - mariadb
-# secret files on server
-secrets:
-  mysql_root_password:
-    file: /srv/AppData/mariadb/secrets/db.txt
-  mysql_app_password:
-    file: /srv/AppData/mariadb/secrets/app.txt
-networks:
-  backend:
-    driver: bridge
+    network_mode: bridge
