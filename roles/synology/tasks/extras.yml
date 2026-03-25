@@ -20,54 +20,125 @@
     - vault
     - docker-credential-vault-login
     - kubectl
+    - helm
 
-# Create apps directory for synology
-- name: Create apps directory
-  ansible.builtin.file:
-    path: "/volume1/apps/{{ item }}"
-    state: directory
-    owner: "{{ app_user }}"
-    group: "users"
-    mode: '0755'
-  loop:
-    - portainer
-    - quake3
-    - uptime-kuma
-    - ut99-server
-    - vault
-
-# Create vaultdirectory for synology
-- name: Create vault directory
-  ansible.builtin.file:
-    path: "/volume1/apps/vault/{{ item }}"
-    state: directory
-    owner: "{{ app_user }}"
-    group: "users"
-    mode: '0755'
-  loop:
-    - config
-    - data
-    - logs
-    - plugins
-    - ssl
-
-# Copy Compose files for synology
-- name: Copy compose files
+# Copy apps archive
+- name: Copy apps archive
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: '0644'
     owner: "{{ app_user }}"
-    group: "users"
+    mode: 0644
   loop:
-    - { src: 'portainer.yml', dest: '/volume1/apps/portainer/docker-compose.yml' }
-    - { src: 'quake3.yml', dest: '/volume1/apps/quake3/docker-compose.yml' }
-    - { src: 'q3server.cfg', dest: '/volume1/apps/quake3/q3server.cfg' }
-    - { src: 'maprotation.cfg', dest: '/volume1/apps/quake3/maprotation.cfg' }
-    - { src: 'vault.yml', dest: '/volume1/apps/vault/docker-compose.yml' }
-    - { src: 'vault.hcl', dest: '/volume1/apps/vault/config/vault.hcl' }
-    - { src: 'admin-policy.hcl', dest: '/volume1/apps/vault/config/admin-policy.hcl' }
-    - { src: 'autounseal.hcl', dest: '/volume1/apps/vault/config/autounseal.hcl' }
-    - { src: 'uptime-kuma.yml', dest: '/volume1/apps/uptime-kuma/docker-compose.yml' }
-    - { src: 'ut99-server.yml', dest: '/volume1/apps/ut99-server/docker-compose.yml' }
-    - { src: 'scripts.zip', dest: '/volume2/archive/scripts/scripts.zip' }
+    - { src: 'files/apps.zip', dest: '{{ apps_dir }}/apps.zip' }
+    - { src: 'files/scripts.zip', dest: '{{ archive_dir }}/scripts/scripts.zip' }
+    - { src: 'files/user.zip', dest: '{{ base_dir }}/user.zip' }
+
+# Setup apps
+- name: Setup apps
+  ansible.builtin.shell: |
+    unzip -q apps.zip
+  args:
+    chdir: "{{ apps_dir }}"
+  become: true
+  become_user: "{{ app_user }}"
+  register: extract_apps
+  until: extract_apps.rc == 0
+
+# Display extract output
+- name: Display extract to standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ extract_apps.stdout_lines }}"
+  when: extract_apps.stdout_lines is defined
+
+# Extract Scripts
+- name: Extract scripts
+  ansible.builtin.shell: |
+    unzip -q scripts.zip
+  args:
+    chdir: "{{ archive_dir }}/scripts"
+  become: true
+  become_user: "{{ app_user }}"
+  register: extract_scripts
+  until: extract_scripts.rc == 0
+
+# Display Extract Scrtips
+- name: Display extract to standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ extract_scripts.stdout_lines }}"
+  when: extract_scripts.stdout_lines is defined
+
+# Setup User
+- name: Setup User
+  ansible.builtin.shell: |
+    unzip -q user.zip
+    mv requirement.txt el_tracker/
+    source ~/.bashrc
+  args:
+    chdir: "{{ base_dir }}"
+  become: true
+  become_user: "{{ app_user }}"
+  register: extract_user
+  until: extract_user.rc == 0
+
+# Display Extract User
+- name: Display extract user to standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ extract_user.stdout_lines }}"
+  when: extract_user.stdout_lines is defined
+
+# # Create apps directory for synology
+# - name: Create apps directory
+#   ansible.builtin.file:
+#     path: "{{ apps_dir }}/{{ item }}"
+#     state: directory
+#     owner: "{{ app_user }}"
+#     group: "users"
+#     mode: '0755'
+#   loop:
+#     - portainer
+#     - pxe
+#     - quake3
+#     - uptime-kuma
+#     - ut99-server
+#     - vault
+
+# # Create vaultdirectory for synology
+# - name: Create vault directory
+#   ansible.builtin.file:
+#     path: "{{ apps_dir }}/vault/{{ item }}"
+#     state: directory
+#     owner: "{{ app_user }}"
+#     group: "users"
+#     mode: '0755'
+#   loop:
+#     - config
+#     - data
+#     - logs
+#     - plugins
+#     - ssl
+
+# # Copy Compose files for synology
+# - name: Copy compose files
+#   ansible.builtin.copy:
+#     src: "{{ item.src }}"
+#     dest: "{{ item.dest }}"
+#     mode: '0644'
+#     owner: "{{ app_user }}"
+#     group: "users"
+#   loop:
+#     - { src: 'portainer.yml', dest: '{{ apps_dir }}/portainer/docker-compose.yml' }
+#     - { src: 'quake3.yml', dest: '{{ archive_dir }}/games/quake3/docker-compose.yml' }
+#     - { src: 'q3server.cfg', dest: '{{ archive_dir }}/games/quake3/q3server.cfg' }
+#     - { src: 'maprotation.cfg', dest: '{{ archive_dir }}/games/quake3/maprotation.cfg' }
+#     - { src: 'vault.yml', dest: '{{ apps_dir }}/vault/docker-compose.yml' }
+#     - { src: 'vault.hcl', dest: '{{ apps_dir }}/vault/config/vault.hcl' }
+#     - { src: 'admin-policy.hcl', dest: '{{ apps_dir }}/vault/config/admin-policy.hcl' }
+#     - { src: 'autounseal-policy.hcl', dest: '{{ apps_dir }}/vault/config/autounseal-policy.hcl' }
+#     - { src: 'uptime-kuma.yml', dest: '{{ apps_dir }}/uptime-kuma/docker-compose.yml' }
+#     - { src: 'ut99-server.yml', dest: '{{ apps_dir }}/ut99-server/docker-compose.yml' }
+#     - { src: 'scripts.zip', dest: '{{ archive_dir }}/scripts/scripts.zip' }
+#     - { src: 'config-backup.zip', dest: '{{ archive_dir }}/config-backup/config-backup.zip' }

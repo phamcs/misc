@@ -2,6 +2,9 @@
 ---
 # defaults file for roles/synology
 app_user: "k0ng"
+apps_dir: "/volume1/apps"
+archive_dir: "/volume2/archive"
 base_dir: "/var/services/homes/{{ app_user }}"
+docker_dir: "/volume1/docker"
 repo_url: "https://www.superasian.net/repo"
 nfs_ip: "10.0.0.29"

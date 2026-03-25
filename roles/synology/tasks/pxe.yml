@@ -2,7 +2,7 @@
 # Create PXE structure
 - name: Create pxe structure
   ansible.builtin.file:
-    path: "/volume1/apps/{{ item }}"
+    path: "{{ apps_dir }}/{{ item }}"
     state: directory
     mode: '0755'
     owner: "{{ app_user }}"
@@ -22,17 +22,17 @@
     owner: "{{ app_user }}"
     group: "users"
   loop:
-    - { src: 'pxelinux.0', dest: '/volume1/apps/pxe/pxelinux.0' }
-    - { src: 'ldlinux.c32', dest: '/volume1/apps/pxe/ldlinux.c32' }
-    - { src: 'libutil.c32', dest: '/volume1/apps/pxe/libutil.c32' }
-    - { src: 'menu.c32', dest: '/volume1/apps/pxe/menu.c32' }
-    - { src: 'memdisk', dest: '/volume1/apps/pxe/memdisk' }
+    - { src: 'pxelinux.0', dest: '{{ apps_dir }}/pxe/pxelinux.0' }
+    - { src: 'ldlinux.c32', dest: '{{ apps_dir }}/pxe/ldlinux.c32' }
+    - { src: 'libutil.c32', dest: '{{ apps_dir }}/pxe/libutil.c32' }
+    - { src: 'menu.c32', dest: '{{ apps_dir }}/pxe/menu.c32' }
+    - { src: 'memdisk', dest: '{{ apps_dir }}/pxe/memdisk' }
 
 # Copy PXE default config
 - name: Copy PXE default config
   ansible.builtin.template:
     src: "default.j2"
-    dest: "/volume1/apps/pxe/pxelinux.cfg/default"
+    dest: "{{ apps_dir }}/pxe/pxelinux.cfg/default"
     mode: '0644'
     owner: "{{ app_user }}"
     group: "users"
@@ -41,7 +41,7 @@
 - name: Download images
   ansible.builtin.get_url:
     url: "{{ repo_url }}/{{ item }}"
-    dest: "/volume1/apps/pxe/images/{{ item }}"
+    dest: "{{ apps_dir }}/pxe/images/{{ item }}"
     mode: '0644'
     owner: "{{ app_user }}"
     group: "users"

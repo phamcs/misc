@@ -10,35 +10,33 @@
     group: "users"
     recurse: yes
 
-# Copy python install script
-- name: Copy python install script
-  ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: '0755'
-    owner: "{{ app_user }}"
-    group: "users"
-  loop:
-    - { src: 'pysetup', dest: '{{ base_dir }}/pysetup' }
-    - { src: 'enable_vault_secrets', dest: '{{ base_dir }}/enable_vault_secrets' }
-    - { src: 'change_default_ports', dest: '{{ base_dir }}/change_default_ports' }
-    - { src: 'restore_default_ports', dest: '{{ base_dir }}/restore_default_ports' }
+# # Copy python install script
+# - name: Copy python install script
+#   ansible.builtin.copy:
+#     src: "{{ item.src }}"
+#     dest: "{{ item.dest }}"
+#     mode: '0755'
+#     owner: "{{ app_user }}"
+#     group: "users"
+#   loop:
+#     - { src: 'pysetup', dest: '{{ base_dir }}/pysetup' }
+#     - { src: 'enable_vault_secrets', dest: '{{ base_dir }}/enable_vault_secrets' }
+#     - { src: 'change_default_ports', dest: '{{ base_dir }}/change_default_ports' }
+#     - { src: 'restore_default_ports', dest: '{{ base_dir }}/restore_default_ports' }
 
-# Copy requirements script
-- name: Copy requirements script
-  ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: '0644'
-    owner: "{{ app_user }}"
-    group: "users"
-  loop:
-    - { src: 'requirements.txt', dest: '{{ base_dir }}/el_tracker/requirements.txt' }
-    - { src: 'bashrc', dest: '{{ base_dir }}/.bashrc' }
-    - { src: 'bash_profile', dest: '{{ base_dir }}/.bash_profile' }
-    - { src: 'NoteStation.nsx', dest: '{{ base_dir }}/NoteStation.nsx' }
-    - { src: 'SYNO7AMDFX8350.dss', dest: '{{ base_dir }}/SYNO7AMDFX8350.dss' }
-    - { src: 'SYNO7Q8300.dss', dest: '{{ base_dir }}/SYNO7Q8300.dss' }
+# # Copy requirements script
+# - name: Copy requirements script
+#   ansible.builtin.copy:
+#     src: "{{ item.src }}"
+#     dest: "{{ item.dest }}"
+#     mode: '0644'
+#     owner: "{{ app_user }}"
+#     group: "users"
+#   loop:
+#     - { src: 'requirements.txt', dest: '{{ base_dir }}/el_tracker/requirements.txt' }
+#     - { src: 'bashrc', dest: '{{ base_dir }}/.bashrc' }
+#     - { src: 'bash_profile', dest: '{{ base_dir }}/.bash_profile' }
+#     - { src: 'My_BSIT_Degree.jpg', dest: '{{ base_dir}}/My_BSIT_Degree.jpg' }
 
 # Setup Python for user
 - name: Setup Python for user

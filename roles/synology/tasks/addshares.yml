@@ -7,7 +7,7 @@
     syno_shares:
       - name: archive
         description: Archive Data
-        path: /volume2/archive
+        path: "{{ archive_dir }}"
         recycle: false
         rights:
           RO:
@@ -32,7 +32,7 @@
     syno_shares:
       - name: apps
         description: Apps Data
-        path: /volume1/apps
+        path: "{{ apps_dir }}"
         recycle: false
         rights:
           RO:
@@ -57,7 +57,7 @@
     syno_shares:
       - name: docker
         description: Docker Data
-        path: /volume1/docker
+        path: "{{ docker_dir }}"
         recycle: false
         rights:
           RO:
