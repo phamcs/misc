@@ -22,6 +22,18 @@
 #     - kubectl
 #     - helm
 
+# Create apps directory for synology
+- name: Create apps directory
+  ansible.builtin.file:
+    path: "{{ archive_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "users"
+    mode: '0755'
+  loop:
+    - scripts
+    - games
+
 # Copy apps archive
 - name: Copy apps archive
   ansible.builtin.copy:
