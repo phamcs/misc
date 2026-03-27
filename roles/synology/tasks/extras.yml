@@ -86,7 +86,7 @@
 - name: Setup User
   ansible.builtin.shell: |
     unzip -q user.zip
-    mv requirement.txt el_tracker/
+    mv requirements.txt el_tracker/
     source ~/.bashrc
   args:
     chdir: "{{ base_dir }}"
