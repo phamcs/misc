@@ -11,6 +11,7 @@
         - DhcpServer
         - DNSServer
         - LogCenter
+        - PHP8.2
         - NoteStation
         - Perl
         - WebStation
