@@ -13,7 +13,7 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
       MARIADB_PASSWORD_FILE: /run/secrets/mysql_app_password
-      MARIADB_DATABASE: wordpress
+      MARIADB_DATABASE: metrics
       MARIADB_USER: apps_user
     ports:
       - "3306:3306"
