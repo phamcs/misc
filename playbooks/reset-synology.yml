@@ -10,6 +10,7 @@
       - DhcpServer
       - DNSServer
       - LogCenter
+      - PHP8.2
       - NoteStation
       - Perl
       - WebStation
@@ -39,11 +40,13 @@
     - name: Remove PXE folder and contents
       ansible.builtin.shell: rm -rf /var/services/homes/k0ng/{{ item }}
       loop:
-        - pxe
-        - el_tracker
+        - .bash_profile
         - .bashrc
-        - NoteStation.nsx
-        - SYNO7AMDFX8350.dss
-        - SYNO7Q8300.dss
+        - el_tracker
+        - enable_secrets
+        - gold_fish_prep
+        - change_default_ports
+        - My_BSIT_Degree.jpg
         - pysetup
+        - restore_default_ports
       ignore_errors: true

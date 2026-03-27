@@ -10,33 +10,34 @@
     group: "users"
     recurse: yes
 
-# # Copy python install script
-# - name: Copy python install script
-#   ansible.builtin.copy:
-#     src: "{{ item.src }}"
-#     dest: "{{ item.dest }}"
-#     mode: '0755'
-#     owner: "{{ app_user }}"
-#     group: "users"
-#   loop:
-#     - { src: 'pysetup', dest: '{{ base_dir }}/pysetup' }
-#     - { src: 'enable_vault_secrets', dest: '{{ base_dir }}/enable_vault_secrets' }
-#     - { src: 'change_default_ports', dest: '{{ base_dir }}/change_default_ports' }
-#     - { src: 'restore_default_ports', dest: '{{ base_dir }}/restore_default_ports' }
+# Copy python install script
+- name: Copy python install script
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0755'
+    owner: "{{ app_user }}"
+    group: "users"
+  loop:
+    - { src: 'pysetup', dest: '{{ base_dir }}/pysetup' }
+    - { src: 'enable_vault_secrets', dest: '{{ base_dir }}/enable_vault_secrets' }
+    - { src: 'goldfish_prep', dest: '{{ base_dir }}/goldfish_prep' }
+    - { src: 'change_default_ports', dest: '{{ base_dir }}/change_default_ports' }
+    - { src: 'restore_default_ports', dest: '{{ base_dir }}/restore_default_ports' }
 
-# # Copy requirements script
-# - name: Copy requirements script
-#   ansible.builtin.copy:
-#     src: "{{ item.src }}"
-#     dest: "{{ item.dest }}"
-#     mode: '0644'
-#     owner: "{{ app_user }}"
-#     group: "users"
-#   loop:
-#     - { src: 'requirements.txt', dest: '{{ base_dir }}/el_tracker/requirements.txt' }
-#     - { src: 'bashrc', dest: '{{ base_dir }}/.bashrc' }
-#     - { src: 'bash_profile', dest: '{{ base_dir }}/.bash_profile' }
-#     - { src: 'My_BSIT_Degree.jpg', dest: '{{ base_dir}}/My_BSIT_Degree.jpg' }
+# Copy requirements script
+- name: Copy requirements script
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0644'
+    owner: "{{ app_user }}"
+    group: "users"
+  loop:
+    - { src: 'bashrc', dest: '{{ base_dir }}/.bashrc' }
+    - { src: 'bash_profile', dest: '{{ base_dir }}/.bash_profile' }
+    - { src: 'My_BSIT_Degree.jpg', dest: '{{ base_dir}}/My_BSIT_Degree.jpg' }
+    - { src: 'requirements.txt', dest: '{{ base_dir }}/el_tracker/requirements.txt' }
 
 # Setup Python for user
 - name: Setup Python for user
@@ -56,13 +57,11 @@
 
 - name: Setup pyvenv for user
   ansible.builtin.shell: |
-    cd el_tracker && \
-    /usr/local/bin/python3.9 -m venv elvenv && \
-    source elvenv/bin/activate && \
-    pip install --upgrade pip setuptools && \
+    cd {{ base_dir }}/el_tracker
+    /usr/local/bin/python3.9 -m venv elvenv
+    source elvenv/bin/activate
+    pip install --upgrade pip setuptools
     pip install -r requirements.txt
-  args:
-    chdir: "{{ base_dir }}"
   become: true
   become_user: "{{ app_user }}"
   register: pyvenv_install

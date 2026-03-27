@@ -22,17 +22,17 @@
 #     - kubectl
 #     - helm
 
-# Create apps directory for synology
-- name: Create apps directory
-  ansible.builtin.file:
-    path: "{{ archive_dir }}/{{ item }}"
-    state: directory
-    owner: "{{ app_user }}"
-    group: "users"
-    mode: '0755'
-  loop:
-    - scripts
-    - games
+# # Create apps directory for synology
+# - name: Create apps directory
+#   ansible.builtin.file:
+#     path: "{{ archive_dir }}/{{ item }}"
+#     state: directory
+#     owner: "{{ app_user }}"
+#     group: "users"
+#     mode: '0755'
+#   loop:
+#     - scripts
+#     - games
 
 # Copy apps archive
 - name: Copy apps archive
@@ -43,8 +43,7 @@
     mode: 0644
   loop:
     - { src: 'files/apps.zip', dest: '{{ apps_dir }}/apps.zip' }
-    - { src: 'files/scripts.zip', dest: '{{ archive_dir }}/scripts/scripts.zip' }
-    - { src: 'files/user.zip', dest: '{{ base_dir }}/user.zip' }
+    - { src: 'files/scripts.zip', dest: '{{ archive_dir }}/scripts.zip' }
 
 # Setup apps
 - name: Setup apps
@@ -69,7 +68,7 @@
   ansible.builtin.shell: |
     unzip -q scripts.zip
   args:
-    chdir: "{{ archive_dir }}/scripts"
+    chdir: "{{ archive_dir }}"
   become: true
   become_user: "{{ app_user }}"
   register: extract_scripts
@@ -81,26 +80,6 @@
     msg: "{{ item }}"
   loop: "{{ extract_scripts.stdout_lines }}"
   when: extract_scripts.stdout_lines is defined
-
-# Setup User
-- name: Setup User
-  ansible.builtin.shell: |
-    unzip -q user.zip
-    mv requirements.txt el_tracker/
-    source ~/.bashrc
-  args:
-    chdir: "{{ base_dir }}"
-  become: true
-  become_user: "{{ app_user }}"
-  register: extract_user
-  until: extract_user.rc == 0
-
-# Display Extract User
-- name: Display extract user to standard output lines
-  ansible.builtin.debug:
-    msg: "{{ item }}"
-  loop: "{{ extract_user.stdout_lines }}"
-  when: extract_user.stdout_lines is defined
 
 # # Create apps directory for synology
 # - name: Create apps directory
