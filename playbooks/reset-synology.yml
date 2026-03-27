@@ -9,8 +9,8 @@
     syno_packages:
       - DhcpServer
       - DNSServer
+      - ContainerManager
       - LogCenter
-      - PHP8.2
       - NoteStation
       - Perl
       - WebStation
