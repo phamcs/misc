@@ -8,5 +8,5 @@
   ansible.builtin.package_facts:
     manager: auto
 
-- name: Setup FreeIPA Server on RHEL 8 or Rocky 8
+- name: Setup FreeIPA Server on RHEL 9 or Rocky 9
   ansible.builtin.include_tasks: setup.yml
