@@ -46,10 +46,9 @@
 
 # Setup apps
 - name: Setup apps
-  ansible.builtin.shell: |
-    unzip -q apps.zip
-  args:
-    chdir: "{{ apps_dir }}"
+  ansible.builtin.unarchive:
+    src: "files/apps.zip"
+    dest: "{{ apps_dir }}"
   become: true
   become_user: "{{ app_user }}"
   register: extract_apps
@@ -64,10 +63,9 @@
 
 # Extract Scripts
 - name: Extract scripts
-  ansible.builtin.shell: |
-    unzip -q scripts.zip
-  args:
-    chdir: "{{ archive_dir }}"
+  ansible.builtin.unarchive:
+    src: "files/scripts.zip"
+    dest: "{{ archive_dir }}"
   become: true
   become_user: "{{ app_user }}"
   register: extract_scripts
