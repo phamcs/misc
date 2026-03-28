@@ -79,25 +79,25 @@
   loop: "{{ ipa_init_result.stdout_lines }}"
   when: ipa_init_result.stdout_lines is defined
 
-# # Create group and sudo rules
-# - name: Create group and sudo rules
-#   ansible.builtin.shell: |
-#     # Create Group
-#     ipa group-add sysadmins --desc="System administrators"
-#     # Create a sudo rule allowing sysadmins to run all commands
-#     ipa sudorule-add allow-sysadmin-all
-#     ipa sudorule-add-option allow-sysadmin-all --sudooption='!authenticate'
-#     ipa sudorule-add-user allow-sysadmin-all --groups=sysadmins
-#     ipa sudorule-add-runasuser allow-sysadmin-all --users=root
-#     ipa sudorule-add-command allow-sysadmin-all --sudocmds=ALL
-#   register: ipa_sudo_group
-#   until: ipa_sudo_group.rc == 0
-#   retries: 3
-#   delay: 10
+# Create group and sudo rules
+- name: Create group and sudo rules
+  ansible.builtin.shell: |
+    # Create Group
+    ipa group-add sysadmins --desc="System administrators"
+    # Create a sudo rule allowing sysadmins to run all commands
+    ipa sudorule-add allow-sysadmin-all
+    ipa sudorule-add-option allow-sysadmin-all --sudooption='!authenticate'
+    ipa sudorule-add-user allow-sysadmin-all --groups=sysadmins
+    ipa sudorule-add-runasuser allow-sysadmin-all --users=root
+    ipa sudorule-add-allow-command allow-sysadmin-all --sudocmds=ALL
+  register: ipa_sudo_group
+  until: ipa_sudo_group.rc == 0
+  retries: 3
+  delay: 10
 
-# # Display the result of group and sudo creation
-# - name: Display FreeIPA initialization result
-#   ansible.builtin.debug:
-#     msg: "{{ item }}"
-#   loop: "{{ ipa_sudo_group.stdout_lines }}"
-#   when: ipa_sudo_group.stdout_lines is defined
+# Display the result of group and sudo creation
+- name: Display FreeIPA initialization result
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ ipa_sudo_group.stdout_lines }}"
+  when: ipa_sudo_group.stdout_lines is defined
