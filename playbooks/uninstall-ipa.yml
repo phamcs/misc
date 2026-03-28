@@ -9,6 +9,8 @@
   tasks:
     - name: Uninstall FreeIPA Server
       ansible.builtin.shell: |
+        ipa sudorule-del allow-sysadmin-all
+        ipa group-del sysadmins
         ipa-server-install --uninstall -U
       register: ipa_uninstall_result
 
@@ -17,18 +19,3 @@
         msg: "{{ item }}"
       loop: "{{ ipa_uninstall_result.stdout_lines }}"
       when: ipa_uninstall_result.stdout_lines is defined
-
-    - name: Remove group and sudo rules
-      ansible.builtin.shell: |
-        # Create Group
-        ipa group-del sysadmins --desc="System administrators"
-        # Create a sudo rule allowing sysadmins to run all commands
-        ipa sudorule-del allow-sysadmin-all
-        ipa sudorule-remove-option allow-sysadmin-all --sudooption='!authenticate'
-        ipa sudorule-remove-user allow-sysadmin-all --groups=sysadmins
-        ipa sudorule-remove-runasuser allow-sysadmin-all --users=root
-        ipa sudorule-remove-allow-command allow-sysadmin-all --sudocmds=ALL
-      register: ipa_sudo_group
-      until: ipa_sudo_group.rc == 0
-      retries: 3
-      delay: 10
