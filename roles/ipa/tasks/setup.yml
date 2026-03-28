@@ -86,10 +86,10 @@
     ipa group-add sysadmins --desc="System administrators"
     # Create a sudo rule allowing sysadmins to run all commands
     ipa sudorule-add allow-sysadmin-all
-    ipa sudorule-add-option allow-sysadmin-all --sudooption='!authenticate'
     ipa sudorule-add-user allow-sysadmin-all --groups=sysadmins
-    #ipa sudorule-add-runasuser allow-sysadmin-all --users=root
+    ipa sudorule-add-runasuser allow-sysadmin-all --users=root
     ipa sudorule-add-allow-command allow-sysadmin-all --sudocmds=ALL
+    ipa sudorule-add-option allow-sysadmin-all --sudooption='!authenticate'
   register: ipa_sudo_group
   until: ipa_sudo_group.rc == 0
   retries: 3
