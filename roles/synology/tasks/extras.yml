@@ -53,6 +53,7 @@
     dest: "{{ apps_dir }}"
   become: true
   become_user: "{{ app_user }}"
+  keep_newer: true
   register: extract_apps
 
 # Display extract output
@@ -69,6 +70,7 @@
     dest: "{{ archive_dir }}"
   become: true
   become_user: "{{ app_user }}"
+  keep_newer: true
   register: extract_scripts
 
 # Display Extract Scrtips
