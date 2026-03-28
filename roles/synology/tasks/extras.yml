@@ -52,7 +52,6 @@
   become: true
   become_user: "{{ app_user }}"
   register: extract_apps
-  until: extract_apps.rc == 0
 
 # Display extract output
 - name: Display extract to standard output lines
@@ -69,7 +68,6 @@
   become: true
   become_user: "{{ app_user }}"
   register: extract_scripts
-  until: extract_scripts.rc == 0
 
 # Display Extract Scrtips
 - name: Display extract to standard output lines
