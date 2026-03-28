@@ -43,8 +43,8 @@
         - .bash_profile
         - .bashrc
         - el_tracker
-        - enable_secrets
-        - gold_fish_prep
+        - enable_vault_secrets
+        - goldfish_prep
         - change_default_ports
         - My_BSIT_Degree.jpg
         - pysetup
