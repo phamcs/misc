@@ -10,29 +10,28 @@
     #extra_opts: ['--strip-components=1'] # (Optional) Pass extra options to the unarchive command (e.g., to strip directories)
 
 # Download binaries for synology
-# - name: Download binaries
-#   ansible.builtin.get_url:
-#     url: "{{ repo_url }}/{{ item }}"
-#     dest: "/usr/local/bin/{{ item }}"
-#     mode: '0755'
-#     owner: root
-#   loop:
-#     - vault
-#     - docker-credential-vault-login
-#     - kubectl
-#     - helm
+- name: Download binaries
+  ansible.builtin.get_url:
+    url: "{{ repo_url }}/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: '0755'
+    owner: root
+  loop:
+    - vault
+    - docker-credential-vault-login
+    - kubectl
+    - helm
 
-# # Create apps directory for synology
-# - name: Create apps directory
-#   ansible.builtin.file:
-#     path: "{{ archive_dir }}/{{ item }}"
-#     state: directory
-#     owner: "{{ app_user }}"
-#     group: "users"
-#     mode: '0755'
-#   loop:
-#     - scripts
-#     - games
+# Create apps directory for synology
+- name: Create apps directory
+  ansible.builtin.file:
+    path: "{{ archive_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "users"
+    mode: '0755'
+  loop:
+    - scripts
 
 # Copy apps archive
 - name: Copy apps archive
