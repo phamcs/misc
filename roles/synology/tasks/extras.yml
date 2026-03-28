@@ -1,4 +1,16 @@
 ---
+# Create archive directory for synology
+- name: Create apps directory
+  ansible.builtin.file:
+    path: "{{ archive_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "users"
+    mode: '0755'
+  loop:
+    - config
+    - config/backup
+
 # Install Golang for synology
 - name: Copy and extract tar file
   ansible.builtin.unarchive:
@@ -22,19 +34,6 @@
     - kubectl
     - helm
 
-# Create apps directory for synology
-- name: Create apps directory
-  ansible.builtin.file:
-    path: "{{ archive_dir }}/{{ item }}"
-    state: directory
-    owner: "{{ app_user }}"
-    group: "users"
-    mode: '0755'
-  loop:
-    - config
-    - config/backup
-    - scripts
-
 # Copy apps archive
 - name: Copy apps archive
   ansible.builtin.copy:
@@ -45,56 +44,6 @@
   loop:
     - { src: 'files/apps.zip', dest: '{{ apps_dir }}/apps.zip' }
     - { src: 'files/scripts.zip', dest: '{{ archive_dir }}/scripts.zip' }
-
-# Setup apps
-- name: Setup apps
-  ansible.builtin.unarchive:
-    src: "files/apps.zip"
-    dest: "{{ apps_dir }}"
-  become: true
-  become_user: "{{ app_user }}"
-  keep_newer: true
-  register: extract_apps
-
-# Display extract output
-- name: Display extract to standard output lines
-  ansible.builtin.debug:
-    msg: "{{ item }}"
-  loop: "{{ extract_apps.stdout_lines }}"
-  when: extract_apps.stdout_lines is defined
-
-# Extract Scripts
-- name: Extract scripts
-  ansible.builtin.unarchive:
-    src: "files/scripts.zip"
-    dest: "{{ archive_dir }}"
-  become: true
-  become_user: "{{ app_user }}"
-  keep_newer: true
-  register: extract_scripts
-
-# Display Extract Scrtips
-- name: Display extract to standard output lines
-  ansible.builtin.debug:
-    msg: "{{ item }}"
-  loop: "{{ extract_scripts.stdout_lines }}"
-  when: extract_scripts.stdout_lines is defined
-
-# # Create apps directory for synology
-# - name: Create apps directory
-#   ansible.builtin.file:
-#     path: "{{ apps_dir }}/{{ item }}"
-#     state: directory
-#     owner: "{{ app_user }}"
-#     group: "users"
-#     mode: '0755'
-#   loop:
-#     - portainer
-#     - pxe
-#     - quake3
-#     - uptime-kuma
-#     - ut99-server
-#     - vault
 
 # # Create vaultdirectory for synology
 # - name: Create vault directory

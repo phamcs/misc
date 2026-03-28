@@ -8,6 +8,7 @@
     syno_packages:
         # Dependencies must install before application, otherwise installation will fail due to missing dependencies.
         # For example, Node.js_18 must be installed before SynologyPhotos, otherwise SynologyPhotos installation will fail due to missing Node.js_v18 dependency.
+        # ContainerManager only works for  DSM 7.2.x and up (Before DSM7.2.x it's called Docker)
         - ContainerManager
         - DhcpServer
         - DNSServer
