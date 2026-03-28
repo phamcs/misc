@@ -11,6 +11,7 @@
       ansible.builtin.shell: |
         ipa sudorule-del allow-sysadmin-all
         ipa group-del sysadmins
+        ipa hbacrule-del allow-sysadmin-ipaservers
         ipa-server-install --uninstall -U
       register: ipa_uninstall_result
 

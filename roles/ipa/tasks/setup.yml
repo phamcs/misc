@@ -102,3 +102,25 @@
     msg: "{{ item }}"
   loop: "{{ ipa_sudo_group.stdout_lines }}"
   when: ipa_sudo_group.stdout_lines is defined
+
+# Create policy for HBAC
+- name: Create policy for HBAC
+  ansible.builtin.shell: |
+    # Disable default allow-all
+    ipa hbacrule-disable allow_all
+    # Create an HBAC rule for sysadmins on web servers
+    ipa hbacrule-add allow-sysadmin-ipaservers
+    ipa hbacrule-add-user allow-sysadmin-ipaservers --groups=sysadmins
+    ipa hbacrule-add-host allow-sysadmin-ipaservers --hostgroups=ipaservers
+    ipa hbacrule-add-service allow-sysadmin-ipaservers --hbacsvcs=sshd
+  register: ipa_hbac
+  until: ipa_hbac.rc == 0
+  retries: 3
+  delay: 10
+
+# Display the result of HBAC
+- name: Display HBAC setup result
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ ipa_hbac.stdout_lines }}"
+  when: ipa_hbac.stdout_lines is defined
