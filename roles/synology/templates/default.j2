@@ -10,5 +10,5 @@ LABEL local
 
 LABEL Rocky Linux 8
   MENU LABEL Rocky Linux 8 (Automated Kickstart)
-  KERNEL images/vmlinuz
-  append netboot=nfs root=/dev/nfs nfsroot={{ nfs_ip }}:/NFS/rl8/ initrd=images/initrd.img inst.ks=nfs:{{ nfs_ip }}:/NFS/ks/rl8-ks.cfg inst.repo=nfs:{{ nfs_ip }}:/NFS/rl8/ inst.ks.device=net0 ip=dhcp
+  KERNEL images/vmlinuz inst.ks=nfs:{{ nfs_ip }}:/NFS/ks/rl8-ks.cfg
+  append netboot=nfs root=/dev/nfs nfsroot={{ nfs_ip }}:/NFS/rl8/ initrd=images/initrd.img inst.ks=nfs:{{ nfs_ip }}:/NFS/ks/rl8-ks.cfg inst.stage2=nfs:{{ nfs_ip }}:/NFS/rl8 inst.repo=nfs:{{ nfs_ip }}:/NFS/rl8/ inst.ks.device=net0 ip=dhcp

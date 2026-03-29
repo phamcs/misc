@@ -1,0 +1,12 @@
+#!/bin/bash
+vault auth enable ldap
+vault write auth/ldap/config \
+    url="ldap://10.0.0.36:389" \
+    binddn="uid=root,cn=users,dc=ldap,dc=superasian,dc=net" \
+    bindpass="Letmein123" \
+    userdn="cn=users,dc=ldap,dc=superasian,dc=net" \
+    userattr="uid" \
+    groupdn="cn=users,dc=ldap,dc=superasian,dc=net" \
+    groupattr="memberOf" \
+    insecure_tls=true
+vault write auth/ldap/groups/administrators polices=admin

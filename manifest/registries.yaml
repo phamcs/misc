@@ -1,11 +1,11 @@
 mirrors:
   "*":
     endpoint:
-      - "https://registry.superasian.net:443"
+      - "https://harbor.superasian.net/v2"
 
 configs:
   "docker.io":
-  "registry.superasian.net:443":
+  "harbor.superasian.net/v2":
     tls:
       #cert_file:            # path to the cert file used to authenticate to the registry
       #key_file:             # path to the key file for the certificate used to authenticate to the registry
