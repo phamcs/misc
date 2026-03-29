@@ -185,7 +185,7 @@ external_database:
     port: 5432
     db_name: harbor
     username: harbor
-    password: P@ssw0rd
+    password: ErTJOIWif4BXJ16WuD9UA
     ssl_mode: disable
 #     max_idle_conns: 2
 #     max_open_conns: 0
