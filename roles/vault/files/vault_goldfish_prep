@@ -28,7 +28,7 @@ path "pki/issue/goldfish" {
 }
 EOF
 
-vault write auth/approle/role/goldfish role_name=goldfish policies=admin,goldfish secret_id_num_uses=1 secret_id_ttl=5m period=24h token_ttl=0 token_max_ttl=0
+vault write auth/approle/role/goldfish role_name=goldfish policies=default,goldfish secret_id_num_uses=1 secret_id_ttl=5m period=24h token_ttl=0 token_max_ttl=0
 
 vault write auth/approle/role/goldfish/role-id role_id=goldfish
 
