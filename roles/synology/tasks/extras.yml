@@ -43,6 +43,7 @@
     mode: 0644
   loop:
     - { src: 'files/apps.zip', dest: '{{ apps_dir }}/apps.zip' }
+    - { src: 'files/config.zip', dest: '{{ archive_dir }}/config.zip' }
     - { src: 'files/scripts.zip', dest: '{{ archive_dir }}/scripts.zip' }
 
 # # Create vaultdirectory for synology
