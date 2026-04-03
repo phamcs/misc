@@ -52,8 +52,8 @@
     - db-ui.conf
   notify: Restart nginx
 
-# Start Wordpress stack
-- name: Start Wordpress stack
+# Start MariaDB stack
+- name: Start MariaDB stack
   ansible.builtin.command:
     chdir: "{{ mariadb_dir }}"
     cmd: "docker compose -f mariadb-stack.yml up -d"

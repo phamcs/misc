@@ -56,11 +56,14 @@ services:
   # Setup phpmyadmin for Web-GUI
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
     restart: always
     environment:
       PMA_HOST: mariadb
     ports:
       - "8090:80"
+    command: >
+      /bin/sh -c "echo 'ServerName 127.0.0.1' >> /etc/apache2/apache2.conf && /docker-entrypoint.sh apache2-foreground"
     networks:
       - backend
     depends_on:

@@ -35,7 +35,6 @@
   loop:
     - autounseal.hcl
     - admin-policy.hcl
-    - goldfish-policy.hcl
     - goldfish.hcl
     - vault.hcl
 

@@ -1,0 +1,134 @@
+#!/bin/bash
+ENV="production"
+# Set the service account create on helm chart to false, and create the service account on correct namespace required for vault auth to work.
+# Otherwise vault auth will fail with error "unable to fetch token_reviewer_jwt"
+cat <<EOF | kubectl create -f -
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: eso-sa
+  namespace: external-secrets-system
+---
+apiVersion: v1
+kind: Secret
+metadata:
+ name: eso-sa
+ namespace: external-secrets-system
+ annotations:
+   kubernetes.io/service-account.name: eso-sa
+type: kubernetes.io/service-account-token
+EOF
+
+# Create vault-auth for k8s auth method
+cat <<EOF | kubectl create -f -
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-auth
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vault-auth
+  annotations:
+    kubernetes.io/service-account.name: vault-auth
+type: kubernetes.io/service-account-token
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: role-tokenreview-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+  - kind: ServiceAccount
+    name: vault-auth
+    namespace: default
+EOF
+
+helm repo add external-secrets https://charts.external-secrets.io
+helm repo update
+
+helm install external-secrets \
+  external-secrets/external-secrets \
+  --namespace external-secrets-system \
+  --create-namespace \
+  --set installCRDs=true \
+  --set serviceAccount.create=false
+
+# Setup Kubernetes Auth for vault
+vault auth enable kubernetes
+
+# Configure Kubernetes auth
+vault write auth/kubernetes/config \
+  token_reviewer_jwt="$(kubectl get secret vault-auth -o go-template='{{ .data.token }}' | base64 --decode)" \
+  kubernetes_host="$(kubectl config view --raw --minify --flatten --output='jsonpath={.clusters[0].cluster.server}')" \
+  kubernetes_ca_cert="$(kubectl config view --raw --minify --flatten --output='jsonpath={.clusters[0].cluster.certificate-authority-data}' | base64 --decode)" \
+  disable_local_ca_jwt=true
+
+vault read auth/kubernetes/config
+
+# Create policy
+vault policy write external-secrets - <<EOF
+path "secret/data/$ENV/*" {
+  capabilities = ["create", "read", "update", "list", "delete"]
+}
+path "secret/metadata/$ENV/*" {
+  capabilities = ["create", "read", "update", "list", "delete"]
+}
+EOF
+
+# Enable KV v2 secrets engine
+vault secrets enable -path=secret kv-v2
+
+# Store some secrets
+vault kv put secret/$ENV/database \
+  username=vault-admin \
+  password=QMF6kXVvPiQY0Nb8yW2YXg== \
+  host=10.0.0.252 \
+  port=5432
+
+vault kv put secret/$ENV/tls \
+  cert=@tls.crt \
+  key=@tls.key
+
+vault write auth/kubernetes/role/external-secrets \
+  bound_service_account_names=eso-sa \
+  bound_service_account_namespaces=external-secrets-system \
+  policies=external-secrets \
+  ttl=1h
+
+# Testing vault auth with eso-sa token
+TOKEN_REVIEW_SJWT=$(kubectl get secret eso-sa -n external-secrets-system -o go-template='{{ .data.token }}' | base64 --decode)
+curl \
+  --request POST \
+  --data '{"jwt": "'$TOKEN_REVIEW_SJWT'", "role": "external-secrets"}' \
+  https://vault.superasian.net/v1/auth/kubernetes/login
+
+# Create Cluster-Store-Secret for vault backend
+cat <<EOF | kubectl apply -f -
+---
+apiVersion: external-secrets.io/v1
+kind: ClusterSecretStore
+metadata:
+  name: vault-backend
+spec:
+  provider:
+    vault:
+      server: "https://vault.superasian.net"
+      path: "secret"
+      version: "v2"
+      auth:
+        kubernetes:
+          mountPath: "kubernetes"
+          role: "external-secrets"
+          serviceAccountRef:
+            name: eso-sa
+            namespace: external-secrets-system
+EOF
+
+exit 0;

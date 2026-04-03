@@ -1,5 +1,5 @@
 [client]
-user = users_app
-password = "update-me-with-correct-one"
+user = apps_user
+password = "update-me-please"
 host = mariadb
 port = 3306

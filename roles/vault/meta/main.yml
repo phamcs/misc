@@ -1,7 +1,7 @@
 #SPDX-License-Identifier: MIT-0
 galaxy_info:
   author: Doan Pham
-  description: HashiCorp Vault is a tool for securely accessing secrets. A secret is anything that you want to tightly control access to, such as API keys, passwords, certificates, and more. Vault provides a unified interface to any secret, while providing tight access control and recording a detailed audit log.
+  description: Setup HashiCorp Vault for securely accessing secrets.
   company: Pham Computer Science
 
   # If the issue tracker for your role is not on github, uncomment the
