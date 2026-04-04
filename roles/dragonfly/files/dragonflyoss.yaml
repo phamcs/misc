@@ -15,7 +15,7 @@ services:
     ports:
       - 6379:6379
     networks:
-      - dnet
+      - backend
 
   mysql:
     image: mariadb:10.6
@@ -34,7 +34,7 @@ services:
     ports:
       - 3306:3306
     networks:
-      - dnet
+      - backend
 
   manager:
     image: dragonflyoss/manager:latest
@@ -57,7 +57,7 @@ services:
       - 65003:65003
       - 8080:8080
     networks:
-      - dnet
+      - backend
 
   client:
     image: dragonflyoss/client:latest
@@ -80,7 +80,7 @@ services:
       - 4001:4001
       - 4002:4002
     networks:
-      - dnet
+      - backend
 
   scheduler:
     image: dragonflyoss/scheduler:latest
@@ -99,7 +99,7 @@ services:
     ports:
       - 8002:8002
     networks:
-      - dnet
+      - backend
 
   seed-client:
     image: dragonflyoss/client:latest
@@ -121,8 +121,8 @@ services:
       - 4011:4011
       - 4012:4012
     networks:
-      - dnet
+      - backend
 
 networks:
-  dnet:
+  backend:
     driver: bridge

@@ -19,4 +19,4 @@
   when: nginx_container.stdout != "running"
 
 - name: Setup Dragonfly
-  ansible.builtin.include_tasks: dragonfly.yml
+  ansible.builtin.include_tasks: setup.yml
