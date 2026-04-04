@@ -5,7 +5,7 @@ services:
   # Setup Nginx LB
   nginx:
     image: nginx:alpine
-    container_name: nginx
+    container_name: nginx-lb
     restart: unless-stopped
     tty: true
     ports:
