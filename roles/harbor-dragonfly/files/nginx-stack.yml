@@ -1,0 +1,31 @@
+---
+# Setup Nginx Stack
+name: nginx-stack
+services:
+  # Setup Nginx LB
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-lb
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /srv/AppData/nginx/conf.d/:/etc/nginx/conf.d/
+      - /srv/AppData/nginx/ssl/:/etc/nginx/ssl/
+    network_mode: bridge
+  # Setup Nginx Exporter
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:1.5.1
+    container_name: nginx-exporter
+    restart: unless-stopped
+    ports:
+      - 9113:9113
+    command: >
+      --nginx.scrape-uri=https://airsonic.superasian.net/nginx_status
+      --nginx.scrape-uri=https://dragonfly.superasian.net/nginx_status
+      --nginx.scrape-uri=https://harbor.superasian.net/nginx_status
+      --nginx.scrape-uri=https://monitoring.superasian.net/nginx_status
+      --nginx.scrape-uri=https://registry.superasian.net/nginx_status
+    network_mode: bridge

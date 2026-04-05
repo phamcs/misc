@@ -1,0 +1,11 @@
+{
+  "data-root": "/var/lib/docker",
+  "insecure-registries": ["https://{{ harbor_domain }}"],
+  "registry-mirrors": ["https://{{ dragonfly_domain }}"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3",
+    "labels-regex": "^.+"
+  }
+}

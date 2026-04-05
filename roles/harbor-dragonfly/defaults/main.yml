@@ -1,0 +1,14 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for roles/harbor-dragonfly
+app_dir: "/srv/AppData"
+app_user: "k0ng"
+df_compose_dir: "{{ app_dir }}/dragonfly/deploy/docker-compose"
+dragonfly_dir: "{{ app_dir }}/dragonfly"
+dragonfly_domain: "dragonfly.superasian.net"
+github_url: "https://github.com/goharbor/harbor/releases/download"
+harbor_domain: "harbor.superasian.net"
+harbor_version: "v2.14.0"
+harbor_dir: "{{ app_dir }}/harbor"
+nginx_dir: "{{ app_dir }}/nginx"
+srv_ip: "10.0.0.244"

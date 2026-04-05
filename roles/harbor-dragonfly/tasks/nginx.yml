@@ -1,0 +1,63 @@
+---
+# Create Nginx Directory
+- name: Create nginx directory
+  ansible.builtin.file:
+    path: "{{ nginx_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - conf.d
+    - ssl
+
+# Copy certs & config
+- name: Copy certs & config
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/tls.cert', dest: '{{ nginx_dir }}/ssl/tls.crt' }
+    - { src: 'files/tls.key', dest: '{{ nginx_dir }}/ssl/tls.key' }
+    - { src: 'files/nginx-stack.yml', dest: '{{ nginx_dir }}/nginx-stack.yml' }
+
+# Start Nginx Loadbalancer
+- name: Start nginx load balancer
+  ansible.builtin.command:
+    chdir: "{{ nginx_dir }}"
+    cmd: "docker compose -f nginx-stack.yml up -d"
+  register: compose_result
+  until: compose_result.rc == 0
+  retries: 5
+  delay: 10
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result.stdout_lines is defined
+
+# Copy docker daemon config
+- name: Copy docker daemon config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - dradgonfly.conf
+    - harbor.conf
+  notify: Restart nginx
+
+# Copy docker daemon config
+- name: Copy docker daemon config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "/etc/docker/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - daemon.json
+  notify: Restart docker

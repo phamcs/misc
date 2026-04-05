@@ -1,0 +1,110 @@
+---
+- name: Populate service facts
+  ansible.builtin.service_facts: {}
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+# Create harbor domain
+- name: Create harbor domain
+  ansible.builtin.file:
+    path: "/etc/docker/certs.d/{{ domain }}"
+    state: directory
+    mode: '0755'
+    owner: root
+
+# Copy certs to harbor domain
+- name: Copy certs
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: root
+  loop:
+    - { src: 'files/ca.crt', dest: '/etc/docker/certs.d/{{ domain }}/ca.crt' }
+    - { src: 'files/tls.cert', dest: '/etc/docker/certs.d/{{ domain }}/tls.cert' }
+    - { src: 'files/tls.key', dest: '/etc/docker/certs.d/{{ domain }}/tls.key' }
+
+- name: Extract the tar.gz archive
+  ansible.builtin.unarchive:
+    src: "{{ github_url }}/{{ harbor_version }}/harbor-offline-installer-{{ harbor_version }}.tgz"
+    dest: "{{ harbor_dir }}"
+    remote_src: yes
+    owner: "{{ app_user }}"
+    #mode: "0755"
+    extra_opts: ['--strip-components=1'] # Optional: To remove the top-level directory during extraction
+
+# Create Harbor Directories
+- name: Create Harbor data directory
+  ansible.builtin.file:
+    path: "{{ harbor_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: root
+  loop:
+    - data
+    - certs
+    - scripts
+
+# Copy repos script
+- name: Copy repos scripts
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/apache', dest: '{{ harbor_dir }}/scripts/apache' }
+    - { src: 'files/artifactory', dest: '{{ harbor_dir }}/scripts/artifactory' }
+    - { src: 'files/bitnami', dest: '{{ harbor_dir }}/scripts/bitnami' }
+    - { src: 'files/debian', dest: '{{ harbor_dir }}/scripts/debian' }
+    - { src: 'files/gitlab-ee', dest: '{{ harbor_dir }}/scripts/gitlab-ee' }
+    - { src: 'files/gitlab-runner-helper', dest: '{{ harbor_dir }}/scripts/gitlab-runner-helper' }
+    - { src: 'files/gitlab-runner', dest: '{{ harbor_dir }}/scripts/gitlab-runner' }
+    - { src: 'files/httpd', dest: '{{ harbor_dir }}/scripts/httpd' }
+    - { src: 'files/nginx', dest: '{{ harbor_dir }}/scripts/nginx' }
+    - { src: 'files/postgres', dest: '{{ harbor_dir }}/scripts/postgres' }
+    - { src: 'files/rockylinux', dest: '{{ harbor_dir }}/scripts/rockylinux' }
+    - { src: 'files/ubuntu', dest: '{{ harbor_dir }}/scripts/ubuntu' }
+
+# Copy certs & config
+- name: Copy certs
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/tls.cert', dest: '{{ harbor_dir }}/certs/tls.cert' }
+    - { src: 'files/tls.key', dest: '{{ harbor_dir }}/certs/tls.key' }
+    - { src: 'files/harbor.yml', dest: '{{ harbor_dir }}/harbor.yml' }
+
+# Check the system for error
+- name: Check system for error
+  ansible.builtin.shell:
+    chdir: "{{ harbor_dir }}"
+    cmd: |
+      ./prepare
+  register: command_output
+
+# Display prepare output
+- name: Display prepare command's standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ command_output.stdout_lines }}"
+
+# Install Harbor
+- name: Install Harbor
+  ansible.builtin.shell:
+    chdir: "{{ harbor_dir }}"
+    cmd: |
+      ./install.sh --with-trivy
+  register: install_output
+  when: command_output is succeeded
+
+# Display install output
+- name: Display install command's standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ install_output.stdout_lines }}"

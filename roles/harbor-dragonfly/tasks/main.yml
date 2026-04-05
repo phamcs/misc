@@ -1,0 +1,18 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/harbor-dragonfly
+- name: Populate service facts
+  ansible.builtin.service_facts: {}
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Setup Dragonfly
+  ansible.builtin.include_tasks: dragonfly.yml
+
+- name: Setup Harbor
+  ansible.builtin.include_tasks: harbor.yml
+
+- name: Setup Nginx
+  ansible.builtin.include_tasks: nginx.yml

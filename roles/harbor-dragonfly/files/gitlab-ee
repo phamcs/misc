@@ -1,0 +1,18 @@
+#!/bin/bash
+gitlabee="docker.io/gitlab/gitlab-ee"
+superasian="harbor.superasian.net/library/gitlab/gitlab-ee"
+tags=("18.8.2-ee.0"
+      "18.8.1-ee.0"
+      "18.7.2-ee.0"
+      "18.7.1-ee.0"
+      "18.6.4-ee.0"
+      "18.6.3-ee.0"
+      "17.11.7-ee.0"
+      "17.11.6-ee.0")
+    for tag in ${tags[@]}; do
+        docker pull $gitlabee:$tag
+        docker tag $gitlabee:$tag $superasian:$tag
+        docker push $superasian:$tag
+        docker rmi $gitlabee:$tag
+    done
+exit 0;
