@@ -16,7 +16,10 @@ services:
       - "9000:9000"
       - "9443:9443"
     volumes:
-      - /srv/AppData/portainer:/data
+      - portainer_data:/data
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     network_mode: bridge
+
+volumes:
+  portainer_data:
