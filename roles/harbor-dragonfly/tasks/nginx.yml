@@ -47,7 +47,7 @@
     mode: 0644
     owner: root
   loop:
-    - dradgonfly.conf
+    - dragonfly.conf
     - harbor.conf
   notify: Restart nginx
 
