@@ -9,7 +9,7 @@
 # Create harbor domain
 - name: Create harbor domain
   ansible.builtin.file:
-    path: "/etc/docker/certs.d/{{ domain }}"
+    path: "/etc/docker/certs.d/{{ harbor_domain }}"
     state: directory
     mode: '0755'
     owner: root
@@ -22,9 +22,9 @@
     mode: 0644
     owner: root
   loop:
-    - { src: 'files/ca.crt', dest: '/etc/docker/certs.d/{{ domain }}/ca.crt' }
-    - { src: 'files/tls.cert', dest: '/etc/docker/certs.d/{{ domain }}/tls.cert' }
-    - { src: 'files/tls.key', dest: '/etc/docker/certs.d/{{ domain }}/tls.key' }
+    - { src: 'files/ca.crt', dest: '/etc/docker/certs.d/{{ harbor_domain }}/ca.crt' }
+    - { src: 'files/tls.cert', dest: '/etc/docker/certs.d/{{ harbor_domain }}/tls.cert' }
+    - { src: 'files/tls.key', dest: '/etc/docker/certs.d/{{ harbor_domain }}/tls.key' }
 
 - name: Extract the tar.gz archive
   ansible.builtin.unarchive:

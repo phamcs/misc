@@ -33,6 +33,18 @@
     - { src: 'files/tls.cert', dest: '{{ df_compose_dir }}/certs/tls.crt' }
     - { src: 'files/tls.key', dest: '{{ df_compose_dir }}/certs/tls.key' }
 
+# Copy certs to dragonfly domain
+- name: Copy certs
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: root
+  loop:
+    - { src: 'files/ca.crt', dest: '/etc/docker/certs.d/{{ dragonfly_domain }}/ca.crt' }
+    - { src: 'files/tls.cert', dest: '/etc/docker/certs.d/{{ dragonfly_domain }}/tls.cert' }
+    - { src: 'files/tls.key', dest: '/etc/docker/certs.d/{{ dragonfly_domain }}/tls.key' }
+
 # Start Dragonfly
 - name: Start dragonfly
   ansible.builtin.shell:
