@@ -39,8 +39,8 @@
   loop: "{{ compose_result.stdout_lines }}"
   when: compose_result.stdout_lines is defined
 
-# Copy docker daemon config
-- name: Copy docker daemon config
+# Copy nginx sites config
+- name: Copy nginx sites config
   ansible.builtin.template:
     src: "templates/{{ item }}.j2"
     dest: "{{ nginx_dir }}/conf.d/{{ item }}"
@@ -51,13 +51,14 @@
     - harbor.conf
   notify: Restart nginx
 
-# Copy docker daemon config
-- name: Copy docker daemon config
+# Copy docker config
+- name: Copy docker config
   ansible.builtin.template:
-    src: "templates/{{ item }}.j2"
-    dest: "/etc/docker/{{ item }}"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     mode: 0644
     owner: root
   loop:
-    - daemon.json
-  notify: Restart docker
+    - { src: 'daemon.json.j2', dest: '/etc/docker/daemon.json' }
+    - { src: 'http-proxy.conf.j2', dest: '/etc/systemd/system/docker.service.d/http-proxy.conf' }
+  notify: [Restart systemd-sysctl, Restart docker]
