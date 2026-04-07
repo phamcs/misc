@@ -1,7 +1,7 @@
 #SPDX-License-Identifier: MIT-0
 galaxy_info:
   author: Doan Pham
-  description: Monitoring
+  description: Monitoring stack for testing and development purposes. It includes Grafana, InfluxDB, Loki, Prometheus, Promtail, Telegraf, and Tempo.
   company: Pham Computer Science
 
   # If the issue tracker for your role is not on github, uncomment the
