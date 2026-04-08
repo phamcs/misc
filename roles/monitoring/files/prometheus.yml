@@ -31,7 +31,7 @@ scrape_configs:
   - job_name: 'harbor-exporter'
     scrape_interval: 20s
     static_configs:
-      - targets: ['10.0.0.244:9090']
+      - targets: ['harbor-exporter:9090']
 
   # Scrape metrics for the Harbor core component
   - job_name: 'harbor-core'
@@ -39,7 +39,7 @@ scrape_configs:
     params:
       comp: ['core']
     static_configs:
-      - targets: ['10.0.0.244:9090']
+      - targets: ['harbor-core:9090']
 
   # Scrape metrics for the Harbor registry component
   - job_name: 'harbor-registry'
@@ -47,7 +47,7 @@ scrape_configs:
     params:
       comp: ['registry']
     static_configs:
-      - targets: ['10.0.0.244:9090']
+      - targets: ['harbor-registry:9090']
 
   # Scrape metrics for the Harbor jobservice component
   - job_name: 'harbor-jobservice'
@@ -55,7 +55,7 @@ scrape_configs:
     params:
       comp: ['jobservice']
     static_configs:
-      - targets: ['10.0.0.244:9090']
+      - targets: ['harbor-jobservice:9090']
 
   # Make sure node-exporter running on the following static nodes
   - job_name: 'static-nodes'
@@ -79,7 +79,7 @@ scrape_configs:
   # MySQL & MariaDB scrape
   - job_name: 'mysql'
     static_configs:
-      - targets: ['10.0.0.25:9104']
+      - targets: ['10.0.0.30:9104']
 
   # Scrape metrics for Production HashiCorp Vault
   - job_name: 'vault'

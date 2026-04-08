@@ -1,4 +1,8 @@
 ---
+networks:
+  backend:
+    driver: bridge
+
 # Setup HashiCorp Vault
 name: Vault
 services:
@@ -29,11 +33,14 @@ services:
       - /srv/AppData/vault/logs:/var/log/vault
       - /srv/AppData/vault/data:/opt/vault/data
       - /srv/AppData/vault/plugins:/opt/vault/plugins
-    network_mode: bridge
+    networks:
+      - backend
     restart: always
     healthcheck:
       retries: 5
     entrypoint: vault server -config=/etc/vault.d/vault.hcl
+
+  # Setup Goldfish
   goldfish:
     # Using the image provided by a community maintainer
     image: mvisonneau/goldfish:latest
@@ -51,8 +58,6 @@ services:
     environment:
       # REQUIRED: The address of your running Vault server
       - VAULT_ADDR=https://vault.superasian.net
-      # Optional: You can provide a token directly, but it's more secure to log in via the UI
-      # - VAULT_TOKEN="your-vault-token"
       - VAULT_SKIP_VERIFY=true
     cap_add:
     - IPC_LOCK
@@ -63,5 +68,6 @@ services:
     restart: unless-stopped
     depends_on:
       - vault
-    network_mode: bridge
+    networks:
+      - backend
     entrypoint: goldfish -config=/etc/goldfish/goldfish.hcl
