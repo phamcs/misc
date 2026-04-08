@@ -11,6 +11,7 @@
     - data
     - logs
     - plugins
+    - scripts
     - ssl
 
 # Copy vault config & cert
@@ -25,6 +26,18 @@
     - { src: 'files/tls.key', dest: '{{ vault_dir }}/ssl/tls.key' }
     - { src: 'files/vault-stack.yml', dest: '{{ vault_dir }}/vault-stack.yml' }
 
+# Copy vault scripts
+- name: Copy vault config and cert
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/enable_vault_secrets', dest: '{{ vault_dir }}/scripts/enable_vault_secrets' }
+    - { src: 'files/eso_vault_k8s_auth', dest: '{{ vault_dir }}/scripts/eso_vault_k8s_auth' }
+    - { src: 'files/vault_goldfish_prep', dest: '{{ vault_dir }}/scripts/vault_goldfish_prep' }
+
 # Copy Vault & Goldfish config
 - name: Copy Vault & Goldfish config
   ansible.builtin.template:
@@ -33,7 +46,6 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - autounseal.hcl
     - admin-policy.hcl
     - goldfish.hcl
     - vault.hcl
