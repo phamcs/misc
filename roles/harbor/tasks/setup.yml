@@ -33,6 +33,14 @@
     dest: "/etc/docker/daemon.json"
   notify: Restart docker
 
+# Create harbor directory
+- name: Create harbor directory
+  ansible.builtin.file:
+    path: "{{ harbor_dir }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ app_user }}"
+
 - name: Extract the tar.gz archive
   ansible.builtin.unarchive:
     src: "{{ github_url }}/{{ harbor_version }}/harbor-offline-installer-{{ harbor_version }}.tgz"
