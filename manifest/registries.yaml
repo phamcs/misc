@@ -1,7 +1,8 @@
 mirrors:
-  "docker.io":
-    endpoint:
-      - "https://harbor.superasian.net:443"
+  # Enable this if the environment is airgapped
+  # "docker.io":
+  #   endpoint:
+  #     - "https://harbor.superasian.net:443"
   "harbor.superasian.net":
     endpoint:
       - "https://harbor.superasian.net:443"
