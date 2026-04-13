@@ -10,6 +10,7 @@ http:
   port: 80
 
 # https related config
+# Disable this if using extenral proxy to terminate https
 #https:
   # https port for harbor, default is 443
   #port: 443
