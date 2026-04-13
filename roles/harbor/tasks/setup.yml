@@ -23,8 +23,8 @@
     owner: root
   loop:
     - { src: 'files/ca.crt', dest: '/etc/docker/certs.d/{{ domain }}/ca.crt' }
-    - { src: 'files/tls.cert', dest: '/etc/docker/certs.d/{{ domain }}/{{ domain}}.cert' }
-    - { src: 'files/tls.key', dest: '/etc/docker/certs.d/{{ domain }}/{{ domain }}.key' }
+    - { src: 'files/tls.cert', dest: '/etc/docker/certs.d/{{ domain }}/tls.cert' }
+    - { src: 'files/tls.key', dest: '/etc/docker/certs.d/{{ domain }}/tls.key' }
 
 # Add docker daemon config
 - name: Copy docker daemon.json
