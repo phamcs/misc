@@ -15,6 +15,7 @@ rule_files:
 
 # Scrape configurations
 scrape_configs:
+  # Internal Stack monitoring can be use with name
   - job_name: 'prometheus'
     static_configs:
       - targets: ['localhost:9090']
@@ -27,11 +28,18 @@ scrape_configs:
     static_configs:
       - targets: ['cadvisor:9092']
 
+  # Promtail job to scrape logs and send to Loki
+  - job_name: 'promtail'
+    honor_timestamps: true
+    static_configs:
+      - targets: ['promtail:9080']
+
+  # External stack outside of monitoring need to use IP address
   # Scrape metrics for the Harbor exporter component
   - job_name: 'harbor-exporter'
     scrape_interval: 20s
     static_configs:
-      - targets: ['harbor-exporter:9090']
+      - targets: ['10.0.0.16:9090']
 
   # Scrape metrics for the Harbor core component
   - job_name: 'harbor-core'
@@ -39,7 +47,7 @@ scrape_configs:
     params:
       comp: ['core']
     static_configs:
-      - targets: ['harbor-core:9090']
+      - targets: ['10.0.0.16:9090']
 
   # Scrape metrics for the Harbor registry component
   - job_name: 'harbor-registry'
@@ -47,7 +55,7 @@ scrape_configs:
     params:
       comp: ['registry']
     static_configs:
-      - targets: ['harbor-registry:9090']
+      - targets: ['10.0.0.16:9090']
 
   # Scrape metrics for the Harbor jobservice component
   - job_name: 'harbor-jobservice'
@@ -55,18 +63,12 @@ scrape_configs:
     params:
       comp: ['jobservice']
     static_configs:
-      - targets: ['harbor-jobservice:9090']
+      - targets: ['10.0.0.16:9090']
 
   # Make sure node-exporter running on the following static nodes
   - job_name: 'static-nodes'
     static_configs:
-      - targets: ['10.0.0.16:9100', '10.0.0.30:9100', '10.0.0.35:9100', '10.0.0.36:9100', '10.0.0.76:9100', '10.0.0.252:9100']
-
-  # Promtail job to scrape logs and send to Loki
-  - job_name: 'promtail'
-    honor_timestamps: true
-    static_configs:
-      - targets: ['promtail:9080']
+      - targets: ['10.0.0.16:9100', '10.0.0.30:9100', '10.0.0.35:9100', '10.0.0.36:9100', '10.0.0.252:9100']
 
   # Make sure prometheus-node-exporter running on the following nodes
   - job_name: 'prometheus-nginx-exporter'
@@ -81,6 +83,7 @@ scrape_configs:
     static_configs:
       - targets: ['10.0.0.30:9104']
 
+  # Application stack need to use API endpoint
   # Scrape metrics for Production HashiCorp Vault
   - job_name: 'vault'
     metrics_path: '/v1/sys/metrics'

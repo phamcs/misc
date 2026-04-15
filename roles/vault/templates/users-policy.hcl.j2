@@ -1,0 +1,5 @@
+# Allow users to manage their own secrets
+# {{identity.entity.name}} is replaced with the entity name
+path "secret/data/users/{{identity.entity.name}}/*" {
+  capabilities = ["create", "read", "update", "delete", "list"]
+}

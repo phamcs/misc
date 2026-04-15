@@ -19,6 +19,7 @@ storage "file" {
 }
 
 # Configure transit auto unseal
+# Remember to config 2nd vault before adding this block
 seal "transit" {
   address = "http://autounseal_ip:8200"
   token="<vault-autounseal-token>"
