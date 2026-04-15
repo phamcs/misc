@@ -18,13 +18,13 @@ storage "file" {
   node_id = "vault"
 }
 
-{% comment %} # Configure transit auto unseal
+# Configure transit auto unseal
 seal "transit" {
   address = "http://{{ autounseal_ip }}:8200"
   token="<vault-autounseal-token>"
   key_name = "autounseal"
   mount_path = "transit/"
-} {% endcomment %}
+}
 
 #storage "consul" {
 #  address = "127.0.0.1:8500"
