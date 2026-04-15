@@ -96,7 +96,7 @@ services:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
       - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
+      - /srv/dev-disk-by-uuid-b5f61a9b-1827-498b-a77b-7caf811c025b/DATA/docker:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
     environment:
       - CADVISOR_HEALTHCHECK_URL=http://localhost:9092/healthz
@@ -204,7 +204,7 @@ services:
     volumes:
       # Logs collection
       - /var/log:/var/log:ro
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /srv/dev-disk-by-uuid-b5f61a9b-1827-498b-a77b-7caf811c025b/DATA/docker/containers:/var/lib/docker/containers:ro
       - /srv/AppData/airsonic/config:/var/airsonic:ro
       # Promtail config
       - /var/run/docker.sock:/var/run/docker.sock:ro
