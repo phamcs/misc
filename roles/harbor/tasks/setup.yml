@@ -123,3 +123,14 @@
   ansible.builtin.debug:
     msg: "{{ item }}"
   loop: "{{ install_output.stdout_lines }}"
+
+# Copy nginx sites config
+- name: Copy nginx sites config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - harbor.conf
+  notify: Restart nginx
