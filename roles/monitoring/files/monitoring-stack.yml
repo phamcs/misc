@@ -125,7 +125,7 @@ services:
         max-file: "3"
         tag: "{{.Name}}"
     volumes:
-      - /srv/AppData/monitoring/grafana:/etc/grafana
+      - /srv/AppData/monitoring/grafana/config:/etc/grafana
       - /srv/AppData/monitoring/grafana/data:/var/lib/grafana
       - /srv/AppData/monitoring/grafana/data/logs:/var/log/grafana
     environment:
@@ -169,9 +169,9 @@ services:
       - 3100:3100
     volumes:
       - /srv/AppData/monitoring/loki/data:/loki
-      - /srv/AppData/monitoring/loki/config/loki-config.yml:/etc/loki/loki-config.yml:ro
+      - /srv/AppData/monitoring/loki/config/loki.yml:/etc/loki/loki.yml:ro
     command:
-      - '--config.file=/etc/loki/loki-config.yml'
+      - '--config.file=/etc/loki/loki.yml'
       - '--config.expand-env=true'
       - '--target=all'
       - '--validation.discover-log-levels=true'
@@ -205,10 +205,10 @@ services:
       - /srv/AppData/airsonic/config:/var/airsonic:ro
       # Promtail config
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /srv/AppData/monitoring/promtail/promtail-config.yml:/etc/promtail/config.yml
+      - /srv/AppData/monitoring/promtail/config/promtail.yml:/etc/promtail/promtail.yml
       - /srv/AppData/monitoring/promtail:/etc/promtail
     command:
-      - '--config.file=/etc/promtail/config.yml'
+      - '--config.file=/etc/promtail/promtail.yml'
     restart: unless-stopped
 
   alertmanager:
@@ -224,7 +224,7 @@ services:
       - /srv/AppData/monitoring/alertmanager/config:/etc/alertmanager
       - /srv/AppData/monitoring/alertmanager/data:/alertmanager
     command:
-      - '--config.file=/etc/alertmanager/config.yml'
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
       - '--storage.path=/alertmanager'
     ports:
       - "9093:9093"
@@ -252,7 +252,7 @@ services:
         source: /srv/AppData/monitoring/influxdb/data
         target: /var/lib/influxdb2
       - type: bind
-        source: /srv/AppData/monitoring/influxdb
+        source: /srv/AppData/monitoring/influxdb/config
         target: /etc/influxdb2
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
@@ -286,7 +286,7 @@ services:
     networks:
       - backend
     volumes:
-      - /srv/AppData/monitoring/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /srv/AppData/monitoring/telegraf/config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /sys:/host/sys:ro
       - /proc:/host/proc:ro
