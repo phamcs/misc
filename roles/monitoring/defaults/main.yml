@@ -2,8 +2,9 @@
 ---
 app_dir: "/srv/AppData"
 app_user: "k0ng"
-mon_dir: "{{ app_dir }}/monitoring"
 nginx_dir: "{{ app_dir }}/nginx"
+mon_dir: "{{ app_dir }}/monitoring"
+alertmanager_dir: "{{ mon_dir }}/alertmanager"
 grafana_dir: "{{ mon_dir }}/grafana"
 influxdb_dir: "{{ mon_dir }}/influxdb"
 loki_dir: "{{ mon_dir }}/loki"

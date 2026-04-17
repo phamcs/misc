@@ -18,7 +18,7 @@ services:
         tag: "{{.Name}}"
     volumes:
       - /srv/AppData/monitoring/prometheus:/etc/prometheus
-      - /srv/AppData/monitoring/prometheus/certs:/etc/prometheus/certs
+      - /srv/AppData/monitoring/prometheus:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -57,7 +57,7 @@ services:
       - "4318:4318"
     volumes:
       - /srv/AppData/monitoring/tempo/config/tempo.yml:/etc/tempo.yml:ro
-      - /srv/AppData/monitoring/tempo:/var/tempo
+      - /srv/AppData/monitoring/tempo/data:/var/tempo
     restart: unless-stopped
 
   node-exporter:
@@ -125,11 +125,9 @@ services:
         max-file: "3"
         tag: "{{.Name}}"
     volumes:
-      - /srv/AppData/monitoring/grafana/certs:/etc/grafana/certs
-      - /srv/AppData/monitoring/grafana/data:/var/lib/grafana
       - /srv/AppData/monitoring/grafana:/etc/grafana
-      - /srv/AppData/monitoring/grafana/provisioning:/etc/grafana/provisioning
-      - /srv/AppData/monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+      - /srv/AppData/monitoring/grafana/data:/var/lib/grafana
+      - /srv/AppData/monitoring/grafana/data/logs:/var/log/grafana
     environment:
       - GF_DATABASE_TYPE=postgres
       - GF_DATABASE_HOST=10.0.0.252:5432
@@ -171,8 +169,7 @@ services:
       - 3100:3100
     volumes:
       - /srv/AppData/monitoring/loki/data:/loki
-      - /srv/AppData/monitoring/loki:/etc/loki
-      - /srv/AppData/monitoring/loki/loki-config.yml:/etc/loki/loki-config.yml:ro
+      - /srv/AppData/monitoring/loki/config/loki-config.yml:/etc/loki/loki-config.yml:ro
     command:
       - '--config.file=/etc/loki/loki-config.yml'
       - '--config.expand-env=true'
@@ -224,7 +221,8 @@ services:
         max-file: "3"
         tag: "{{.Name}}"
     volumes:
-      - /srv/AppData/monitoring/alertmanager:/etc/alertmanager
+      - /srv/AppData/monitoring/alertmanager/config:/etc/alertmanager
+      - /srv/AppData/monitoring/alertmanager/data:/alertmanager
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
