@@ -39,7 +39,7 @@ scrape_configs:
   - job_name: 'harbor-exporter'
     scrape_interval: 20s
     static_configs:
-      - targets: ['10.0.0.16:9090']
+      - targets: ['10.0.0.16:9091']
 
   # Scrape metrics for the Harbor core component
   - job_name: 'harbor-core'
@@ -47,7 +47,7 @@ scrape_configs:
     params:
       comp: ['core']
     static_configs:
-      - targets: ['10.0.0.16:9090']
+      - targets: ['10.0.0.16:9091']
 
   # Scrape metrics for the Harbor registry component
   - job_name: 'harbor-registry'
@@ -55,7 +55,7 @@ scrape_configs:
     params:
       comp: ['registry']
     static_configs:
-      - targets: ['10.0.0.16:9090']
+      - targets: ['10.0.0.16:9091']
 
   # Scrape metrics for the Harbor jobservice component
   - job_name: 'harbor-jobservice'
@@ -63,7 +63,7 @@ scrape_configs:
     params:
       comp: ['jobservice']
     static_configs:
-      - targets: ['10.0.0.16:9090']
+      - targets: ['10.0.0.16:9091']
 
   # Make sure node-exporter running on the following static nodes
   - job_name: 'static-nodes'
@@ -81,7 +81,7 @@ scrape_configs:
   # MySQL & MariaDB scrape
   - job_name: 'mysql'
     static_configs:
-      - targets: ['10.0.0.30:9104', '10.0.0.35:9104']
+      - targets: ['10.0.0.30:9104']
 
   # Application stack need to use API endpoint
   # Scrape metrics for Production HashiCorp Vault
@@ -91,8 +91,8 @@ scrape_configs:
       format: ['prometheus']
     scheme: https
     tls_config:
-      cert_file: '/etc/prometheus/certs/tls.crt'
-      key_file: '/etc/prometheus/certs/tls.key'
+      cert_file: '/etc/prometheus/certs/prometheus.crt'
+      key_file: '/etc/prometheus/certs/prometheus.key'
     authorization:
       credentials_file: /etc/prometheus/vault-prod
     static_configs:

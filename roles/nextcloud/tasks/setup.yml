@@ -1,0 +1,59 @@
+---
+# Create Nextcloud Directories
+- name: Create Nextcloud directories
+  ansible.builtin.file:
+    path: "{{ nextcloud_dir }}/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ app_user }}"
+  loop:
+    - apps
+    - config
+    - data
+    - secrets
+    - themes
+
+# Create secrets
+- name: Create secrets
+  ansible.builtin.shell: |
+      openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ nextcloud_dir }}/secrets/postgres_password.txt
+      openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ nextcloud_dir }}/secrets/nextcloud_admin_password.txt
+  register: secrets_value
+
+# Copy config files
+- name: Copy config files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: root
+  loop:
+    - { src: 'files/nextcloud-stack.yml', dest: '{{ nextcloud_dir}}/nextcloud-stack.yml'}
+
+# Copy db-staging nginx config
+- name: Copy db-staging nginx config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - nextcloud.conf
+  notify: Restart nginx
+
+# Start Nextcloud stack
+- name: Start Nextcloud stack
+  ansible.builtin.command:
+    chdir: "{{ nextcloud_dir }}"
+    cmd: "docker compose -f nextcloud-stack.yml up -d"
+  register: compose_result
+  until: compose_result.rc == 0
+  retries: 5
+  delay: 10
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result.stdout_lines is defined

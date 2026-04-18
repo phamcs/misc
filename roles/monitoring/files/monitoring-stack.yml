@@ -10,6 +10,7 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
+    user: "1000"
     logging:
       driver: "json-file"
       options:
@@ -127,6 +128,7 @@ services:
     volumes:
       - /srv/AppData/monitoring/grafana/config:/etc/grafana
       - /srv/AppData/monitoring/grafana/data:/var/lib/grafana
+      - /srv/AppData/monitoring/grafana/data/dashboards:/var/lib/grafana/dashboards
       - /srv/AppData/monitoring/grafana/data/logs:/var/log/grafana
     environment:
       - GF_DATABASE_TYPE=postgres
