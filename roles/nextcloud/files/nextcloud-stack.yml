@@ -17,7 +17,6 @@ services:
     volumes:
       - /srv/AppData/nextcloud:/var/www/html
       - /srv/AppData/nextcloud/apps:/var/www/html/apps
-      - /srv/AppData/nextcloud/secrets:/run/secrets
       - /srv/AppData/nextcloud/config:/var/www/html/config
       - /srv/AppData/nextcloud/data:/var/www/html/data
     environment:
@@ -33,7 +32,7 @@ services:
       - POSTGRES_HOST=10.0.0.252  # IP or DNS name of external DB
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=nextcloud
-      - POSTGRES_PASSWORD=Letmein123
+      - POSTGRES_PASSWORD=/run/secrets/postgres_password
     secrets:
       - postgres_password
       - nextcloud_admin_password

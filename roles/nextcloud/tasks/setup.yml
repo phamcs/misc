@@ -19,6 +19,7 @@
       openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ nextcloud_dir }}/secrets/postgres_password.txt
       openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ nextcloud_dir }}/secrets/nextcloud_admin_password.txt
   register: secrets_value
+  when: secrets_value is not defined or secrets_value.rc != 0
 
 # Copy config files
 - name: Copy config files
