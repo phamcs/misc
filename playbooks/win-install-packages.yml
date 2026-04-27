@@ -6,55 +6,44 @@
   become_method: runas
   tasks:
 
-    # - name: Set the default shell to PowerShell
-    #   ansible.windows.win_regedit:
-    #     path: HKLM:\SOFTWARE\OpenSSH
-    #     name: DefaultShell
-    #     data: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
-    #     type: string
-    #     state: present
-
-    # - name: Reset SSH connection after shell change
-    #   ansible.builtin.meta: reset_connection
+    - name: Install packages using chocolatey
+      win_chocolatey:
+        name:
+          - 7zip
+          - awscli
+          - dotnet-9.0-runtime
+          - git
+          - golang
+          - nodejs-lts
+          - notepadplusplus
+          - python313
+          - ruby
+          - vscode
+        state: present
+        version: latest
+        force: true
 
     - name: Install using powershell
       win_shell: |
-        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; PSScriptAnalyzer(PSAvoidUsingCmdletAliases) ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-        choco upgrade -y chocolatey
-        $appArray = @(
-            '7zip'
-            'awscli'
-            'dotnet-9.0-runtime'
-            'git'
-            'golang'
-            'nodejs-lts'
-            'notepadplusplus'
-            'python313'
-            'ruby'
-            'vscode'
-        )
-        foreach ($app in $appArray) {
-          choco install -y $app --force
-        }
         # Add Python & Ruby to PATH
         Set-Item -Path Env:Path -Value ($Env:Path + "C:\Python313;C:\Python313\Scripts;C:\tools\ruby34\bin")
         # Install AWS Modules
         $awsmodules = @(
-            'AWS.Tools.AutoScaling'
-            'AWS.Tools.CloudFormation'
-            'AWS.Tools.CloudWatchLogs'
-            'AWS.Tools.Common'
-            'AWS.Tools.EC2'
-            'AWS.Tools.Elasticsearch'
-            'AWS.Tools.IdentityManagement'
-            'AWS.Tools.Lambda'
-            'AWS.Tools.RDS'
-            'AWS.Tools.Route53'
-            'AWS.Tools.S3'
-            'AWS.Tools.SecretsManager'
-            'AWS.Tools.SecurityToken'
-            'AWSLambdaPSCore'
-            'AWSPowershell.NetCore'
+          - AWS.Tools.AutoScaling'
+          - AWS.Tools.CloudFormation'
+          - AWS.Tools.CloudWatchLogs'
+          - AWS.Tools.Common'
+          - AWS.Tools.EC2'
+          - AWS.Tools.Elasticsearch'
+          - AWS.Tools.IdentityManagement'
+          - AWS.Tools.Lambda'
+          - AWS.Tools.RDS'
+          - AWS.Tools.Route53'
+          - AWS.Tools.S3'
+          - AWS.Tools.SecretsManager'
+          - AWS.Tools.SecurityToken'
+          - AWSLambdaPSCore'
+          - AWSPowershell.NetCore'
         )
         foreach ($mod in $awsmodules)
         {
