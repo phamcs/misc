@@ -23,30 +23,29 @@
         version: latest
         force: true
 
-    - name: Install using powershell
-      win_shell: |
-
-        # Add Python & Ruby to PATH
-        Set-Item -Path Env:Path -Value ($Env:Path + "C:\Python313;C:\Python313\Scripts;C:\tools\ruby34\bin")
-        # Install AWS Modules
-        awsmodules = @(
-          - AWS.Tools.AutoScaling'
-          - AWS.Tools.CloudFormation'
-          - AWS.Tools.CloudWatchLogs'
-          - AWS.Tools.Common'
-          - AWS.Tools.EC2'
-          - AWS.Tools.Elasticsearch'
-          - AWS.Tools.IdentityManagement'
-          - AWS.Tools.Lambda'
-          - AWS.Tools.RDS'
-          - AWS.Tools.Route53'
-          - AWS.Tools.S3'
-          - AWS.Tools.SecretsManager'
-          - AWS.Tools.SecurityToken'
-          - AWSLambdaPSCore'
-          - AWSPowershell.NetCore'
-        )
-        foreach ($mod in $awsmodules)
-        {
-          Install-Module -Name $mod -AllowClobber -Force
-        }
+    # - name: Install using powershell
+    #   win_shell: |
+    #     # Add Python & Ruby to PATH
+    #     Set-Item -Path Env:Path -Value ($Env:Path + "C:\Python313;C:\Python313\Scripts;C:\tools\ruby34\bin")
+    #     # Install AWS Modules
+    #     awsmodules = @(
+    #       - AWS.Tools.AutoScaling'
+    #       - AWS.Tools.CloudFormation'
+    #       - AWS.Tools.CloudWatchLogs'
+    #       - AWS.Tools.Common'
+    #       - AWS.Tools.EC2'
+    #       - AWS.Tools.Elasticsearch'
+    #       - AWS.Tools.IdentityManagement'
+    #       - AWS.Tools.Lambda'
+    #       - AWS.Tools.RDS'
+    #       - AWS.Tools.Route53'
+    #       - AWS.Tools.S3'
+    #       - AWS.Tools.SecretsManager'
+    #       - AWS.Tools.SecurityToken'
+    #       - AWSLambdaPSCore'
+    #       - AWSPowershell.NetCore'
+    #     )
+    #     foreach ($mod in $awsmodules)
+    #     {
+    #       Install-Module -Name $mod -AllowClobber -Force
+    #     }
