@@ -1,0 +1,25 @@
+#!/bin/bash
+
+github_url="https://github.com/mollstam/vault-plugin-secrets-proxmox/releases/download/v1.1.0/vault-plugin-secrets-proxmox_Linux_x86_64"
+plugin_name="vault-plugin-secrets-proxmox"
+vault_plugin_path="/volume1/apps/vault/plugins"
+wget -O ${vault_plugin_path}/${plugin_name} ${github_url}
+chmod 755 ${vault_plugin_path}/${plugin_name}
+PLUGIN_SHA=$(sha256sum ${vault_plugin_path}/${plugin_name} | awk '{print $1;}')
+# Step 1: Register the plugin with vault
+vault plugin register -command $plugin_name -sha256 "${PLUGIN_SHA[0]}" -version "v1.1.0"  secret proxmox  # This is the plugin name in vault and it does not need to be the same name as the binary
+
+# Step 2: Pin the plugin to system secrets
+vault write -namespace root sys/plugins/pins/secret/proxmox version="v1.1.0"
+
+# Step 3: Reload the plugin to make it available for use
+vault plugin reload -type secret -plugin proxmox -scope global
+
+# Enable the plugin at a specific path
+vault secrets enable -path=proxmox proxmox
+
+vault write proxmox/config user=terraform-prov realm=pve token_id=automation token_secret=f41e83c8-cc4e-4482-adc2-c5bf43a351a0 proxmox_url=https://10.0.0.25:8006/api2/json insecure_skip_tls_verify=true
+
+vault write proxmox/role/terraform-prov user="terraform-prov" realm="pve"
+
+vault read proxmox/creds/terraform-prov

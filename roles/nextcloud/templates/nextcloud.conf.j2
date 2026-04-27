@@ -53,7 +53,7 @@ server {
     access_log /var/log/nginx/access.log;
 
     location / {
-        proxy_pass http://nextcloud:8080$request_uri; # Adjust to match APACHE_PORT and APACHE_IP_BINDING. See https://github.com/nextcloud/all-in-one/blob/main/reverse-proxy.md#adapting-the-sample-web-server-configurations-below
+        proxy_pass http://nextcloud$request_uri; # Adjust to match APACHE_PORT and APACHE_IP_BINDING. See https://github.com/nextcloud/all-in-one/blob/main/reverse-proxy.md#adapting-the-sample-web-server-configurations-below
 
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Port $server_port;
@@ -75,11 +75,11 @@ server {
     #ssl_certificate /etc/letsencrypt/live/<your-nc-domain>/fullchain.pem;   # managed by certbot on host machine # disabled to use custom certs
     #ssl_certificate_key /etc/letsencrypt/live/<your-nc-domain>/privkey.pem; # managed by certbot on host machine # disabled to use custom certs
 
-    ssl_dhparam /etc/dhparam; # curl -L https://ssl-config.mozilla.org/ffdhe2048.txt -o /etc/dhparam
+    #ssl_dhparam /etc/dhparam; # curl -L https://ssl-config.mozilla.org/ffdhe2048.txt -o /etc/dhparam
 
     ssl_early_data on;
     ssl_session_timeout 1d;
-    ssl_session_cache shared:SSL:10m;
+    #ssl_session_cache shared:SSL:10m;
 
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ecdh_curve x25519:x448:secp521r1:secp384r1:secp256r1;

@@ -14,5 +14,5 @@
 
     - name: Install Redhat packages
       shell: |
-        dnf install -y python39 python3-pip python3-setuptools nfs-utils net-tools
+        dnf install -y python3.11 python3-pip python3-setuptools nfs-utils net-tools
       when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Rocky"

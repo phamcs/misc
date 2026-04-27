@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+#
+# Takes a list of secret paths as lines on stdin, applies a regex search/replacement to
+# generate new paths and, if the `-y` option is given, proceed to actually copy the secret # from the given paths to the new paths.
+#
+# Usage:
+#
+#   vault-sed.sh SRC_PATTERN DST_SUBST
+#
+set -euo pipefail
+
+usage() {
+  echo $(basename $0) [-y] SRC_PATTERN DST_SUBST >&2
+  exit 1
+}
+
+copy_data() {
+	if [[ $# -lt 2 ]]; then
+		echo copy_data src dst >&2
+		return 1
+	fi
+
+	src="$1"
+	dst="$2"
+
+	data=$(mktemp)
+
+	echo "$src" | while IFS=/ read -r src_mount src_path; do
+		vault kv get -mount "$src_mount" -format json "$src_path" > "$data"
+	done
+
+	echo "$dst" | while IFS=/ read dst_mount dst_path; do
+		vault kv put -mount "$dst_mount" -format json "$dst_path" @"$data" > /dev/null
+	done
+}
+
+if [[ $# -lt 2 ]]; then
+	usage
+fi
+
+y="0"
+if [[ $1 == "-y" ]]; then
+	y="1"
+	shift
+fi
+
+source_pattern="$1"
+replacement="$2"
+
+todo=$(mktemp)
+sources=$(mktemp)
+destinations=$(mktemp)
+while read -r src; do
+	dst=$(echo "$src" | sed -nr "s@$source_pattern@$replacement@p")
+	if [[ "$dst" == "" ]]; then
+		continue
+	fi
+
+	vault kv get "$dst" 2>/dev/null 1>/dev/null && (
+		echo "exists: $dst" >&2
+		exit 3
+	)
+
+	echo "will copy $src to $dst" >&2
+	echo "$src $dst" >> "$todo"
+	echo "$src" >> "$sources"
+  echo "$dst" >> "$destinations"
+done
+
+if [[ "$y" != "1" ]]; then
+	echo "Dry run finished, repeat with -y to perform the actual copy" >&2
+	exit 0
+fi
+
+cat "$todo" | while read -r src dst; do
+	copy_data "$src" "$dst"
+done
+
+sources_final=$(mktemp "sources_XXXXX")
+destinations_final=$(mktemp "destinations_XXXXX")
+cp "$sources" "$sources_final"
+cp "$destinations" "$destinations_final"
+
+echo A list of source paths was saved to "$sources_final"
+echo A list of destination paths was saved to "$destinations_final"

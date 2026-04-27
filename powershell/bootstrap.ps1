@@ -2,11 +2,11 @@
 # Purpose: Setup Profile, OpenSSH and powershell modules
 # Initiate profiles
 if (!(Test-Path -Path $PROFILE))
-{ 
-  New-Item -Type File -Path $PROFILE -Force 
+{
+  New-Item -Type File -Path $PROFILE -Force
 }
 Get-PSSnapin -Registered | Add-PSSnapin
-$softLink = "https://dev.superasian.net/repo"
+$softLink = "https://www.superasian.net/repo"
 $msiPackages = @(
     'AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi'
     'AWSToolsAndSDKForNet_sdk-3.7.660.0_ps-4.1.428.0_tk-1.14.5.2.msi'

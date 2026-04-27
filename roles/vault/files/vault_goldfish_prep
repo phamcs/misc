@@ -10,7 +10,6 @@ path "kv/*" {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
 
-
 # [optional]
 # to enable transit encryption, see wiki for details
 path "transit/encrypt/goldfish" {
@@ -19,7 +18,6 @@ path "transit/encrypt/goldfish" {
 path "transit/decrypt/goldfish" {
   capabilities = ["read", "update"]
 }
-
 
 # [optional]
 # for goldfish to fetch certificates from PKI backend
