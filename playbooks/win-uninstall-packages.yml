@@ -26,7 +26,7 @@
       win_shell: |
 
         # Remove aws modules
-        $awsmodules = @(
+        awsmodules = @(
           'AWS.Tools.AutoScaling'
           'AWS.Tools.CloudFormation'
           'AWS.Tools.CloudWatchLogs'

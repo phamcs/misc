@@ -25,10 +25,11 @@
 
     - name: Install using powershell
       win_shell: |
+
         # Add Python & Ruby to PATH
         Set-Item -Path Env:Path -Value ($Env:Path + "C:\Python313;C:\Python313\Scripts;C:\tools\ruby34\bin")
         # Install AWS Modules
-        $awsmodules = @(
+        awsmodules = @(
           - AWS.Tools.AutoScaling'
           - AWS.Tools.CloudFormation'
           - AWS.Tools.CloudWatchLogs'
