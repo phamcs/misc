@@ -1,12 +1,12 @@
 ---
-- name: Install Software
+- name: Uninstall Software
   hosts: all
   become: true
   become_user: Administrator
   become_method: runas
   tasks:
 
-    - name: Uninstall packages using chocolatey
+    - name: Uninstall softwares using chocolatey
       win_chocolatey:
         name: "{{ item }}"
         state: absent

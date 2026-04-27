@@ -1,16 +1,22 @@
 ---
-- name: Uninstall Packages
+- name: Install Softwares
   hosts: all
   become: true
   become_user: Administrator
   become_method: runas
   tasks:
 
-    - name: Uninstall packages using chocolatey
+    - name: Ensure Chocolatey itself is installed, using a specific bootstrap script and target nupkg
+      win_chocolatey:
+        name: chocolatey
+        bootstrap_script: https://www.superasian.net/repo/chocolateyInstall.ps1
+      environment:
+        chocolateyDownloadUrl: "https://www.superasian.net/repo/chocolatey.1.1.0.nupkg"
+
+    - name: Install packages using chocolatey
       win_chocolatey:
         name: "{{ item }}"
         state: present
-        version: latest
         force: true
       loop:
         - 7zip
