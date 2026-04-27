@@ -8,19 +8,20 @@
 
     - name: Uninstall packages using chocolatey
       win_chocolatey:
-        name:
-          - 7zip
-          - awscli
-          - dotnet-9.0-runtime
-          - git
-          - golang
-          - nodejs-lts
-          - notepadplusplus
-          - python313
-          - ruby
-          - vscode
+        name: "{{ item }}"
         state: absent
         force: true
+      loop:
+        - 7zip
+        - awscli
+        - dotnet-9.0-runtime
+        - git
+        - golang
+        - nodejs-lts
+        - notepadplusplus
+        - python313
+        - ruby
+        - vscode
 
     # - name: Uninstall using powershell
     #   win_shell: |
