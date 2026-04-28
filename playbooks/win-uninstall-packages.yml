@@ -5,7 +5,7 @@
   become_user: Administrator
   become_method: runas
   tasks:
-
+    # This assumed chocolatey is already installed. If not then install chocolatey first
     - name: Uninstall softwares using chocolatey
       win_chocolatey:
         name: "{{ item }}"
@@ -25,28 +25,3 @@
         - python313
         - ruby
         - vscode
-
-    # - name: Uninstall using powershell
-    #   win_shell: |
-    #     # Remove aws modules
-    #     awsmodules = @(
-    #       'AWS.Tools.AutoScaling'
-    #       'AWS.Tools.CloudFormation'
-    #       'AWS.Tools.CloudWatchLogs'
-    #       'AWS.Tools.Common'
-    #       'AWS.Tools.EC2'
-    #       'AWS.Tools.Elasticsearch'
-    #       'AWS.Tools.IdentityManagement'
-    #       'AWS.Tools.Lambda'
-    #       'AWS.Tools.RDS'
-    #       'AWS.Tools.Route53'
-    #       'AWS.Tools.S3'
-    #       'AWS.Tools.SecretsManager'
-    #       'AWS.Tools.SecurityToken'
-    #       'AWSLambdaPSCore'
-    #       'AWSPowershell.NetCore'
-    #     )
-    #     foreach ($mod in $awsmodules)
-    #     {
-    #       Uninstall-Module -ModuleInfo $mod -Force
-    #     }
