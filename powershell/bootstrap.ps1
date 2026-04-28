@@ -10,6 +10,7 @@ $softLink = "https://www.superasian.net/repo"
 $msiPackages = @(
     'AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi'
     'AWSToolsAndSDKForNet_sdk-3.7.660.0_ps-4.1.428.0_tk-1.14.5.2.msi'
+    'OpenSSH-Win64-v10.0.0.0.msi'
 )
 $basicmodules = @(
     'PowerShellGet'
@@ -60,8 +61,8 @@ Set-ItemProperty -Path 'HKLM:\Software\Microsoft\PowerShell\1\ShellIds\Microsoft
 Get-ExecutionPolicy -List | Format-Table -hideTableHeader
 gpupdate /force
 # Setup SSH & enable Admin
-Get-WindowsCapability -Name OpenSSH.Server* -Online | Add-WindowsCapability -Online
-Set-Service -Name sshd -StartupType Automatic -Status Running
+#Get-WindowsCapability -Name OpenSSH.Server* -Online | Add-WindowsCapability -Online
+#Set-Service -Name sshd -StartupType Automatic -Status Running
 net user administrator /active:yes
 Write-Host "####################################"
 Write-Host "## Remember to set Admin Password ##"
@@ -93,12 +94,12 @@ if (Test-Path -Path 'HKLM:\SOFTWARE\OpenSSH') {
 New-ItemProperty @shellParams
 
 # Setup WSL & Reboot
-dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
-dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-wsl --set-default-version 2; wsl --update;
-$reboot = Read-Host "Do you want to reboot the computer? (y/n)"
-if ($reboot -eq "y") {
-    Restart-Computer -Force
-} else {
-    Write-Host "Reboot cancelled."
-}
+# dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+# dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+# wsl --set-default-version 2; wsl --update;
+# $reboot = Read-Host "Do you want to reboot the computer? (y/n)"
+# if ($reboot -eq "y") {
+#     Restart-Computer -Force
+# } else {
+#     Write-Host "Reboot cancelled."
+# }
