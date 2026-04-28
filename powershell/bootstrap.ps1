@@ -10,7 +10,6 @@ Get-PSSnapin -Registered | Add-PSSnapin
 $softLink = "https://www.superasian.net/repo"
 $msiPackages = @(
     '7z2301-x64.msi'
-    'AWSCLIV2.msi'
     'npp.8.9.4.Installer.x64.msi'
     'OpenSSH-Win64-v10.0.0.0.msi'
 )

@@ -12,6 +12,7 @@
         state: present
         force: true
       loop:
+        - awscli
         - dotnet-desktopruntime
         - dotnet-runtime
         - dotnet-sdk
