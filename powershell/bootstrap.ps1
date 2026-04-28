@@ -9,8 +9,8 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 Get-PSSnapin -Registered | Add-PSSnapin
 $softLink = "https://www.superasian.net/repo"
 $msiPackages = @(
-    'AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi'
-    'chocolatey-2.2.2.0.msi'
+    '7z2301-x64.msi'
+    'AWSCLIV2.msi'
     'npp.8.9.4.Installer.x64.msi'
     'OpenSSH-Win64-v10.0.0.0.msi'
 )
@@ -37,6 +37,11 @@ $awsmodules = @(
     'AWSLambdaPSCore'
     'AWSPowershell.NetCore'
 )
+# Install Common Tools
+foreach ($msi in $msiPackages) {
+  Invoke-WebRequest -Uri $softLink/$msi -OutFile "C:\TEMP\$msi"
+  msiexec /i "C:\TEMP\$msi" /passive
+}
 # Setup PSGallery as trusted repo
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
@@ -49,21 +54,15 @@ foreach ($mod in $awsmodules)
 {
   Install-Module -Name $mod -AllowClobber -Force
 }
-# Install Common Tools SDK & Chocolatey
-foreach ($msi in $msiPackages) {
-  Invoke-WebRequest -Uri $softLink/$msi -OutFile "C:\TEMP\$msi"
-  msiexec /i "C:\TEMP\$msi" /passive -Wait
-}
-[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
+# Install Chocolatey
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
 iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade -y chocolatey
 # Tweak Policies
 Set-ItemProperty -Path 'HKLM:\Software\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell' -Name ExecutionPolicy -Value Unrestricted
 Get-ExecutionPolicy -List | Format-Table -hideTableHeader
 gpupdate /force
-# Setup SSH & enable Admin
-#Get-WindowsCapability -Name OpenSSH.Server* -Online | Add-WindowsCapability -Online
-#Set-Service -Name sshd -StartupType Automatic -Status Running
+# Set Local Admin Account to Active
 net user administrator /active:yes
 Write-Host "####################################"
 Write-Host "## Remember to set Admin Password ##"
@@ -92,12 +91,8 @@ $OpenSSHParams = @{
 New-ItemProperty @OpenSSHParams
 
 # Setup WSL & Reboot
-# dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
-# dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-# wsl --set-default-version 2; wsl --update;
-# $reboot = Read-Host "Do you want to reboot the computer? (y/n)"
-# if ($reboot -eq "y") {
-#     Restart-Computer -Force
-# } else {
-#     Write-Host "Reboot cancelled."
-# }
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+wsl --set-default-version 2; wsl --update;
+Restart-Computer -Force
+

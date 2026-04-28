@@ -12,13 +12,13 @@
         state: present
         force: true
       loop:
-        - 7zip
-        - awscli
-        - dotnet-9.0-runtime
+        - dotnet-desktopruntime
+        - dotnet-runtime
+        - dotnet-sdk
         - git
         - golang
+        - keepassxc
         - nodejs-lts
-        - notepadplusplus
         - python313
         - ruby
         - vscode
