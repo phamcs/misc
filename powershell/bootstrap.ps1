@@ -5,13 +5,11 @@ if (!(Test-Path -Path $PROFILE))
 {
   New-Item -Type File -Path $PROFILE -Force
 }
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+# Install OpenSSH
+Invoke-WebRequest -Uri "https://www.superasian.net/repo/OpenSSH-Win64-v10.0.0.0.msi" -OutFile "C:\TEMP\OpenSSH-Win64-v10.0.0.0.msi"
+msiexec /i "C:\TEMP\OpenSSH-Win64-v10.0.0.0.msi" /qr /norestart -Wait
 Get-PSSnapin -Registered | Add-PSSnapin
-$softLink = "https://www.superasian.net/repo"
-$msiPackages = @(
-    'AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi'
-    'AWSToolsAndSDKForNet_sdk-3.7.660.0_ps-4.1.428.0_tk-1.14.5.2.msi'
-    'OpenSSH-Win64-v10.0.0.0.msi'
-)
 $basicmodules = @(
     'PowerShellGet'
     'PolicyFileEditor'
@@ -47,16 +45,11 @@ foreach ($mod in $awsmodules)
 {
   Install-Module -Name $mod -AllowClobber -Force
 }
-# Install Common Tools SDK & Chocolatey
-foreach ($msi in $msiPackages) {
-  msiexec /i $softLink/$msi /qr /norestart
-}
-Set-ExecutionPolicy Bypass -Scope Process -Force
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-PSScriptAnalyzer(PSAvoidUsingCmdletAliases) ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade -y chocolatey
 # Tweak Policies
-Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force
+#Set-ExecutionPolicy -Scope Unrestricted -ExecutionPolicy LocalMachine -Force
 Set-ItemProperty -Path 'HKLM:\Software\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell' -Name ExecutionPolicy -Value Unrestricted
 Get-ExecutionPolicy -List | Format-Table -hideTableHeader
 gpupdate /force
@@ -68,7 +61,7 @@ Write-Host "####################################"
 Write-Host "## Remember to set Admin Password ##"
 Write-Host "####################################"
 # Opens port 22 for all profiles
-$firewallParams = @{
+$FirewallParams = @{
     Action      = 'Allow'
     Description = 'Inbound rule for OpenSSH Server [TCP 22]'
     Direction   = 'Inbound'
@@ -78,20 +71,17 @@ $firewallParams = @{
     Protocol    = 'TCP'
 }
 if (-not (Get-NetFirewallRule -DisplayName 'OpenSSH Server (TCP)' -ErrorAction SilentlyContinue)) {
-    New-NetFirewallRule @firewallParams
+    New-NetFirewallRule @FirewallParams
 }
 # Setup default shell to powershell.exe
-$shellParams = @{
-    Path         = 'HKLM:\SOFTWARE\OpenSSH'
-    Name         = 'DefaultShell'
-    Value        = 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
-    PropertyType = 'String'
+$OpenSSHParams = @{
+    Path         = "HKLM:\SOFTWARE\OpenSSH"
+    Name         = "DefaultShell"
+    Value        = "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
+    PropertyType = "String"
     Force        = $true
 }
-if (Test-Path -Path 'HKLM:\SOFTWARE\OpenSSH') {
-    Remove-ItemProperty @shellParams -ErrorAction SilentlyContinue
-}
-New-ItemProperty @shellParams
+New-ItemProperty @OpenSSHParams
 
 # Setup WSL & Reboot
 # dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
