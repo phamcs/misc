@@ -229,6 +229,8 @@ class RecordManager:
 
         self.server_fqdn = None
         self.server_ips = self.resolve_server()
+        self.keyring = None
+        self.keyname = None
 
         if module.params["key_algorithm"] == "hmac-md5":
             self.algorithm = "HMAC-MD5.SIG-ALG.REG.INT"
@@ -248,9 +250,6 @@ class RecordManager:
                 module.fail_json(msg="Missing key_secret")
             except binascii_error as e:
                 module.fail_json(msg=f"TSIG key error: {e}")
-        else:
-            self.keyring = None
-            self.keyname = None
 
         if module.params["zone"] is None:
             if module.params["record"][-1] != ".":
@@ -268,7 +267,7 @@ class RecordManager:
             self.fqdn = module.params["record"]
 
         if self.module.params["type"].lower() == "txt" and self.module.params["value"] is not None:
-            self.value = list(map(self.txt_helper, self.module.params["value"]))
+            self.value = [self.txt_helper(x) for x in self.module.params["value"]]
         else:
             self.value = self.module.params["value"]
 

@@ -4,9 +4,7 @@
 
 azp/posix/2
 azp/posix/vm
-skip/aix
 skip/freebsd
-skip/osx
 skip/macos
 skip/docker
 needs/root

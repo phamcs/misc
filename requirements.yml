@@ -1,25 +1,19 @@
 ---
 collections:
   - name: community.general
-    version: ">=12.4.0"
     source: https://galaxy.ansible.com
 
   - name: community.windows
-    version: ">=3.0.0"
     source: https://galaxy.ansible.com
 
   - name: ansible.utils
-    version: ">=6.0.1"
     source: https://galaxy.ansible.com
 
   - name: ansible.windows
-    version: ">=3.3.0"
     source: https://galaxy.ansible.com
 
   - name: tafeen.synology
-    version: ">=1.0.1"
     source: https://galaxy.ansible.com
 
   - name: chocolatey.chocolatey
-    version: ">=1.6.0"
     source: https://galaxy.ansible.com

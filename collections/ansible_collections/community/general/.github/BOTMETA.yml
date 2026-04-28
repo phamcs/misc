@@ -312,7 +312,7 @@ files:
   $lookups/lmdb_kv.py:
     maintainers: jpmens
   $lookups/merge_variables.py:
-    maintainers: rlenferink m-a-r-k-e alpex8
+    maintainers: rlenferink m-a-r-k-e alpex8 cfiehe
   $lookups/onepass:
     labels: onepassword
     maintainers: samdoran
@@ -379,7 +379,12 @@ files:
   $module_utils/jenkins.py:
     labels: jenkins
     maintainers: russoz
+  $module_utils/_crypt.py:
+    maintainers: russoz
   $module_utils/_lxc.py:
+    maintainers: russoz
+  $module_utils/_lvm.py:
+    labels: lvm
     maintainers: russoz
   $module_utils/manageiq.py:
     labels: manageiq
@@ -642,6 +647,10 @@ files:
     maintainers: adrianmoisey
   $modules/github_repo.py:
     maintainers: atorrescogollo
+  $modules/github_secrets.py:
+    maintainers: konstruktoid
+  $modules/github_secrets_info.py:
+    maintainers: konstruktoid
   $modules/gitlab_:
     keywords: gitlab source_control
     maintainers: $team_gitlab
@@ -657,10 +666,10 @@ files:
     maintainers: zvaraondrej
   $modules/gitlab_milestone.py:
     maintainers: gpongelli
-  $modules/gitlab_project_variable.py:
-    maintainers: markuman
   $modules/gitlab_instance_variable.py:
     maintainers: benibr
+  $modules/gitlab_project_variable.py:
+    maintainers: markuman
   $modules/gitlab_runner.py:
     maintainers: SamyCoenen
   $modules/gitlab_user.py:
@@ -769,14 +778,14 @@ files:
     maintainers: abakanovskii
   $modules/ipa_dnsrecord.py:
     maintainers: $team_ipa jwbernin
-  $modules/ipbase_info.py:
-    maintainers: dominikkukacka
   $modules/ipa_pwpolicy.py:
     maintainers: adralioh
   $modules/ipa_service.py:
     maintainers: cprh
   $modules/ipa_vault.py:
     maintainers: jparrill
+  $modules/ipbase_info.py:
+    maintainers: dominikkukacka
   $modules/ipify_facts.py:
     maintainers: resmo
   $modules/ipinfoio_facts.py:
@@ -836,16 +845,22 @@ files:
     maintainers: elfelip Gaetan2907
   $modules/keycloak_authentication_required_actions.py:
     maintainers: Skrekulko
+  $modules/keycloak_authentication_v2.py:
+    maintainers: thomasbargetz
   $modules/keycloak_authz_authorization_scope.py:
-    maintainers: mattock
-  $modules/keycloak_authz_permission.py:
     maintainers: mattock
   $modules/keycloak_authz_custom_policy.py:
     maintainers: mattock
+  $modules/keycloak_authz_permission.py:
+    maintainers: mattock
   $modules/keycloak_authz_permission_info.py:
     maintainers: mattock
+  $modules/keycloak_client.py:
+    maintainers: koke1997
   $modules/keycloak_client_rolemapping.py:
     maintainers: Gaetan2907
+  $modules/keycloak_client_rolescope.py:
+    maintainers: desand01
   $modules/keycloak_clientscope.py:
     maintainers: Gaetan2907
   $modules/keycloak_clientscope_type.py:
@@ -856,6 +871,8 @@ files:
     maintainers: fynncfchen johncant
   $modules/keycloak_component.py:
     maintainers: fivetide
+  $modules/keycloak_component_info.py:
+    maintainers: desand01
   $modules/keycloak_group.py:
     maintainers: adamgoossens
   $modules/keycloak_identity_provider.py:
@@ -865,27 +882,23 @@ files:
   $modules/keycloak_realm_info.py:
     maintainers: fynncfchen
   $modules/keycloak_realm_key.py:
-    maintainers: mattock
+    maintainers: mattock koke1997
   $modules/keycloak_realm_localization.py:
     maintainers: danekja
+  $modules/keycloak_realm_rolemapping.py:
+    maintainers: agross mhuysamen Gaetan2907
   $modules/keycloak_role.py:
     maintainers: laurpaum
   $modules/keycloak_user.py:
     maintainers: elfelip
-  $modules/keycloak_user_federation.py:
-    maintainers: laurpaum
-  $modules/keycloak_userprofile.py:
-    maintainers: yeoldegrove
-  $modules/keycloak_component_info.py:
-    maintainers: desand01
-  $modules/keycloak_client_rolescope.py:
-    maintainers: desand01
-  $modules/keycloak_user_rolemapping.py:
-    maintainers: bratwurzt
-  $modules/keycloak_realm_rolemapping.py:
-    maintainers: agross mhuysamen Gaetan2907
   $modules/keycloak_user_execute_actions_email.py:
     maintainers: mariusbertram
+  $modules/keycloak_user_federation.py:
+    maintainers: laurpaum
+  $modules/keycloak_user_rolemapping.py:
+    maintainers: bratwurzt koke1997
+  $modules/keycloak_userprofile.py:
+    maintainers: yeoldegrove
   $modules/keyring.py:
     maintainers: ahussey-redhat
   $modules/keyring_info.py:
@@ -928,6 +941,8 @@ files:
     labels: logentries
   $modules/logentries_msg.py:
     maintainers: jcftang
+  $modules/logrotate.py:
+    maintainers: a-gabidullin
   $modules/logstash_plugin.py:
     maintainers: nerzhul
   $modules/lvg.py:
@@ -1330,8 +1345,11 @@ files:
   $modules/snap_alias.py:
     labels: snap
     maintainers: russoz
+  $modules/snap_connect.py:
+    labels: snap
+    maintainers: russoz
   $modules/snmp_facts.py:
-    maintainers: ogenstad ujwalkomarla
+    maintainers: ogenstad ujwalkomarla lalten
   $modules/solaris_zone.py:
     keywords: beadm dladm illumos ipadm nexenta omnios openindiana pfexec smartos solaris sunos zfs zpool
     labels: solaris
@@ -1506,11 +1524,11 @@ files:
     ignore: matze
     labels: zypper
     maintainers: $team_suse
-  $plugin_utils/ansible_type.py:
-    maintainers: vbotka
   $modules/zypper_repository_info.py:
     labels: zypper
     maintainers: $team_suse TobiasZeuch181
+  $plugin_utils/ansible_type.py:
+    maintainers: vbotka
   $plugin_utils/keys_filter.py:
     maintainers: vbotka
   $plugin_utils/unsafe.py:
@@ -1561,6 +1579,8 @@ files:
   docs/docsite/rst/guide_cmdrunner.rst:
     maintainers: russoz
   docs/docsite/rst/guide_deps.rst:
+    maintainers: russoz
+  docs/docsite/rst/guide_ee.rst:
     maintainers: russoz
   docs/docsite/rst/guide_iocage.rst:
     maintainers: russoz felixfontein
@@ -1619,7 +1639,7 @@ macros:
   plugin_utils: plugins/plugin_utils
   tests: plugins/test
   team_ansible_core:
-  team_aix: MorrisA bcoca d-little flynn1973 gforster kairoaraujo marvin-sinister mator molekuul ramooncamacho wtcross
+  team_aix: MorrisA bcoca d-little flynn1973 gforster kairoaraujo marvin-sinister molekuul ramooncamacho wtcross
   team_bsd: JoergFiedler MacLemon bcoca dch jasperla mekanix opoplawski overhacked tuxillo
   team_consul: sgargan apollo13 Ilgmi
   team_cyberark_conjur: jvanderhoof ryanprior
@@ -1640,7 +1660,7 @@ macros:
   team_redfish: mraineri tomasg2012 xmadsen renxulei rajeevkallur bhavya06 jyundt
   team_rhsm: cnsnyder ptoscano
   team_scaleway: remyleone abarbare
-  team_solaris: bcoca fishman jasperla jpdasma mator scathatheworm troy2914 xen0l
+  team_solaris: bcoca fishman jasperla jpdasma scathatheworm troy2914 xen0l
   team_suse: commel evrardjp lrupp AnderEnder alxgu andytom sealor
   team_virt: joshainglis karmab Thulium-Drake Ajpantuso
   team_wdc: mikemoerk

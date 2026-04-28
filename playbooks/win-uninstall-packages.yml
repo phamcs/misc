@@ -13,12 +13,15 @@
         force: true
       loop:
         - 7zip
+        - 7zip.install
         - awscli
         - dotnet-9.0-runtime
         - git
+        - git.install
         - golang
         - nodejs-lts
         - notepadplusplus
+        - notepadplusplus.install
         - python313
         - ruby
         - vscode

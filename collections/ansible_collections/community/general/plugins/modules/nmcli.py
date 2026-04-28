@@ -1705,6 +1705,7 @@ RETURN = r"""#
 import re
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.common.locale import get_best_parsable_locale
 from ansible.module_utils.common.text.converters import to_text
 
 
@@ -2357,6 +2358,7 @@ class Nmcli:
             "ipv6.ignore-auto-routes",
             "802-11-wireless.hidden",
             "team.runner-fast-rate",
+            "macvlan.tap",
         }:
             return bool
         elif setting in {
@@ -2371,6 +2373,7 @@ class Nmcli:
             "ipv6.dns-search",
             "ipv6.dns-options",
             "ipv6.routes",
+            "ipv6.routing-rules",
             "802-11-wireless-security.group",
             "802-11-wireless-security.leap-password-flags",
             "802-11-wireless-security.pairwise",
@@ -2913,7 +2916,8 @@ def create_module() -> AnsibleModule:
         ],
         supports_check_mode=True,
     )
-    module.run_command_environ_update = dict(LANG="C", LC_ALL="C", LC_MESSAGES="C", LC_CTYPE="C")
+    locale = get_best_parsable_locale(module)
+    module.run_command_environ_update = dict(LANGUAGE=locale, LC_ALL=locale)
     return module
 
 
