@@ -6,10 +6,14 @@ if (!(Test-Path -Path $PROFILE))
   New-Item -Type File -Path $PROFILE -Force
 }
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-# Install OpenSSH
-Invoke-WebRequest -Uri "https://www.superasian.net/repo/OpenSSH-Win64-v10.0.0.0.msi" -OutFile "C:\TEMP\OpenSSH-Win64-v10.0.0.0.msi"
-msiexec /i "C:\TEMP\OpenSSH-Win64-v10.0.0.0.msi" /qr /norestart -Wait
 Get-PSSnapin -Registered | Add-PSSnapin
+$softLink = "https://www.superasian.net/repo"
+$msiPackages = @(
+    'AWSToolkitForVisualStudio2010-2012_tk-1.10.0.7.msi'
+    'chocolatey-2.2.2.0.msi'
+    'npp.8.9.4.Installer.x64.msi'
+    'OpenSSH-Win64-v10.0.0.0.msi'
+)
 $basicmodules = @(
     'PowerShellGet'
     'PolicyFileEditor'
@@ -45,11 +49,15 @@ foreach ($mod in $awsmodules)
 {
   Install-Module -Name $mod -AllowClobber -Force
 }
-[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+# Install Common Tools SDK & Chocolatey
+foreach ($msi in $msiPackages) {
+  Invoke-WebRequest -Uri $softLink/$msi -OutFile "C:\TEMP\$msi"
+  msiexec /i "C:\TEMP\$msi" /passive -Wait
+}
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
 iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade -y chocolatey
 # Tweak Policies
-#Set-ExecutionPolicy -Scope Unrestricted -ExecutionPolicy LocalMachine -Force
 Set-ItemProperty -Path 'HKLM:\Software\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell' -Name ExecutionPolicy -Value Unrestricted
 Get-ExecutionPolicy -List | Format-Table -hideTableHeader
 gpupdate /force
