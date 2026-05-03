@@ -64,7 +64,7 @@ harbor_admin_password: Harbor12345
   #conn_max_idle_time: 0
 
 # The default data volume
-data_volume: /srv/dev-disk-by-uuid-b5f61a9b-1827-498b-a77b-7caf811c025b/DATA/harbor/data
+data_volume: /srv/AppData/harbor/data
 
 # Harbor Storage settings by default is using /data dir on local filesystem
 # Uncomment storage_service setting If you want to using external storage
