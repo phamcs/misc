@@ -27,13 +27,6 @@
     - { src: 'files/mysqld-exporter.cnf', dest: '{{ mariadb_dir}}/config/mysqld-exporter.cnf'}
     - { src: 'files/mariadb-stack.yml', dest: '{{ mariadb_dir}}/mariadb-stack.yml'}
 
-# Create secrets
-- name: Create secrets
-  ansible.builtin.shell: |
-      openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ mariadb_dir }}/secrets/db.txt
-      openssl rand -base64 16 | tr -dc _A-Z-a-z-0-9 > {{ mariadb_dir }}/secrets/app.txt
-  register: secrets_value
-
 # Copy db-staging nginx config
 - name: Copy db-staging nginx config
   ansible.builtin.template:
