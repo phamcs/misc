@@ -17,6 +17,10 @@ services:
       MARIADB_USER: apps_user
     ports:
       - "3306:3306"
+    security_opt:
+      - seccomp:unconfined
+    cap_add:
+      - SYS_ADMIN
     volumes:
       - /srv/AppData/mariadb/config/50-server.cnf:/etc/mysql/mariadb.conf.d/50-server.cnf:ro
       - /srv/AppData/mariadb/data:/var/lib/mysql

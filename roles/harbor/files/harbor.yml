@@ -258,7 +258,7 @@ proxy:
 metric:
   enabled: true
   # Need to change this to non default port 9090 due to running on same host as prometheus
-  port: 9091
+  port: 9090
   path: /metrics
 
 # Trace related config
