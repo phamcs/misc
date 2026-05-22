@@ -10,6 +10,22 @@
     backup: true
   notify: Restart systemd-sysctl
 
+# Enable IDM module for FreeIPA Server
+- name: Enable module IDM for FreeIPA Server
+  ansible.builtin.shell: |
+    dnf module enable idm:DL1 -y
+  register: idm_module
+  until: idm_module.rc == 0
+  retries: 3
+  delay: 10
+
+# Display the result of IDM Module
+- name: Display IDM module enable result
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ idm_module.stdout_lines }}"
+  when: idm_module.stdout_lines is defined
+
 # Install freeipa-server and freeipa-server-dns packages
 - name: Install FreeIPA Server and DNS packages
   ansible.builtin.dnf:
