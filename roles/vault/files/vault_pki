@@ -1,0 +1,118 @@
+#!/bin/bash
+VAULT_ADDR="https://dev.superasian.net"
+# Enable secrets engine
+vault secrets enable pki
+# Tune the secrets engine
+vault secrets tune -max-lease-ttl=87600h pki
+# Generate root certificate
+vault write -field=certificate pki/root/generate/internal \
+     common_name="superasian.internal" \
+     issuer_name="root-2026" \
+     ttl=87600h > root_2026_ca.crt
+# Read the root certificate
+vault list pki/issuers/
+vault read pki/issuer/$(vault list -format=json pki/issuers/ | jq -r '.[]') \
+ | tail -n 6
+# Create a role
+vault write pki/roles/2026-servers allow_any_name=true
+# Issue a certificate
+vault write pki/config/urls \
+     issuing_certificates="$VAULT_ADDR/v1/pki/ca" \
+     crl_distribution_points="$VAULT_ADDR/v1/pki/crl"
+# Enable intermediate CA
+vault secrets enable -path=pki_int pki
+vault secrets tune -max-lease-ttl=43800h pki_int
+vault write -format=json pki_int/intermediate/generate/internal \
+     common_name="superasian.internal Intermediate Authority" \
+     issuer_name="superasian.internal-intermediate" \
+     | jq -r '.data.csr' > pki_intermediate.csr
+vault write -format=json pki/root/sign-intermediate \
+     issuer_ref="root-2026" \
+     csr=@pki_intermediate.csr \
+     format=pem_bundle ttl="43800h" \
+     | jq -r '.data.certificate' > intermediate.cert.pem
+vault write pki_int/roles/superasian.internal \
+     issuer_ref="$(vault read -field=default pki_int/config/issuers)" \
+     allowed_domains="superasian.internal" \
+     allow_subdomains=true \
+     max_ttl="720h"
+vault write pki_int/issue/superasian.internal common_name="dev.superasian.internal" ttl="24h"
+# Revoke certificate by serial number
+# vault write pki_int/revoke serial_number=<serial_number>
+
+# Remove expired certificates
+# vault write pki_int/tidy tidy_cert_store=true tidy_revoked_certs=true
+
+# Rotate root certificate
+vault write pki/root/rotate/internal \
+    common_name="superasian.internal" \
+    issuer_name="root-2027"
+
+vault list pki/issuers
+# Create root bridge CA
+vault write -format=json pki/intermediate/cross-sign \
+      common_name="superasian.internal" \
+      key_ref="$(vault read pki/issuer/root-2027 \
+      | grep -i key_id | awk '{print $2}')" \
+      | jq -r '.data.csr' \
+      | tee cross-signed-intermediate.csr
+# Sign the cross-signed
+vault write -format=json pki/issuer/root-2026/sign-intermediate \
+      common_name="superasian.internal" \
+      csr=@cross-signed-intermediate.csr \
+      | jq -r '.data.certificate' | tee cross-signed-intermediate.crt
+# Import the cross-signed
+vault write pki/intermediate/set-signed \
+      certificate=@cross-signed-intermediate.crt
+
+vault read pki/issuer/root-2027
+
+vault write -format=json pki_int/intermediate/cross-sign \
+   common_name="superasian.internal Intermediate Authority" \
+   key_ref="$(vault read pki_int/issuer/$(vault read -field=default pki_int/config/issuers) \
+   | grep -i key_id | awk '{print $2}')" \
+   | jq -r '.data.csr' \
+   | tee cross-signed-intermediate.csr
+# Sign the new root
+vault write -format=json pki/issuer/root-2027/sign-intermediate \
+   common_name="superasian.internal Intermediate Authority" \
+   csr=@cross-signed-intermediate.csr \
+   | jq -r '.data.certificate' | tee cross-signed-intermediate.crt
+# Set the issue name
+vault write pki_int/intermediate/set-signed \
+   certificate=@cross-signed-intermediate.crt
+# Read the CA chain
+vault read -field=ca_chain pki_int/issuer/"$(vault read -field=default pki_int/config/issuers)"
+
+vault read -field=ca_chain pki_int/issuer/xc-example-dot-com-intermediate
+# Optional set manual chain
+vault patch pki_int/issuer/"$(vault read -field=default pki_int/config/issuers)" \
+    manual_chain=self,xc-example-dot-com-intermediate
+# Set default issuer
+vault write pki/root/replace default=root-2027
+# Sunset old root
+vault write pki/issuer/root-2026 \
+      issuer_name="root-2026" \
+      usage=read-only,crl-signing | tail -n 5
+# Confirm
+vault write pki/issuer/root-2026/issue/2026-servers \
+    common_name="dev.superasian.internal" \
+    ttl=10m
+
+# Finish practice and reset
+# Remove all generated files
+# rm -f \
+#     root_2026_ca.crt \
+#     intermediate.cert.pem \
+#     pki_intermediate.csr \
+#     payload.json \
+#     payload-url.json \
+#     payload-int.json \
+#     payload-int-cert.json \
+#     payload-signed.json \
+#     payload-role.json
+
+# rm -f \
+#     root_2026_ca.crt \
+#     cross-signed-intermediate.csr \
+#     cross-signed-intermediate.crt

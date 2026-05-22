@@ -6,20 +6,60 @@ vault_plugin_path="/volume1/apps/vault/plugins"
 wget -O ${vault_plugin_path}/${plugin_name} ${github_url}
 chmod 755 ${vault_plugin_path}/${plugin_name}
 PLUGIN_SHA=$(sha256sum ${vault_plugin_path}/${plugin_name} | awk '{print $1;}')
+# Make sure vault is unseal
+/usr/local/bin/unseal_vault
 # Step 1: Register the plugin with vault
-vault plugin register -command $plugin_name -sha256 "${PLUGIN_SHA[0]}" -version "v1.1.0"  secret proxmox  # This is the plugin name in vault and it does not need to be the same name as the binary
+vault plugin register \
+    -command vault-plugin-secrets-proxmox \
+    -sha256 "0fd1633c052ccf715e5712e0b338bf81eb468ab61a4b40dd9f54c7dd7bdd0f09" \
+    #-sha256 "${PLUGIN_SHA[0]}" \
+    -version "v1.1.0" \
+    secret \
+    proxmox  # This is the plugin name in vault and it does not need to be the same name as the binary
 
 # Step 2: Pin the plugin to system secrets
-vault write -namespace root sys/plugins/pins/secret/proxmox version="v1.1.0"
+vault write \
+    -namespace root \
+    sys/plugins/pins/secret/proxmox \
+    version="v1.1.0"
 
 # Step 3: Reload the plugin to make it available for use
-vault plugin reload -type secret -plugin proxmox -scope global
+vault plugin reload \
+    -type secret \
+    -plugin proxmox \
+    -scope global
+
+# Create proxmox policy for vault
+vault policy write proxmox - <<EOF
+# [proxmox plugin]
+# List, create, update, and delete kv secrets
+path "proxmox/*" {
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+EOF
 
 # Enable the plugin at a specific path
-vault secrets enable -path=proxmox proxmox
+vault secrets enable -path=proxmox proxmox # This is the plugin registered name in step 1
 
-vault write proxmox/config user=terraform-prov realm=pve token_id=automation token_secret=f41e83c8-cc4e-4482-adc2-c5bf43a351a0 proxmox_url=https://10.0.0.25:8006/api2/json insecure_skip_tls_verify=true
+vault write proxmox/config user=terraform-prov realm=pve token_id=automation token_secret=2c92f01f-af88-4dea-ad81-673d3dd074a8 proxmox_url=https://10.0.0.33:8006/api2/json insecure_skip_tls_verify=true
 
 vault write proxmox/role/terraform-prov user="terraform-prov" realm="pve"
 
 vault read proxmox/creds/terraform-prov
+
+# steps to remove the proxmox plugin
+
+#curl -v -X DELETE -H "X-Vault-Request: true" -H "X-Vault-Token: $(vault print token)" https://dev.superasian.net/v1/sys/plugins/catalog/secret/proxmox
+#curl -v -X DELETE -H "X-Vault-Request: true" -H "X-Vault-Token: $(vault print token)" https://dev.superasian.net/v1/sys/plugins/pins/secret/proxmox
+#vault plugin deregister -version v1.1.0 secret proxmox
+
+# Steps to disable custom plugin after the mounts become read-only which caused the error "cannot write to storage during setup"
+
+#1.  Deregister the plugin: vault plugin deregister -version=x.x.x secret my-plugin.
+#2.  Install the latest plugin to the plugin directory.
+#3.  Register the plugin: vault plugin register -sha256=xxx secret my-plugin.
+#4.  Tune the mount: vault secrets tune -plugin-version=vlatest my-mount.
+#5.  Reload plugin: vault plugin reload -plugin my-plugin.
+#6.  Restart Vault.
+#7.  Disable mount: vault secrets disable my-mount.
