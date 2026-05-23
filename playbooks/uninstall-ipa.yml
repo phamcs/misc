@@ -7,16 +7,49 @@
   become_user: root
 
   tasks:
+    # Uninstall FreeIPA Server
     - name: Uninstall FreeIPA Server
       ansible.builtin.shell: |
         ipa sudorule-del allow-sysadmin-all
         ipa group-del sysadmins
         ipa hbacrule-del allow-sysadmin-ipaservers
         ipa-server-install --uninstall -U
-      register: ipa_uninstall_result
+      register: ipa_uninstall
 
     - name: Display FreeIPA uninstallation result
       ansible.builtin.debug:
         msg: "{{ item }}"
-      loop: "{{ ipa_uninstall_result.stdout_lines }}"
-      when: ipa_uninstall_result.stdout_lines is defined
+      loop: "{{ ipa_uninstall.stdout_lines }}"
+      when: ipa_uninstall.stdout_lines is defined
+
+    # Uninstall freeipa-server and freeipa-server-dns packages
+    - name: Uninstall FreeIPA Server and DNS packages
+      ansible.builtin.dnf:
+        name:
+          - freeipa-server
+          - freeipa-server-dns
+        state: absent
+      register: ipa_packages
+
+    # Display the result of package uninstallation
+    - name: Display FreeIPA package uninstallation result
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop: "{{ ipa_packages.stdout_lines }}"
+      when: ipa_packages.stdout_lines is defined
+
+    # Disable IDM module for FreeIPA Server
+    - name: Disable module IDM for FreeIPA Server
+      ansible.builtin.shell: |
+        dnf module disable idm:DL1 -y
+      register: idm_module
+      until: idm_module.rc == 0
+      retries: 3
+      delay: 10
+
+    # Display the result of IDM Module
+    - name: Display IDM module disable result
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop: "{{ idm_module.stdout_lines }}"
+      when: idm_module.stdout_lines is defined
