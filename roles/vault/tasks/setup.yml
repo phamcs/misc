@@ -53,8 +53,8 @@
 # Download binaries & plugins
 - name: Download binaries & plugins
   ansible.builtin.shell: |
-    curl -L {{ repo_url }}/vault_1.21.3_linux_amd64 -o /usr/local/bin/vault
-    curl -L {{ repo_url }}/docker-credential-vault-login -o /usr/local/bin/docker-credential-vault-login
+    wget -O /usr/local/bin/vault {{ repo_url }}/vault_1.21.3_linux_amd64
+    wget -O /usr/local/bin/docker-credential-vault-login {{ repo_url }}/docker-credential-vault-login
     chmod 0755 /usr/local/bin/*
 
 # Start Vault

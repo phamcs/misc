@@ -1,0 +1,30 @@
+#!/bin/bash
+
+echo "This quick installer script requires root privileges."
+echo "Checking..."
+if [[ $(/usr/bin/id -u) -ne 0 ]];
+then
+    echo "Not running as root"
+    exit 0
+else
+        echo "Installation continues"
+fi
+
+SUDO=
+if [ "$UID" != "0" ]; then
+        if [ -e /usr/bin/sudo -o -e /bin/sudo ]; then
+                SUDO=sudo
+        else
+                echo "*** This quick installer script requires root privileges."
+                exit 0
+        fi
+fi
+rm -f /var/services/homes/k0ng/logs/unseal_vault.log
+rm -f /var/services/homes/k0ng/.gpg_passphrase
+rm -f /var/services/homes/k0ng/.vault_unseal_keys.gpg
+rm -f /usr/local/bin/unseal_vault.sh
+
+BASHRC_PATH="/var/services/homes/k0ng/.bashrc"
+sed -i "/export VAULT_ADDR='https:\/\/<vault IP address>:8200'/d" $BASHRC_PATH
+sed -i "/export DBUS_SESSION_BUS_ADDRESS=\$XDG_RUNTIME_DIR\/bus/d" $BASHRC_PATH
+source $BASHRC_PATH
