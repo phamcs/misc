@@ -44,4 +44,3 @@ services:
 #     file: /srv/AppData/nextcloud/secrets/nextcloud_admin_password.txt # put admin password in this file
 #   postgres_password:
 #     file: /srv/AppData/nextcloud/secrets/postgres_password.txt # put postgresql password in this file
-docker exec -it gitlab update-permissions
