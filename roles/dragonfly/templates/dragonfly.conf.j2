@@ -9,8 +9,8 @@ server {
    ssl_certificate /etc/nginx/ssl/tls.crt;
    ssl_certificate_key /etc/nginx/ssl/tls.key;
    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-   error_log  /var/log/nginx/dragonfly_error.log;
-   access_log /var/log/nginx/dragonfly_access.log;
+   error_log  /var/log/nginx/nginx_error.log;
+   access_log /var/log/nginx/nginx_access.log;
    client_max_body_size 0;
 
    location / {
