@@ -23,12 +23,4 @@
         - notepadplusplus
         - notepadplusplus.install
         - ruby
-        - vscode
-      register: pkgs_uninstall
-
-    # Display uninstall output
-    - name: Display uninstall standard output lines
-      ansible.builtin.debug:
-        msg: "{{ item }}"
-      loop: "{{ pkgs_uninstall.stdout_lines }}"
-        
+        - vscode       
