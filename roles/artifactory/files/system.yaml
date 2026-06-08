@@ -8,7 +8,7 @@ shared:
         driver: org.postgresql.Driver
         url: jdbc:postgresql://10.0.0.252:5432/artifactory
         username: artifactory
-        password: P@ssw0rd
+        password: mIb9nPKQ8LnaSHMWV1cG3A==
 router:
     entrypoints:
         externalPort: 8082
