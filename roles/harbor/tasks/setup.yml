@@ -56,7 +56,7 @@
     path: "{{ harbor_dir }}/{{ item }}"
     state: directory
     mode: 0755
-    owner: root
+    owner: "{{ app_user }}"
   loop:
     - data
     - certs
@@ -130,7 +130,7 @@
     src: "templates/{{ item }}.j2"
     dest: "{{ nginx_dir }}/conf.d/{{ item }}"
     mode: 0644
-    owner: root
+    owner: "{{ app_user }}"
   loop:
     - harbor.conf
   notify: Restart nginx
