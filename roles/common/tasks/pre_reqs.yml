@@ -17,6 +17,7 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
+    - { src: 'files/node-exporter.yml', dest: '{{ common_dir }}/node-exporter.yml'}
     - { src: 'files/portainer-stack.yml', dest: '{{ common_dir }}/portainer-stack.yml'}
     - { src: 'files/rl8-ks.cfg', dest: '{{ common_dir }}/rl8-ks.cfg'}
 
