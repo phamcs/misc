@@ -46,5 +46,5 @@
     owner: "{{ app_user }}"
     group: "users"
   loop:
-    - vmlinuz
-    - initrd.img
+    - rl8.vmlinuz
+    - rl8.initrd.img

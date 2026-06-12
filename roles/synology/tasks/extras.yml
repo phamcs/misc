@@ -9,7 +9,19 @@
     mode: '0755'
   loop:
     - config
-    - config/backup
+    - scripts
+
+# Copy apps archive
+- name: Copy apps archive
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ app_user }}"
+    mode: 0644
+  loop:
+    - { src: 'files/apps.zip', dest: '{{ apps_dir }}/apps.zip' }
+    - { src: 'files/config.zip', dest: '{{ archive_dir }}/config.zip' }
+    - { src: 'files/scripts.zip', dest: '{{ archive_dir }}/scripts.zip' }
 
 # Install Golang for synology
 - name: Copy and extract tar file
@@ -34,14 +46,4 @@
     - kubectl
     - helm
 
-# Copy apps archive
-- name: Copy apps archive
-  ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ app_user }}"
-    mode: 0644
-  loop:
-    - { src: 'files/apps.zip', dest: '{{ apps_dir }}/apps.zip' }
-    - { src: 'files/config.zip', dest: '{{ archive_dir }}/config.zip' }
-    - { src: 'files/scripts.zip', dest: '{{ archive_dir }}/scripts.zip' }
+

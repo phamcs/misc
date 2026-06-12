@@ -50,3 +50,4 @@
         - pysetup
         - restore_default_ports
       ignore_errors: true
+      become_user: "{{ app_user }}"
