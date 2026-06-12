@@ -13,7 +13,7 @@
       - LogCenter
       - NoteStation
       - Perl
-      - WebStation
+      #- WebStation
       - TextEditor
   tasks:
     - name: Get list of installed packages
@@ -60,4 +60,4 @@
         - pysetup
         - restore_default_ports
       ignore_errors: true
-      become_user: "{{ app_user }}"
+      become_user: k0ng
