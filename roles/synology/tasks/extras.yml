@@ -21,32 +21,6 @@
     mode: '0755'                       # (Optional) Permissions for the extracted files
     #extra_opts: ['--strip-components=1'] # (Optional) Pass extra options to the unarchive command (e.g., to strip directories)
 
-# Install helm for synology
-- name: Copy and extract tar file
-  ansible.builtin.unarchive:
-    src: "https://get.helm.sh/helm-v4.2.1-linux-amd64.tar.gz"  # Path to the archive on the Ansible control machine
-    dest: /usr/local/bin           # Absolute path on the remote host where the archive will be extracted
-    remote_src: true                     # Set to 'yes' if the archive is already on the remote host
-    owner: root            # (Optional) User to own the extracted files
-    mode: '0755'                       # (Optional) Permissions for the extracted files
-    #extra_opts: ['--strip-components=1'] # (Optional) Pass extra options to the unarchive command (e.g., to strip directories)
-
-# Install docker credential plugin for synology
-- name: Copy and extract tar file
-  ansible.builtin.unarchive:
-    src: "https://github.com/morningconsult/docker-credential-vault-login/releases/download/v0.3.91/docker-credential-vault-login_0.3.91_Linux_x86_64.tar.gz"  # Path to the archive on the Ansible control machine
-    dest: /usr/local/bin           # Absolute path on the remote host where the archive will be extracted
-    remote_src: true                     # Set to 'yes' if the archive is already on the remote host
-    owner: root            # (Optional) User to own the extracted files
-    mode: '0755'                       # (Optional) Permissions for the extracted files
-    #extra_opts: ['--strip-components=1'] # (Optional) Pass extra options to the unarchive command (e.g., to strip directories)
-
-# - name: Uncompress a local file onto the remote server
-#   ansible.builtin.unarchive:
-#     src: "https://releases.hashicorp.com/vault/2.0.2/vault_2.0.2_linux_amd64.zip"
-#     dest: /usr/local/bin/
-#     mode: 0755
-
 # Download binaries for synology
 - name: Download binaries
   ansible.builtin.get_url:
@@ -55,10 +29,10 @@
     mode: '0755'
     owner: root
   loop:
-    #- vault
-    #- docker-credential-vault-login
+    - vault
+    - docker-credential-vault-login
     - kubectl
-    #- helm
+    - helm
 
 # Copy apps archive
 - name: Copy apps archive
@@ -71,40 +45,3 @@
     - { src: 'files/apps.zip', dest: '{{ apps_dir }}/apps.zip' }
     - { src: 'files/config.zip', dest: '{{ archive_dir }}/config.zip' }
     - { src: 'files/scripts.zip', dest: '{{ archive_dir }}/scripts.zip' }
-
-# # Create vaultdirectory for synology
-# - name: Create vault directory
-#   ansible.builtin.file:
-#     path: "{{ apps_dir }}/vault/{{ item }}"
-#     state: directory
-#     owner: "{{ app_user }}"
-#     group: "users"
-#     mode: '0755'
-#   loop:
-#     - config
-#     - data
-#     - logs
-#     - plugins
-#     - ssl
-
-# # Copy Compose files for synology
-# - name: Copy compose files
-#   ansible.builtin.copy:
-#     src: "{{ item.src }}"
-#     dest: "{{ item.dest }}"
-#     mode: '0644'
-#     owner: "{{ app_user }}"
-#     group: "users"
-#   loop:
-#     - { src: 'portainer.yml', dest: '{{ apps_dir }}/portainer/docker-compose.yml' }
-#     - { src: 'quake3.yml', dest: '{{ archive_dir }}/games/quake3/docker-compose.yml' }
-#     - { src: 'q3server.cfg', dest: '{{ archive_dir }}/games/quake3/q3server.cfg' }
-#     - { src: 'maprotation.cfg', dest: '{{ archive_dir }}/games/quake3/maprotation.cfg' }
-#     - { src: 'vault.yml', dest: '{{ apps_dir }}/vault/docker-compose.yml' }
-#     - { src: 'vault.hcl', dest: '{{ apps_dir }}/vault/config/vault.hcl' }
-#     - { src: 'admin-policy.hcl', dest: '{{ apps_dir }}/vault/config/admin-policy.hcl' }
-#     - { src: 'autounseal-policy.hcl', dest: '{{ apps_dir }}/vault/config/autounseal-policy.hcl' }
-#     - { src: 'uptime-kuma.yml', dest: '{{ apps_dir }}/uptime-kuma/docker-compose.yml' }
-#     - { src: 'ut99-server.yml', dest: '{{ apps_dir }}/ut99-server/docker-compose.yml' }
-#     - { src: 'scripts.zip', dest: '{{ archive_dir }}/scripts/scripts.zip' }
-#     - { src: 'config-backup.zip', dest: '{{ archive_dir }}/config-backup/config-backup.zip' }
