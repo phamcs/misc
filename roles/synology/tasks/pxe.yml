@@ -7,7 +7,7 @@
     mode: '0755'
     owner: "{{ syno_user }}"
     group: "users"
-    recurse: yes
+    #recurse: yes
   loop:
     - pxe
     - pxe/images
