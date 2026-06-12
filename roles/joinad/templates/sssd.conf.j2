@@ -1,0 +1,41 @@
+[sssd]
+config_file_version = 2
+# List all domains - searched in this order
+
+domains = matrix.local
+services = nss, pam
+
+[nss]
+# How to handle same username across domains:
+# With FQN: jsmith@internal.example.com vs jsmith@partner.com
+# Without FQN (risky if names overlap): jsmith (first match wins)
+filter_users = root, nobody
+filter_groups = root
+
+[pam]
+offline_credentials_expiration = 7
+
+[domain/matrix.local]
+id_provider = ad
+auth_provider = ad
+
+ad_domain = matrix.local
+ad_server = WIN-KVMADMG38G.matrix.local
+krb5_realm = MATRIX.LOCAL
+
+# Generate UIDs algorithmically from AD SIDs in a non-overlapping range
+ldap_id_mapping = true
+ldap_idmap_range_min = 200000
+ldap_idmap_range_max = 400000
+ldap_idmap_range_size = 200000
+
+# Partner users must use FQN to disambiguate
+use_fully_qualified_names = true
+fallback_homedir = /home/%u@%d
+default_shell = /bin/bash
+
+cache_credentials = true
+
+# Only allow specific partner groups to log in
+access_provider = simple
+simple_allow_groups = administrators@matrix.local
