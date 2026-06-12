@@ -24,31 +24,6 @@
   loop: "{{ archive_setup.stdout_lines }}"
   when: archive_setup.stdout_lines is defined
 
-# Setup Web Shares
-- name: Setup Web Data Share
-  ansible.builtin.import_role:
-    name: tafeen.synology.syno_add_shares
-  vars:
-    syno_shares:
-      - name: web
-        description: Web Data
-        path: "{{ web_dir }}"
-        recycle: false
-        rights:
-          RO:
-            - guest
-          RW:
-            - "{{ syno_user }}"
-  register: web_setup
-  until: web_setup.rc == 0
-
-# Display Web shares output
-- name: Display Web shares result standard output lines
-  ansible.builtin.debug:
-    msg: "{{ item }}"
-  loop: "{{ web_setup.stdout_lines }}"
-  when: web_setup.stdout_lines is defined
-
 # Setup Docker Shares
 - name: Setup Docker Share
   ansible.builtin.import_role:
