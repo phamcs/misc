@@ -45,3 +45,11 @@
       wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash
       apt update && apt install -y openmediavault-compose openmediavault-hosts openmediavault-fail2ban docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   when: ansible_os_family == 'Debian'
+  register: omvextra_result
+
+# Display omvextra install output
+- name: Display omvextra install output
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ omvextra_result.stdout_lines }}"
+  when: omvextra_result.stdout_lines is defined

@@ -4,6 +4,11 @@
     state: restarted
     name: docker
 
+- name: Restart containerd
+  ansible.builtin.service:
+    state: restarted
+    name: containerd
+
 - name: Restart systemd-sysctl
   ansible.builtin.service:
     state: restarted

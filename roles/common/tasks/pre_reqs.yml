@@ -44,3 +44,18 @@
     src: "daemon.json.j2"
     dest: "/etc/docker/daemon.json"
   notify: Restart docker
+
+# Fix containerd runtime config
+- name: Fix containerd runtime config
+  ansible.builtin.shell:
+    cmd: |
+      containerd config default | sudo tee /etc/containerd/config.toml
+      sed -i 's|^state = ".*"|state = "/var/run/containerd"|' /etc/containerd/config.toml
+      sed -i '/^\[grpc\]$/,/^\[/ s|^ address = ".*"| address = "/var/run/containerd/containerd.sock"|' /etc/containerd/config.toml
+
+# Copy crictl config
+- name: Copy crictl.yaml
+  ansible.builtin.template:
+    src: "crictl.yml.j2"
+    dest: "/etc/crictl.yaml"
+  notify: Restart containerd
