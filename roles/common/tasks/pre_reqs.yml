@@ -57,5 +57,5 @@
 - name: Copy crictl.yaml
   ansible.builtin.template:
     src: "crictl.yml.j2"
-    dest: "/etc/crictl.yaml"
+    dest: "/etc/crictl.yml"
   notify: Restart containerd
