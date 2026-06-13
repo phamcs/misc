@@ -50,8 +50,8 @@
   ansible.builtin.shell:
     cmd: |
       containerd config default | sudo tee /etc/containerd/config.toml
-      sed -i 's|^state = ".*"|state = "/var/run/containerd"|' /etc/containerd/config.toml
-      sed -i '/^\[grpc\]$/,/^\[/ s|^ address = ".*"| address = "/var/run/containerd/containerd.sock"|' /etc/containerd/config.toml
+      #sed -i 's|^state = ".*"|state = "/var/run/containerd"|' /etc/containerd/config.toml
+      #sed -i '/^\[grpc\]$/,/^\[/ s|^ address = ".*"| address = "/var/run/containerd/containerd.sock"|' /etc/containerd/config.toml
 
 # Copy crictl config
 - name: Copy crictl.yaml
