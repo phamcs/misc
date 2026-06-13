@@ -45,8 +45,27 @@
     dest: "/etc/docker/daemon.json"
   notify: Restart docker
 
-# Fix containerd runtime config
-- name: Fix containerd runtime config
+# generate containerd default config
+- name: Generate containerd default config
   ansible.builtin.shell:
-    cmd: "containerd config default | sudo tee /etc/containerd/config.toml"
+    cmd: |
+      containerd config default | sudo tee /etc/containerd/config.toml
+
+# Install crictl
+- name: Install crictl
+  ansible.builtin.unarchive:
+    src: "https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.36.0/crictl-v1.36.0-linux-amd64.tar.gz"  # Path to the archive on the Ansible control machine
+    dest: /usr/local/bin           # Absolute path on the remote host where the archive will be extracted
+    remote_src: true                     # Set to 'yes' if the archive is already on the remote host
+    owner: root            # (Optional) User to own the extracted files
+    mode: '0755'                       # (Optional) Permissions for the extracted files
+    #extra_opts: ['--strip-components=1'] # (Optional) Pass extra options to the unarchive command (e.g., to strip directories)
+
+# Copy crictl config
+- name: Copy crictl config
+  ansible.builtin.template:
+    src: "crictl.yaml.j2"
+    dest: "/etc/crictl.yaml"
+    mode: 0644
+    owner: root
   notify: Restart containerd
