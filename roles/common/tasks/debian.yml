@@ -41,15 +41,56 @@
 - name: Install omvextra & docker compose
   ansible.builtin.shell:
     cmd: |
-      apt update && apt install -y apt-transport-https apache2-utils bmon ca-certificates curl git htop jq lm-sensors python-is-python3 python3 python3-pip python3-setuptools python3-smbus strace wget zip unzip
       wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash
-      apt update && apt install -y openmediavault-compose openmediavault-hosts openmediavault-fail2ban docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   when: ansible_os_family == 'Debian'
-  register: omvextra_result
+  register: omvextra_install
 
 # Display omvextra install output
 - name: Display omvextra install output
   ansible.builtin.debug:
     msg: "{{ item }}"
-  loop: "{{ omvextra_result.stdout_lines }}"
-  when: omvextra_result.stdout_lines is defined
+  loop: "{{ omvextra_install.stdout_lines }}"
+  when: omvextra_install.stdout_lines is defined
+
+# Install omvextra & docker compose
+- name: Install omvextra & docker compose
+  ansible.builtin.apt:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - apt-transport-https
+    - apache2-utils
+    - bmon
+    - ca-certificates
+    - curl
+    - git
+    - htop
+    - jq
+    - lm-sensors
+    - python-is-python3
+    - python3
+    - python3-pip
+    - python3-setuptools
+    - python3-smbus
+    - strace
+    - wget
+    - zip
+    - unzip
+    # Docker Stuff
+    - openmediavault-compose
+    - openmediavault-hosts
+    - openmediavault-fail2ban
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-buildx-plugin
+    - docker-compose-plugin
+  when: ansible_os_family == 'Debian'
+  register: pkgs_install
+
+# Display packages install output
+- name: Display packages install output
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ pkgs_install.stdout_lines }}"
+  when: pkgs_install.stdout_lines is defined
