@@ -1,4 +1,5 @@
 upstream harbor {
+    least_conn;
     server 10.0.0.30:8080;
 }
 

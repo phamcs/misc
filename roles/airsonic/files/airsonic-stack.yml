@@ -18,7 +18,7 @@ services:
         tag: "{{.Name}}"
     volumes:
       - /srv/AppData/airsonic/config:/config
-      - /srv/dev-disk-by-uuid-257808ca-8f49-439b-88a7-3971eda1121c/MUSIC:/music
+      - /srv/AppData/music:/music
       - /srv/AppData/airsonic/playlists:/playlists
       - /srv/AppData/airsonic/podcasts:/podcasts
       - /srv/AppData/airsonic/media:/media #optional
