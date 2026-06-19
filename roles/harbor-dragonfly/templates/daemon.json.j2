@@ -1,7 +1,7 @@
 {
   "data-root": "/var/lib/docker",
   "insecure-registries": ["https://{{ harbor_domain }}"],
-  "registry-mirrors": ["https://{{ dragonfly_domain }}"],
+  "registry-mirrors": ["https://127.0.0.1:4001"],
   "log-driver": "json-file",
   "log-opts": {
     "max-size": "10m",

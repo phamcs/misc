@@ -1,6 +1,5 @@
 ---
 # Setup Nginx Stack
-name: nginx-stack
 services:
   # Setup Nginx LB
   nginx:
@@ -14,7 +13,8 @@ services:
     volumes:
       - /srv/AppData/nginx/conf.d/:/etc/nginx/conf.d/
       - /srv/AppData/nginx/ssl/:/etc/nginx/ssl/
-    network_mode: bridge
+    networks:
+      - backend
   # Setup Nginx Exporter
   nginx-exporter:
     image: nginx/nginx-prometheus-exporter:1.5.1
@@ -24,7 +24,12 @@ services:
       - 9113:9113
     command: >
       --nginx.scrape-uri=https://airsonic.superasian.net/nginx_status
+      --nginx.scrape-uri=https://awx.superasian.net/nginx_status
       --nginx.scrape-uri=https://harbor.superasian.net/nginx_status
+      --nginx.scrape-uri=https://mariadb.superasian.net/nginx_status
       --nginx.scrape-uri=https://monitoring.superasian.net/nginx_status
-      --nginx.scrape-uri=https://registry.superasian.net/nginx_status
-    network_mode: bridge
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge

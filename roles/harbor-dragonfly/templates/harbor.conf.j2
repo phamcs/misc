@@ -5,7 +5,7 @@ upstream harbor {
 server {
     listen 443 ssl;
     http2 on;
-    server_name harbor.superasian.net;
+    server_name {{ harbor_domain }};
     ssl_certificate /etc/nginx/ssl/tls.crt;
     ssl_certificate_key /etc/nginx/ssl/tls.key;
     error_log  /var/log/nginx/harbor_error.log;
@@ -27,6 +27,7 @@ server {
         proxy_set_header  X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header  X-Forwarded-Proto $scheme;
     }
+    
     # Settings for Nginx Exporter
     location /nginx_status {
         stub_status on;

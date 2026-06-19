@@ -5,7 +5,7 @@ upstream dragonfly {
 
 server {
    listen 443 ssl;
-   server_name dragonfly.superasian.net;
+   server_name {{ domain }};
    ssl_certificate /etc/nginx/ssl/tls.crt;
    ssl_certificate_key /etc/nginx/ssl/tls.key;
    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -28,6 +28,7 @@ server {
       proxy_set_header  X-Forwarded-For   $proxy_add_x_forwarded_for;
       proxy_set_header  X-Forwarded-Proto $scheme;
    }
+
    # Settings for Nginx Exporter
    location /nginx_status {
          stub_status on;

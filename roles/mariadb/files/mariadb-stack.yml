@@ -1,7 +1,6 @@
 ---
-name: MariaDB
+# Setup MariaDB Stack
 services:
-  # Setup MariaDB
   mariadb:
     image: mariadb:latest
     container_name: mariadb
@@ -37,9 +36,9 @@ services:
     networks:
       - backend
     volumes:
-    - /srv/AppData/mariadb/backup:/backup/mysql
+      - /srv/AppData/mariadb/backup:/backup/mysql
     environment:
-    - MYSQL_HOST=mariadb
+      - MYSQL_HOST=mariadb     # Using different ENV format here for reference
     secrets:
       - mysql_root_password
   # Setup mysqld-exporter
@@ -64,6 +63,9 @@ services:
     restart: always
     environment:
       PMA_HOST: mariadb
+      MAX_EXECUTION_TIME: 600  # 10 minutes timeout
+      UPLOAD_LIMIT: "256M"       # 256M file upload ceiling
+      MEMORY_LIMIT: "256M"       # 256M execution memory allowance
     ports:
       - "8090:80"
     command: >

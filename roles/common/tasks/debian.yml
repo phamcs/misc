@@ -58,6 +58,7 @@
     update_cache: yes
     name: "{{ item }}"
   loop:
+    # Additional system packages
     - apt-transport-https
     - apache2-utils
     - bmon

@@ -1,5 +1,0 @@
-[client]
-user = apps_user
-password = "VvufMCvgNNwotHvPhApNXAZ9RF3G7rA0J5kM7wiSUw"
-host = mariadb
-port = 3306

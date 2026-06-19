@@ -1,4 +1,11 @@
 ---
+- name: Populate service facts
+  ansible.builtin.service_facts: {}
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
 # Clone Dragonfly Repo
 - name: Clone dragonflydb
   ansible.builtin.git:

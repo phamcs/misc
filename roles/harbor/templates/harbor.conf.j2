@@ -1,12 +1,12 @@
 upstream harbor {
     least_conn;
-    server 10.0.0.30:8080;
+    server {{ srv_ip }}:8080;
 }
 
 server {
     listen 443 ssl;
     http2 on;
-    server_name harbor.superasian.net;
+    server_name {{ domain }};
     ssl_certificate /etc/nginx/ssl/tls.crt;
     ssl_certificate_key /etc/nginx/ssl/tls.key;
     error_log  /var/log/nginx/harbor_error.log;
