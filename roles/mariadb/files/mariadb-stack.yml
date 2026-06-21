@@ -41,21 +41,6 @@ services:
       - MYSQL_HOST=mariadb     # Using different ENV format here for reference
     secrets:
       - mysql_root_password
-  # Setup mysqld-exporter
-  mysqld-exporter:
-    image: prom/mysqld-exporter:latest
-    container_name: mysqld-exporter
-    restart: unless-stopped
-    ports:
-      - "9104:9104"
-    networks:
-      - backend
-    volumes:
-      - /srv/AppData/mariadb/config/mysqld-exporter.cnf:/etc/mysql/conf.d/mysqld-exporter.cnf:ro
-    command:
-      - "--config.my-cnf=/etc/mysql/conf.d/mysqld-exporter.cnf"
-    depends_on:
-      - mariadb
   # Setup phpmyadmin for Web-GUI
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
