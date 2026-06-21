@@ -19,7 +19,7 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0644
-    owner: root
+    owner: "{{ app_user }}"
   loop:
     - { src: 'files/backup-mysql.sh', dest: '{{ mariadb_dir }}/scripts/backup-mysql.sh' }
     - { src: 'files/Dockerfile', dest: '{{ mariadb_dir }}/Dockerfile' }
