@@ -22,7 +22,7 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/tls.cert', dest: '{{ vault_dir }}/ssl/tls.crt' }
+    - { src: 'files/tls.crt', dest: '{{ vault_dir }}/ssl/tls.crt' }
     - { src: 'files/tls.key', dest: '{{ vault_dir }}/ssl/tls.key' }
     - { src: 'files/vault-stack.yml', dest: '{{ vault_dir }}/vault-stack.yml' }
 
