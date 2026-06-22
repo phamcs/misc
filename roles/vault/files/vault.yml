@@ -25,8 +25,8 @@ services:
     volumes:
       - /srv/AppData/vault/config:/etc/vault.d
       - /srv/AppData/vault/ssl:/opt/vault/ssl
-      - /srv/AppData/vault/logs:/var/log/vault
-      - /srv/AppData/vault/data:/opt/vault/data
+      - /srv/AppData/vault/logs:/vault/logs
+      - /srv/AppData/vault/data:/vault/file
       - /srv/AppData/vault/plugins:/opt/vault/plugins
     network_mode: bridge
     restart: always

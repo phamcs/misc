@@ -1,10 +1,10 @@
 #!/bin/bash
 
-version="v1.1.0"
-vault secrets disable proxmox
-curl -v -X DELETE -H "X-Vault-Request: true" -H "X-Vault-Token: $(vault print token)" https://dev.superasian.net/v1/sys/plugins/catalog/secret/proxmox
-curl -v -X DELETE -H "X-Vault-Request: true" -H "X-Vault-Token: $(vault print token)" https://dev.superasian.net/v1/sys/plugins/pins/secret/proxmox
-vault plugin deregister -version $version secret proxmox
+# version="v1.1.0"
+# vault secrets disable proxmox
+# curl -v -X DELETE -H "X-Vault-Request: true" -H "X-Vault-Token: $(vault print token)" https://dev.superasian.net/v1/sys/plugins/catalog/secret/proxmox
+# curl -v -X DELETE -H "X-Vault-Request: true" -H "X-Vault-Token: $(vault print token)" https://dev.superasian.net/v1/sys/plugins/pins/secret/proxmox
+# vault plugin deregister -version $version secret proxmox
 
 github_url="https://github.com/mollstam/vault-plugin-secrets-proxmox/releases/download/v1.1.0/vault-plugin-secrets-proxmox_Linux_x86_64"
 plugin_name="vault-plugin-secrets-proxmox"

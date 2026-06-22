@@ -1,7 +1,0 @@
-#!/bin/bash
-# Normal steps to disable the plugin
-
-vault secrets disable proxmox
-curl -v -X DELETE -H "X-Vault-Request: true" -H "X-Vault-Token: $(vault print token)" https://dev.superasian.net/v1/sys/plugins/catalog/secret/proxmox
-curl -v -X DELETE -H "X-Vault-Request: true" -H "X-Vault-Token: $(vault print token)" https://dev.superasian.net/v1/sys/plugins/pins/secret/proxmox
-vault plugin deregister -version v1.1.0 secret proxmox

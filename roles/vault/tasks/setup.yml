@@ -37,6 +37,7 @@
     - { src: 'files/enable_vault_secrets', dest: '{{ vault_dir }}/scripts/enable_vault_secrets' }
     - { src: 'files/eso_vault_k8s_auth', dest: '{{ vault_dir }}/scripts/eso_vault_k8s_auth' }
     - { src: 'files/vault_goldfish_prep', dest: '{{ vault_dir }}/scripts/vault_goldfish_prep' }
+    - { src: 'files/vault_proxmox_plugin', dest: '{{ vault_dir }}/scripts/vault_proxmox_plugin' }
 
 # Copy Vault & Goldfish config
 - name: Copy Vault & Goldfish config
@@ -53,7 +54,7 @@
 # Download binaries & plugins
 - name: Download binaries & plugins
   ansible.builtin.shell: |
-    wget -O /usr/local/bin/vault {{ repo_url }}/vault_1.21.3_linux_amd64
+    wget -O /usr/local/bin/vault {{ repo_url }}/vault
     wget -O /usr/local/bin/docker-credential-vault-login {{ repo_url }}/docker-credential-vault-login
     chmod 0755 /usr/local/bin/*
 
