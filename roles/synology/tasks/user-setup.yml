@@ -22,8 +22,9 @@
     - { src: 'pysetup', dest: '{{ user_dir }}/pysetup' }
     - { src: 'enable_vault_secrets', dest: '{{ user_dir }}/enable_vault_secrets' }
     - { src: 'goldfish_prep', dest: '{{ user_dir }}/goldfish_prep' }
-    - { src: 'change_default_ports', dest: '{{ user_dir }}/change_default_ports' }
-    - { src: 'restore_default_ports', dest: '{{ user_dir }}/restore_default_ports' }
+    - { src: 'change_default_ports', dest: '/usr/local/bin/change_default_ports' }
+    - { src: 'restore_default_ports', dest: '/usr/local/bin/restore_default_ports' }
+    - { src: 'unseal_vault', dest: '/usr/local/bin/unseal_vault' }
 
 # Copy requirements script
 - name: Copy requirements script

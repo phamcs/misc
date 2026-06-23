@@ -9,15 +9,35 @@
         # Dependencies must install before application, otherwise installation will fail due to missing dependencies.
         # For example, Node.js_18 must be installed before SynologyPhotos, otherwise SynologyPhotos installation will fail due to missing Node.js_v18 dependency.
         # ContainerManager only works for  DSM 7.2.x and up (Before DSM-7.2.x it's called Docker)
+        - ActiveInsight
         - ContainerManager
         - DhcpServer
         - DNSServer
+        - git
         - LogCenter
         - PHP8.2
         - NoteStation
         - Perl
         - WebStation
         - TextEditor
+        - node-exporter
+        - SynoOnlinePack
+        - gnupg
+        - SynologyApplicationService
+        - Node.js_v20
+        - SynologyPhotos
+        - FileStation
+        - SecureSignIn
+        - QuickConnect
+        - StorageManager
+        - PHP8.4
+        - SupportService
+        - SynoFinder
+        - HybridShare
+        - LogCenter
+        - ScsiTarget
+        - OAuthService
+        - SMBService
 
   register: pkg_install
   until: pkg_install.rc == 0
