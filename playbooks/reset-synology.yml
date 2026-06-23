@@ -12,12 +12,12 @@
         - DNSServer
         - LogCenter
         - PHP8.2
+        - Node.js_v20
         - NoteStation
         - Perl
         - Apache2.4
         - WebStation
         - TextEditor
-        - Node.js_v20
         - StorageManager
         - PHP8.4
         - LogCenter
