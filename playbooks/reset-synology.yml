@@ -14,6 +14,7 @@
         - PHP8.2
         - NoteStation
         - Perl
+        - Apache2.4
         - WebStation
         - TextEditor
         - Node.js_v20
