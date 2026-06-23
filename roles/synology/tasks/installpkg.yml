@@ -32,7 +32,9 @@
         - Perl
         - WebStation
         - TextEditor
+        - SynologyApplicationService
         - Node.js_v20
+        - SynologyPhotos
         - StorageManager
         - PHP8.4
 
