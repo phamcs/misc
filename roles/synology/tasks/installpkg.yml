@@ -26,6 +26,8 @@
         - ContainerManager
         - DhcpServer
         - DNSServer
+        - git
+        - gnupg
         - LogCenter
         - PHP8.2
         - NoteStation
