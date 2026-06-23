@@ -22,6 +22,7 @@
         - LogCenter
         - ScsiTarget
         # Additional Packages
+        - Apache2.4
         - SynoOnlinePack_v2
         - ContainerManager
         - DhcpServer
