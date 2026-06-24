@@ -60,6 +60,7 @@
   loop:
     - data
     - certs
+    - logs
     - scripts
 
 # Copy repos script
@@ -127,10 +128,8 @@
 # Copy nginx sites config
 - name: Copy nginx sites config
   ansible.builtin.template:
-    src: "templates/{{ item }}.j2"
-    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
+    src: "templates/harbor.conf.j2"
+    dest: "{{ nginx_dir }}/conf.d/harbor.conf"
     mode: 0644
     owner: "{{ app_user }}"
-  loop:
-    - harbor.conf
   notify: Restart nginx
