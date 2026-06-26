@@ -7,7 +7,6 @@
     state: directory
     mode: '0755'
     owner: "{{ syno_user }}"
-    group: "users"
     recurse: yes
 
 # Copy python install script
@@ -17,7 +16,6 @@
     dest: "{{ item.dest }}"
     mode: '0755'
     owner: "{{ syno_user }}"
-    group: "users"
   loop:
     - { src: 'pysetup', dest: '{{ user_dir }}/pysetup' }
     - { src: 'enable_vault_secrets', dest: '{{ user_dir }}/enable_vault_secrets' }
@@ -33,7 +31,6 @@
     dest: "{{ item.dest }}"
     mode: '0644'
     owner: "{{ syno_user }}"
-    group: "users"
   loop:
     - { src: 'bashrc', dest: '{{ user_dir }}/.bashrc' }
     - { src: 'bash_profile', dest: '{{ user_dir }}/.bash_profile' }

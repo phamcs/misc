@@ -5,7 +5,6 @@
     path: "{{ archive_dir }}/{{ item }}"
     state: directory
     owner: "{{ syno_user }}"
-    group: "users"
     mode: '0755'
   loop:
     - dump

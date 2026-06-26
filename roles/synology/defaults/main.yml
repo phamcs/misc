@@ -2,10 +2,10 @@
 ---
 # defaults file for roles/synology
 syno_user: "k0ng"
+syno_group: "administrators"
 archive_dir: "/volume2/archive"
 home_dir: "/var/services/homes"
 docker_dir: "/volume2/docker"
 user_dir: "{{ home_dir }}/{{ syno_user }}"
-web_dir: "/volume1/web"
 repo_url: "https://www.superasian.net/repo"
 nfs_ip: "10.0.0.16"

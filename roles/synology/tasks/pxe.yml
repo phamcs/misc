@@ -6,7 +6,6 @@
     state: directory
     mode: '0755'
     owner: "{{ syno_user }}"
-    group: "users"
     recurse: yes
   loop:
     - pxe
@@ -20,7 +19,6 @@
     dest: "{{ item.dest }}"
     mode: '0644'
     owner: "{{ syno_user }}"
-    group: "users"
   loop:
     - { src: 'pxelinux.0', dest: '{{ archive_dir }}/pxe/pxelinux.0' }
     - { src: 'ldlinux.c32', dest: '{{ archive_dir }}/pxe/ldlinux.c32' }
@@ -35,7 +33,6 @@
     dest: "{{ archive_dir }}/pxe/pxelinux.cfg/default"
     mode: '0644'
     owner: "{{ syno_user }}"
-    group: "users"
 
 # Download images
 - name: Download images
@@ -44,7 +41,6 @@
     dest: "{{ archive_dir }}/pxe/images/{{ item }}"
     mode: '0644'
     owner: "{{ syno_user }}"
-    group: "users"
   loop:
     - rl8.vmlinuz
     - rl8.initrd.img
