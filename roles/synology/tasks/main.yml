@@ -10,8 +10,8 @@
   ansible.builtin.include_tasks: installpkg.yml
 
 # Setup PXE Server
-# - name: Setup PXE Server
-#   ansible.builtin.include_tasks: pxe.yml
+- name: Setup PXE Server
+  ansible.builtin.include_tasks: pxe.yml
 
 # Setup Additional Tools
 - name: Setup Additional Tools

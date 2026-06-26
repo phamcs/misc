@@ -22,7 +22,7 @@
         - ScsiTarget
         # Additional Packages
         - SynoOnlinePack_v2
-        - ContainerManager
+        #- ContainerManager
         - DhcpServer
         - DNSServer
         - LogCenter
