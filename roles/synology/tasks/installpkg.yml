@@ -6,34 +6,34 @@
   vars:
     syno_upgrade_packages: true
     syno_packages:
-        # Dependencies must install before application, otherwise installation will fail due to missing dependencies.
-        # For example, Node.js_18 must be installed before SynologyPhotos, otherwise SynologyPhotos installation will fail due to missing Node.js_v18 dependency.
-        # ContainerManager only works for  DSM 7.2.x and up (Before DSM-7.2.x it's called Docker)
-        # System Default Packages
-        - ActiveInsight
-        - FileStation
-        - HybridShare
-        - OAuthService
-        - QuickConnect
-        - SMBService
-        - SecureSignIn
-        - SupportService
-        - SynoFinder
-        - ScsiTarget
-        # Additional Packages
-        - SynoOnlinePack_v2
-        #- ContainerManager
-        - DhcpServer
-        - DNSServer
-        - LogCenter
-        - PHP8.2
-        - NoteStation
-        - Perl
-        - WebStation
-        - TextEditor
-        - Node.js_v20
-        - StorageManager
-        - PHP8.4
+      # Dependencies must install before application, otherwise installation will fail due to missing dependencies.
+      # For example, Node.js_18 must be installed before SynologyPhotos, otherwise SynologyPhotos installation will fail due to missing Node.js_v18 dependency.
+      # ContainerManager only works for  DSM 7.2.x and up (Before DSM-7.2.x it's called Docker)
+      # System Default Packages
+      - ActiveInsight
+      - FileStation
+      - HybridShare
+      - OAuthService
+      - QuickConnect
+      - SMBService
+      - SecureSignIn
+      - SupportService
+      - SynoFinder
+      - ScsiTarget
+      # Additional Packages
+      - SynoOnlinePack_v2
+      #- ContainerManager
+      - DhcpServer
+      - DNSServer
+      - LogCenter
+      - PHP8.2
+      - NoteStation
+      - Perl
+      - WebStation
+      - TextEditor
+      - Node.js_v20
+      - StorageManager
+      - PHP8.4
 
   register: pkg_install
   until: pkg_install.rc == 0
