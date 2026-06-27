@@ -25,9 +25,8 @@
     owner: "{{ syno_user }}"
     mode: 0644
   loop:
-    - { src: 'files/docker.zip', dest: '{{ docker_dir }}/docker.zip' }
-    - { src: 'files/config.zip', dest: '{{ archive_dir }}/config.zip' }
-    - { src: 'files/scripts.zip', dest: '{{ archive_dir }}/scripts.zip' }
+    - { src: 'files/AppData.zip', dest: '{{ apps_dir }}/AppData.zip' }
+    - { src: 'files/snippets.zip', dest: '{{ archive_dir }}/snippets.zip' }
 
 # Install Golang for synology
 - name: Copy and extract tar file

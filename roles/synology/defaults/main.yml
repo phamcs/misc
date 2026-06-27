@@ -3,6 +3,7 @@
 # defaults file for roles/synology
 syno_user: "k0ng"
 syno_group: "administrators"
+apps_dir: "/volume1/AppData"
 archive_dir: "/volume2/archive"
 home_dir: "/var/services/homes"
 docker_dir: "/volume2/docker"
