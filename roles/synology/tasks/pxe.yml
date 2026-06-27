@@ -20,11 +20,8 @@
     mode: '0644'
     owner: "{{ syno_user }}"
   loop:
-    - { src: 'pxelinux.0', dest: '{{ archive_dir }}/pxe/pxelinux.0' }
-    - { src: 'ldlinux.c32', dest: '{{ archive_dir }}/pxe/ldlinux.c32' }
-    - { src: 'libutil.c32', dest: '{{ archive_dir }}/pxe/libutil.c32' }
-    - { src: 'menu.c32', dest: '{{ archive_dir }}/pxe/menu.c32' }
-    - { src: 'memdisk', dest: '{{ archive_dir }}/pxe/memdisk' }
+    - { src: 'pxe.zip', dest: '{{ archive_dir }}/pxe/pxe.zip' }
+
 
 # Copy PXE default config
 - name: Copy PXE default config
