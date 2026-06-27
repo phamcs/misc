@@ -26,6 +26,7 @@
     mode: 0644
   loop:
     - { src: 'files/AppData.zip', dest: '{{ apps_dir }}/AppData.zip' }
+    - { src: 'files/scripts.zip', dest: '{{ archive_dir }}/scripts.zip' }
     - { src: 'files/snippets.zip', dest: '{{ archive_dir }}/snippets.zip' }
 
 # Install Golang for synology

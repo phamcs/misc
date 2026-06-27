@@ -3,11 +3,14 @@
 # Create el_tracker venv and install requirements
 - name: Create el_tracker venv and install requirements
   ansible.builtin.file:
-    path: "{{ user_dir }}/el_tracker"
+    path: "{{ user_dir }}/{{ item }}"
     state: directory
     mode: '0755'
     owner: "{{ syno_user }}"
     recurse: yes
+  loop:
+    - el_tracker
+    - logs
 
 # Copy python install script
 - name: Copy python install script
