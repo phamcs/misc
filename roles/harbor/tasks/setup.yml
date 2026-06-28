@@ -23,7 +23,7 @@
     owner: root
   loop:
     - { src: 'files/ca.crt', dest: '/etc/docker/certs.d/{{ domain }}/ca.crt' }
-    - { src: 'files/tls.cert', dest: '/etc/docker/certs.d/{{ domain }}/tls.cert' }
+    - { src: 'files/tls.crt', dest: '/etc/docker/certs.d/{{ domain }}/tls.cert' }
     - { src: 'files/tls.key', dest: '/etc/docker/certs.d/{{ domain }}/tls.key' }
 
 # Add docker daemon config
@@ -92,7 +92,7 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/tls.cert', dest: '{{ harbor_dir }}/certs/tls.cert' }
+    - { src: 'files/tls.crt', dest: '{{ harbor_dir }}/certs/tls.cert' }
     - { src: 'files/tls.key', dest: '{{ harbor_dir }}/certs/tls.key' }
     - { src: 'files/harbor.yml', dest: '{{ harbor_dir }}/harbor.yml' }
 

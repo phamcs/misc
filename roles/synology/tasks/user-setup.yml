@@ -23,8 +23,6 @@
     - { src: 'pysetup', dest: '{{ user_dir }}/pysetup' }
     - { src: 'enable_vault_secrets', dest: '{{ user_dir }}/enable_vault_secrets' }
     - { src: 'goldfish_prep', dest: '{{ user_dir }}/goldfish_prep' }
-    - { src: 'change_default_ports', dest: '{{ user_dir }}/change_default_ports' }
-    - { src: 'restore_default_ports', dest: '{{ user_dir }}/restore_default_ports' }
     - { src: 'unseal_vault', dest: '{{ user_dir }}/unseal_vault' }
 
 # Copy requirements script
@@ -39,6 +37,9 @@
     - { src: 'bash_profile', dest: '{{ user_dir }}/.bash_profile' }
     - { src: 'My_BSIT_Degree.jpg', dest: '{{ user_dir}}/My_BSIT_Degree.jpg' }
     - { src: 'requirements.txt', dest: '{{ user_dir }}/el_tracker/requirements.txt' }
+    - { src: 'ca.crt', dest: '{{ user_dir }}/ca.crt' }
+    - { src: 'tls.crt', dest: '{{ user_dir }}/tls.crt' }
+    - { src: 'tls.key', dest: '{{ user_dir }}/tls.key' }
 
 # Setup Python for user
 - name: Setup Python for user

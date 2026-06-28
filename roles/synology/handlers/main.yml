@@ -1,3 +1,16 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # handlers file for roles/synology
+# Restart nginx
+- name: Restart nginx
+  ansible.builtin.command: |
+    synosystemctl restart nginx
+  async: 1
+  poll: 0
+
+# Restart Container Manager
+- name: Restart CM
+  ansible.builtin.command: |
+    synopkg restart ContainerManager
+  async: 1
+  poll: 0

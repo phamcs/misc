@@ -20,9 +20,11 @@
       - SupportService
       - SynoFinder
       - ScsiTarget
+      - StorageManager
       # Additional Packages
       - SynoOnlinePack_v2
       #- ContainerManager     # Commented this out to manual install on selected volume{n}
+      - Apache2.4
       - DhcpServer
       - DNSServer
       - LogCenter
@@ -32,7 +34,6 @@
       - WebStation
       - TextEditor
       - Node.js_v20
-      - StorageManager
       - PHP8.4
 
   register: pkg_install

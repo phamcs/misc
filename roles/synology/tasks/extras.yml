@@ -54,4 +54,13 @@
     - helm
     - vault
 
-
+# Copy system script
+- name: Copy system script
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0755'
+    owner: root
+  loop:
+    - { src: 'change_default_ports', dest: '/usr/local/bin/change_default_ports' }
+    - { src: 'restore_default_ports', dest: '/usr/local/bin/restore_default_ports' }
