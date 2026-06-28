@@ -7,19 +7,18 @@
   become_user: root
   vars:
     syno_packages:
-        - ContainerManager
-        - DhcpServer
-        - DNSServer
-        - LogCenter
-        - Node.js_v20
-        - NoteStation
-        - Perl
-        - Apache2.4
-        - WebStation
-        - TextEditor
-        - StorageManager
-        - PHP8.4
-        - LogCenter
+      - ContainerManager
+      - DhcpServer
+      - DNSServer
+      - LogCenter
+      - Node.js_v20
+      - NoteStation
+      - Perl
+      - Apache2.4
+      - WebStation
+      - TextEditor
+      - PHP8.4
+      - LogCenter
 
   tasks:
     - name: Get list of installed packages
@@ -40,10 +39,11 @@
         rm -rf /usr/local/go/
         rm -f /usr/local/bin/{{ item }}
       loop:
-        - kubectl
-        - vault
-        - helm
         - docker-credential-vault-login
+        - kubectl
+        - helm
+        - vault
+        
 
     - name: Remove PXE folder and contents
       ansible.builtin.shell: rm -rf /var/services/homes/k0ng/{{ item }}

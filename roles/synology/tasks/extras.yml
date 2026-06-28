@@ -47,9 +47,9 @@
     mode: '0755'
     owner: root
   loop:
-    - vault
     - docker-credential-vault-login
     - kubectl
     - helm
+    - vault
 
 

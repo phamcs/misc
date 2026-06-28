@@ -22,7 +22,7 @@
       - ScsiTarget
       # Additional Packages
       - SynoOnlinePack_v2
-      #- ContainerManager
+      #- ContainerManager     # Commented this out to manual install on selected volume{n}
       - DhcpServer
       - DNSServer
       - LogCenter
