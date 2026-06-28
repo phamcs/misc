@@ -27,12 +27,7 @@
     mode: 0644
   loop:
     - { src: 'files/AppData.zip', dest: '{{ apps_dir }}/AppData.zip' }
-    - { src: 'files/DSM722AMDFX8350.dss', dest: '{{ archive_dir }}/backup/DSM722AMDFX8350.dss' }
-    - { src: 'files/DSM722AMDFX8350.nsx', dest: '{{ archive_dir }}/backup/DSM722AMDFX8350.nsx' }
-    - { src: 'files/DSM722i52400.dss', dest: '{{ archive_dir }}/backup/DSM722i52400.dss' }
-    - { src: 'files/DSM722i52400.nsx', dest: '{{ archive_dir }}/backup/DSM722i52400.nsx' }
-    - { src: 'files/DSM722Q8300.dss', dest: '{{ archive_dir }}/backup/DSM722Q8300.dss' }
-    - { src: 'files/DSM722Q8300.nsx', dest: '{{ archive_dir }}/backup/DSM722Q8300.nsx' }
+    - { src: 'files/DSM722-backup.zip', dest: '{{ archive_dir }}/backup/DSM722-backup.zip' }
     - { src: 'files/scripts.zip', dest: '{{ archive_dir }}/scripts.zip' }
     - { src: 'files/snippets.zip', dest: '{{ archive_dir }}/snippets.zip' }
 
