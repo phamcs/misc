@@ -20,7 +20,6 @@
     mode: '0755'
     owner: "{{ syno_user }}"
   loop:
-    - { src: 'pysetup', dest: '{{ user_dir }}/pysetup' }
     - { src: 'enable_vault_secrets', dest: '{{ user_dir }}/enable_vault_secrets' }
     - { src: 'goldfish_prep', dest: '{{ user_dir }}/goldfish_prep' }
     - { src: 'unseal_vault', dest: '{{ user_dir }}/unseal_vault' }
