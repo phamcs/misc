@@ -1,0 +1,166 @@
+apiVersion: catalog.cattle.io/v1
+kind: App
+metadata:
+  annotations:
+    objectset.rio.cattle.io/applied: >-
+      H4sIAAAAAAAA/7xWTY/bNhD9K8KcRa0kO15XQA/bBGiLogiQBk3QNocRObLZpUiCpOx1F/rvBWWvbTXrj6Cb3Ex5Zt5784YjPUJLAQUGhOoRUGsTMEijfTya+m/iwVPInDQZxxAUZdLcSAEVLEm1DK2F9GScWWtybLG6hwpuVkWa/CK1+P434o7CxTSNLUEFfplFpMyRIvSUrYoM1w/ZqriqgLfIYxVcP0CfgsKa1CCNY0BlFkdJXHU+kGOOrHkCx/UDM5YcBuPO4C3RL6ECISaixqYpm2I6EZPZXEznc5zVk+I25424FfOSppSXkckBALaHY6YpDAreUUOONCcP1Z+PgFb+Ts5Lo6GCQX+tDL9/G0PfkKIw/NOg8pQCNzo4oxQ5qILrKIV7qaNt++5f0d9uMHpWv2pm+ZQzXiKxaV7WDOfFLbulPC9qmmBBDfSf+hS8JT40d4kuxB9nZutzAzrJvOkcp8GCz7t/KYOFjY2KdkbGLo9bVkJ8Yg9Pyqz4LotCBXnupN12EN4vKeGmbTstw4b5zlrjAonk7sPH5O2OT/ITqTZ5PQg9dvOY8I4PWqskH5RDCqs9+iQrswL6Ph2u0p7VJAWpGxN7NKb1s/YBlYrUrKJAkEIjnQ9vyCqzoWhVmZczlr9ixfx9XlZ5Xk3KPyCO/TVR2oQ4aTCSKbegJJK1DMsj1clOSDLI+CtK8wFDFyuIJ6zLg+5o6+CpEd9PrVtJTnecm06f6Dg7zDxrUeOC3DOQfXoWZnw5YnlrfFg48rF8Ixede3Lyiyq/HpJ/RXuCezzsSO+ArkFwNfIMu7A0Tv4z8Mru5z5ejRH29kK8M4pOoLcUnOSeOUJBA5mvh2WdedgwZxS9EM4PUgupFxfh6m3c/0E9I+vYQHcIewH7zoCqrV+kiMfsrwB8vrn/FV2Por8Jheda8AU0nlkyV2+X/bXxo8SzeGitHync7uWWXnirxXc4ai9rRRk37c2qqCngEe7dh49wYTv3n45eV0V/WPDxyzBqJvEjadotxCpPwXdti24D1WPf9/8GAAD//0ONbwRbCgAA
+    objectset.rio.cattle.io/id: helm-app
+    objectset.rio.cattle.io/owner-gvk: /v1, Kind=Secret
+    objectset.rio.cattle.io/owner-name: sh.helm.release.v1.awx.v1
+    objectset.rio.cattle.io/owner-namespace: awx
+  creationTimestamp: '2026-05-18T02:00:34Z'
+  generation: 2
+  labels:
+    catalog.cattle.io/cluster-repo-name: awx-operator
+    objectset.rio.cattle.io/hash: dd3dbaff2f143d368d488a6b3170cfd7d82e4e02
+  managedFields:
+    - apiVersion: catalog.cattle.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:objectset.rio.cattle.io/applied: {}
+            f:objectset.rio.cattle.io/id: {}
+            f:objectset.rio.cattle.io/owner-gvk: {}
+            f:objectset.rio.cattle.io/owner-name: {}
+            f:objectset.rio.cattle.io/owner-namespace: {}
+          f:labels:
+            .: {}
+            f:catalog.cattle.io/cluster-repo-name: {}
+            f:objectset.rio.cattle.io/hash: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"6b5f604c-c2ae-402b-a817-7e001be3a1ef"}: {}
+        f:spec:
+          .: {}
+          f:chart:
+            .: {}
+            f:metadata:
+              .: {}
+              f:annotations:
+                .: {}
+                f:catalog.cattle.io/ui-source-repo: {}
+                f:catalog.cattle.io/ui-source-repo-type: {}
+              f:apiVersion: {}
+              f:appVersion: {}
+              f:description: {}
+              f:name: {}
+              f:type: {}
+              f:version: {}
+          f:helmVersion: {}
+          f:info:
+            .: {}
+            f:description: {}
+            f:firstDeployed: {}
+            f:lastDeployed: {}
+            f:notes: {}
+            f:status: {}
+          f:name: {}
+          f:namespace: {}
+          f:resources: {}
+          f:version: {}
+      manager: rancher
+      operation: Update
+      time: '2026-05-18T02:00:48Z'
+    - apiVersion: catalog.cattle.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+          f:summary:
+            .: {}
+            f:state: {}
+      manager: rancher
+      operation: Update
+      subresource: status
+      time: '2026-05-18T02:00:48Z'
+  name: awx
+  namespace: awx
+  ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: false
+      controller: true
+      kind: Secret
+      name: sh.helm.release.v1.awx.v1
+      uid: 6b5f604c-c2ae-402b-a817-7e001be3a1ef
+  resourceVersion: '173073159'
+  uid: 06d7d750-fc75-44f7-b63f-26a013434c83
+spec:
+  chart:
+    metadata:
+      annotations:
+        catalog.cattle.io/ui-source-repo: awx-operator
+        catalog.cattle.io/ui-source-repo-type: cluster
+      apiVersion: v2
+      appVersion: 2.19.1
+      description: The community-supported AWX Operator Helm Chart
+      name: awx-operator
+      type: application
+      version: 3.2.1
+  helmVersion: 3
+  info:
+    description: Install complete
+    firstDeployed: '2026-05-18T02:00:32Z'
+    lastDeployed: '2026-05-18T02:00:32Z'
+    notes: |
+      AWX Operator installed with Helm Chart version 3.2.1
+    status: deployed
+  name: awx
+  namespace: awx
+  resources:
+    - apiVersion: v1
+      kind: ServiceAccount
+      name: awx-operator-controller-manager
+      namespace: awx
+    - apiVersion: v1
+      kind: Secret
+      name: awx-postgres-configuration
+      namespace: awx
+    - apiVersion: v1
+      kind: ConfigMap
+      name: awx-operator-awx-manager-config
+      namespace: awx
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRole
+      name: awx-operator-metrics-reader-awx
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRole
+      name: awx-operator-proxy-role-awx
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      name: awx-operator-proxy-rolebinding-awx
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: Role
+      name: awx-operator-awx-manager-role
+      namespace: awx
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: Role
+      name: awx-operator-leader-election-role
+      namespace: awx
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: RoleBinding
+      name: awx-operator-awx-manager-rolebinding
+      namespace: awx
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: RoleBinding
+      name: awx-operator-leader-election-rolebinding
+      namespace: awx
+    - apiVersion: v1
+      kind: Service
+      name: awx-operator-controller-manager-metrics-service
+      namespace: awx
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: awx-operator-controller-manager
+      namespace: awx
+    - apiVersion: awx.ansible.com/v1beta1
+      kind: AWX
+      name: awx
+      namespace: awx
+  version: 1
+status:
+  observedGeneration: 2
+  summary:
+    state: deployed
