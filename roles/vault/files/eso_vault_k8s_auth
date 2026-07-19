@@ -130,5 +130,24 @@ spec:
             name: eso-sa
             namespace: external-secrets-system
 EOF
-
+cat <<EOF | kubectl apply -f -
+---
+apiVersion: external-secrets.io/v1
+kind: SecretStore
+metadata:
+  name: vault-backend
+  namespace: external-secrets-system
+spec:
+  provider:
+    vault:
+      server: "https://vault.superasian.net"
+      path: "secret"
+      version: "v2"
+      auth:
+        kubernetes:
+          mountPath: "kubernetes"
+          role: "external-secrets"
+          serviceAccountRef:
+            name: eso-sa
+EOF
 exit 0;
