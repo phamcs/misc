@@ -8,10 +8,10 @@ metadata:
 apiVersion: v1
 kind: Secret
 metadata:
- name: eso-sa
- namespace: external-secrets-system
- annotations:
-   kubernetes.io/service-account.name: eso-sa
+  name: eso-sa
+  namespace: external-secrets-system
+  annotations:
+    kubernetes.io/service-account.name: eso-sa
 type: kubernetes.io/service-account-token
 ---
 apiVersion: v1
