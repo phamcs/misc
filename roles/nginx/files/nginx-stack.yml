@@ -24,10 +24,11 @@ services:
       - 9113:9113
     command: >
       --nginx.scrape-uri=https://airsonic.superasian.net/nginx_status
+      --nginx.scrape-uri=https://argocd.superasian.net/nginx_status
       --nginx.scrape-uri=https://awx.superasian.net/nginx_status
       --nginx.scrape-uri=https://harbor.superasian.net/nginx_status
-      --nginx.scrape-uri=https://mariadb.superasian.net/nginx_status
       --nginx.scrape-uri=https://monitoring.superasian.net/nginx_status
+      --nginx.scrape-uri=https://registry.superasian.net/nginx_status
     networks:
       - backend
 networks:
