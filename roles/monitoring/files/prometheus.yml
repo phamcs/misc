@@ -68,7 +68,7 @@ scrape_configs:
   # Make sure node-exporter running on the following static nodes
   - job_name: 'static-nodes'
     static_configs:
-      - targets: ['10.0.0.16:9100', '10.0.0.30:9100', '10.0.0.25:9100', '10.0.0.36:9100', '10.0.0.76:9100', '10.0.0.252:9100']
+      - targets: ['10.0.0.16:9100', '10.0.0.25:9100', '10.0.0.36:9100', '10.0.0.76:9100', '10.0.0.252:9100']
 
   # Make sure prometheus-node-exporter running on the following nodes
   - job_name: 'prometheus-nginx-exporter'
