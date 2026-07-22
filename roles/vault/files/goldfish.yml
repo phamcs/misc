@@ -23,8 +23,8 @@ services:
     - IPC_LOCK
     volumes:
       - /srv/AppData/vault/config/goldfish.hcl:/etc/goldfish/goldfish.hcl:ro
-      - /srv/AppData/vault/ssl/tls.crt:/etc/ssl/goldfish.crt:ro
-      - /srv/AppData/vault/ssl/tls.key:/etc/ssl/goldfish.key:ro
+      - /srv/AppData/vault/ssl/cert.pem:/etc/ssl/goldfish.crt:ro
+      - /srv/AppData/vault/ssl/key.pem:/etc/ssl/goldfish.key:ro
     restart: unless-stopped
     network_mode: bridge
     entrypoint: goldfish -config=/etc/goldfish/goldfish.hcl

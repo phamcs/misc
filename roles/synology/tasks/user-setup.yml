@@ -36,9 +36,9 @@
     - { src: 'bash_profile', dest: '{{ user_dir }}/.bash_profile' }
     - { src: 'My_BSIT_Degree.jpg', dest: '{{ user_dir}}/My_BSIT_Degree.jpg' }
     - { src: 'requirements.txt', dest: '{{ user_dir }}/el_tracker/requirements.txt' }
-    - { src: 'ca.crt', dest: '{{ user_dir }}/ca.crt' }
-    - { src: 'tls.crt', dest: '{{ user_dir }}/tls.crt' }
-    - { src: 'tls.key', dest: '{{ user_dir }}/tls.key' }
+    - { src: 'ca.pem', dest: '{{ user_dir }}/ca.pem' }
+    - { src: 'cert.pem', dest: '{{ user_dir }}/cert.pem' }
+    - { src: 'key.pem', dest: '{{ user_dir }}/key.pem' }
 
 - name: Setup pyvenv for user
   ansible.builtin.shell: |
