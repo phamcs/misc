@@ -18,8 +18,8 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/tls.crt', dest: '{{ nginx_dir }}/ssl/tls.crt' }
-    - { src: 'files/tls.key', dest: '{{ nginx_dir }}/ssl/tls.key' }
+    - { src: 'files/cert.pem', dest: '{{ nginx_dir }}/ssl/cert.pem' }
+    - { src: 'files/key.pem', dest: '{{ nginx_dir }}/ssl/key.pem' }
     - { src: 'files/nginx-stack.yml', dest: '{{ nginx_dir }}/nginx-stack.yml' }
 
 # Start Nginx Loadbalancer
