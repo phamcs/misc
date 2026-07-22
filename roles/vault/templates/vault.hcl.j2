@@ -35,8 +35,8 @@ seal "transit" {
 # HTTP/HTTPS listener
 listener "tcp" {
   address       = "0.0.0.0:8200"
-  tls_cert_file = "/opt/vault/ssl/tls.crt"
-  tls_key_file  = "/opt/vault/ssl/tls.key"
+  tls_cert_file = "/opt/vault/ssl/cert.pem"
+  tls_key_file  = "/opt/vault/ssl/key.pem"
   tls_min_version = "tls12"
   tls_max_version = "tls13"
   tls_disable = false

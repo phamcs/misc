@@ -22,8 +22,8 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/tls.crt', dest: '{{ vault_dir }}/ssl/tls.crt' }
-    - { src: 'files/tls.key', dest: '{{ vault_dir }}/ssl/tls.key' }
+    - { src: 'files/cert.pem', dest: '{{ vault_dir }}/ssl/cert.pem' }
+    - { src: 'files/key.pem', dest: '{{ vault_dir }}/ssl/key.pem' }
     - { src: 'files/vault.yml', dest: '{{ vault_dir }}/vault.yml' }
 
 # Copy vault scripts
