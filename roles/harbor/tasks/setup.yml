@@ -22,9 +22,9 @@
     mode: 0644
     owner: root
   loop:
-    - { src: 'files/ca.crt', dest: '/etc/docker/certs.d/{{ domain }}/ca.crt' }
-    - { src: 'files/tls.crt', dest: '/etc/docker/certs.d/{{ domain }}/tls.cert' }
-    - { src: 'files/tls.key', dest: '/etc/docker/certs.d/{{ domain }}/tls.key' }
+    - { src: 'files/ca.pem', dest: '/etc/docker/certs.d/{{ domain }}/ca.crt' }
+    - { src: 'files/cert.pem', dest: '/etc/docker/certs.d/{{ domain }}/tls.cert' }
+    - { src: 'files/key.pem', dest: '/etc/docker/certs.d/{{ domain }}/tls.key' }
 
 # Add docker daemon config
 - name: Copy docker daemon.json
@@ -59,9 +59,9 @@
     owner: "{{ app_user }}"
   loop:
     - data
-    - certs
     - logs
     - scripts
+    - ssl
 
 # Copy repos script
 - name: Copy repos scripts
@@ -92,8 +92,8 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/tls.crt', dest: '{{ harbor_dir }}/certs/tls.cert' }
-    - { src: 'files/tls.key', dest: '{{ harbor_dir }}/certs/tls.key' }
+    - { src: 'files/cert.pem', dest: '{{ harbor_dir }}/ssl/cert.pem' }
+    - { src: 'files/key.pem', dest: '{{ harbor_dir }}/ssl/key.pem' }
     - { src: 'files/harbor.yml', dest: '{{ harbor_dir }}/harbor.yml' }
 
 # Check the system for error

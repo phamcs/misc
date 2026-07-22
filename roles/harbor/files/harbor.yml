@@ -15,8 +15,8 @@ http:
   # https port for harbor, default is 443
   #port: 443
   # The path of cert and key files for nginx
-  #certificate: /srv/AppData/harbor/certs/tls.cert
-  #private_key: /srv/AppData/harbor/certs/tls.key
+  #certificate: /srv/AppData/harbor/ssl/cert.pem
+  #private_key: /srv/AppData/harbor/ssl/key.pem
   # enable strong ssl ciphers (default: false)
   # strong_ssl_ciphers: false
 
