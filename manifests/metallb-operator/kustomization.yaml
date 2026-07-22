@@ -5,3 +5,4 @@ namespace: metallb-system
 
 resources:
   - metallb-operator.yaml
+  - custom-pool.yaml
