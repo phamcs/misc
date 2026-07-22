@@ -1,4 +1,11 @@
-# metallb-config.yaml
+# metallb-instance-config.yaml
+apiVersion: metallb.io/v1beta1
+kind: MetalLB
+metadata:
+  name: metallb
+  namespace: metallb-system
+spec: {}
+---
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
