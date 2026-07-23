@@ -1,5 +1,6 @@
 #!/bin/bash
 ENV="production"
+kubectl create namespace external-secrets-system
 # Set the service account create on helm chart to false, and create the service account on correct namespace required for vault auth to work.
 # Otherwise vault auth will fail with error "unable to fetch token_reviewer_jwt"
 cat <<EOF | kubectl create -f -
@@ -93,8 +94,8 @@ vault kv put secret/$ENV/database \
   port=5432
 
 vault kv put secret/$ENV/tls \
-  cert=@tls.crt \
-  key=@tls.key
+  cert=@cert.pem \
+  key=@key.pem
 
 vault write auth/kubernetes/role/external-secrets \
   bound_service_account_names=eso-sa \
