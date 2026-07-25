@@ -7,7 +7,7 @@ vmid="9000"
 templateName="jammy-tpl"
 tmp_cores="2"
 tmp_memory="2048"
-rootPasswd="P@ssw0rd"
+rootPasswd="Letmein123"
 cpuTypeRequired="kvm64"
 
 apt update && apt install libguestfs-tools -y
