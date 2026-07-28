@@ -1,0 +1,32 @@
+# values-cloudflare.yaml
+# External-DNS configuration for CloudFlare
+
+# Set the DNS provider to CloudFlare
+provider:
+  name: cloudflare
+
+# Restrict to specific domains to prevent managing unwanted zones
+domainFilters:
+  - superasian.net
+
+# Sync policy will create, update, and delete records
+# to match the current state of Kubernetes resources
+policy: sync
+
+# Watch both Services and Ingress resources
+sources:
+  - service
+  - ingress
+
+# TXT record registry for ownership tracking
+registry: txt
+txtOwnerId: "k8s-external-dns"
+
+# CloudFlare-specific environment variables
+env:
+  # API token used to authenticate to the CloudFlare API
+  - name: CF_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: cloudflare-api-token
+        key: api-token
