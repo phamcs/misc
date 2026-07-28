@@ -11,8 +11,8 @@ vault write -field=certificate pki/root/generate/internal \
      ttl=87600h > root_2027_ca.crt
 # Read the root certificate
 vault list pki/issuers/
-vault read pki/issuer/$(vault list -format=json pki/issuers/ | jq -r '.[]') \
- | tail -n 6
+#vault read pki/issuer/$(vault list -format=json pki/issuers/ | jq -r '.[]') \
+# | tail -n 6
 # Create a role
 vault write pki/roles/2027-servers allow_any_name=true
 # Issue a certificate
