@@ -1,0 +1,36 @@
+# sets the apiversion to use for rbac-resources. Change to `authorization.openshift.io` for openshift
+rbacApiVersion: rbac.authorization.k8s.io
+# namespace is the namespace the operators will _run_
+namespace: olm
+# watchedNamespaces is a comma-separated list of namespaces the operators will _watch_ for OLM resources.
+# Omit to enable OLM in all namespaces
+watchedNamespaces: olm
+# catalog_namespace is the namespace where the catalog operator will look for global catalogs.
+# entries in global catalogs can be resolved in any watched namespace
+catalog_namespace: olm
+# operator_namespace is the namespace where the operator runs
+operator_namespace: operators
+
+# OLM operator run configuration
+olm:
+  # OLM operator doesn't do any leader election (yet), set to 1
+  replicaCount: 1
+  # The image to run. If not building a local image, use sha256 image references
+  image:
+    ref: quay.io/operator-framework/olm:local
+    pullPolicy: IfNotPresent
+  service:
+    # port for readiness/liveness probes
+    internalPort: 8080
+
+# catalog operator run configuration
+catalog:
+  # Catalog operator doesn't do any leader election (yet), set to 1
+  replicaCount: 1
+  # The image to run. If not building a local image, use sha256 image references
+  image:
+    ref: quay.io/operator-framework/olm:local
+    pullPolicy: IfNotPresent
+  service:
+    # port for readiness/liveness probes
+    internalPort: 8080
