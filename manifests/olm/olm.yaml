@@ -277,17 +277,17 @@ spec:
           image: quay.io/operator-framework/olm@sha256:4404599eb7b7736bdbd0f36260a60599f32acb6edeaf7d0c54bb10b36619e5fe
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080
+            - containerPort: 8000
               name: metrics
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 8080
+              port: 8000
               scheme: HTTP
           readinessProbe:
             httpGet:
               path: /healthz
-              port: 8080
+              port: 8000
               scheme: HTTP
           terminationMessagePolicy: FallbackToLogsOnError
           env:
@@ -354,17 +354,17 @@ spec:
           image: quay.io/operator-framework/olm@sha256:4404599eb7b7736bdbd0f36260a60599f32acb6edeaf7d0c54bb10b36619e5fe
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080
+            - containerPort: 8000
               name: metrics
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 8080
+              port: 8000
               scheme: HTTP
           readinessProbe:
             httpGet:
               path: /healthz
-              port: 8080
+              port: 8000
               scheme: HTTP
           terminationMessagePolicy: FallbackToLogsOnError
           resources:
