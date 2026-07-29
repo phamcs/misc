@@ -282,12 +282,12 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 8085
+              port: 8080
               scheme: HTTP
           readinessProbe:
             httpGet:
               path: /healthz
-              port: 8085
+              port: 8080
               scheme: HTTP
           terminationMessagePolicy: FallbackToLogsOnError
           env:
@@ -359,12 +359,12 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 8085
+              port: 8080
               scheme: HTTP
           readinessProbe:
             httpGet:
               path: /healthz
-              port: 8085
+              port: 8080
               scheme: HTTP
           terminationMessagePolicy: FallbackToLogsOnError
           resources:
