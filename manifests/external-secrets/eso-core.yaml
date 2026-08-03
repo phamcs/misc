@@ -12,7 +12,7 @@ spec:
     targetRevision: 2.8.0 # Use the latest stable version
     helm:
       values: |
-    installCRDs: true
+      installCRDs: true
   destination:
     server: https://kubernetes.default.svc
     namespace: external-secrets-system
