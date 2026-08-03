@@ -12,7 +12,7 @@ spec:
     targetRevision: 0.16.1 # Use the latest stable version
     helm:
       values: |
-    installCRDs: true
+        installCRDs: true
   destination:
     server: https://kubernetes.default.svc
     namespace: metallb-system
