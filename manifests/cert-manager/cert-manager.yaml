@@ -1,0 +1,74 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: default
+  source:
+    repoURL: https://charts.jetstack.io
+    chart: cert-manager
+    targetRevision: v1.14.5
+    helm:
+      # CRDs are managed separately
+      skipCrds: true
+      values: |
+        # Enable prometheus metrics
+        prometheus:
+          enabled: true
+          servicemonitor:
+            enabled: true
+
+        # Resource limits
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 256Mi
+
+        # Webhook configuration
+        webhook:
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
+
+        # CA injector
+        cainjector:
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 256Mi
+
+        # Install CRDs separately
+        installCRDs: false
+
+        # DNS01 solver configuration for cloud providers
+        # Uncomment for AWS Route53
+        # serviceAccount:
+        #   annotations:
+        #     eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT:role/cert-manager
+        # securityContext:
+        #   fsGroup: 1001
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
