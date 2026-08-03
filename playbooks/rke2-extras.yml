@@ -1,0 +1,11 @@
+---
+# Setup Extras for RKE2
+- name: Setup Extras for RKE2
+  hosts: all
+  any_errors_fatal: true
+  become: true
+  become_user: root
+  roles:
+    - common
+
+    

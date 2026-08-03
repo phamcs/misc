@@ -1,0 +1,36 @@
+---
+# Setup symlink crictl
+- name: Ensure /etc/crictl.yaml points to RKE2 crictl configuration
+  ansible.builtin.file:
+    src: /var/lib/rancher/rke2/agent/etc/crictl.yaml
+    dest: /etc/crictl.yaml
+    state: link
+    force: true
+
+# Create Containerd Directory
+- name: Create containerd directory
+  ansible.builtin.file:
+    path: "{{ rke2_containerd_config }}"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+# Copy config-v3 config
+- name: Copy config-v3 config
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    owner: root
+    group: root
+  loop:
+    - { src: 'files/config-v3.toml.j2', dest: '{{ rke2_containerd_config }}/config-v3.toml'}
+
+# Install binaries
+- name: Install binaries
+  ansible.builtin.shell: |
+    curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+  args:
+    chdir: /usr/local/bin

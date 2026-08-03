@@ -2,3 +2,4 @@
 app_dir: "/srv/AppData"
 app_user: "k0ng"
 common_dir: "{{ app_dir }}/common"
+rke2_containerd_config: "/var/lib/rancher/rke2/agent/etc/containerd/config-v3.toml.d"
