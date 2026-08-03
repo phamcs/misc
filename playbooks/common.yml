@@ -1,6 +1,6 @@
 ---
-# Setup Extras for RKE2
-- name: Setup Extras for RKE2
+# Setup Common
+- name: Setup Common
   hosts: all
   any_errors_fatal: true
   become: true
