@@ -17,14 +17,30 @@
 - name: Satisfy OS Pre-Reqs
   ansible.builtin.include_tasks: pre_reqs.yml
 
-- name: Check if nginx container is running
-  ansible.builtin.shell: |
-    systemctl status rke2-server.service
-    systemctl status rke2-agent.service
-  register: rke2_services
+- name: Get RKE2 server service status
+  ansible.builtin.systemd:
+    name: rke2-server
+  register: rke2_server
+  ignore_errors: true
+  #when: "'rke2_servers' in group_names"
+
+- name: Get RKE2 agent service status
+  ansible.builtin.systemd:
+    name: rke2-agent
+  register: rke2_agent
+  ignore_errors: true
+  #when: "'rke2_workers' in group_names"
+
+- name: Print RKE2 service state
+  ansible.builtin.debug:
+    msg: >
+      Node {{ inventory_hostname }} service state is
+      {{ rke2_server_status.status.ActiveState | default(rke2_agent_status.status.ActiveState) }}
 
 - name: Include rke2-extras
   ansible.builtin.include_role:
     name: common
     tasks_from: rke2-extras
-  when: rke2_services.stdout == 'running'
+  when: 
+    - rke2_server.status.ActiveState == 'running'
+    - rke2_agent.status.ActiveState == 'running'
