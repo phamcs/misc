@@ -44,12 +44,15 @@
     src: "daemon.json.j2"
     dest: "/etc/docker/daemon.json"
   notify: Restart docker
+- name: Check if rke2 is running
+  ansible.builtin.shell: |
+    systemctl status rke2-server.service
+    systemctl status rke2-agent.service
+  register: rke2_services
 
 # generate containerd default config
 - name: Generate containerd default config
   ansible.builtin.shell:
     cmd: |
       containerd config default | sudo tee /etc/containerd/config.toml
-  when: 
-    - ansible_facts.services['rke2-server.service'].state != 'running'
-    - ansible_facts.services['rke2-agent.service'].state != 'running'
+  when: rke2-server.service.state != 'running'
