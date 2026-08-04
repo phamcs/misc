@@ -44,11 +44,20 @@
     src: "daemon.json.j2"
     dest: "/etc/docker/daemon.json"
   notify: Restart docker
+
 - name: Check if rke2 is running
   ansible.builtin.shell: |
     systemctl status rke2-server.service
     systemctl status rke2-agent.service
   register: rke2_services
+  ignore_errors: true
+
+# Display rke2 services
+- name: Display rke2 services result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ rke2_services.stdout_lines }}"
+  when: rke2_services.stdout_lines is defined
 
 # generate containerd default config
 - name: Generate containerd default config
