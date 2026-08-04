@@ -27,4 +27,4 @@
   ansible.builtin.include_role:
     name: common
     tasks_from: rke2-extras
-  when: rke2_services.state == 'running'
+  when: rke2_services.stdout == 'running'
