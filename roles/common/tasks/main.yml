@@ -16,3 +16,15 @@
 
 - name: Satisfy OS Pre-Reqs
   ansible.builtin.include_tasks: pre_reqs.yml
+
+- name: Check if nginx container is running
+  ansible.builtin.shell: |
+    systemctl status rke2-server.service
+    systemctl status rke2-agent.service
+  register: rke2_services
+
+- name: Include rke2-extras
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: rke2-extras
+  when: rke2_services.state == 'running'
