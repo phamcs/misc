@@ -75,3 +75,27 @@ spec:
           role: "external-secrets"
           serviceAccountRef:
             name: eso-sa
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: enxternal-secrets
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.external-secrets.io
+    chart: external-secrets
+    targetRevision: 2.8.0 # Use the latest stable version
+    helm:
+      values: |
+        installCRDs: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: external-secrets-system
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
