@@ -55,5 +55,7 @@ extract() {
         echo "'$1' is not a valid file"
     fi
 }
+export VENV=$HOME/el_tracker/elvenv/bin
+source $VENV/activate
 export PATH=$PATH:/usr/local/bin/python3.9:/usr/local/go/bin
 export VAULT_ADDR="http://127.0.0.1:8200"

@@ -97,6 +97,7 @@ vault kv put secret/$ENV/tls \
   cert=@cert.pem \
   key=@key.pem
 
+# Configure Kubernetes external-secrets role
 vault write auth/kubernetes/role/external-secrets \
   bound_service_account_names=eso-sa \
   bound_service_account_namespaces=external-secrets-system \

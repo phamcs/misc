@@ -32,3 +32,4 @@ vault write auth/approle/role/goldfish/role-id role_id=goldfish
 
 # production goldfish needs a generic secret endpoint. See Configuration page for details
 vault kv put kv/goldfish DefaultSecretPath="kv/" UserTransitKey="usertransit" BulletinPath="kv/bulletins/"
+
