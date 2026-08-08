@@ -67,9 +67,9 @@
 # Setup Python
 - name: Setup Python
   ansible.builtin.shell: |
-    /usr/local/bin/python3 -m ensurepip
-    /usr/local/bin/python3 -m pip install --upgrade pip setuptools wheel
-    /usr/local/bin/python3 -m pip install virtualenv
+    /usr/local/bin/python3.9 -m ensurepip
+    /usr/local/bin/python3.9 -m pip install --upgrade pip setuptools wheel
+    /usr/local/bin/python3.9 -m pip install virtualenv
   register: py_install
   until: py_install.rc == 0
 

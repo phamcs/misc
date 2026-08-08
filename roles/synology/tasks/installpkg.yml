@@ -24,14 +24,12 @@
       # Additional Packages
       - SynoOnlinePack_v2
       #- ContainerManager     # Commented this out to manual install on selected volume{n}
-      - Apache2.4
       - DhcpServer
       - DNSServer
       - LogCenter
       - PHP8.2
       - NoteStation
       - Perl
-      - WebStation
       - TextEditor
       - Node.js_v20
       - PHP8.4

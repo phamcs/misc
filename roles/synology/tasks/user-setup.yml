@@ -12,6 +12,21 @@
     - el_tracker
     - logs
 
+- name: Set directory owner permission
+  ansible.builtin.file:
+    path: "{{ user_dir }}/{{ item }}"
+    state: directory
+    mode: '0700'
+    owner: "{{ syno_user }}"
+  loop:
+    - .gnupg
+    - .ssh
+
+- name: Set relative files permission
+  ansible.builtin.shell: |
+    chmod 600 "{{ user_dir }}/.ssh/*"
+    chmod 600 "{{ user_dir }}/.gnupg/*"
+
 # Copy python install script
 - name: Copy python install script
   ansible.builtin.copy:
