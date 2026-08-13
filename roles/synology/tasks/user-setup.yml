@@ -12,6 +12,18 @@
     - el_tracker
     - logs
 
+# Setup AppData directory & permission
+- name: Setup AppData directory & Permission
+  ansible.builtin.file:
+    path: "{{ app_dir }}/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ syno_user }}"
+    recurse: yes
+  loop:
+    - keepassxc
+    - web-server
+
 - name: Set directory owner permission
   ansible.builtin.file:
     path: "{{ user_dir }}/{{ item }}"
@@ -42,13 +54,14 @@
     mode: '0644'
     owner: "{{ syno_user }}"
   loop:
+    - { src: 'autodir.py', dest: '{{ user_dir }}/autodir.py' }
     - { src: 'bashrc', dest: '{{ user_dir }}/.bashrc' }
     - { src: 'bash_profile', dest: '{{ user_dir }}/.bash_profile' }
-    - { src: 'My_BSIT_Degree.jpg', dest: '{{ user_dir}}/My_BSIT_Degree.jpg' }
-    - { src: 'requirements.txt', dest: '{{ user_dir }}/el_tracker/requirements.txt' }
     - { src: 'ca.pem', dest: '{{ user_dir }}/ca.pem' }
     - { src: 'cert.pem', dest: '{{ user_dir }}/cert.pem' }
     - { src: 'key.pem', dest: '{{ user_dir }}/key.pem' }
+    - { src: 'My_BSIT_Degree.jpg', dest: '{{ user_dir}}/My_BSIT_Degree.jpg' }
+    - { src: 'requirements.txt', dest: '{{ user_dir }}/el_tracker/requirements.txt' }
 
 - name: Setup pyvenv for user
   ansible.builtin.shell: |

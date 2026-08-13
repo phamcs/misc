@@ -25,10 +25,10 @@
     owner: "{{ syno_user }}"
     mode: 0644
   loop:
-    - { src: 'files/AppData.zip', dest: '{{ apps_dir }}/AppData.zip' }
-    - { src: 'files/DSM722-backup.zip', dest: '{{ archive_dir }}/backup/DSM722-backup.zip' }
-    - { src: 'files/private.zip', dest: '{{ archive_dir }}/private/private.zip' }
-    - { src: 'files/snippets.zip', dest: '{{ archive_dir }}/snippets/snippets.zip' }
+    - { src: 'AppData.zip', dest: '{{ apps_dir }}/AppData.zip' }
+    - { src: 'DSM722-backup.zip', dest: '{{ archive_dir }}/backup/DSM722-backup.zip' }
+    - { src: 'private.zip', dest: '{{ archive_dir }}/private/private.zip' }
+    - { src: 'snippets.zip', dest: '{{ archive_dir }}/snippets/snippets.zip' }
 
 # Install Golang for synology
 - name: Copy and extract tar file

@@ -45,3 +45,5 @@ kubectl create secret generic external-secrets \
   --namespace external-secrets-system \
   --from-literal=role-id=$ROLE_ID \
   --from-literal=secret-id=$SECRET_ID
+
+exit 0;

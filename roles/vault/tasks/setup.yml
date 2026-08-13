@@ -22,9 +22,9 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/cert.pem', dest: '{{ vault_dir }}/ssl/cert.pem' }
-    - { src: 'files/key.pem', dest: '{{ vault_dir }}/ssl/key.pem' }
-    - { src: 'files/vault.yml', dest: '{{ vault_dir }}/vault.yml' }
+    - { src: 'cert.pem', dest: '{{ vault_dir }}/ssl/cert.pem' }
+    - { src: 'key.pem', dest: '{{ vault_dir }}/ssl/key.pem' }
+    - { src: 'vault.yml', dest: '{{ vault_dir }}/vault.yml' }
 
 # Copy vault scripts
 - name: Copy vault config and cert
@@ -34,11 +34,11 @@
     mode: 0755
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/vault_pki', dest: '{{ vault_dir }}/scripts/vault_pki' }
-    - { src: 'files/enable_vault_secrets', dest: '{{ vault_dir }}/scripts/enable_vault_secrets' }
-    - { src: 'files/eso_vault_k8s_auth', dest: '{{ vault_dir }}/scripts/eso_vault_k8s_auth' }
-    - { src: 'files/vault_goldfish_prep', dest: '{{ vault_dir }}/scripts/vault_goldfish_prep' }
-    - { src: 'files/vault_proxmox_plugin', dest: '{{ vault_dir }}/scripts/vault_proxmox_plugin' }
+    - { src: 'vault_pki', dest: '{{ vault_dir }}/scripts/vault_pki' }
+    - { src: 'enable_vault_secrets', dest: '{{ vault_dir }}/scripts/enable_vault_secrets' }
+    - { src: 'eso_vault_k8s_auth', dest: '{{ vault_dir }}/scripts/eso_vault_k8s_auth' }
+    - { src: 'vault_goldfish_prep', dest: '{{ vault_dir }}/scripts/vault_goldfish_prep' }
+    - { src: 'vault_proxmox_plugin', dest: '{{ vault_dir }}/scripts/vault_proxmox_plugin' }
     
 
 # Copy Vault & Goldfish config
