@@ -25,7 +25,7 @@
     owner: root
     group: root
   loop:
-    - { src: 'files/config-v3.toml.j2', dest: '{{ rke2_containerd_config }}/config-v3.toml'}
+    - { src: 'config-v3.toml.j2', dest: '{{ rke2_containerd_config }}/config-v3.toml'}
 
 # Install binaries
 - name: Install binaries

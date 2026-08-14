@@ -17,9 +17,9 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/node-exporter.yml', dest: '{{ common_dir }}/node-exporter.yml'}
-    - { src: 'files/portainer-stack.yml', dest: '{{ common_dir }}/portainer-stack.yml'}
-    - { src: 'files/rl8-ks.cfg', dest: '{{ common_dir }}/rl8-ks.cfg'}
+    - { src: 'node-exporter.yml', dest: '{{ common_dir }}/node-exporter.yml'}
+    - { src: 'portainer-stack.yml', dest: '{{ common_dir }}/portainer-stack.yml'}
+    - { src: 'rl8-ks.cfg', dest: '{{ common_dir }}/rl8-ks.cfg'}
 
 # Start Common Stack
 - name: Start common stack
@@ -44,27 +44,6 @@
     src: "daemon.json.j2"
     dest: "/etc/docker/daemon.json"
   notify: Restart docker
-
-- name: Check if rke2 is running
-  ansible.builtin.shell: |
-    systemctl status rke2-server.service
-    systemctl status rke2-agent.service
-  register: rke2_services
-  ignore_errors: true
-
-# Display rke2 services
-- name: Display rke2 services result standard output lines
-  ansible.builtin.debug:
-    msg: "{{ item }}"
-  loop: "{{ rke2_services.stdout_lines }}"
-  when: rke2_services.stdout_lines is defined
-
-# generate containerd default config
-- name: Generate containerd default config
-  ansible.builtin.shell:
-    cmd: |
-      containerd config default | sudo tee /etc/containerd/config.toml
-  when: rke2_services.stdout != 'running'
 
 # Add public keys to authorized_keys
 - name: Set up multiple authorized keys
