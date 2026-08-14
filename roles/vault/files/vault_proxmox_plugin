@@ -63,3 +63,5 @@ vault read proxmox/creds/terraform-prov
 # curl -v -X DELETE -H "X-Vault-Request: true" -H "X-Vault-Token: $(vault print token)" https://dev.superasian.net/v1/sys/plugins/catalog/secret/proxmox
 # curl -v -X DELETE -H "X-Vault-Request: true" -H "X-Vault-Token: $(vault print token)" https://dev.superasian.net/v1/sys/plugins/pins/secret/proxmox
 # vault plugin deregister -version $version secret proxmox
+
+BXNs4hKp

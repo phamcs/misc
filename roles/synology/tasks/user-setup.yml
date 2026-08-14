@@ -34,6 +34,15 @@
     - .gnupg
     - .ssh
 
+- name: Setup permission for ssh
+  ansible.builtin.shell: |
+    chmod 600 {{ user_dir }}/.ssh/id_*
+    chmod 644 {{ user_dir }}/.ssh/*pub
+  become: true
+  become_user: "{{ syno_user }}"
+  register: ssh_perm
+  until: ssh_perm.rc == 0
+
 # Copy python install script
 - name: Copy python install script
   ansible.builtin.copy:
