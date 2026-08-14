@@ -21,10 +21,10 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/backup-mysql.sh', dest: '{{ mariadb_dir }}/scripts/backup-mysql.sh' }
-    - { src: 'files/Dockerfile', dest: '{{ mariadb_dir }}/Dockerfile' }
-    - { src: 'files/50-server.cnf', dest: '{{ mariadb_dir}}/config/50-server.cnf'}
-    - { src: 'files/mariadb-stack.yml', dest: '{{ mariadb_dir}}/mariadb-stack.yml'}
+    - { src: 'backup-mysql.sh', dest: '{{ mariadb_dir }}/scripts/backup-mysql.sh' }
+    - { src: 'Dockerfile', dest: '{{ mariadb_dir }}/Dockerfile' }
+    - { src: '50-server.cnf', dest: '{{ mariadb_dir}}/config/50-server.cnf'}
+    - { src: 'mariadb-stack.yml', dest: '{{ mariadb_dir}}/mariadb-stack.yml'}
 
 # Copy db-staging nginx config
 - name: Copy db-staging nginx config
