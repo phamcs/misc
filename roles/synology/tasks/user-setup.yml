@@ -15,7 +15,7 @@
 # Setup AppData directory & permission
 - name: Setup AppData directory & Permission
   ansible.builtin.file:
-    path: "{{ app_dir }}/{{ item }}"
+    path: "{{ apps_dir }}/{{ item }}"
     state: directory
     mode: '0755'
     owner: "{{ syno_user }}"
