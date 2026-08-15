@@ -1,3 +1,9 @@
 [submodule "ansible-generator"]
 	path = ansible-generator
 	url = https://github.com/kkirsche/ansible-generator.git
+[submodule "rke2-ansible"]
+	path = rke2-ansible
+	url = https://github.com/phamcs/rke2-ansible.git
+[submodule "roles/rke2-ansible"]
+	path = roles/rke2-ansible
+	url = https://github.com/phamcs/rke2-ansible.git

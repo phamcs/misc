@@ -9,6 +9,11 @@
     state: restarted
     name: containerd
 
+- name: Restart sshd
+  ansible.builtin.service:
+    state: restarted
+    name: sshd
+
 - name: Restart systemd-sysctl
   ansible.builtin.service:
     state: restarted
