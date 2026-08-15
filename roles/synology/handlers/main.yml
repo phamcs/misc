@@ -14,3 +14,10 @@
     synopkg restart ContainerManager
   async: 1
   poll: 0
+
+# Restart sshd
+- name: Restart sshd
+  ansible.builtin.command: |
+    systemctl restart sshd
+  async: 1
+  poll: 0
