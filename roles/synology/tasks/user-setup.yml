@@ -1,17 +1,5 @@
 ---
 # Setup Python for synology. Make sure python3.9 installed from Package Center before run playbook
-- name: Create a new user with specific attributes
-  ansible.builtin.user:
-    name: "{{ syno_user }}"
-    uid: 1026
-    state: present
-    shell: /bin/sh
-    generate_ssh_key: true
-    create_home: false
-    home: "{{ home_dir }}"
-    groups: users,http,administrators
-    append: true  # Keeps existing groups; prevents overwriting
-
 # Create el_tracker venv and install requirements
 - name: Create el_tracker venv and install requirements
   ansible.builtin.file:
