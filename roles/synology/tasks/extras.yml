@@ -47,6 +47,7 @@
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
   args:
     chdir: /usr/local/bin
+    executable: /bin/bash
 
 # Download binaries for synology
 - name: Download binaries
