@@ -4,7 +4,6 @@
   ansible.builtin.user:
     name: "{{ syno_user }}"
     uid: 1026
-    gid: 100
     state: present
     shell: /bin/bash
     generate_ssh_key: true
