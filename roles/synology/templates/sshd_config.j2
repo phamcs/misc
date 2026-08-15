@@ -26,7 +26,10 @@ PrintMotd no
 PrintLastLog yes
 TCPKeepAlive yes
 AcceptEnv LANG LC_*
-Subsystem sftp /usr/lib/openssh/sftp-server
+# override default of no subsystems
+#Subsystem sftp /usr/libexec/sftp-server
+#Subsystem sftp /usr/lib/openssh/sftp-server
+Subsystem sftp internal-sftp -f DAEMON -u 000
 UsePAM {{ sshd_use_pam }}
 PasswordAuthentication {{ sshd_password_authentication }}
 ChallengeResponseAuthentication {{ sshd_challenge_response_authentication }}

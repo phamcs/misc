@@ -1,5 +1,18 @@
 ---
 # Setup Python for synology. Make sure python3.9 installed from Package Center before run playbook
+- name: Create a new user with specific attributes
+  ansible.builtin.user:
+    name: "{{ syno_user }}"
+    uid: 1026
+    gid: 100
+    state: present
+    shell: /bin/bash
+    generate_ssh_key: true
+    create_home: true
+    home: "{{ home_dir }}"
+    groups: users,http,administrators
+    append: true  # Keeps existing groups; prevents overwriting
+
 # Create el_tracker venv and install requirements
 - name: Create el_tracker venv and install requirements
   ansible.builtin.file:
@@ -42,6 +55,24 @@
   become_user: "{{ syno_user }}"
   register: ssh_perm
   until: ssh_perm.rc == 0
+
+# configure ssh server
+- name: Copy sshd template
+  ansible.builtin.template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    mode: '0600'
+    validate: /usr/sbin/sshd -t -f %s
+    backup: yes
+  register: sshd_config
+
+# Display sshd config
+- name: Display sshd config result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ sshd_config.stdout_lines }}"
+  when: sshd_config.stdout_lines is defined
 
 # Copy python install script
 - name: Copy python install script
