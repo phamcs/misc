@@ -15,7 +15,7 @@ helm install external-dns external-dns/external-dns \
   --set policy=sync \
   --set sources[0]=service \
   --set sources[1]=ingress \
-  --set txtOwnerId=phamcs-cluster \
+  --set txtOwnerId=k8s-external-dns \
   --set domainFilters[0]=superasian.net
 
 # Check that External-DNS pods are running

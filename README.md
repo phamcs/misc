@@ -13,7 +13,7 @@
 
 ## Pre-requirements
 
-It's assuming that yoo already had setup your servers with static IP. You also had awx setup.
+It's assuming that you already had setup your servers with static IP. You also had awx setup.
 
 ## Ecosystem
 

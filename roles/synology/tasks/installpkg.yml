@@ -30,7 +30,7 @@
       - NoteStation
       - Perl
       - TextEditor
-      - Node.js_v20
+      - Node.js_v22
       - PHP8.4
 
   register: pkg_install

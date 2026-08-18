@@ -44,8 +44,8 @@
             - "{{ SERVER_ADDRESS_SHORT }}"
             - "{{ SERVER_ADDRESS_FQDN }}"
             - "{{ SERVER_FAILOVER_IP }}"
-          
-          cni: calico # Better cni
+          ingress-controller: traefik  # Default to replace nginx as of > kubernetes 1.32.x
+          cni: calico  # Better cni
       notify: "rke2-server service restart"
 
     - name: Creating the CoreDNS config file
