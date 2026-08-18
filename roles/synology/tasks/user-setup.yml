@@ -24,15 +24,14 @@
     - .ssh
 
 - name: Generate ssh keys
-  ansible.builtin.command: ssh-keygen -q -t ed25519 -N "" -f ~/.ssh/id_ed25519 && ssh-keygen -q -t rsa -N "" -f ~/.ssh/id_rsa
+  ansible.builtin.command: ssh-keygen -q -t ed25519 -N "" -f ~/.ssh/id_ed25519
   become: true
   become_user: "{{ syno_user }}"
   register: ssh_keys
   args:
     chdir: "{{ user_dir }}"
-    creates:
-      - "{{ user_dir }}/.ssh/id_ed25519"
-      - "{{ user_dir }}/.ssh/id_rsa"
+    creates: "{{ user_dir }}/.ssh/id_ed25519"
+      #- "{{ user_dir }}/.ssh/id_rsa"
 
 # Display ssh keys generate output
 - name: Display ssh keys generate standard output lines
