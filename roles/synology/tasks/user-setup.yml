@@ -25,6 +25,7 @@
 
 - name: Generate ssh keys
   ansible.builtin.shell: |
+    rm -f "{{ user_dir }}"/.ssh/* && \
     ssh-keygen -q -t ed25519 -N "" -f "{{ user_dir }}"/.ssh/id_ed25519 && \
     ssh-keygen -q -t rsa -N "" -f "{{ user_dir }}"/.ssh/id_rsa
   become: true
