@@ -12,7 +12,7 @@
     - el_tracker
     - logs
 
-- name: Set directory owner permission
+- name: Create & Set directory owner permission
   ansible.builtin.file:
     path: "{{ user_dir }}/{{ item }}"
     state: directory
@@ -25,12 +25,12 @@
 
 - name: Setup permission for ssh
   ansible.builtin.shell: |
-    /bin/chmod 600 {{ user_dir }}/.ssh/id_*
-    /bin/chmod 644 {{ user_dir }}/.ssh/*pub
+    ssh-keygen -q -t ed25519 -N "" -f ~/.ssh/id_ed25519
+    ssh-keygen -q -t rsa -N "" -f ~/.ssh/id_rsa
   become: true
   become_user: "{{ syno_user }}"
-  register: ssh_perm
-  until: ssh_perm.rc == 0
+  register: ssh_keys
+  until: ssh_keys == 0
 
 # Copy scripts
 - name: Copy scripts
