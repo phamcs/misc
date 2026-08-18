@@ -23,14 +23,14 @@
     - .kube
     - .ssh
 
-- name: Setup permission for ssh
+- name: Generate ssh keys
   ansible.builtin.shell: |
-    ssh-keygen -q -t ed25519 -N "" -f ~/.ssh/id_ed25519
-    ssh-keygen -q -t rsa -N "" -f ~/.ssh/id_rsa
+    ssh-keygen -q -t ed25519 -N "" -f "{{ user_dir }}"/.ssh/id_ed25519 && \
+    ssh-keygen -q -t rsa -N "" -f "{{ user_dir }}"/.ssh/id_rsa
   become: true
   become_user: "{{ syno_user }}"
   register: ssh_keys
-  until: ssh_keys == 0
+  when: not ssh_keys.stat.exists
 
 # Copy scripts
 - name: Copy scripts

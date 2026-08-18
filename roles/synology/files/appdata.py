@@ -24,15 +24,40 @@ def create_structure(base_path, structure):
             # If value is None, just create the single leaf directory
             current_path.mkdir(parents=True, exist_ok=True)
 
-# 1. Define your blueprint dictionary
-project_blueprint = {
-    "project": {
-        "src": {
+# 1. Define your blueprint dictionary (aka: json format)
+projects_blueprint = {
+    "airsonic": {
+        "media": {
+            "artworks": None,
+            "covers": None
+        },
+        "playlists": None,
+        "podcasts": None
+    },
+    "keepassxc": {
+        "Desktop": {
             "components": None,
             "utils": None
         },
-        "docs": ["api", "guides", "images"],
-        "tests": None
+        "ssl": None
+    },
+    "mariadb": {
+        "backup": None,
+        "config": None,
+        "data": None,
+        "scripts": None,
+        "secrets": None,
+        "ssl": None
+    },
+    "nginx": {
+        "conf.d": None,
+        "ssl": None
+    },
+    "vault": {
+        "config": None,
+        "data": None,
+        "plugins": None,
+        "ssl": None
     }
 }
 
@@ -40,5 +65,5 @@ project_blueprint = {
 target_directory = "/volume1/AppData"
 
 # 3. Execute the function
-create_structure(target_directory, project_blueprint)
+create_structure(target_directory, projects_blueprint)
 print("Directory structure successfully created!")
