@@ -31,7 +31,7 @@
   become_user: "{{ syno_user }}"
   register: ssh_keys
   args:
-    chdir: {{ user_dir }}
+    chdir: "{{ user_dir }}"
     creates:
       - "{{ user_dir }}/.ssh/id_ed25519"
       - "{{ user_dir }}/.ssh/id_rsa"
