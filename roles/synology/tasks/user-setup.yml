@@ -23,6 +23,24 @@
     - .kube
     - .ssh
 
+- name: Generate ssh keys
+  ansible.builtin.command: ssh-keygen -q -t ed25519 -N "" -f ~/.ssh/id_ed25519 && ssh-keygen -q -t rsa -N "" -f ~/.ssh/id_rsa
+  become: true
+  become_user: "{{ syno_user }}"
+  register: ssh_keys
+  args:
+    chdir: "{{ user_dir }}"
+    creates:
+      - "{{ user_dir }}/.ssh/id_ed25519"
+      - "{{ user_dir }}/.ssh/id_rsa"
+
+# Display ssh keys generate output
+- name: Display ssh keys generate standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ ssh_keys.stdout_lines }}"
+  when: ssh_keys.stdout_lines is defined
+
 # Copy scripts
 - name: Copy scripts
   ansible.builtin.copy:
@@ -31,7 +49,7 @@
     mode: '0755'
     owner: "{{ syno_user }}"
   loop:
-    - { src: 'autodir.py', dest: '{{ user_dir }}/autodir.py' }
+    - { src: 'appdata.py', dest: '{{ user_dir }}/appdata.py' }
     - { src: 'enable_vault_secrets', dest: '{{ user_dir }}/enable_vault_secrets' }
     - { src: 'goldfish_prep', dest: '{{ user_dir }}/goldfish_prep' }
     - { src: 'unseal_vault', dest: '{{ user_dir }}/unseal_vault' }
