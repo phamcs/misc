@@ -70,3 +70,18 @@
     msg: "{{ item }}"
   loop: "{{ pyvenv_install.stdout_lines }}"
   when: pyvenv_install.stdout_lines is defined
+
+- name: Setup directory structure for AppData
+  ansible.builtin.shell: |
+    python3 -m appdata.py
+  become: true
+  become_user: "{{ syno_user }}"
+  register: appdata_setup
+  until: appdata_setup.rc == 0
+
+# Display appdata output
+- name: Display appdata setup standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ appdata_setup.stdout_lines }}"
+  when: appdata_setup.stdout_lines is defined
