@@ -73,7 +73,7 @@
 
 - name: Setup directory structure for AppData
   ansible.builtin.shell: |
-    python3 -m appdata.py
+    python3 appdata.py
   become: true
   become_user: "{{ syno_user }}"
   register: appdata_setup
