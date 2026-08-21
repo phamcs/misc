@@ -2,14 +2,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: enxternal-secrets
+  name: external-secrets
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://charts.external-secrets.io
     chart: external-secrets
-    targetRevision: 2.8.0 # Use the latest stable version
+    targetRevision: 2.9.0 # Use the latest stable version
     helm:
       values: |
         installCRDs: true

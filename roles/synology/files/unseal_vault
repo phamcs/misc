@@ -1,6 +1,7 @@
 #!/bin/bash
-
-export VAULT_ADDR='http://10.0.0.36:8200'
+ENV=dev
+DOMAIN="superasian.net"
+export VAULT_ADDR='https://$ENV.$DOMAIN'
 
 # Create log file if it doesn't exist
 LOGFILE=/var/services/homes/k0ng/logs/unseal_vault.log
