@@ -20,6 +20,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     network_mode: bridge
-
+  # The Cloudflare Tunnel agent
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token eyJhIjoiOWEyNmQwY2I4NDM4OTRhODY1NmFjZDUwNmYyZWJlOWMiLCJ0IjoiMmMwNmNiYmYtMTI5Yi00YmQxLTg2MjktNTk0M2I3NzZmMDg1IiwicyI6Ik9HTmtOR0kxTXpNdE1tVTVaaTAwTnpFMUxXSXhNbUV0WVRnM01tVXlZek0zTkdGayJ9
+    network_mode: bridge
 volumes:
   portainer_data:

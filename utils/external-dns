@@ -1,5 +1,15 @@
 #!/bin/bash
 # cloudflare-secret.yaml
+cat <<EOF | kubectl create -f -
+---
+apiVersion: v1
+data:
+  api-token: NmpiVUc0X000SjVTVVNKTzZKX2JNTTZpVFlrQlpib3N2Zkl6NEZ4dw==
+kind: Secret
+metadata:
+  name: cloudflare-api-token
+  namespace: external-dns
+EOF
 kubectl create namespace external-dns
 # Add the External-DNS Helm repository
 helm repo add external-dns https://kubernetes-sigs.github.io/external-dns/
@@ -17,9 +27,3 @@ helm install external-dns external-dns/external-dns \
   --set sources[1]=ingress \
   --set txtOwnerId=k8s-external-dns \
   --set domainFilters[0]=superasian.net
-
-# Check that External-DNS pods are running
-kubectl get pods -n external-dns
-
-# Check the logs for any errors
-kubectl logs -n external-dns -l app.kubernetes.io/name=external-dns
