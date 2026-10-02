@@ -1,0 +1,60 @@
+---
+services:
+  gitlab:
+    image: gitlab/gitlab-ee:17.11.7-ee.0
+    container_name: gitlab
+    restart: always
+    network_mode: bridge
+    # Enable this to fix the ulimit permission error
+    privileged: true
+    ulimits:
+      nofile:
+        soft: 32768
+        hard: 65536
+      nproc:
+        soft: 2048
+        hard: 4096
+    ports:
+      - '80:80'
+      - '443:443'
+      - '2424:22'
+      - '5050:5050'
+    volumes:
+      - '/srv/AppData/gitlab/config:/etc/gitlab'
+      - '/srv/AppData/gitlab/logs:/var/log/gitlab'
+      - '/srv/dev-disk-by-uuid-b5f61a9b-1827-498b-a77b-7caf811c025b/DATA/ARCHIVE/gitlab_data:/var/opt/gitlab'
+    shm_size: '256m'
+    hostname: 'gitlab.superasian.net'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        # Add any other gitlab.rb configuration here, each on its own line
+        external_url 'https://gitlab.superasian.net'
+        registry_external_url 'https://gitlab.superasian.net:5050'
+        # Need to disable default letsencrypt to use custom cert and disable cert autorenew
+        letsencrypt['enable'] = false
+        # Nginx built-in enable by default. To use extenral nginx disable it
+        #nginx['enable'] = false
+        nginx['listen_port'] = 443
+        nginx['listen_https'] = true
+        nginx['redirect_http_to_https'] = true
+        nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.crt"
+        nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.key"
+
+        # Disable the bundled Omnibus provided PostgreSQL
+        postgresql['enable'] = false
+        # PostgreSQL connection details
+        gitlab_rails['db_adapter'] = 'postgresql'
+        gitlab_rails['db_encoding'] = 'unicode'
+        gitlab_rails['db_host'] = '10.0.0.252' # IP/hostname of database server
+        gitlab_rails['db_password'] = 'G8XKon97Rleg2UxKBftOMAlsMSOq5EVqD5L7AEpnX1E='
+        gitlab_rails['db_user'] = 'gitlab'
+
+        # Enable the Container Registry
+        gitlab_rails['registry_enabled'] = true
+        registry['enable'] = true
+        registry['log_directory'] = "/var/log/gitlab/registry"
+        registry['env_directory'] = "/opt/gitlab/etc/registry/env"
+        registry_nginx['enable'] = true
+        registry_nginx['listen_port'] = 5050
+        registry_nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.crt"
+        registry_nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.key"
