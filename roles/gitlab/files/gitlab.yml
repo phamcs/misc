@@ -16,21 +16,26 @@ services:
         hard: 4096
     ports:
       - '80:80'
+      - '8080:8080'
       - '443:443'
-      - '2424:22'
+      - '2222:22'
       - '5050:5050'
+      - '8083:8083'
+      - '8181:8181'
+      - '9229:9229'
     volumes:
       - '/srv/AppData/gitlab/config:/etc/gitlab'
-      - '/srv/AppData/gitlab/logs:/var/log/gitlab'
+      - '/srv/dev-disk-by-uuid-b5f61a9b-1827-498b-a77b-7caf811c025b/DATA/ARCHIVE/gitlab_logs:/var/log/gitlab'
       - '/srv/dev-disk-by-uuid-b5f61a9b-1827-498b-a77b-7caf811c025b/DATA/ARCHIVE/gitlab_data:/var/opt/gitlab'
     shm_size: '256m'
     hostname: 'gitlab.superasian.net'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
+        # --- MAIN GITLAB CONFIGURATION --- 
         external_url 'https://gitlab.superasian.net'
-        registry_external_url 'https://gitlab.superasian.net:5050'
-        # Need to disable default letsencrypt to use custom cert and disable cert autorenew
+        sidekiq['concurrency'] = 25
+        # Disable default letsencrypt to use custom cert and disable cert autorenew
         letsencrypt['enable'] = false
         # Nginx built-in enable by default. To use extenral nginx disable it
         #nginx['enable'] = false
@@ -40,6 +45,58 @@ services:
         nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.crt"
         nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.key"
 
+        # --- PROMETHEUS CONFIGURATION ---
+        prometheus_monitoring['enable'] = false
+        gitlab_rails['prometheus_enabled'] = true
+        gitlab_rails['prometheus_address'] = '10.0.0.16:9090'
+        prometheus['listen_address'] = '0.0.0.0:9090'
+        prometheus['flags'] = {
+          'storage.tsdb.path' => "/var/opt/gitlab/prometheus/data",
+          'storage.tsdb.retention.time' => "7d",
+          'storage.tsdb.retention.size' => "2GB",
+          'config.file' => "/var/opt/gitlab/prometheus/prometheus.yml"
+        }
+
+        # --- TUNE CONFIGURATION ---
+        # 1. Disable unused bundled services to conserve RAM/CPU
+        prometheus['enable'] = false
+        alertmanager['enable'] = false
+        node_exporter['enable'] = false
+        redis_exporter['enable'] = false
+        gitlab_exporter['enable'] = false
+
+        # 2. Add your external Prometheus server IP to the IP allowlist
+        gitlab_rails['monitoring_whitelist'] = ['127.0.0.0/8', '10.0.0.16']
+
+        # 3. Enable individual component exporters and bind them to the network interface
+        # Performance tuning for Puma web server
+        puma['worker_processes'] = 2
+        puma['max_threads'] = 4
+        puma['exporter_enabled'] = true
+        puma['exporter_address'] = '0.0.0.0'
+        puma['exporter_port'] = 8083
+
+        # --- GITLAB WORKHORSE TWEAKS CONFIGURATION ---
+        gitlab_workhorse['enable'] = true
+        gitlab_workhorse['listen_network'] = 'tcp'
+        gitlab_workhorse['listen_addr'] = '0.0.0.0:8181'
+        gitlab_workhorse['auth_backend'] = 'http://localhost:8080'
+        gitlab_workhorse['prometheus_listen_addr'] = '0.0.0.0:9229'
+        gitlab_workhorse['api_limit'] = 100
+        gitlab_workhorse['api_queue_limit'] = 20
+        gitlab_workhorse['api_queue_duration'] = '30s'
+        gitlab_workhorse['proxy_headers_timeout'] = '5m0s'
+
+        # --- GITLAB PAGES CONFIGURATION ---
+        gitlab_pages['enable'] = true
+        # Optional: Enable Access Control (Require GitLab login to view pages)
+        gitlab_pages['access_control'] = true
+        pages_external_url 'https://gitlab-pages.superasian.net'
+        pages_nginx['enable'] = true
+        pages_nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.crt"
+        pages_nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.key"
+
+        # --- DB CONFIGURATION ---
         # Disable the bundled Omnibus provided PostgreSQL
         postgresql['enable'] = false
         # PostgreSQL connection details
@@ -48,13 +105,55 @@ services:
         gitlab_rails['db_host'] = '10.0.0.252' # IP/hostname of database server
         gitlab_rails['db_password'] = 'G8XKon97Rleg2UxKBftOMAlsMSOq5EVqD5L7AEpnX1E='
         gitlab_rails['db_user'] = 'gitlab'
+        gitlab_rails['db_pool'] = '10'
 
-        # Enable the Container Registry
+        # --- CONTANIER REGISTRY CONFIGURATION ---
+        registry_external_url 'https://gitlab-registry.superasian.net'
         gitlab_rails['registry_enabled'] = true
         registry['enable'] = true
+        registry['debug_addr'] = "localhost:5001"
         registry['log_directory'] = "/var/log/gitlab/registry"
         registry['env_directory'] = "/opt/gitlab/etc/registry/env"
+        registry['database'] = {
+          'enabled' => true,
+          'host' => '10.0.0.252',
+          'port' => 5432, # Default, but set to the port of your database instance if it differs.
+          'user' => 'gitlab',
+          'password' => 'G8XKon97Rleg2UxKBftOMAlsMSOq5EVqD5L7AEpnX1E=',
+          'dbname' => 'gitlab_registry',
+          'sslmode' => 'disable' # See the PostgreSQL documentation for additional information https://www.postgresql.org/docs/current/libpq-ssl.html.
+          #'sslcert' => '</path/to/cert.pem>',
+          #'sslkey' => '</path/to/private.key>',
+          #'sslrootcert' => '</path/to/ca.pem>'
+        }
         registry_nginx['enable'] = true
         registry_nginx['listen_port'] = 5050
         registry_nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.crt"
         registry_nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.key"
+               
+        # --- LDAP CONFIGURATION ---
+        gitlab_rails['ldap_enabled'] = true
+        gitlab_rails['ldap_servers'] = {
+          'main' => {
+            'label' => 'LDAP',
+            'host' => '10.0.0.25',
+            'port' => 389,
+            'uid' => 'sAMAccountName',
+            'bind_dn' => 'uid=root,CN=users,DC=ldap,DC=superasian,DC=net',
+            'password' => 'Letmein123',
+            'encryption' => 'simple_tls',
+            'verify_certificates' => false,
+            'tls_options' => {
+              'ca_file' => '/etc/gitlab/trusted_certs/cf_origin_ca_root_rsa.pem',
+              'ssl_version' => 'TLSv1_2'
+            },
+            'timeout' => 10,
+            'active_directory' => false,
+            'user_filter' => '(employeeType=developer)',
+            'base' => 'dc=ldap,dc=superasian,dc=net',
+            'lowercase_usernames' => 'true',
+            'retry_empty_result_with_codes' => [80],
+            'allow_username_or_email_login' => false,
+            'block_auto_created_users' => false
+          }
+        }

@@ -1,0 +1,26 @@
+---
+# Create Apps Directory
+- name: Create apps directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ app_user }}"
+  loop:
+    - gitlab
+    - gitlab/config
+    - gitlab/logs
+    - gitlab/data
+
+# Copy gitlab config files
+- name: Copy gitlab config files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0664
+    owner: "{{ app_user }}"
+  loop:
+    - { src: 'files/gitlab.yml', dest: '{{ gitlab_dir }}/config/docker-compose.yml' }
+    - { src: 'files/cert.pem', dest: '{{ gitlab_dir }}/config/ssl/gitlab.crt' }
+    - { src: 'files/key.pem', dest: '{{ gitlab_dir }}/config/ssl/gitlab.key' }
+

@@ -34,6 +34,28 @@ scrape_configs:
     static_configs:
       - targets: ['promtail:9080']
 
+  # Gitlab metrics config
+  - job_name: 'gitlab'
+    metrics_path: '/-/metrics'
+    scheme: 'https' # Use 'http' if your GitLab doesn't use SSL/TLS
+    authorization:
+      type: 'Bearer'
+      credentials: 'YOUR_GITLAB_METRICS_TOKEN' # If token authentication is configured
+    tls_config:
+      insecure_skip_verify: false # Set to true only if using self-signed certs for testing
+    static_configs:
+      - targets: ['gitlab.superasian.net']
+
+  - job_name: 'gitlab-puma'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['10.0.0.16:8083']
+
+  - job_name: 'gitlab-exporter'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['10.0.0.16:9168']
+
   # External stack outside of monitoring need to use IP address
   # Scrape metrics for the Harbor exporter component
   - job_name: 'harbor-exporter'
@@ -68,15 +90,7 @@ scrape_configs:
   # Make sure node-exporter running on the following static nodes
   - job_name: 'static-nodes'
     static_configs:
-      - targets: ['10.0.0.16:9100', '10.0.0.25:9100', '10.0.0.30:9100', '10.0.0.36:9100', '10.0.0.252:9100']
-
-  # Make sure prometheus-node-exporter running on the following nodes
-  - job_name: 'prometheus-nginx-exporter'
-    scrape_interval: 20s
-    params:
-      comp: ['prometheus-nginx-exporter']
-    static_configs:
-      - targets: ['10.0.0.16:9113', '10.0.0.30:9113', '10.0.0.25:9113']
+      - targets: ['10.0.0.16:9100', '10.0.0.25:9100', '10.0.0.252:9100']
 
   # MySQL & MariaDB scrape
   - job_name: 'mysql'
