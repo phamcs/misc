@@ -5,10 +5,19 @@
     path: "{{ app_dir }}/{{ item }}"
     state: directory
     mode: 0755
-    owner: "{{ app_user }}"
+    owner: root
   loop:
     - gitlab
     - gitlab/config
+
+# Create Gitlab Storage Directory
+- name: Create gitlab storage directory
+  ansible.builtin.file:
+    path: "{{ gitlab_storage }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: root
+  loop:
     - gitlab/logs
     - gitlab/data
 
@@ -20,7 +29,35 @@
     mode: 0664
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/gitlab.yml', dest: '{{ gitlab_dir }}/config/docker-compose.yml' }
+    - { src: 'files/gitlab-stack.yml', dest: '{{ gitlab_dir }}/config/gitlab-stack.yml' }
     - { src: 'files/cert.pem', dest: '{{ gitlab_dir }}/config/ssl/gitlab.crt' }
     - { src: 'files/key.pem', dest: '{{ gitlab_dir }}/config/ssl/gitlab.key' }
+    - { src: 'files/origin_ca_rsa_root.pem', dest: '{{ gitlab_dir }}/config/trusted-certs/cf_origin_ca.pem' }
 
+# Start Basic Gitlab
+- name: Start gitlab container
+  ansible.builtin.command:
+    chdir: "{{ gitlab_config }}"
+    cmd: "docker compose -f gitlab-stack.yml up -d"
+  register: compose_result
+  until: compose_result.rc == 0
+  retries: 5
+  delay: 10
+
+# Display compose output
+- name: Display compose result standard output lines
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ compose_result.stdout_lines }}"
+  when: compose_result.stdout_lines is defined
+
+# Copy custom gitlab compose config
+- name: Copy gitlab compose config
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ gitlab_config }}/{{ item }}"
+    mode: 0644
+    owner: root
+  loop:
+    - gitlab-stack.yml
+  notify: Restart gitlab

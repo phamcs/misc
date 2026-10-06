@@ -1,14 +1,16 @@
 shared:
     node:
-        ip: 10.0.0.25
-        id: n4s-i5-2400
-        name: n4s-i5-2400
+        ip: 10.0.0.16
+        id: artifactory
+        name: artifactory
     database:
         type: postgresql
         driver: org.postgresql.Driver
         url: jdbc:postgresql://10.0.0.252:5432/artifactory
         username: artifactory
         password: mIb9nPKQ8LnaSHMWV1cG3A==
+    extraJavaOpts: "-Xms512m -Xmx2g"
+
 router:
     entrypoints:
         externalPort: 8082

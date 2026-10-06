@@ -36,3 +36,10 @@
     name: common
     tasks_from: rke2-extras
   when: rke2_services.stdout == 'running'
+
+# Generate containerd default config when rke2-services not running
+- name: Generate containerd default config
+  ansible.builtin.shell:
+    cmd: |
+      containerd config default | sudo tee /etc/containerd/config.toml
+  when: rke2_services.stdout != 'running'

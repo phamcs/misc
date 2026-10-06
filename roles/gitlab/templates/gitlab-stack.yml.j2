@@ -1,7 +1,7 @@
 ---
 services:
   gitlab:
-    image: gitlab/gitlab-ee:17.11.7-ee.0
+    image: gitlab/gitlab-ee:"{{ gitlab_version }}"
     container_name: gitlab
     restart: always
     network_mode: bridge
@@ -121,10 +121,7 @@ services:
           'user' => 'gitlab',
           'password' => 'G8XKon97Rleg2UxKBftOMAlsMSOq5EVqD5L7AEpnX1E=',
           'dbname' => 'gitlab_registry',
-          'sslmode' => 'disable' # See the PostgreSQL documentation for additional information https://www.postgresql.org/docs/current/libpq-ssl.html.
-          #'sslcert' => '</path/to/cert.pem>',
-          #'sslkey' => '</path/to/private.key>',
-          #'sslrootcert' => '</path/to/ca.pem>'
+          'sslmode' => 'disable'     # See the PostgreSQL documentation for additional information https://www.postgresql.org/docs/current/libpq-ssl.html.
         }
         registry_nginx['enable'] = true
         registry_nginx['listen_port'] = 5050

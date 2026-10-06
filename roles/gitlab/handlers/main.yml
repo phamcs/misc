@@ -5,6 +5,12 @@
   ansible.builtin.service:
     state: restarted
     name: docker
+    
+- name: Restart gitlab
+  ansible.builtin.command: |
+    docker restart gitlab
+  async: 1
+  poll: 0
 
 - name: Restart sshd
   ansible.builtin.service:

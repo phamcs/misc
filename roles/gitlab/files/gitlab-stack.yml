@@ -1,0 +1,72 @@
+---
+services:
+  gitlab:
+    image: gitlab/gitlab-ee:17.11.7-ee.0
+    container_name: gitlab
+    restart: always
+    network_mode: bridge
+    # Enable this to fix the ulimit permission error
+    privileged: true
+    ulimits:
+      nofile:
+        soft: 32768
+        hard: 65536
+      nproc:
+        soft: 2048
+        hard: 4096
+    ports:
+      - '80:80'
+      - '443:443'
+      - '2222:22'
+      - '8083:8083'
+    volumes:
+      - '/srv/AppData/gitlab/config:/etc/gitlab'
+      - '/srv/dev-disk-by-uuid-b5f61a9b-1827-498b-a77b-7caf811c025b/DATA/ARCHIVE/gitlab_logs:/var/log/gitlab'
+      - '/srv/dev-disk-by-uuid-b5f61a9b-1827-498b-a77b-7caf811c025b/DATA/ARCHIVE/gitlab_data:/var/opt/gitlab'
+    shm_size: '256m'
+    hostname: 'gitlab.superasian.net'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        # Add any other gitlab.rb configuration here, each on its own line
+        # --- MAIN GITLAB CONFIGURATION --- 
+        external_url 'https://gitlab.superasian.net'
+        sidekiq['concurrency'] = 25
+        # Disable default letsencrypt to use custom cert and disable cert autorenew
+        letsencrypt['enable'] = false
+        # Nginx built-in enable by default. To use extenral nginx disable it
+        #nginx['enable'] = false
+        nginx['listen_port'] = 443
+        nginx['listen_https'] = true
+        nginx['redirect_http_to_https'] = true
+        nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.crt"
+        nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.key"
+
+        # --- TUNE CONFIGURATION ---
+        # 1. Disable unused bundled services to conserve RAM/CPU
+        prometheus['enable'] = false
+        alertmanager['enable'] = false
+        node_exporter['enable'] = false
+        redis_exporter['enable'] = false
+        gitlab_exporter['enable'] = false
+
+        # 2. Add your external Prometheus server IP to the IP allowlist
+        gitlab_rails['monitoring_whitelist'] = ['127.0.0.0/8', '10.0.0.16']
+
+        # 3. Enable individual component exporters and bind them to the network interface
+        # Performance tuning for Puma web server
+        puma['worker_processes'] = 2
+        puma['max_threads'] = 4
+        puma['exporter_enabled'] = true
+        puma['exporter_address'] = '0.0.0.0'
+        puma['exporter_port'] = 8083
+
+        # --- DB CONFIGURATION ---
+        # Disable the bundled Omnibus provided PostgreSQL
+        postgresql['enable'] = false
+        # PostgreSQL connection details
+        gitlab_rails['db_adapter'] = 'postgresql'
+        gitlab_rails['db_encoding'] = 'unicode'
+        gitlab_rails['db_host'] = '10.0.0.252' # IP/hostname of database server
+        gitlab_rails['db_password'] = 'G8XKon97Rleg2UxKBftOMAlsMSOq5EVqD5L7AEpnX1E='
+        gitlab_rails['db_user'] = 'gitlab'
+        gitlab_rails['db_pool'] = '10'
