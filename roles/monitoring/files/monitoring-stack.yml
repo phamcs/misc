@@ -202,8 +202,7 @@ services:
     volumes:
       # Logs collection
       - /var/log:/var/log:ro
-      - /srv/dev-disk-by-uuid-b5f61a9b-1827-498b-a77b-7caf811c025b/DATA/docker/containers:/var/lib/docker/containers:ro
-      - /srv/AppData/airsonic/config:/var/airsonic:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
       # Promtail config
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /srv/AppData/monitoring/promtail/config/promtail.yml:/etc/promtail/promtail.yml

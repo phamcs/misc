@@ -18,6 +18,14 @@ scrape_configs:
       job: airsoniclogs
       __path__: /var/airsonic/*log
 
+- job_name: gitlab
+  static_configs:
+  - targets:
+      - "localhost"
+    labels:
+      job: gitlablogs
+      __path__: /srv/dev-disk-by-uuid-b5f61a9b-1827-498b-a77b-7caf811c025b/DATA/ARCHIVE/gitlab_logs/*/*log
+
 - job_name: system
   static_configs:
   - targets:
@@ -62,14 +70,14 @@ scrape_configs:
       format: RFC3339Nano
       source: time
   - labels:
-      stream:
-      container_id:
-      tag:
-      compose_project:
-      compose_service:
-      stack_name:
-      swarm_service_name:
-      swarm_task_name:
+      stream: stream
+      container_id: container_id
+      tag: tag
+      compose_project: compose_project
+      compose_service: compose_service
+      stack_name: stack_name
+      swarm_service_name: swarm_service_name
+      swarm_task_name: swarm_task_name
   - output:
       source: log
 
@@ -132,7 +140,7 @@ scrape_configs:
           stream: stream
           time: time
     - labels:
-        stream:
+        stream: stream
     - timestamp:
         source: time
         format: RFC3339Nano
