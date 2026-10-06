@@ -79,7 +79,7 @@ scrape_configs:
         description: "Total HTTP requests"
         source: status
         config:
-          match_all: true
+          #match_all: true
           action: inc
 
       http_request_size_bytes:
