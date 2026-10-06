@@ -43,10 +43,10 @@ limits_config:
   split_queries_by_interval: 24h
   retention_period: 72h       #new
   max_query_series: 5000
-  ingestion_rate_mb: 24           # default = 4 (MB)
-  ingestion_burst_size_mb: 36     # default = 6 (MB)
+  ingestion_rate_mb: 25           # default = 4 (MB)
+  ingestion_burst_size_mb: 50     # default = 6 (MB)
   #allow_structured_metadata: true
-  per_stream_rate_limit: 15MB
+  per_stream_rate_limit: 5MB
   per_stream_rate_limit_burst: 20MB
   #additional limits
   max_query_parallelism: 100
