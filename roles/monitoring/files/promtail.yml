@@ -8,6 +8,9 @@ positions:
 
 clients:
   - url: http://loki:3100/loki/api/v1/push
+    batchsize: 1048576 # 1MB (increase batch size)
+    batchwait: 2s      # Wait up to 2s to fill the batch
+    timeout: 10s       # Give requests more time to complete before failing
 
 scrape_configs:
 - job_name: gitlab
