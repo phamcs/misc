@@ -59,10 +59,11 @@ scrape_configs:
         - https://mariadb.superasian.net
         - https://mdb.superasian.net
         - https://monitoring.superasian.net
-        - https://music..superasian.net
+        - https://music.superasian.net
         - https://pgsql.superasian.net
         - https://portainer.supersian.net
         - https://rancher.superasian.net
+        - https://registry.superasian.net
         - https://staging.superasian.net
         - https://vault.superasian.net
         - https://vault-staging.superasian.net
