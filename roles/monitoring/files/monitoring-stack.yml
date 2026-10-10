@@ -34,7 +34,22 @@ services:
       - "9090:9090"
     networks:
       - backend
+    depends_on:
+      - blackbox-exporter
     restart: unless-stopped
+
+  blackbox-exporter:
+    image: prom/blackbox-exporter:latest
+    container_name: blackbox-exporter
+    restart: unless-stopped
+    networks:
+      - backend
+    ports:
+      - "9115:9115"
+    volumes:
+      - /srv/AppData/monitoring/blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml:ro
+    command:
+      - '--config.file=/etc/blackbox_exporter/config.yml'
 
   tempo:
     image: grafana/tempo:2.10.0

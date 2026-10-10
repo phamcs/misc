@@ -6,10 +6,10 @@
 DOCKER_REGISTRY=releases-docker.jfrog.io
 
 ## Version of artifactory to install
-ARTIFACTORY_VERSION=7.125.14
+ARTIFACTORY_VERSION=7.161.26
 
 ## The Installation directory for Artifactory. IF not entered, the script will prompt you for this input. Default [$HOME/.jfrog/artifactory]
-ROOT_DATA_DIR=/srv/AppData/artifactory
+ROOT_DATA_DIR=/srv/dev-disk-by-uuid-b5f61a9b-1827-498b-a77b-7caf811c025b/DATA/ARCHIVE/artifactory_data
 
 ## Router external port mapping. This property may be overridden from the system.yaml (router.entrypoints.externalPort)
 JF_ROUTER_ENTRYPOINTS_EXTERNALPORT=8082
@@ -17,8 +17,3 @@ JF_ROUTER_ENTRYPOINTS_EXTERNALPORT=8082
 ## Nginx logrotation configuration
 NGINX_LOG_ROTATE_COUNT=10
 NGINX_LOG_ROTATE_SIZE=100M
-
-# My variables
-JF_SHARED_NODE_IP=10.0.0.25
-JF_SHARED_NODE_ID=artifactory
-JF_SHARED_NODE_NAME=artifactory

@@ -5,18 +5,17 @@
     path: "{{ app_dir }}/artifactory"
     state: directory
     mode: 0755
-    owner: "{{ artifactory_user }}"
-    group: "{{ artifactory_group }}"
+    owner: root
     recurse: yes
 
 # Create Artifactory Directory
 - name: Create artifactory directory
   ansible.builtin.file:
-    path: "{{ app_dir }}/artifactory/{{ item }}"
+    path: "{{ data_dir }}/{{ item }}"
     state: directory
     mode: 0755
-    owner: "{{ artifactory_user }}"
-    group: "{{ artifactory_group }}"
+    owner: 1033
+    group: 1033
   loop:
     - app
     - var
@@ -26,7 +25,7 @@
 - name: Remove existing files in artifactory directory
   ansible.builtin.command:
     cmd: "rm -rf *"
-    chdir: "{{ app_dir }}/artifactory/var/etc"
+    chdir: "{{ data_dir }}/var/etc"
 
 - name: Copy and extract tar file
   ansible.builtin.unarchive:
@@ -67,8 +66,8 @@
 # Start Artifactory
 - name: Start Artifactory
   ansible.builtin.command:
-    cmd: "docker compose -p rt up -d"
-    chdir: "{{ app_dir }}/{{ product }}-{{ version }}"
+    cmd: "docker compose up -d"
+    chdir: "{{ app_dir }}"
   register: compose_result
   until: compose_result.rc == 0
   retries: 5
@@ -88,19 +87,8 @@
 # End User License Agreement
 - name: Accept End User License Agreement
   ansible.builtin.command:
-    cmd: "curl -XPOST -vu 'admin:password' http://localhost:8082/artifactory/ui/jcr/eula/accept"
+    cmd: "curl -XPOST -vu 'admin:password' http://localhost:8082/artifactory/ui/oss/eula/accept"
   register: ula_result
   until: ula_result.rc == 0
   retries: 5
   delay: 10
-
-# Copy Artifactory nginx config
-- name: Copy Artifactory nginx config
-  ansible.builtin.template:
-    src: "templates/{{ item }}.j2"
-    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
-    mode: 0644
-    owner: root
-  loop:
-    - artifactory.conf
-  notify: Restart nginx

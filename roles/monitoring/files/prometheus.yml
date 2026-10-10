@@ -46,6 +46,36 @@ scrape_configs:
     static_configs:
       - targets: ['gitlab.superasian.net']
 
+  - job_name: 'blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]  # Must match the module name in blackbox.yml
+    static_configs:
+      - targets:
+        - https://airsonic.superasian.net
+        - https://argocd.superasian.net
+        - https://awx.superasian.net
+        - https://gitlab.superasian.net
+        - https://mariadb.superasian.net
+        - https://mdb.superasian.net
+        - https://monitoring.superasian.net
+        - https://music..superasian.net
+        - https://pgsql.superasian.net
+        - https://portainer.supersian.net
+        - https://rancher.superasian.net
+        - https://staging.superasian.net
+        - https://vault.superasian.net
+        - https://vault-staging.superasian.net
+        - https://www.superasian.net
+        
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115  # Internal Docker network address
+
   - job_name: 'gitlab-puma'
     metrics_path: '/metrics'
     static_configs:

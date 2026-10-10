@@ -1,7 +1,7 @@
 ---
 services:
   artifactory:
-    image: releases-docker.jfrog.io/jfrog/artifactory-oss:latest
+    image: ${DOCKER_REGISTRY}/jfrog/artifactory-oss:${ARTIFACTORY_VERSION}
     container_name: artifactory-oss
     volumes:
       - /srv/dev-disk-by-uuid-b5f61a9b-1827-498b-a77b-7caf811c025b/DATA/ARCHIVE/artifactory_data:/var/opt/jfrog/artifactory
@@ -12,7 +12,8 @@ services:
       nofile:
         soft: 32000
         hard: 40000
-    network_mode: bridge
+    networks:
+      - backend
     ports:
       - 8082:8082 # for router communication
       - 8081:8081 # for artifactory communication
@@ -23,6 +24,7 @@ services:
         max-file: "10"
     environment:
       - ENABLE_MIGRATION=y
+      - JF_JFCONNECT_ENABLED=false
       - JF_SHARED_DATABASE_TYPE=postgresql
       # The following must match the POSTGRES_USER and POSTGRES_PASSWORD values passed to PostgreSQL
       - JF_SHARED_DATABASE_USERNAME=artifactory
@@ -33,3 +35,25 @@ services:
       - JF_SHARED_NODE_ID=artifactory
       - JF_SHARED_NODE_NAME=artifactory
       - JF_ROUTER_ENTRYPOINTS_EXTERNALPORT=8082
+  exporter:
+    image: peimanja/artifactory_exporter:latest
+    container_name: artifactory_exporter
+    restart: always
+    ports:
+      - "9531:9531"
+    depends_on:
+      - artifactory
+    networks:
+      - backend
+    environment:
+      - ARTI_URL=https://artifactory.superasian.net
+      - ARTI_USERNAME=${ARTI_USERNAME}
+      - ARTI_PASSWORD=${ARTI_PASSWORD}
+      # Or use an access token instead of username/password:
+      # - ARTI_ACCESS_TOKEN=your-access-token
+    command:
+      - --log.level=info
+
+networks:
+  backend:
+    driver: bridge

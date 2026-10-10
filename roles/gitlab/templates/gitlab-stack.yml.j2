@@ -35,6 +35,8 @@ services:
         # --- MAIN GITLAB CONFIGURATION --- 
         external_url 'https://gitlab.superasian.net'
         sidekiq['concurrency'] = 25
+        sidekiq['metrics_enabled'] = true
+        sidekiq['listen_address'] = '0.0.0.0'
         # Disable default letsencrypt to use custom cert and disable cert autorenew
         letsencrypt['enable'] = false
         # Nginx built-in enable by default. To use extenral nginx disable it

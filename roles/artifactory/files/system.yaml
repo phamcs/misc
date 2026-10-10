@@ -17,3 +17,6 @@ router:
 observability:
     consumption:
         allow: ""
+
+jfconnect:
+  enabled: false
