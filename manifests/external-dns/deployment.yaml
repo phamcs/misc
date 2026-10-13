@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: external-dns
+  template:
+    metadata:
+      labels:
+        app: external-dns
+    spec:
+      serviceAccountName: external-dns
+      containers:
+        - name: external-dns
+          image: registry.k8s.io/external-dns/external-dns:latest
+          args:
+            - --source=service
+            - --source=ingress
+            - --provider=cloudflare # Replace with your provider (e.g., cloudflare, google, etc.)
+            - --policy=upsert-only # Prevent accidental deletions during testing
+            - --registry=txt
+            - --txt-owner-id=k8s.superasian.net
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            runAsUser: 1000
+            seccompProfile:
+              type: RuntimeDefault
