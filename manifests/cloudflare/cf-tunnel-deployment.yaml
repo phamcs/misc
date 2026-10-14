@@ -39,6 +39,8 @@ spec:
             - --metrics
             - 0.0.0.0:2000
             - run
+            - --token
+            - $(TUNNEL_TOKEN)
           livenessProbe:
             httpGet:
               # Cloudflared has a /ready endpoint which returns 200 if and only if
@@ -48,3 +50,10 @@ spec:
             failureThreshold: 1
             initialDelaySeconds: 10
             periodSeconds: 10
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
