@@ -4,11 +4,10 @@
 # Full configuration options can be found at https://developer.hashicorp.com/vault/docs/configuration
 
 ui = true
-disable_mlock = true
-#mlock = true
+disable_mlock = false
 api_addr = "https://{{ domain }}"
 #cluster_addr = "https://{{ domain }}:8201"
-plugin_directory = "/opt/vault/plugins"
+plugin_directory = "/vault/plugins"
 log_level = "warn"
 log_format = "json"
 log_requests_level = "warn"
@@ -35,11 +34,11 @@ seal "transit" {
 # HTTP/HTTPS listener
 listener "tcp" {
   address       = "0.0.0.0:8200"
-  tls_cert_file = "/opt/vault/ssl/cert.pem"
-  tls_key_file  = "/opt/vault/ssl/key.pem"
-  tls_min_version = "tls12"
-  tls_max_version = "tls13"
-  tls_disable = false
+  #tls_cert_file = "/vault/ssl/cert.pem"
+  #tls_key_file  = "/vault/ssl/key.pem"
+  #tls_min_version = "tls12"
+  #tls_max_version = "tls13"
+  tls_disable = true
 }
 # Telemetry settings
 telemetry {

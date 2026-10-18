@@ -1,0 +1,4 @@
+resources:
+  - manifests.yaml
+patches:
+  - path: resource_patch.yaml

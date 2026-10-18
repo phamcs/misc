@@ -32,7 +32,7 @@ services:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
-        # --- MAIN GITLAB CONFIGURATION --- 
+        # --- MAIN GITLAB CONFIGURATION ---
         external_url 'https://gitlab.superasian.net'
         sidekiq['concurrency'] = 25
         sidekiq['metrics_enabled'] = true
@@ -129,30 +129,32 @@ services:
         registry_nginx['listen_port'] = 5050
         registry_nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.crt"
         registry_nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.key"
-               
-        # --- LDAP CONFIGURATION ---
-        gitlab_rails['ldap_enabled'] = true
-        gitlab_rails['ldap_servers'] = {
-          'main' => {
-            'label' => 'LDAP',
-            'host' => '10.0.0.25',
-            'port' => 389,
-            'uid' => 'sAMAccountName',
-            'bind_dn' => 'uid=root,CN=users,DC=ldap,DC=superasian,DC=net',
-            'password' => 'Letmein123',
-            'encryption' => 'simple_tls',
-            'verify_certificates' => false,
-            'tls_options' => {
-              'ca_file' => '/etc/gitlab/trusted_certs/cf_origin_ca_root_rsa.pem',
-              'ssl_version' => 'TLSv1_2'
-            },
-            'timeout' => 10,
-            'active_directory' => false,
-            'user_filter' => '(employeeType=developer)',
-            'base' => 'dc=ldap,dc=superasian,dc=net',
-            'lowercase_usernames' => 'true',
-            'retry_empty_result_with_codes' => [80],
-            'allow_username_or_email_login' => false,
-            'block_auto_created_users' => false
+
+        # --- KEYCLOAK CONFIGURATION ---
+        gitlab_rails['omniauth_enabled'] = true
+        gitlab_rails['omniauth_allow_single_sign_on'] = ['openid_connect']
+        gitlab_rails['omniauth_block_auto_created_users'] = false
+        gitlab_rails['omniauth_providers'] = [
+          {
+            "name" => "openid_connect",
+            "label" => "Keycloak SSO",
+            "args" => {
+              "name" => "openid_connect",
+              "scope" => ["openid", "profile", "email"],
+              "response_type" => "code",
+              "issuer" => "https://kc.superasian.net/realms/gitlab-auth",
+              "client_auth_method" => "query",
+              "uid_field" => "prefered_username",
+              "discovery" => true,
+              "send_scope_to_token_endpoint" => "false",
+              "client_options" => {
+                "identifier" => "gitlab",
+                "secret" => "MApZzzfCXKtVSAazQjXJEUMtx28Z8hhu",
+                "redirect_uri" => "https://gitlab.superasian.net/users/auth/openid_connect/callback",
+                "authorization_endpoint" => "https://kc.superasian.net/realms/gitlab-auth/protocol/openid-connect/auth",
+                "token_endpoint" => "https://kc.superasian.net/realms/gitlab-auth/protocol/openid-connect/token",
+                "userinfo_endpoint" => "https://kc.superasian.net/realms/gitlab-auth/protocol/openid-connect/userinfo"
+              }
+            }
           }
-        }
+        ]

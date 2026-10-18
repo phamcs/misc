@@ -6,10 +6,10 @@ networks:
 
 
 services:
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    user: "1000"
+  # Alertmanager Configuration
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
     logging:
       driver: "json-file"
       options:
@@ -17,28 +17,18 @@ services:
         max-file: "3"
         tag: "{{.Name}}"
     volumes:
-      - /srv/AppData/monitoring/prometheus:/etc/prometheus
-      - /srv/AppData/monitoring/prometheus:/prometheus
+      - /srv/AppData/monitoring/alertmanager/config:/etc/alertmanager
+      - /srv/AppData/monitoring/alertmanager/data:/alertmanager
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention.time=15d'      # Adjust retention period
-      - '--storage.tsdb.wal-compression'         # Compress write-ahead log
-      - '--web.enable-admin-api'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
-      - '--web.enable-lifecycle'
-      # Enable tempo features
-      - '--enable-feature=exemplar-storage'
-      - '--web.enable-remote-write-receiver'
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
     ports:
-      - "9090:9090"
+      - "9093:9093"
     networks:
       - backend
-    depends_on:
-      - blackbox-exporter
     restart: unless-stopped
 
+  # Blackbox Exporter Configuration
   blackbox-exporter:
     image: prom/blackbox-exporter:latest
     container_name: blackbox-exporter
@@ -52,53 +42,7 @@ services:
     command:
       - '--config.file=/etc/blackbox_exporter/config.yml'
 
-  tempo:
-    image: grafana/tempo:2.10.0
-    container_name: tempo
-    user: "1000"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-        tag: "{{.Name}}"
-    command:
-      - '-config.file=/etc/tempo.yml'
-      - '-config.expand-env=true'
-    networks:
-      - backend
-    ports:
-      - "3200:3200"
-      - "4317:4317"
-      - "4318:4318"
-    volumes:
-      - /srv/AppData/monitoring/tempo/config/tempo.yml:/etc/tempo.yml:ro
-      - /srv/AppData/monitoring/tempo/data:/var/tempo
-    restart: unless-stopped
-
-  node-exporter:
-    image: prom/node-exporter:latest
-    container_name: node-exporter
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-        tag: "{{.Name}}"
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($|/)'
-    ports:
-      - "9100:9100"
-    networks:
-      - backend
-    restart: unless-stopped
-
+  # Cadvisor Configuration
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
@@ -130,6 +74,7 @@ services:
       - backend
     restart: unless-stopped
 
+  # Grafana Configuration
   grafana:
     user: "1000"
     image: grafana/grafana:latest
@@ -170,85 +115,7 @@ services:
       - backend
     restart: unless-stopped
 
-  loki:
-    user: "1000"
-    image: grafana/loki:latest
-    container_name: loki
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-        tag: "{{.Name}}"
-    networks:
-      - backend
-    ports:
-      - 3100:3100
-    volumes:
-      - /srv/AppData/monitoring/loki/data:/loki
-      - /srv/AppData/monitoring/loki/config/loki.yml:/etc/loki/loki.yml:ro
-    command:
-      - '--config.file=/etc/loki/loki.yml'
-      - '--config.expand-env=true'
-      - '--target=all'
-      - '--validation.discover-log-levels=true'
-      - '--pattern-ingester.enabled=true'
-      - '--ingester.wal-enabled=true'
-      # Disable structured metadata to reduce log size, improve performance and needed for schema v13 upgrade
-      - '--validation.allow-structured-metadata=false'
-    restart: unless-stopped
-
-  promtail:
-    image: grafana/promtail:latest
-    container_name: promtail
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-        tag: "{{.Name}}"
-    depends_on:
-      - loki
-    links:
-      - loki
-    ports:
-      - 9080:9080
-    networks:
-      - backend
-    volumes:
-      # Logs collection
-      - /var/log:/var/log:ro
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      # Promtail config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /srv/AppData/monitoring/promtail/config/promtail.yml:/etc/promtail/promtail.yml
-      - /srv/AppData/monitoring/promtail:/etc/promtail
-    command:
-      - '--config.file=/etc/promtail/promtail.yml'
-    restart: unless-stopped
-
-  alertmanager:
-    image: prom/alertmanager:latest
-    container_name: alertmanager
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-        tag: "{{.Name}}"
-    volumes:
-      - /srv/AppData/monitoring/alertmanager/config:/etc/alertmanager
-      - /srv/AppData/monitoring/alertmanager/data:/alertmanager
-    command:
-      - '--config.file=/etc/alertmanager/alertmanager.yml'
-      - '--storage.path=/alertmanager'
-    ports:
-      - "9093:9093"
-    networks:
-      - backend
-    restart: unless-stopped
-
-  ## Influxdb Service
+  ## Influxdb Configuration
   influxdb2:
     user: "1000"
     image: influxdb:latest
@@ -280,7 +147,124 @@ services:
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=p9avK9R4234nWVeyC9YovQPL
     restart: unless-stopped
 
-  ## Telegraf Service
+  # Loki Configuration
+  loki:
+    user: "1000"
+    image: grafana/loki:latest
+    container_name: loki
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"
+    networks:
+      - backend
+    ports:
+      - 3100:3100
+    volumes:
+      - /srv/AppData/monitoring/loki/data:/loki
+      - /srv/AppData/monitoring/loki/config/loki.yml:/etc/loki/loki.yml:ro
+    command:
+      - '--config.file=/etc/loki/loki.yml'
+      - '--config.expand-env=true'
+      - '--target=all'
+      - '--validation.discover-log-levels=true'
+      - '--pattern-ingester.enabled=true'
+      - '--ingester.wal-enabled=true'
+      # Disable structured metadata to reduce log size, improve performance and needed for schema v13 upgrade
+      - '--validation.allow-structured-metadata=false'
+    restart: unless-stopped
+
+  # Node Exporter Configuration
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($|/)'
+    ports:
+      - "9100:9100"
+    networks:
+      - backend
+    restart: unless-stopped
+
+  # Prometheus Configuration
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    user: "1000"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"
+    volumes:
+      - /srv/AppData/monitoring/prometheus:/etc/prometheus
+      - /srv/AppData/monitoring/prometheus:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=15d'      # Adjust retention period
+      - '--storage.tsdb.wal-compression'         # Compress write-ahead log
+      - '--web.enable-admin-api'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+      # Enable tempo features
+      - '--enable-feature=exemplar-storage'
+      - '--web.enable-remote-write-receiver'
+    ports:
+      - "9090:9090"
+    networks:
+      - backend
+    depends_on:
+      - blackbox-exporter
+    restart: unless-stopped
+
+  # Promtail Configuration
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"
+    depends_on:
+      - loki
+    links:
+      - loki
+    ports:
+      - 9080:9080
+    networks:
+      - backend
+    volumes:
+      # Logs collection
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      # Promtail config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /srv/AppData/monitoring/promtail/config/promtail.yml:/etc/promtail/promtail.yml
+      - /srv/AppData/monitoring/promtail:/etc/promtail
+    command:
+      - '--config.file=/etc/promtail/promtail.yml'
+    restart: unless-stopped
+
+  ## Telegraf Configuration
   telegraf:
     image: telegraf:latest
     pid: "host"
@@ -311,4 +295,29 @@ services:
       - HOST_PROC=/host/proc
       - HOST_SYS=/host/sys
       - HOST_ETC=/host/etc
+    restart: unless-stopped
+
+  # Tempo Configuration
+  tempo:
+    image: grafana/tempo:2.10.0
+    container_name: tempo
+    user: "1000"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"
+    command:
+      - '-config.file=/etc/tempo.yml'
+      - '-config.expand-env=true'
+    networks:
+      - backend
+    ports:
+      - "3200:3200"
+      - "4317:4317"
+      - "4318:4318"
+    volumes:
+      - /srv/AppData/monitoring/tempo/config/tempo.yml:/etc/tempo.yml:ro
+      - /srv/AppData/monitoring/tempo/data:/var/tempo
     restart: unless-stopped

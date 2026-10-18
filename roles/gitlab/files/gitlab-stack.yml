@@ -28,7 +28,8 @@ services:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
-        # --- MAIN GITLAB CONFIGURATION --- 
+        # This configuration is minimum so load will be faster. Full configuration in templates/gitlab-stack.yml.j2
+        # --- MAIN GITLAB CONFIGURATION ---
         external_url 'https://gitlab.superasian.net'
         sidekiq['concurrency'] = 25
         # Disable default letsencrypt to use custom cert and disable cert autorenew
