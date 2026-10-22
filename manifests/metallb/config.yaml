@@ -1,5 +1,4 @@
 # metallb-instance-config.yaml
----
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:

@@ -102,10 +102,34 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SERVER_DOMAIN=monitoring.superasian.net
-      - GF_SERVER_ROOT_URL=https://monitoring.superasian.net
+      - GF_SERVER_ROOT_URL=https://monitoring.superasian.net/
       - GF_SERVER_CERT_FILE=/etc/grafana/certs/grafana.crt
       - GF_SERVER_KEY_FILE=/etc/grafana/certs/grafana.key
       - GF_PLUGINS_PREINSTALL=grafana-clock-panel,grafana-simple-json-datasource,grafana-lokiexplore-app
+
+      # --- OIDC / Generic OAuth Provider Settings ---
+      - GF_AUTH_GENERIC_OAUTH_ENABLED=true
+      - GF_AUTH_GENERIC_OAUTH_NAME=Keycloak
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=grafana
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=M5LhoVyeEn3p3HS0GdtMLkVLqwW7xlsB
+      - GF_AUTH_GENERIC_OAUTH_SCOPES=openid profile email roles
+      - GF_AUTH_GENERIC_OAUTH_DISCOVERY_URL=https://sso.superasian.net/realms/iam/.well-known/openid-configuration
+      - GF_AUTH_GENERIC_OAUTH_TLS_SKIP_VERIFY_INSECURE=true
+
+      # --- OIDC v1 Endpoints (Replace with your actual Identity Provider domain) ---
+      - GF_AUTH_GENERIC_OAUTH_AUTH_URL=https://sso.superasian.net/realms/iam/protocol/openid-connect/auth
+      - GF_AUTH_GENERIC_OAUTH_TOKEN_URL="https://sso.superasian.net/realms/iam/protocol/openid-connect/token
+      - GF_AUTH_GENERIC_OAUTH_API_URL=https://sso.superasian.net/realms/iam/protocol/openid-connect/userinfo
+
+      # Role Mapping (Maps OIDC groups/roles directly to Grafana roles)
+      #- GF_AUTH_GENERIC_OAUTH_USE_REQUEST_ROLE_MAPPING=true
+      - GF_AUTH_GENERIC_OAUTH_USE_REFRESH_TOKEN=true
+      - GF_AUTH_GENERIC_OAUTH_ALLOW_ASSIGN_GRAFANA_ADMIN=true
+      - GF_AUTH_GENERIC_OAUTH_SKIP_ORG_ROLE_SYNC=true
+      - GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH=contains(roles[*], 'admin') && 'Admin' || contains(roles[*], 'editor') && 'Editor' || 'Viewer'
+
+      # Optional: Automatically log in using OIDC skiping the standard login page
+      # - GF_AUTH_DISABLE_LOGIN_FORM=true
     # Fixed permission issue by setting config >> https://github.com/grafana/grafana-docker/pull/107/changes/fe911d91c47663230bdae6416f8bd112b48dee09
     command:
       - '--config=${GF_PATHS_CONFIG}'

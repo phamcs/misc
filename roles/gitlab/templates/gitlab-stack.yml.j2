@@ -142,18 +142,19 @@ services:
               "name" => "openid_connect",
               "scope" => ["openid", "profile", "email"],
               "response_type" => "code",
-              "issuer" => "https://kc.superasian.net/realms/gitlab-auth",
+              "issuer" => "https://sso.superasian.net/realms/iam",
               "client_auth_method" => "query",
               "uid_field" => "prefered_username",
               "discovery" => true,
               "send_scope_to_token_endpoint" => "false",
               "client_options" => {
                 "identifier" => "gitlab",
-                "secret" => "MApZzzfCXKtVSAazQjXJEUMtx28Z8hhu",
+                "secret" => "Me7BxZYyzvL163X1yrF1qyLG8UJbgq5S",
                 "redirect_uri" => "https://gitlab.superasian.net/users/auth/openid_connect/callback",
-                "authorization_endpoint" => "https://kc.superasian.net/realms/gitlab-auth/protocol/openid-connect/auth",
-                "token_endpoint" => "https://kc.superasian.net/realms/gitlab-auth/protocol/openid-connect/token",
-                "userinfo_endpoint" => "https://kc.superasian.net/realms/gitlab-auth/protocol/openid-connect/userinfo"
+                "authorization_endpoint" => "https://sso.superasian.net/realms/iam/protocol/openid-connect/auth",
+                "logout_endpoint" => "https://sso.superasian.net/realms/iam/protocol/openid-connect/logout",
+                "token_endpoint" => "https://sso.superasian.net/realms/iam/protocol/openid-connect/token",
+                "userinfo_endpoint" => "https://sso.superasian.net/realms/iam/protocol/openid-connect/userinfo"
               }
             }
           }

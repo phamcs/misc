@@ -34,10 +34,8 @@
     mode: 0755
     owner: "{{ app_user }}"
   loop:
-    - { src: 'vault_pki', dest: '{{ vault_dir }}/scripts/vault_pki' }
     - { src: 'enable_vault_secrets', dest: '{{ vault_dir }}/scripts/enable_vault_secrets' }
     - { src: 'eso_vault_k8s_auth', dest: '{{ vault_dir }}/scripts/eso_vault_k8s_auth' }
-    - { src: 'vault_goldfish_prep', dest: '{{ vault_dir }}/scripts/vault_goldfish_prep' }
     - { src: 'vault_proxmox_plugin', dest: '{{ vault_dir }}/scripts/vault_proxmox_plugin' }
 
 
@@ -50,6 +48,7 @@
     owner: "{{ app_user }}"
   loop:
     - admin-policy.hcl
+    - users-policy.hcl
     - vault.hcl
 
 # Download binaries & plugins
