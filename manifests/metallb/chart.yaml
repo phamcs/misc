@@ -1,4 +1,4 @@
----
+# Helm chart for metallb use in ArgoCD namespace
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
