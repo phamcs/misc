@@ -9,7 +9,8 @@ spec:
   source:
     repoURL: https://metallb.github.io/metallb
     chart: metallb
-    targetRevision: 0.16.1 # Use the latest stable version
+    # Use the latest stable version
+    targetRevision: 0.16.1
     helm:
       values: |
         installCRDs: true
