@@ -17,7 +17,7 @@ spec:
   node_selector: |
     kubernetes.io/os: linux
     node-type: worker
-    feature.node.kubernetes.io/cpu-model.vendor_id: Intel   # <--- Must exactly match the node label
+    feature.node.kubernetes.io/cpu-model.vendor_id: GenuineIntel   # <--- Must exactly match the node label
 
   # Web Resource limits
   web_resource_requirements:
