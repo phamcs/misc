@@ -22,5 +22,5 @@ patches:
         template:
           spec:
             nodeSelector:
-              kubernetes.io/os: w0rk3r3
+              kubernetes.io/hostname: w0rk3r3
 
