@@ -9,17 +9,17 @@ def create_structure(base_path, structure):
     for name, content in structure.items():
         # Combine current base path with the key name
         current_path = Path(base_path) / name
-        
+
         if isinstance(content, dict):
             # If the value is a dictionary, create a folder and recurse into it
             current_path.mkdir(parents=True, exist_ok=True)
             create_structure(current_path, content)
-            
+
         elif isinstance(content, list):
             # If the value is a list, treat items as empty subdirectories
             for sub_dir in content:
                 (current_path / sub_dir).mkdir(parents=True, exist_ok=True)
-                
+
         elif content is None:
             # If value is None, just create the single leaf directory
             current_path.mkdir(parents=True, exist_ok=True)
@@ -51,6 +51,9 @@ projects_blueprint = {
     },
     "nginx": {
         "conf.d": None,
+        "ssl": None
+    },
+    "portainer": {
         "ssl": None
     },
     "vault": {

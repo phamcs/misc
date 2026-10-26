@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: awx-postgres-config
+  namespace: awx
+stringData:
+  host: 10.0.0.252
+  port: "5432"
+  database: awx
+  username: awx-ops
+  password: "jdbrudFEmGYwu0PCpBLRQ"
+  sslmode: prefer
+  target_session_attrs: read-write
+  type: unmanaged
+type: Opaque
