@@ -15,7 +15,7 @@ spec:
   bundle_cacert_secret: awx-custom-ca
   postgres_configuration_secret: awx-postgres-config
 
-  # Resource limits
+  # Web Resource limits
   web_resource_requirements:
     requests:
       cpu: 500m
@@ -23,7 +23,7 @@ spec:
     limits:
       cpu: "2"
       memory: 4Gi
-
+  # Task Resource Limits
   task_resource_requirements:
     requests:
       cpu: 500m
@@ -31,6 +31,20 @@ spec:
     limits:
       cpu: "2"
       memory: 4Gi
+
+  operator-controller:
+    spec:
+      # replicas is an example spec for the deployment
+      replicas: 2
+      # template drills down into the pod that will be manaeg
+      template:
+        spec:
+          # This is a pod-level override, so it can be applied here
+          # and not worry about container list semantics
+          securityContext:
+            fsGroup: 2000
+      nodeSelector:      # <--- Add the nodeSelector here
+        cputype: intel   # <--- Must exactly match the node label
 
   # Persistent storage for projects
   projects_persistence: true
