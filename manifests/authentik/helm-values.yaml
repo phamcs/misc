@@ -74,9 +74,9 @@ global:
 
   # -- Default node selector for all components
   nodeSelector:
-    - kubernetes.io/hostname: w0rk3r2
-    - kubernetes.io/arch: amd64
-    - kubernetes.io/os: linux
+    kubernetes.io/hostname: w0rk3r2
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
 
   # -- Default tolerations for all components
   tolerations: []
@@ -481,9 +481,9 @@ server:
   # -- [Node selector]
   # @default -- `{}` (defaults to global.nodeSelector)
   nodeSelector:
-    - kubernetes.io/hostname: w0rk3r2
-    - kubernetes.io/arch: amd64
-    - kubernetes.io/os: linux
+    kubernetes.io/hostname: w0rk3r2
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
 
   # -- [Tolerations] for use with node taints
   # @default -- `[]` (defaults to global.tolerations)
@@ -921,9 +921,9 @@ worker:
   # -- [Node selector]
   # @default -- `{}` (defaults to global.nodeSelector)
   nodeSelector:
-    - kubernetes.io/hostname: w0rk3r2
-    - kubernetes.io/arch: amd64
-    - kubernetes.io/os: linux
+    kubernetes.io/hostname: w0rk3r2
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
 
   # -- [Tolerations] for use with node taints
   # @default -- `[]` (defaults to global.tolerations)
