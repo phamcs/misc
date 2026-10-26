@@ -34,12 +34,10 @@ spec:
 
 operator-controller:
   spec:
-    template:
+    containers:
       spec:
-        securityContext:
-          fsGroup: 2000
-      nodeSelector:      # <--- Add the nodeSelector here
-        cputype: intel   # <--- Must exactly match the node label
+        nodeSelector:      # <--- Add the nodeSelector here
+          cputype: intel   # <--- Must exactly match the node label
 
   # Persistent storage for projects
   projects_persistence: true
