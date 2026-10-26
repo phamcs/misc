@@ -2654,6 +2654,8 @@ spec:
         - mountPath: /tmp
           name: tmp
       nodeSelector:
+        kubernetes.io/arch: amd64
+        kubernetes.io/hostname: w0rk3r3
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
       securityContext:
@@ -3575,6 +3577,8 @@ spec:
         - mountPath: /tmp
           name: temp
       nodeSelector:
+        kubernetes.io/arch: amd64
+        kubernetes.io/hostname: w0rk3r3
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
       securityContext:
@@ -5171,6 +5175,8 @@ spec:
         - mountPath: /tmp
           name: temp
       nodeSelector:
+        kubernetes.io/arch: amd64
+        kubernetes.io/hostname: w0rk3r3
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
       securityContext:
@@ -6082,6 +6088,8 @@ spec:
         - mountPath: /tmp
           name: temp
       nodeSelector:
+        kubernetes.io/arch: amd64
+        kubernetes.io/hostname: w0rk3r3
         kubernetes.io/os: linux
       securityContext:
         fsGroup: 1337
