@@ -6,3 +6,21 @@ namespace: cert-manager
 resources:
   - https://github.com/cert-manager/cert-manager/releases/download/v1.21.2/cert-manager.yaml
   - chart.yaml
+
+patches:
+  - target:
+      kind: Deployment
+      group: apps
+      version: v1
+      labelSelector: "app.kubernetes.io/instance=cert-manager"
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: cert-manager
+      spec:
+        template:
+          spec:
+            nodeSelector:
+              kubernetes.io/os: w0rk3r3
+
