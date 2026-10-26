@@ -5,7 +5,7 @@ namespace: authentik
 
 resources:
   - custom-ca.yaml
-  - helm-values.yaml
+  #- helm-values.yaml
   #- ingress-traefik.yaml    # Uncomment if using ingress
 
 helmCharts:
