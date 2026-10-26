@@ -14,10 +14,11 @@ spec:
   ingress_type: none
   bundle_cacert_secret: awx-custom-ca
   postgres_configuration_secret: awx-postgres-config
+
   node_selector: |
+    kubernetes.io/hostname: w0rk3r2
+    kubernetes.io/arch: amd64
     kubernetes.io/os: linux
-    node-type: worker
-    cpu-model: intel-core-i7   # <--- Must exactly match the node label
 
   # Web Resource limits
   web_resource_requirements:
