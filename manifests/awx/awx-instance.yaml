@@ -14,7 +14,7 @@ spec:
   bundle_cacert_secret: awx-custom-ca
   postgres_configuration_secret: awx-postgres-config
   # Use Intel node for x86-64-v2 support
-  node_selector:
+  node_selector: |
     kubernetes.io/hostname: w0rk3r2
 
   extra_settings:
