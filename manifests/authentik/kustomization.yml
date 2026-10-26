@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: authentik
+
+resources:
+  - custom-ca.yaml
+  - helm-values.yaml
+  #- ingress-traefik.yaml    # Uncomment if using ingress
+
+helmCharts:
+  - name: authentik
+    releaseName: authentik
+    namespace: authentik
+    version: "2026.8.5"
+    repo: https://charts.goauthentik.io
+    valuesFile: helm-values.yaml

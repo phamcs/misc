@@ -20,16 +20,9 @@ spec:
     kubernetes.io/arch: amd64
     kubernetes.io/os: linux
 
-  # Inject Django/AWX settings directly via Kustomize
-  # extra_settings:
-  #   - setting: SOCIAL_AUTH_OIDC_KEY
-  #     value: "JNOiwkoZ8H98HOWbUriObK2jHSNnHnaSJCT9CPxX"
-  #   - setting: SOCIAL_AUTH_OIDC_SECRET
-  #     value: "Uc3O5FSuxUL85AZBZxEKMjd6Ms47dgJrnCRUKjpUIHCUSIwlbddC7lRhi1KjgTuLovUTrZKIBHpsxpoDHN8k5ryJ2Gm7Th84MSUoPH7wJvCLUAlLA4ZCJVjjr9USGOhr"
-  #   - setting: SOCIAL_AUTH_OIDC_OIDC_ENDPOINT
-  #     value: "https://authentik.superasian.net/application/o/awx-sso/"
-  #   - setting: SOCIAL_AUTH_OIDC_VERIFY_SSL
-  #     value: true
+  extra_settings: |
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_X_FORWARDED_PORT = True
 
   # Web Resource limits
   web_resource_requirements:
