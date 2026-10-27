@@ -4,7 +4,7 @@ kind: Kustomization
 # Pull the official base manifest directly from the Headlamp repository
 resources:
   - https://raw.githubusercontent.com/kubernetes-sigs/headlamp/main/kubernetes-headlamp.yaml
-  - chart.yaml
+  #- chart.yaml
   - lb-patch.yaml
   - oidc-patch.yaml
 
