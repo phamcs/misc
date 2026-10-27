@@ -549,7 +549,7 @@ extraManifests:
       name: oidc-admin-binding
     subjects:
     - kind: User
-      name: "oidc:akadmin"
+      name: "oidc:authentik Agent-Users"
       apiGroup: rbac.authorization.k8s.io
     roleRef:
       kind: ClusterRole
@@ -562,7 +562,7 @@ extraManifests:
       name: oidc-admin-binding
     subjects:
     - kind: Group
-      name: "oidc:akadmin"   # Matches your group name in authentik with the prefix
+      name: "oidc:authentik Admins"   # Matches your group name in authentik with the prefix
       apiGroup: rbac.authorization.k8s.io
     roleRef:
       kind: ClusterRole

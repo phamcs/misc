@@ -26,19 +26,19 @@ labels:
 #     repo: https://kubernetes-sigs.github.io/headlamp/
 #     valuesFile: helm-values.yaml
 
-# patches:
-#   - target:
-#       kind: Deployment
-#       name: headlamp
-#     patch: |
-#       apiVersion: apps/v1
-#       kind: Deployment
-#       metadata:
-#         name: headlamp
-#       spec:
-#         template:
-#           spec:
-#             nodeSelector:
-#               kubernetes.io/hostname: w0rk3r2
-#               kubernetes.io/arch: amd64
-#               kubernetes.io/os: linux
+patches:
+  - target:
+      kind: Deployment
+      name: headlamp # Change this if your deployment has a different name
+    patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/env
+        value:
+          - name: HEADLAMP_CONFIG_OIDC_CLIENT_ID
+            value: "CNY2TgFFK1qz08gaOcCTCV3yBdpTAigtVjFqylkr"
+          - name: HEADLAMP_CONFIG_OIDC_CLIENT_SECRET
+            value: "4BzqpfTj7MkcfuEJjBpJosDHtJxkzicjzfDX1QIa7TaXifWEk3amq7BxZtGBNYg0CUAQeER514vaXBE367adXeeWhKWawktl49wYSb3FmROeDF9n2i2VV31C3OcEBP1D"
+          - name: HEADLAMP_CONFIG_OIDC_IDP_ISSUER_URL
+            value: "https://authentik.superasian.net/application/o/headlamp/"
+          - name: HEADLAMP_CONFIG_OIDC_SCOPES
+            value: "openid,profile,email,groups" # Customize as needed
