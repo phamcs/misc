@@ -58,11 +58,11 @@ spec:
       containers:
         - name: headlamp
           image: ghcr.io/headlamp-k8s/headlamp:latest
-          baseURL: https://hl.superasian.net
           args:
             - "-in-cluster"
             - "-plugins-dir=/headlamp/plugins"
             # Add your OIDC arguments below
+            - "baseURL=https://hl.superasian.net"
             - "-oidc-use-cookie=true"
             - "-oidc-client-id=CNY2TgFFK1qz08gaOcCTCV3yBdpTAigtVjFqylkr"
             - "-oidc-client-secret=4BzqpfTj7MkcfuEJjBpJosDHtJxkzicjzfDX1QIa7TaXifWEk3amq7BxZtGBNYg0CUAQeER514vaXBE367adXeeWhKWawktl49wYSb3FmROeDF9n2i2VV31C3OcEBP1D"
