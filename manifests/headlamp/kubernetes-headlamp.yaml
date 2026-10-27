@@ -19,7 +19,7 @@ metadata:
   name: headlamp-admin-binding
 subjects:
 - kind: ServiceAccount
-  name: headlamp -admin        # Verify if your base template uses 'headlamp' or 'headlamp-admin'
+  name: headlamp-admin    # Verify if your base template uses 'headlamp' or 'headlamp-admin'
   namespace: headlamp     # The namespace where you are deploying Headlamp
 roleRef:
   kind: ClusterRole
