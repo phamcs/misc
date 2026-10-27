@@ -3,18 +3,20 @@ kind: Kustomization
 
 # Pull the official base manifest directly from the Headlamp repository
 resources:
-- https://raw.githubusercontent.com/kubernetes-sigs/headlamp/main/kubernetes-headlamp.yaml
-- chart.yaml
+  - https://raw.githubusercontent.com/kubernetes-sigs/headlamp/main/kubernetes-headlamp.yaml
+  - chart.yaml
+  - lb-patch.yaml
+  - oidc-patch.yaml
 
 # (Optional) Customize your deployment context
 namespace: headlamp
 
 # (Optional) Add custom labels to all resources
 labels:
-- includeSelectors: true
-  pairs:
-    app.kubernetes.io/managed-by: kustomize
-    meta.helm.sh/release-name: headlamp
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/managed-by: kustomize
+      meta.helm.sh/release-name: headlamp
 
 patches:
   - target:
