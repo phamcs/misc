@@ -37,7 +37,7 @@ spec:
             - "-oidc-idp-issuer-url=https://authentik.superasian.net/application/o/headlamp/"
             # Optional flags depending on your provider:
             - "-oidc-scopes=openid,profile,email,groups,offline_access"
-            - "-oidc-redirect-url=https://hl.superasian.net/oidc-callback"
+            #- "-oidc-redirect-url=https://hl.superasian.net/oidc-callback"
           env:
             - name: HEADLAMP_CONFIG_TRACING_ENABLED
               value: "true"
