@@ -6,7 +6,7 @@ resources:
   - kubernetes-headlamp.yaml
   #- helm-values.yaml
   #- lb-patch.yaml
-  - sa-secret-rbac-patch.yaml
+  #- sa-secret-rbac-patch.yaml
 
 # (Optional) Customize your deployment context
 namespace: headlamp
