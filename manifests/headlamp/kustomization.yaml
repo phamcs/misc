@@ -26,19 +26,19 @@ labels:
 #     repo: https://kubernetes-sigs.github.io/headlamp/
 #     valuesFile: helm-values.yaml
 
-patches:
-  - target:
-      kind: Deployment
-      name: headlamp
-    patch: |
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: headlamp
-      spec:
-        template:
-          spec:
-            nodeSelector:
-              kubernetes.io/hostname: w0rk3r3
-              kubernetes.io/arch: amd64
-              kubernetes.io/os: linux
+# patches:
+#   - target:
+#       kind: Deployment
+#       name: headlamp
+#     patch: |
+#       apiVersion: apps/v1
+#       kind: Deployment
+#       metadata:
+#         name: headlamp
+#       spec:
+#         template:
+#           spec:
+#             nodeSelector:
+#               kubernetes.io/hostname: w0rk3r2
+#               kubernetes.io/arch: amd64
+#               kubernetes.io/os: linux
