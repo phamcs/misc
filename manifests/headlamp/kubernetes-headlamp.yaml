@@ -38,6 +38,7 @@ spec:
             # Optional flags depending on your provider:
             - "-oidc-scopes=openid,profile,email,groups,offline_access"
             #- "-oidc-redirect-url=https://hl.superasian.net/oidc-callback"
+            - "oidc-"
           env:
             - name: HEADLAMP_CONFIG_TRACING_ENABLED
               value: "true"
@@ -76,8 +77,8 @@ spec:
 kind: Secret
 apiVersion: v1
 metadata:
-  name: headlamp-sa
+  name: headlamp-admin
   namespace: headlamp
   annotations:
-    kubernetes.io/service-account.name: "headlamp-sa"
+    kubernetes.io/service-account.name: "headlamp-admin"
 type: kubernetes.io/service-account-token
