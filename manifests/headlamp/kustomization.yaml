@@ -1,10 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Pull the official base manifest directly from the Headlamp repository
+# Deployment
 resources:
-  - kubernetes-headlamp.yaml
-  #- helm-values.yaml
+  - deployment.yaml
 
 # (Optional) Customize your deployment context
 namespace: headlamp
@@ -15,14 +14,6 @@ labels:
     pairs:
       app.kubernetes.io/managed-by: kustomize
       #meta.helm.sh/release-name: headlamp
-
-# helmCharts:
-#   - name: headlamp
-#     releaseName: headlamp
-#     namespace: headlamp
-#     version: "0.46.0"
-#     repo: https://kubernetes-sigs.github.io/headlamp/
-#     valuesFile: helm-values.yaml
 
 # patches:
 #   - target:
