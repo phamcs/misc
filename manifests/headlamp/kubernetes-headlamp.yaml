@@ -1,29 +1,29 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: headlamp-sa
+  name: headlamp-admin
   namespace: headlamp
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: headlamp-sa
+  name: headlamp-admin
   namespace: headlamp
   annotations:
-    kubernetes.io/service-account.name: "headlamp-sa"
+    kubernetes.io/service-account.name: "headlamp-admin"
 type: kubernetes.io/service-account-token
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: oidc-groups-binding
+  name: headlamp-admin-binding
 subjects:
-- kind: Group
-  name: "oidc:authentik Admins"
-  apiGroup: rbac.authorization.k8s.io
+- kind: ServiceAccount
+  name: headlamp -admin        # Verify if your base template uses 'headlamp' or 'headlamp-admin'
+  namespace: headlamp     # The namespace where you are deploying Headlamp
 roleRef:
   kind: ClusterRole
-  name: cluster-admin
+  name: cluster-admin     # Use 'view' if you only want read-only cluster visibility
   apiGroup: rbac.authorization.k8s.io
 ---
 kind: Service
