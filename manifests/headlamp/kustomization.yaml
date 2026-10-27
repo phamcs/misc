@@ -16,12 +16,12 @@ labels:
     meta.helm.sh/release-name: headlamp
 
 helmCharts:
-  - name: headlamp
-    releaseName: headlamp
-    namespace: headlamp
-    version: "0.46.0"
-    repo: https://kubernetes-sigs.github.io/headlamp/
-    valuesFile: helm-values.yaml
+- name: headlamp
+  releaseName: headlamp
+  namespace: headlamp
+  version: "0.46.0"
+  repo: https://kubernetes-sigs.github.io/headlamp/
+  valuesFile: helm-values.yaml
 
 # Applies the OIDC patch to the Headlamp deployment
 # patches:
