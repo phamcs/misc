@@ -4,6 +4,7 @@ kind: Kustomization
 # Pull the official base manifest directly from the Headlamp repository
 resources:
 - https://raw.githubusercontent.com/kubernetes-sigs/headlamp/main/kubernetes-headlamp.yaml
+- chart.yaml
 
 # (Optional) Customize your deployment context
 namespace: headlamp
@@ -15,17 +16,19 @@ labels:
     app.kubernetes.io/managed-by: kustomize
     meta.helm.sh/release-name: headlamp
 
-helmCharts:
-- name: headlamp
-  releaseName: headlamp
-  namespace: headlamp
-  version: "0.46.0"
-  repo: https://kubernetes-sigs.github.io/headlamp/
-  valuesFile: helm-values.yaml
-
-# Applies the OIDC patch to the Headlamp deployment
-# patches:
-#   - path: oidc-patch.yaml
-#     target:
-#       kind: Deployment
-#       name: headlamp
+patches:
+  - target:
+      kind: Deployment
+      name: headlamp
+    patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: headlamp
+      spec:
+        template:
+          spec:
+            nodeSelector:
+              'kubernetes.io/hostname': w0rk3r3
+              'kubernetes.io/arch': amd64
+              'kubernetes.io/os': linux
