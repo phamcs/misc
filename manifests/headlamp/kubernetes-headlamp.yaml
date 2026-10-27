@@ -4,6 +4,8 @@ metadata:
   name: headlamp
   namespace: headlamp
 spec:
+  type: LoadBalancer
+  loabalancer_ip: "10.0.0.91"
   ports:
     - port: 80
       targetPort: 4466
@@ -32,13 +34,15 @@ spec:
             - "-in-cluster"
             - "-plugins-dir=/headlamp/plugins"
             # Add your OIDC arguments below
+            - "baseURL=https://hl.superasian.net"
+            - "-oidc-use-cookie=true"
             - "-oidc-client-id=CNY2TgFFK1qz08gaOcCTCV3yBdpTAigtVjFqylkr"
             - "-oidc-client-secret=4BzqpfTj7MkcfuEJjBpJosDHtJxkzicjzfDX1QIa7TaXifWEk3amq7BxZtGBNYg0CUAQeER514vaXBE367adXeeWhKWawktl49wYSb3FmROeDF9n2i2VV31C3OcEBP1D"
             - "-oidc-idp-issuer-url=https://authentik.superasian.net/application/o/headlamp/"
             # Optional flags depending on your provider:
             - "-oidc-scopes=openid,profile,email,groups,offline_access"
-            - "-oidc-redirect-url=https://hl.superasian.net/oidc-callback"
-
+            - "-oidc-callback-url=https://hl.superasian.net/oidc-callback"
+            - "-proxy-auth=true"
           env:
             - name: HEADLAMP_CONFIG_TRACING_ENABLED
               value: "true"
@@ -73,12 +77,3 @@ spec:
         'kubernetes.io/arch': amd64
         'kubernetes.io/hostname': w0rk3r3
         'kubernetes.io/os': linux
----
-kind: Secret
-apiVersion: v1
-metadata:
-  name: headlamp-admin
-  namespace: headlamp
-  annotations:
-    kubernetes.io/service-account.name: "headlamp-admin"
-type: kubernetes.io/service-account-token
