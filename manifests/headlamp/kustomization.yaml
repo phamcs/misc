@@ -5,8 +5,6 @@ kind: Kustomization
 resources:
   - kubernetes-headlamp.yaml
   #- helm-values.yaml
-  #- lb-patch.yaml
-  #- sa-secret-rbac-patch.yaml
 
 # (Optional) Customize your deployment context
 namespace: headlamp
@@ -26,19 +24,19 @@ labels:
 #     repo: https://kubernetes-sigs.github.io/headlamp/
 #     valuesFile: helm-values.yaml
 
-patches:
-  - target:
-      kind: Deployment
-      name: headlamp # Change this if your deployment has a different name
-    patch: |
-      - op: add
-        path: /spec/template/spec/containers/0/env
-        value:
-          - name: HEADLAMP_CONFIG_OIDC_CLIENT_ID
-            value: "CNY2TgFFK1qz08gaOcCTCV3yBdpTAigtVjFqylkr"
-          - name: HEADLAMP_CONFIG_OIDC_CLIENT_SECRET
-            value: "4BzqpfTj7MkcfuEJjBpJosDHtJxkzicjzfDX1QIa7TaXifWEk3amq7BxZtGBNYg0CUAQeER514vaXBE367adXeeWhKWawktl49wYSb3FmROeDF9n2i2VV31C3OcEBP1D"
-          - name: HEADLAMP_CONFIG_OIDC_IDP_ISSUER_URL
-            value: "https://authentik.superasian.net/application/o/headlamp/"
-          - name: HEADLAMP_CONFIG_OIDC_SCOPES
-            value: "openid,profile,email,groups" # Customize as needed
+# patches:
+#   - target:
+#       kind: Deployment
+#       name: headlamp # Change this if your deployment has a different name
+#     patch: |
+#       - op: add
+#         path: /spec/template/spec/containers/0/env
+#         value:
+#           - name: HEADLAMP_CONFIG_OIDC_CLIENT_ID
+#             value: "CNY2TgFFK1qz08gaOcCTCV3yBdpTAigtVjFqylkr"
+#           - name: HEADLAMP_CONFIG_OIDC_CLIENT_SECRET
+#             value: "4BzqpfTj7MkcfuEJjBpJosDHtJxkzicjzfDX1QIa7TaXifWEk3amq7BxZtGBNYg0CUAQeER514vaXBE367adXeeWhKWawktl49wYSb3FmROeDF9n2i2VV31C3OcEBP1D"
+#           - name: HEADLAMP_CONFIG_OIDC_IDP_ISSUER_URL
+#             value: "https://authentik.superasian.net/application/o/headlamp/"
+#           - name: HEADLAMP_CONFIG_OIDC_SCOPES
+#             value: "openid,profile,email,groups" # Customize as needed
