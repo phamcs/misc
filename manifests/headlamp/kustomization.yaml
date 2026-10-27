@@ -31,6 +31,6 @@ patches:
         template:
           spec:
             nodeSelector:
-              'kubernetes.io/hostname': w0rk3r3
-              'kubernetes.io/arch': amd64
-              'kubernetes.io/os': linux
+              kubernetes.io/hostname: w0rk3r3
+              kubernetes.io/arch: amd64
+              kubernetes.io/os: linux
