@@ -13,10 +13,10 @@ namespace: headlamp
 
 # (Optional) Add custom labels to all resources
 labels:
-- includeSelectors: true
-  pairs:
-    app.kubernetes.io/managed-by: kustomize
-    meta.helm.sh/release-name: headlamp
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/managed-by: kustomize
+    #meta.helm.sh/release-name: headlamp
 
 patches:
   - target:
