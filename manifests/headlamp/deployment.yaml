@@ -59,7 +59,7 @@ spec:
         - name: headlamp
           image: ghcr.io/headlamp-k8s/headlamp:latest
           args:
-            - "-base-url=/headlamp"
+            #- "-base-url=/headlamp"
             - "-in-cluster"
             - "-plugins-dir=/headlamp/plugins"
             # Add your OIDC arguments below
@@ -69,7 +69,7 @@ spec:
             - "-oidc-idp-issuer-url=https://authentik.superasian.net/application/o/headlamp/"
             # Optional flags depending on your provider:
             - "-oidc-scopes=openid,profile,email,groups,offline_access"
-            #- "-oidc-callback-url=https://dashboard.superasian.net/headlamp/oidc-callback"
+            #- "-oidc-callback-url=https://headlamp.superasian.net/oidc-callback"
             - "-proxy-auth=true"
           env:
             - name: HEADLAMP_CONFIG_TRACING_ENABLED
@@ -90,14 +90,14 @@ spec:
           readinessProbe:
             httpGet:
               scheme: HTTP
-              path: /headlamp/
+              path: /
               port: 4466
             initialDelaySeconds: 30
             timeoutSeconds: 30
           livenessProbe:
             httpGet:
               scheme: HTTP
-              path: /headlamp/
+              path: /
               port: 4466
             initialDelaySeconds: 30
             timeoutSeconds: 30
