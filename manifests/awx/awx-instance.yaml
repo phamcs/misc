@@ -20,7 +20,7 @@ spec:
     kubernetes.io/arch: amd64
     kubernetes.io/os: linux
 
-  extra_settings: |
+  extra_settings:
     - setting: ALLOW_METRICS_FOR_ANONYMOUS_USERS
       value: "True"
     # Injecting the generic OIDC configuration via extra_settings
