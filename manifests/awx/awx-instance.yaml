@@ -18,10 +18,12 @@ spec:
     kubernetes.io/hostname: w0rk3r2
 
   extra_settings:
-    - setting: SECURE_PROXY_SSL_HEADER
-      value: "('HTTP_X_FORWARDED_PROTO', 'https')"
-    - setting: USE_X_FORWARDED_PORT
+    - setting: ALLOW_METRICS_FOR_ANONYMOUS_USERS
       value: "True"
+
+  service_annotations: |
+    "prometheus.io/scrape": "true"
+    "prometheus.io/path": "/api/v2/metrics"
 
   # Web Resource limits
   web_resource_requirements:
