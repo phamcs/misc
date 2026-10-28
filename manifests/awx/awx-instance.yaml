@@ -20,16 +20,18 @@ spec:
     kubernetes.io/arch: amd64
     kubernetes.io/os: linux
 
-  extra_settings: |
-    ALLOW_METRICS_FOR_ANONYMOUS_USERS = "True"
+  extra_settings:
+    - setting: ALLOW_METRICS_FOR_ANONYMOUS_USERS
+      value: "True"
     # Injecting the generic OIDC configuration via extra_settings
-    SOCIAL_AUTH_OIDC_KEY = 'JNOiwkoZ8H98HOWbUriObK2jHSNnHnaSJCT9CPxX'
-    SOCIAL_AUTH_OIDC_SECRET = 'Uc3O5FSuxUL85AZBZxEKMjd6Ms47dgJrnCRUKjpUIHCUSIwlbddC7lRhi1KjgTuLovUTrZKIBHpsxpoDHN8k5ryJ2Gm7Th84MSUoPH7wJvCLUAlLA4ZCJVjjr9USGOhr'
-    SOCIAL_AUTH_OIDC_OIDC_ENDPOINT = 'https://authentik.superasian.net/application/o/awx-sso/'
-    SOCIAL_AUTH_OIDC_VERIFY_SSL = True
-
-      # Optional mappings to govern user attributes or organizations
-      # SOCIAL_AUTH_OIDC_USER_FIELDS = ['username', 'email', 'first_name', 'last_name']
+    - setting: SOCIAL_AUTH_OIDC_KEY
+      value: "JNOiwkoZ8H98HOWbUriObK2jHSNnHnaSJCT9CPxX"
+    - setting: SOCIAL_AUTH_OIDC_SECRET
+      value: "Uc3O5FSuxUL85AZBZxEKMjd6Ms47dgJrnCRUKjpUIHCUSIwlbddC7lRhi1KjgTuLovUTrZKIBHpsxpoDHN8k5ryJ2Gm7Th84MSUoPH7wJvCLUAlLA4ZCJVjjr9USGOhr"
+    - setting: SOCIAL_AUTH_OIDC_OIDC_ENDPOINT
+      value: "https://authentik.superasian.net/application/o/awx-sso/"
+    - setting: SOCIAL_AUTH_OIDC_VERIFY_SSL
+      value: true
 
   service_annotations: |
     "prometheus.io/scrape": "true"
