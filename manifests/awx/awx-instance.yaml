@@ -14,12 +14,30 @@ spec:
   bundle_cacert_secret: awx-custom-ca
   postgres_configuration_secret: awx-postgres-config
   # Use Intel node for x86-64-v2 support
+  # Use Intel node for x86-64-v2 support
   node_selector: |
     kubernetes.io/hostname: w0rk3r2
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
 
   extra_settings:
     - setting: ALLOW_METRICS_FOR_ANONYMOUS_USERS
       value: "True"
+    # OIDC Setting
+    - setting: SOCIAL_AUTH_OIDC_KEY
+      value: "JNOiwkoZ8H98HOWbUriObK2jHSNnHnaSJCT9CPxX"
+    - setting: SOCIAL_AUTH_OIDC_SECRET
+      value: "Uc3O5FSuxUL85AZBZxEKMjd6Ms47dgJrnCRUKjpUIHCUSIwlbddC7lRhi1KjgTuLovUTrZKIBHpsxpoDHN8k5ryJ2Gm7Th84MSUoPH7wJvCLUAlLA4ZCJVjjr9USGOhr"
+    # - setting: SOCIAL_AUTH_OIDC_OIDC_ENDPOINT
+    #   value: "https://authentik.superasian.net/application/o/awx-sso/"
+    # - setting: SOCIAL_AUTH_OIDC_KEYCLOAK_AUTHORIZATION_URL
+    #   value: "https://example.com/protocol/openid-auth"
+    # - setting: SOCIAL_AUTH_OIDC_KEYCLOAK_TOKEN_URL
+    #   value: "https://example.com/protocol/openid-connect/token"
+    # - setting: SOCIAL_AUTH_OIDC_KEYCLOAK_USER_INFO_URL
+    #   value: "https://example.com/protocol/openid-connect/userinfo"
+    # - setting: SOCIAL_AUTH_OIDC_REDIRECT_URI
+    #   value: "https://example.com"
 
   service_annotations: |
     "prometheus.io/scrape": "true"
