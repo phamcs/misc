@@ -71,10 +71,6 @@ spec:
             - "-oidc-scopes=openid,profile,email,groups,offline_access"
             #- "-oidc-callback-url=https://headlamp.superasian.net/oidc-callback"
             - "-proxy-auth=true"
-          volumeMounts:
-            - name: kubevirt-plugin
-              mountPath: /headlamp/plugins/kubevirt
-              readOnly: true
           env:
             - name: HEADLAMP_CONFIG_TRACING_ENABLED
               value: "true"
@@ -105,11 +101,6 @@ spec:
               port: 4466
             initialDelaySeconds: 30
             timeoutSeconds: 30
-      volumes:
-        - name: kubevirt-plugin
-          image:
-            reference: ghcr.io/naval-group/headlamp-kubevirt-oci:latest
-            pullPolicy: IfNotPresent
       nodeSelector:
         'kubernetes.io/arch': amd64
         'kubernetes.io/hostname': w0rk3r3
