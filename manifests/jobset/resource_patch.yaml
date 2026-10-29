@@ -6,6 +6,10 @@ metadata:
 spec:
   template:
     spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+        kubernetes.io/arch: amd64
+        kubernetes.io/hostname: w0rk3r3
       containers:
       - name: manager
         resources:
