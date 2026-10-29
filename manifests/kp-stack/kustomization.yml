@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: monitoring
+
+resources:
+  - kp-stack-secrets.yaml
+  - kp-stack-grafana-cm.yaml
+  #- ingress-traefik.yaml    # Uncomment if using ingress
+
+helmCharts:
+  - name: kp-stack
+    releaseName: kp-stack
+    namespace: monitoring
+    version: "92.14.1"
+    repo: https://prometheus-community.github.io/helm-charts
+    valuesFile: kp-stack-values.yaml
+
+patches:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: kp-stack-grafana # Replace with your Grafana deployment name
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: GF_SERVER_ROOT_URL
+          value: "https://analytics.superasian.net"
