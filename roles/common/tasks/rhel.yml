@@ -1,7 +1,7 @@
 ---
 # Redhat full system upgrade
 - name: "[RHEL] Update packages"
-  ansible.builtin.dnf4:
+  ansible.builtin.yum:
     update_cache: yes
     name: "*"
     state: latest
