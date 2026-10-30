@@ -1,22 +1,17 @@
 ---
 # Redhat full system upgrade
 - name: "[RHEL] Update packages"
-  ansible.builtin.dnf:
-    update_cache: yes
-    name: "*"
-    state: latest
-    exclude: "{{ gbt_packages_versionlock|d() }}"
-    use_backend: dnf4
-  vars:
-    ansible_python_interpreter: /usr/libexec/platform-python
-  register: _gbt_packages_update_output
+  ansible.builtin.shell: |
+    dnf update -y
+  register: update_output
   when: ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
 
-# Output for debug
-- name: "[RHEL] [INFO] Print installed/updated packages"
-  when: _gbt_packages_update_output.skipped is not defined
+# Display dnf install output
+- name: Display dnf install output
   ansible.builtin.debug:
-    var: _gbt_packages_update_output.results|d()
+    msg: "{{ item }}"
+  loop: "{{ update_output.stdout_lines }}"
+  when: update_output.stdout_lines is defined
 
 - name: Check for reboot-required file
   ansible.builtin.stat:
