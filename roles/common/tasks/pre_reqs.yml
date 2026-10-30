@@ -44,21 +44,3 @@
     src: "daemon.json.j2"
     dest: "/etc/docker/daemon.json"
   notify: Restart docker
-
-# Add public keys to authorized_keys
-- name: Set up multiple authorized keys
-  ansible.posix.authorized_key:
-    user: "{{ app_user }}"
-    state: present
-    key: "{{ lookup('file', item) }}"
-  loop:
-    - id_ed25519.pub
-    - id_rsa.pub
-  register: ssh_pub_keys
-
-# Display ssh public keys
-- name: Display ssh pub keys result standard output lines
-  ansible.builtin.debug:
-    msg: "{{ item }}"
-  loop: "{{ ssh_pub_keys.stdout_lines }}"
-  when: ssh_pub_keys.stdout_lines is defined
