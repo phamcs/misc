@@ -2,10 +2,6 @@
 - name: Populate service facts
   ansible.builtin.service_facts: {}
 
-- name: Gather the package facts
-  ansible.builtin.package_facts:
-    manager: auto
-
 - name: Include Debian-specific tasks
   ansible.builtin.include_tasks: debian.yml
   when: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
