@@ -32157,7 +32157,7 @@ spec:
           name: argocd-cmd-params-cm
       nodeSelector:
         kubernetes.io/arch: amd64
-        kubernetes.io/hostname: w0rk3r3
+        kubernetes.io/hostname: w0rk3r8
         kubernetes.io/os: linux
       serviceAccountName: argocd-applicationset-controller
       volumes:
@@ -32314,7 +32314,7 @@ spec:
           name: dexconfig
       nodeSelector:
         kubernetes.io/arch: amd64
-        kubernetes.io/hostname: w0rk3r3
+        kubernetes.io/hostname: w0rk3r8
         kubernetes.io/os: linux
       serviceAccountName: argocd-dex-server
       volumes:
@@ -32439,7 +32439,7 @@ spec:
         workingDir: /app
       nodeSelector:
         kubernetes.io/arch: amd64
-        kubernetes.io/hostname: w0rk3r3
+        kubernetes.io/hostname: w0rk3r8
         kubernetes.io/os: linux
       securityContext:
         runAsNonRoot: true
@@ -32548,7 +32548,7 @@ spec:
             type: RuntimeDefault
       nodeSelector:
         kubernetes.io/arch: amd64
-        kubernetes.io/hostname: w0rk3r3
+        kubernetes.io/hostname: w0rk3r8
         kubernetes.io/os: linux
       securityContext:
         runAsNonRoot: true
@@ -32924,7 +32924,7 @@ spec:
           name: var-files
       nodeSelector:
         kubernetes.io/arch: amd64
-        kubernetes.io/hostname: w0rk3r3
+        kubernetes.io/hostname: w0rk3r8
         kubernetes.io/os: linux
       serviceAccountName: argocd-repo-server
       volumes:
@@ -33421,7 +33421,7 @@ spec:
           name: argocd-cmd-params-cm
       nodeSelector:
         kubernetes.io/arch: amd64
-        kubernetes.io/hostname: w0rk3r3
+        kubernetes.io/hostname: w0rk3r8
         kubernetes.io/os: linux
       serviceAccountName: argocd-server
       volumes:
@@ -33879,7 +33879,7 @@ spec:
         workingDir: /home/argocd
       nodeSelector:
         kubernetes.io/arch: amd64
-        kubernetes.io/hostname: w0rk3r3
+        kubernetes.io/hostname: w0rk3r8
         kubernetes.io/os: linux
       serviceAccountName: argocd-application-controller
       volumes:
