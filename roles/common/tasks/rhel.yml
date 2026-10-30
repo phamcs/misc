@@ -1,12 +1,14 @@
 ---
 # Redhat full system upgrade
 - name: "[RHEL] Update packages"
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     update_cache: yes
     name: "*"
     state: latest
     exclude: "{{ gbt_packages_versionlock|d() }}"
     use_backend: dnf4
+  vars:
+    ansible_python_interpreter: /usr/libexec/platform-python
   register: _gbt_packages_update_output
   when: ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
 
