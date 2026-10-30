@@ -9,7 +9,7 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
         kubernetes.io/arch: amd64
-        kubernetes.io/hostname: w0rk3r3
+        kubernetes.io/hostname: w0rk3r8
       containers:
       - name: manager
         resources:

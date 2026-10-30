@@ -7,13 +7,12 @@ spec:
   # Service type LoadBalancer with static IP
   admin_user: admin
   service_type: LoadBalancer
-  loadbalancer_ip: '10.0.0.92'
+  loadbalancer_ip: '10.0.0.91'
   loadbalancer_port: 80
   loadbalancer_protocol: http
   ingress_type: none
   bundle_cacert_secret: awx-custom-ca
   postgres_configuration_secret: awx-postgres-config
-  # Use Intel node for x86-64-v2 support
   # Use Intel node for x86-64-v2 support
   node_selector: |
     kubernetes.io/hostname: w0rk3r8

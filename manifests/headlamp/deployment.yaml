@@ -33,7 +33,7 @@ metadata:
   namespace: headlamp
 spec:
   type: LoadBalancer
-  loadBalancerIP: 10.0.0.91
+  loadBalancerIP: 10.0.0.92
   ports:
     - port: 80
       targetPort: 4466
