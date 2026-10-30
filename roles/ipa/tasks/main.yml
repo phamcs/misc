@@ -4,9 +4,5 @@
 - name: Populate service facts
   ansible.builtin.service_facts: {}
 
-- name: Gather the package facts
-  ansible.builtin.package_facts:
-    manager: auto
-
 - name: Setup FreeIPA Server
   ansible.builtin.include_tasks: setup.yml
