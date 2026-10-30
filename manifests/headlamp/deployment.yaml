@@ -103,5 +103,5 @@ spec:
             timeoutSeconds: 30
       nodeSelector:
         'kubernetes.io/arch': amd64
-        'kubernetes.io/hostname': w0rk3r3
+        'kubernetes.io/hostname': w0rk3r8
         'kubernetes.io/os': linux
