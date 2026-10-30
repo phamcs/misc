@@ -24,11 +24,8 @@
 
     # Uninstall freeipa-server and freeipa-server-dns packages
     - name: Uninstall FreeIPA Server and DNS packages
-      ansible.builtin.dnf:
-        name:
-          - freeipa-server
-          - freeipa-server-dns
-        state: absent
+      ansible.builtin.shell: |
+        dnf remove --purge freeipa-server freeipa-server-dns
       register: ipa_packages
 
     # Display the result of package uninstallation
