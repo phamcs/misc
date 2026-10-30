@@ -16,7 +16,7 @@ spec:
   # Use Intel node for x86-64-v2 support
   # Use Intel node for x86-64-v2 support
   node_selector: |
-    kubernetes.io/hostname: w0rk3r2
+    kubernetes.io/hostname: w0rk3r8
     kubernetes.io/arch: amd64
     kubernetes.io/os: linux
 
