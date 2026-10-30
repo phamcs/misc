@@ -28,11 +28,8 @@
 
 # Install freeipa-server and freeipa-server-dns packages
 - name: Install FreeIPA Server and DNS packages
-  ansible.builtin.dnf:
-    name:
-      - freeipa-server
-      - freeipa-server-dns
-    state: latest
+  ansible.builtin.shell: |
+    dnf install -y freeipa-server freeipa-server-dns
   register: ipa_packages
 
 # Display the result of package installation
