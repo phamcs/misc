@@ -73,7 +73,7 @@ crds:
     ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
     ##
     nodeSelector: |
-      kubernetes.io/hostname: w0rk3r2
+      kubernetes.io/hostname: w0rk3r8
       kubernetes.io/arch: amd64
       kubernetes.io/os: linux
 
@@ -1173,7 +1173,7 @@ alertmanager:
     ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
     ##
     nodeSelector: |
-      kubernetes.io/hostname: w0rk3r2
+      kubernetes.io/hostname: w0rk3r8
       kubernetes.io/arch: amd64
       kubernetes.io/os: linux
 
@@ -3245,7 +3245,7 @@ prometheusOperator:
       ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
       ##
       nodeSelector: |
-        kubernetes.io/hostname: w0rk3r2
+        kubernetes.io/hostname: w0rk3r8
         kubernetes.io/arch: amd64
         kubernetes.io/os: linux
 
@@ -3321,7 +3321,7 @@ prometheusOperator:
       #   argocd.argoproj.io/hook-delete-policy: HookSucceeded
       podAnnotations: {}
       nodeSelector: |
-        kubernetes.io/hostname: w0rk3r2
+        kubernetes.io/hostname: w0rk3r8
         kubernetes.io/arch: amd64
         kubernetes.io/os: linux
       affinity: {}
@@ -3621,7 +3621,7 @@ prometheusOperator:
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
   ##
   nodeSelector: |
-    kubernetes.io/hostname: w0rk3r2
+    kubernetes.io/hostname: w0rk3r8
     kubernetes.io/arch: amd64
     kubernetes.io/os: linux
 
@@ -4637,7 +4637,7 @@ prometheus:
     ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
     ##
     nodeSelector: |
-      kubernetes.io/hostname: w0rk3r2
+      kubernetes.io/hostname: w0rk3r8
       kubernetes.io/arch: amd64
       kubernetes.io/os: linux
 
@@ -5988,7 +5988,7 @@ thanosRuler:
     ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
     ##
     nodeSelector: |
-      kubernetes.io/hostname: w0rk3r2
+      kubernetes.io/hostname: w0rk3r8
       kubernetes.io/arch: amd64
       kubernetes.io/os: linux
 
