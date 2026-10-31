@@ -72,7 +72,7 @@ crds:
     ## Define which Nodes the Pods are scheduled on.
     ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
     ##
-    nodeSelector: |
+    nodeSelector:
       kubernetes.io/hostname: w0rk3r8
       kubernetes.io/arch: amd64
       kubernetes.io/os: linux
@@ -1172,7 +1172,7 @@ alertmanager:
     ## Define which Nodes the Pods are scheduled on.
     ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
     ##
-    nodeSelector: |
+    nodeSelector:
       kubernetes.io/hostname: w0rk3r8
       kubernetes.io/arch: amd64
       kubernetes.io/os: linux
@@ -3244,7 +3244,7 @@ prometheusOperator:
       ## Define which Nodes the Pods are scheduled on.
       ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
       ##
-      nodeSelector: |
+      nodeSelector:
         kubernetes.io/hostname: w0rk3r8
         kubernetes.io/arch: amd64
         kubernetes.io/os: linux
@@ -3320,7 +3320,7 @@ prometheusOperator:
       #   argocd.argoproj.io/hook: PreSync
       #   argocd.argoproj.io/hook-delete-policy: HookSucceeded
       podAnnotations: {}
-      nodeSelector: |
+      nodeSelector:
         kubernetes.io/hostname: w0rk3r8
         kubernetes.io/arch: amd64
         kubernetes.io/os: linux
@@ -3620,7 +3620,7 @@ prometheusOperator:
   ## Define which Nodes the Pods are scheduled on.
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
   ##
-  nodeSelector: |
+  nodeSelector:
     kubernetes.io/hostname: w0rk3r8
     kubernetes.io/arch: amd64
     kubernetes.io/os: linux
@@ -4636,7 +4636,7 @@ prometheus:
     ## Define which Nodes the Pods are scheduled on.
     ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
     ##
-    nodeSelector: |
+    nodeSelector:
       kubernetes.io/hostname: w0rk3r8
       kubernetes.io/arch: amd64
       kubernetes.io/os: linux
@@ -5987,7 +5987,7 @@ thanosRuler:
     ## Define which Nodes the Pods are scheduled on.
     ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
     ##
-    nodeSelector: |
+    nodeSelector:
       kubernetes.io/hostname: w0rk3r8
       kubernetes.io/arch: amd64
       kubernetes.io/os: linux
