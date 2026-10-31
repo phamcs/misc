@@ -4,9 +4,8 @@ kind: Kustomization
 namespace: monitoring
 
 resources:
-  - kp-stack-secrets.yaml
-  - kp-stack-grafana-cm.yaml
-  #- ingress-traefik.yaml    # Uncomment if using ingress
+  - configmap.yaml
+  - secrets.yaml
 
 helmCharts:
   - name: kube-prometheus-stack
@@ -15,7 +14,7 @@ helmCharts:
     releaseName: kube-prometheus-stack
     namespace: monitoring
     includeCRDs: true
-    valuesFile: kp-stack-values.yaml
+    valuesFile: values.yaml
 
 patches:
   - target:
