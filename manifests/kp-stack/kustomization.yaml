@@ -17,7 +17,7 @@ helmCharts:
     valuesFile: values.yaml
 
 patches:
-  # Inline multiple patchs method
+  # Inline multiple patch method
   - patch: |
       - op: add
         path: /spec/template/spec/containers/0/env/-
@@ -27,6 +27,19 @@ patches:
     target:
       kind: Deployment
       name: kp-stack
+
+  - patch: |
+      - op: add
+        path: /metadata/annotations
+        value:
+          metallb.io/loadBalancerIPs: 10.0.0.94
+      # - op: replace
+      #   path: /spec/type
+      #     value: LoadBalancer
+    target:
+      kind: Service
+      name: kp-stack-grafana
+
   # Inline target patch method
   # - target:
   #     kind: Service
@@ -40,15 +53,3 @@ patches:
   #       metallb.io/loadBalancerIPs: 10.0.0.94
   #     spec:
   #       type: LoadBalancer
-
-  - patch: |
-      - op: add
-        path: /metadata/annotations
-        value:
-          metallb.io/loadBalancerIPs: 10.0.0.94
-      # - op: replace
-      #   path: /spec/type
-      #     value: LoadBalancer
-    target:
-      kind: Service
-      name: kp-stack-grafana
