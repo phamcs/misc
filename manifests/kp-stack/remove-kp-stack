@@ -13,6 +13,12 @@ CROLES=$(kubectl get clusterroles -n $NS | grep -E "kp-stack|kube-prometheus" | 
 RB=$(kubectl get rolebinding -n $NS | awk 'NR > 1 {print $1}')
 CRB=$(kubectl get clusterrolebinding -n monitoring|grep -E "kp-stack|kube-prometheus"|awk 'NR > 1 {print $1}')
 
+# Delete stuck Resources
+kubectl patch job kube-prometheus-stack-admission-patch -n monitoring --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+kubectl patch job kube-prometheus-stack-admission-create -n monitoring --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+kubectl patch serviceaccount $SA -n $NS --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+
+# Delete Resources by namespaced
 kubectl scale deployment --replicas=0 -n $NS $DEPLOYMENTS
 kubectl delete deployment -n $NS $DEPLOYMENTS
 kubectl scale statefulset --replicas=0 -n $NS  $STATEFULSET
@@ -40,17 +46,16 @@ kubectl delete job kube-prometheus-stack-admission-patch -n $NS --ignore-not-fou
 
 # 3. Delete the stubborn admission secret
 kubectl delete secret kube-prometheus-stack-admission -n $NS --ignore-not-found
-kubectl patch <resource-type> <resource-name> -n <namespace> --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
 
 # Delete Custom Resources
-kubectl delete crd -l app=kube-prometheus-stack
-# kubectl delete crd alertmanagerconfigs.$NS.coreos.com
-# kubectl delete crd alertmanagers.$NS.coreos.com
-# kubectl delete crd podmonitors.$NS.coreos.com
-# kubectl delete crd probes.$NS.coreos.com
-# kubectl delete crd prometheusagents.$NS.coreos.com
-# kubectl delete crd prometheuses.$NS.coreos.com
-# kubectl delete crd prometheusrules.$NS.coreos.com
-# kubectl delete crd scrapeconfigs.$NS.coreos.com
-# kubectl delete crd servicemonitors.$NS.coreos.com
-# kubectl delete crd thanosrulers.$NS.coreos.com
+#kubectl delete crd -l app=kube-prometheus-stack
+kubectl delete crd alertmanagerconfigs.$NS.coreos.com
+kubectl delete crd alertmanagers.$NS.coreos.com
+kubectl delete crd podmonitors.$NS.coreos.com
+kubectl delete crd probes.$NS.coreos.com
+kubectl delete crd prometheusagents.$NS.coreos.com
+kubectl delete crd prometheuses.$NS.coreos.com
+kubectl delete crd prometheusrules.$NS.coreos.com
+kubectl delete crd scrapeconfigs.$NS.coreos.com
+kubectl delete crd servicemonitors.$NS.coreos.com
+kubectl delete crd thanosrulers.$NS.coreos.com
