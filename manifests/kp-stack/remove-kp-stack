@@ -1,0 +1,27 @@
+#!/bin/bash
+
+DEPLOYMENTS=$(kubectl get deployment -n monitoring | awk 'NR > 1 {print $1}')
+STATEFULSET=$(kubectl get statefulset -n monitoring | awk 'NR > 1 {print $1}')
+PVC=$(kubectl get pvc -n monitoring | awk 'NR > 1 {print $1}')
+SECRETS=$(kubectl get secrets -n monitoring | awk 'NR > 1 {print $1}')
+CM=$(kubectl get configmap -n monitoring | awk 'NR > 1 {print $1}')
+
+kubectl scale deployment --replicas=0 -n monitoring $DEPLOYMENTS
+kubectl delete deployment -n monitoring $DEPLOYMENTS
+kubectl scale statefulset --replicas=0 -n monitoring  $STATEFULSET
+kubectl delete statefulset -n monitoring $STATEFULSET
+kubectl delete pvc -n monitoring $PVC
+kubectl delete secrets -n monitoring $SECRETS
+kubectl delete configmap -n monitoring $CM
+
+
+kubectl delete crd alertmanagerconfigs.monitoring.coreos.com
+kubectl delete crd alertmanagers.monitoring.coreos.com
+kubectl delete crd podmonitors.monitoring.coreos.com
+kubectl delete crd probes.monitoring.coreos.com
+kubectl delete crd prometheusagents.monitoring.coreos.com
+kubectl delete crd prometheuses.monitoring.coreos.com
+kubectl delete crd prometheusrules.monitoring.coreos.com
+kubectl delete crd scrapeconfigs.monitoring.coreos.com
+kubectl delete crd servicemonitors.monitoring.coreos.com
+kubectl delete crd thanosrulers.monitoring.coreos.com

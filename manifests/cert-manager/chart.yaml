@@ -23,4 +23,5 @@ spec:
       prune: true
     syncOptions:
       - CreateNamespace=true
-      - Server-SideApply=true
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true
