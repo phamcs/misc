@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: monitoring
 
 resources:
-  - kp-stack-cm.yaml
+  - kp-stack-grafana-cm.yaml
   - kp-stack-secrets.yaml
   # kp-stack-ingress.yaml
 
