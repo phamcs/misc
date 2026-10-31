@@ -18,15 +18,18 @@ helmCharts:
 
 patches:
   # Inline multiple patch method
-  - patch: |
+  - target:
+      version: v1
+      kind: Deployment
+      name: kp-stack-grafana
+      namespace: monitoring
+    patch: |
       - op: add
-        path: /spec/template/spec/containers/1/env/-
+        path: /spec/template/spec/containers/2/env/-
         value:
           name: GF_SERVER_ROOT_URL
           value: "https://analytics.superasian.net"
-    target:
-      kind: Deployment
-      name: kp-stack-grafana
+
 
   - target:
       version: v1
