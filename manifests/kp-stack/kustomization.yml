@@ -22,7 +22,7 @@ patches:
       group: apps
       version: v1
       kind: Deployment
-      name: kp-stack-grafana # Replace with your Grafana deployment name
+      name: kube-prometheus-stack-grafana # Replace with your Grafana deployment name
     patch: |-
       - op: add
         path: /spec/template/spec/containers/0/env/-
