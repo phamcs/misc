@@ -1547,9 +1547,9 @@ grafana:
   # # To make Grafana persistent (Using Statefulset)
   # #
   persistence:
-    enabled: true
+    enabled: false
     type: sts
-    storageClassName: "managed-nfs"
+    storageClassName: ""
     accessModes:
       - ReadWriteMany
     size: 20Gi
