@@ -26,7 +26,7 @@ patches:
           value: "https://analytics.superasian.net"
     target:
       kind: Deployment
-      name: kp-stack-grafana
+      name: kp-stack
   # Inline target patch method
   # - target:
   #     kind: Service
