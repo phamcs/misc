@@ -42,30 +42,30 @@ patches:
 
   - patch: |
       - op: add
-        path: /data
-        value:
-          name: grafana.ini
-          value: |
-              [auth.generic_oauth]
-              enabled = true
-              name = OIDC
-              allow_sign_up = true
-              client_id = uBLNiMNts5RLPKk2JfUDJajpX2J3LbwQfJGGacEx
-              client_secret = WF2CVV5WnEV5jEJQgO8sgvfMP6Lwmp6d6KlkAkYoPCzBWThe24hwjmlDYbYpyRciYAL8IJxBx14U9gX7L1vLp7mzD8MlErUTCIt6sLjoRYBOvpbLIr9IIG1tcoZ6emhr
-              scopes = openid profile email ogffline_access
-              auth_url = https://authentik.superasian.net/application/o/authorize/
-              token_url = https://authentik.superasian.net/application/o/token/
-              api_url = https://authentik.superasian.net/application/o/userinfo/
+        path: /data/grafana.ini
+        value: |
+          [auth.generic_oauth]
+          enabled = true
+          name = OIDC
+          allow_sign_up = true
+          client_id = uBLNiMNts5RLPKk2JfUDJajpX2J3LbwQfJGGacEx
+          client_secret = WF2CVV5WnEV5jEJQgO8sgvfMP6Lwmp6d6KlkAkYoPCzBWThe24hwjmlDYbYpyRciYAL8IJxBx14U9gX7L1vLp7mzD8MlErUTCIt6sLjoRYBOvpbLIr9IIG1tcoZ6emhr
+          scopes = openid profile email ogffline_access
+          auth_url = https://authentik.superasian.net/application/o/authorize/
+          token_url = https://authentik.superasian.net/application/o/token/
+          api_url = https://authentik.superasian.net/application/o/userinfo/
 
-              # Optional: JWK validation for ID tokens
-              validate_id_token = true
-              jwk_set_url = https://authentik.superasian.net/application/o/grafana/jwks/
+          # Optional: JWK validation for ID tokens
+          validate_id_token = true
+          jwk_set_url = https://authentik.superasian.net/application/o/grafana/jwks/
 
-              # Optional: Role mapping and team sync
-              role_attribute_path = contains(groups[*], 'grafana-admin') && 'Admin' || contains(groups[*], 'Grafana Editors') && 'Editor' || 'Viewer'
-              use_refresh_token = true
-              skip_org_role_sync: true
-
+          # Optional: Role mapping and team sync
+          role_attribute_path = contains(groups[*], 'grafana-admin') && 'Admin' || contains(groups[*], 'Grafana Editors') && 'Editor' || 'Viewer'
+          use_refresh_token = true
+          skip_org_role_sync: true
+    target:
+      kind: ConfigMap
+      name: kp-stack-grafana
 
   # Inline target patch method
   # - target:
