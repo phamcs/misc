@@ -15,7 +15,7 @@ kubectl scale deployment --replicas=0 -n $NS $DEPLOYMENTS
 kubectl delete deployment -n $NS $DEPLOYMENTS
 kubectl scale statefulset --replicas=0 -n $NS  $STATEFULSET
 kubectl delete statefulset -n $NS $STATEFULSET
-kubectl delete service -n $NS $DAEMONSET
+kubectl delete daemonset -n $NS $DAEMONSET
 kubectl delete service -n $NS $SVC
 kubectl delete pvc -n $NS $PVC
 kubectl delete secrets -n $NS $SECRETS
