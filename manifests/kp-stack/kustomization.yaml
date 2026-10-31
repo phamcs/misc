@@ -28,17 +28,24 @@ patches:
       kind: Deployment
       name: kp-stack-grafana
 
-  - patch: |
-      - op: add
-        path: /metadata/annotations
-        value:
-          metallb.io/loadBalancerIPs: 10.0.0.94
-      # - op: replace
-      #   path: /spec/type
-      #     value: LoadBalancer
-    target:
+  - target:
+      version: v1
       kind: Service
       name: kp-stack-grafana
+      namespace: monitoring
+    patch: |
+      - op: add
+        path: /metadata/annotations/metallb.universe.tf~1loadBalancerIPs
+        value: 10.0.0.94
+      - op: replace
+        path: /spec/type
+          value: LoadBalancer
+      - op: add
+        path: /metadata/annotations
+        value: {}
+      - op: add
+        path: /metadata/annotations/metallb.universe.tf~1address-pool
+        value: default-pool # Replace with your actual MetalLB IP pool name
 
   - target:
       kind: ConfigMap
