@@ -4,17 +4,17 @@ kind: Kustomization
 namespace: monitoring
 
 resources:
-  - configmap.yaml
-  - secrets.yaml
+  - kp-stack-cm.yaml
+  - kp-stack-secrets.yaml
 
 helmCharts:
   - name: kube-prometheus-stack
     repo: https://prometheus-community.github.io/helm-charts
-    version: 83.6.0
+    version: 76.5.1
     releaseName: kp-stack
     namespace: monitoring
     includeCRDs: true
-    valuesFile: values.yaml
+    valuesFile: kp-stack-values.yaml
 
 patches:
   - target:
