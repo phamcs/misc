@@ -9,7 +9,7 @@ CM=$(kubectl get configmap -n $NS | awk 'NR > 1 {print $1}')
 SA=$(kubectl get serviceaccount -n $NS | awk 'NR > 1 {print $1}')
 SVC=$(kubectl get svc -n $NS | awk 'NR > 1 {print $1}')
 ROLES=$(kubectl get roles -n $NS | awk 'NR > 1 {print $1}')
-CROLES=$(kubectl get clusterroles -n $NS | grep -E "kp-stack|kube-prometheus" | awk 'NR > 1 {print $1}')
+CROLES=$(kubectl get clusterroles | grep -E "kp-stack|kube-prometheus" | awk 'NR > 1 {print $1}')
 RB=$(kubectl get rolebinding -n $NS | awk 'NR > 1 {print $1}')
 CRB=$(kubectl get clusterrolebinding -n monitoring|grep -E "kp-stack|kube-prometheus"|awk 'NR > 1 {print $1}')
 
@@ -17,6 +17,10 @@ CRB=$(kubectl get clusterrolebinding -n monitoring|grep -E "kp-stack|kube-promet
 kubectl patch job kube-prometheus-stack-admission-patch -n monitoring --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
 kubectl patch job kube-prometheus-stack-admission-create -n monitoring --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
 kubectl patch serviceaccount $SA -n $NS --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+kubectl patch roles $ROLES -n $NS --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+kubectl patch rolebinding $RB -n $NS --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+kubectl patch clusterrole $CROLES -n $NS --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+kubectl patch clusterrolebinding $CRB -n $NS --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
 
 # Delete Resources by namespaced
 kubectl scale deployment --replicas=0 -n $NS $DEPLOYMENTS
