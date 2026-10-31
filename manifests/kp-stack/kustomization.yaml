@@ -32,7 +32,7 @@ patches:
       - op: add
         path: /metadata/annotations
         value:
-          metallb.io/loadBalancerIPs: 10.0.0.94
+          metallb.io~1loadBalancerIPs: 10.0.0.94
       - op: replace
         path: /spec/type
           value: LoadBalancer
