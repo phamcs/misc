@@ -1,27 +1,48 @@
 #!/bin/bash
+NS=monitoring
+DEPLOYMENTS=$(kubectl get deployment -n $NS | awk 'NR > 1 {print $1}')
+STATEFULSET=$(kubectl get statefulset -n $NS | awk 'NR > 1 {print $1}')
+DAEMONSET=$(kubectl get daemonset -n $NS | awk 'NR > 1 {print $1}')
+PVC=$(kubectl get pvc -n $NS | awk 'NR > 1 {print $1}')
+SECRETS=$(kubectl get secrets -n $NS | awk 'NR > 1 {print $1}')
+CM=$(kubectl get configmap -n $NS | awk 'NR > 1 {print $1}')
+SA=$(kubectl get serviceaccount -n $NS | awk 'NR > 1 {print $1}')
+SVC=$(kubectl get svc -n $NS | awk 'NR > 1 {print $1}')
+ROLES=$(kubectl get roles -n $NS | awk 'NR > 1 {print $1}')
+CROLES=$(kubectl get clusterroles -n $NS | grep -i "kube-prometheus-stack" | awk 'NR > 1 {print $1}')
 
-DEPLOYMENTS=$(kubectl get deployment -n monitoring | awk 'NR > 1 {print $1}')
-STATEFULSET=$(kubectl get statefulset -n monitoring | awk 'NR > 1 {print $1}')
-PVC=$(kubectl get pvc -n monitoring | awk 'NR > 1 {print $1}')
-SECRETS=$(kubectl get secrets -n monitoring | awk 'NR > 1 {print $1}')
-CM=$(kubectl get configmap -n monitoring | awk 'NR > 1 {print $1}')
+kubectl scale deployment --replicas=0 -n $NS $DEPLOYMENTS
+kubectl delete deployment -n $NS $DEPLOYMENTS
+kubectl scale statefulset --replicas=0 -n $NS  $STATEFULSET
+kubectl delete statefulset -n $NS $STATEFULSET
+kubectl delete service -n $NS $DAEMONSET
+kubectl delete service -n $NS $SVC
+kubectl delete pvc -n $NS $PVC
+kubectl delete secrets -n $NS $SECRETS
+kubectl delete roles -n $NS $ROLES
+kubectl delete roles -n $NS $CROLES
+kubectl delete serviceaccount -n $NS $SA
+kubectl delete configmap -n $NS $CM
 
-kubectl scale deployment --replicas=0 -n monitoring $DEPLOYMENTS
-kubectl delete deployment -n monitoring $DEPLOYMENTS
-kubectl scale statefulset --replicas=0 -n monitoring  $STATEFULSET
-kubectl delete statefulset -n monitoring $STATEFULSET
-kubectl delete pvc -n monitoring $PVC
-kubectl delete secrets -n monitoring $SECRETS
-kubectl delete configmap -n monitoring $CM
+# 1. Delete the mutating and validating webhooks
+kubectl delete validatingwebhookconfiguration kube-prometheus-stack-admission --ignore-not-found
+kubectl delete mutatingwebhookconfiguration kube-prometheus-stack-admission --ignore-not-found
+
+# 2. Delete the leftover admission patch jobs and pods
+kubectl delete jobs -n $NS -l app=kube-prometheus-stack-admission
+kubectl delete pods -n $NS -l app=kube-prometheus-stack-admission
+
+# 3. Delete the stubborn admission secret
+kubectl delete secret kube-prometheus-stack-admission -n $NS --ignore-not-found
 
 
-kubectl delete crd alertmanagerconfigs.monitoring.coreos.com
-kubectl delete crd alertmanagers.monitoring.coreos.com
-kubectl delete crd podmonitors.monitoring.coreos.com
-kubectl delete crd probes.monitoring.coreos.com
-kubectl delete crd prometheusagents.monitoring.coreos.com
-kubectl delete crd prometheuses.monitoring.coreos.com
-kubectl delete crd prometheusrules.monitoring.coreos.com
-kubectl delete crd scrapeconfigs.monitoring.coreos.com
-kubectl delete crd servicemonitors.monitoring.coreos.com
-kubectl delete crd thanosrulers.monitoring.coreos.com
+kubectl delete crd alertmanagerconfigs.$NS.coreos.com
+kubectl delete crd alertmanagers.$NS.coreos.com
+kubectl delete crd podmonitors.$NS.coreos.com
+kubectl delete crd probes.$NS.coreos.com
+kubectl delete crd prometheusagents.$NS.coreos.com
+kubectl delete crd prometheuses.$NS.coreos.com
+kubectl delete crd prometheusrules.$NS.coreos.com
+kubectl delete crd scrapeconfigs.$NS.coreos.com
+kubectl delete crd servicemonitors.$NS.coreos.com
+kubectl delete crd thanosrulers.$NS.coreos.com
