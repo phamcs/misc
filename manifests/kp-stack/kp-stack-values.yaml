@@ -1549,7 +1549,7 @@ grafana:
   persistence:
     enabled: true
     type: sts
-    storageClassName: "manged-nfs"
+    storageClassName: "managed-nfs"
     accessModes:
       - ReadWriteMany
     size: 20Gi
