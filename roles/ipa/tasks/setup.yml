@@ -42,18 +42,18 @@
 # Configure FreeIPA server with default settings
 - name: Configure FreeIPA server
   ansible.builtin.shell: |
-      ipa-server-install --unattended \
-      --realm={{ realm }} \
-      --domain={{ domain }} \
-      --ds-password={{ ds_password }} \
-      --admin-password={{ admin_password }} \
-      --mkhomedir \
-      --hostname={{ hostname }} \
-      --no-pkinit \
-      --setup-dns \
-      --no-forwarders \
-      --no-host-dns \
-      --allow-zone-overlap
+    ipa-server-install --unattended \
+    --realm={{ realm }} \
+    --domain={{ domain }} \
+    --ds-password={{ ds_password }} \
+    --admin-password={{ admin_password }} \
+    --mkhomedir \
+    --hostname={{ hostname }} \
+    --no-pkinit \
+    --setup-dns \
+    --no-forwarders \
+    --no-host-dns \
+    --allow-zone-overlap
   register: ipa_install_result
   until: ipa_install_result.rc == 0
   retries: 3

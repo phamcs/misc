@@ -9,10 +9,10 @@ resources:
   #- ingress-traefik.yaml    # Uncomment if using ingress
 
 helmCharts:
-  - name: kp-stack
+  - name: kube-prometheus-stack
     repo: https://prometheus-community.github.io/helm-charts
-    version: 83.6.0
-    releaseName: kp-stack
+    version: 76.5.1
+    releaseName: kube-prometheus-stack
     namespace: monitoring
     includeCRDs: true
     valuesFile: kp-stack-values.yaml

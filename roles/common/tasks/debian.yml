@@ -39,9 +39,8 @@
 
 # Install omvextra & docker compose
 - name: Install omvextra & docker compose
-  ansible.builtin.shell:
-    cmd: |
-      wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash
+  ansible.builtin.shell: |
+    wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash
   when: ansible_os_family == 'Debian'
   register: omvextra_install
 
