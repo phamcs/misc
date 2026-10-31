@@ -32,10 +32,10 @@ patches:
       - op: add
         path: /metadata/annotations
         value:
-          metallb.io~1/loadBalancerIPs: 10.0.0.94
-      - op: replace
-        path: /spec/type
-          value: LoadBalancer
+          metallb.io/loadBalancerIPs: 10.0.0.94
+      # - op: replace
+      #   path: /spec/type
+      #     value: LoadBalancer
     target:
       kind: Service
       name: kp-stack-grafana
