@@ -33,6 +33,10 @@ patches:
         path: /metadata/annotations
         value:
           metallb.io/loadBalancerIPs: 10.0.0.94
+      - op: replace
+        path: /spec/template/spec/type
+          value:
+            type: LoadBalancer
     target:
       kind: Service
       name: kp-stack-grafana
