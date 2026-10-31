@@ -27,15 +27,28 @@ patches:
     target:
       kind: Deployment
       name: kp-stack
-
-  - patch: |
-      - op: add
-        path: /metadata/annotations
-        value:
-          metallb.io/loadBalancerIPs: 10.0.0.94
-      # - op: replace
-      #   path: /spec/type
-      #     value: LoadBalancer
-    target:
+  # Inline target patch method
+  - target:
       kind: Service
       name: kp-stack-grafana
+    patch: |-
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: kp-stack-grafana
+      annotations:
+        metallb.io/loadBalancerIPs: 10.0.0.94
+      spec:
+        type: LoadBalancer
+
+  # - patch: |
+  #     - op: add
+  #       path: /metadata/annotations
+  #       value:
+  #         metallb.io/loadBalancerIPs: 10.0.0.94
+  #     # - op: replace
+  #     #   path: /spec/type
+  #     #     value: LoadBalancer
+  #   target:
+  #     kind: Service
+  #     name: kp-stack-grafana
