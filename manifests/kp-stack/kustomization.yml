@@ -8,7 +8,7 @@ resources:
   - secrets.yaml
 
 helmCharts:
-  - name: kp-stack
+  - name: kube-prometheus-stack
     repo: https://prometheus-community.github.io/helm-charts
     version: 76.5.1
     releaseName: kp-stack
