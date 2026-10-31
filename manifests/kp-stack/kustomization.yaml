@@ -6,7 +6,7 @@ namespace: monitoring
 resources:
   - kp-stack-grafana-cm.yaml
   - kp-stack-secrets.yaml
-  - kp-stack-values.yaml
+  #- kp-stack-values.yaml
 
 helmCharts:
   - name: kube-prometheus-stack
