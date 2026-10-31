@@ -66,24 +66,33 @@ patches:
       data:
         grafana.ini: >
           [analytics]
+
           check_for_updates = true
 
           [log]
+
           mode = console
 
           [paths]
+
           data = /var/lib/grafana/
+
           logs = /var/log/grafana
+
           plugins = /var/lib/grafana/plugins
+
           provisioning = /etc/grafana/provisioning
 
           [plugins]
+
           preinstall_auto_update = false
 
           [server]
+
           domain = ''
 
           [unified_storage]
+
           index_path = /var/lib/grafana-search/bleve
 
           [auth.generic_oauth]
@@ -96,7 +105,8 @@ patches:
 
           client_id = uBLNiMNts5RLPKk2JfUDJajpX2J3LbwQfJGGacEx
 
-          client_secret = WF2CVV5WnEV5jEJQgO8sgvfMP6Lwmp6d6KlkAkYoPCzBWThe24hwjmlDYbYpyRciYAL8IJxBx14U9gX7L1vLp7mzD8MlErUTCIt6sLjoRYBOvpbLIr9IIG1tcoZ6emhr
+          client_secret =
+          WF2CVV5WnEV5jEJQgO8sgvfMP6Lwmp6d6KlkAkYoPCzBWThe24hwjmlDYbYpyRciYAL8IJxBx14U9gX7L1vLp7mzD8MlErUTCIt6sLjoRYBOvpbLIr9IIG1tcoZ6emhr
 
           scopes = openid profile email ogffline_access
 
