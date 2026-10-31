@@ -25,6 +25,7 @@ patches:
       namespace: monitoring
     patch: |
       - op: add
+        # This setting needs to be on specific containers grafana
         path: /spec/template/spec/containers/2/env/-
         value:
           name: GF_SERVER_ROOT_URL
