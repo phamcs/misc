@@ -108,7 +108,7 @@ patches:
           client_secret =
           WF2CVV5WnEV5jEJQgO8sgvfMP6Lwmp6d6KlkAkYoPCzBWThe24hwjmlDYbYpyRciYAL8IJxBx14U9gX7L1vLp7mzD8MlErUTCIt6sLjoRYBOvpbLIr9IIG1tcoZ6emhr
 
-          scopes = openid profile email ogffline_access
+          scopes = openid profile email groups offline_access
 
           auth_url = https://authentik.superasian.net/application/o/authorize/
 
