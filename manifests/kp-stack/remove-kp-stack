@@ -9,7 +9,9 @@ CM=$(kubectl get configmap -n $NS | awk 'NR > 1 {print $1}')
 SA=$(kubectl get serviceaccount -n $NS | awk 'NR > 1 {print $1}')
 SVC=$(kubectl get svc -n $NS | awk 'NR > 1 {print $1}')
 ROLES=$(kubectl get roles -n $NS | awk 'NR > 1 {print $1}')
-CROLES=$(kubectl get clusterroles -n $NS | grep -i "kube-prometheus-stack" | awk 'NR > 1 {print $1}')
+CROLES=$(kubectl get clusterroles -n $NS | grep -E "kp-stack|kube-prometheus" | awk 'NR > 1 {print $1}')
+RB=$(kubectl get rolebinding -n $NS | awk 'NR > 1 {print $1}')
+CRB=$(kubectl get clusterrolebinding -n monitoring|grep -E "kp-stack|kube-prometheus"|awk 'NR > 1 {print $1}')
 
 kubectl scale deployment --replicas=0 -n $NS $DEPLOYMENTS
 kubectl delete deployment -n $NS $DEPLOYMENTS
@@ -20,7 +22,9 @@ kubectl delete service -n $NS $SVC
 kubectl delete pvc -n $NS $PVC
 kubectl delete secrets -n $NS $SECRETS
 kubectl delete roles -n $NS $ROLES
-kubectl delete roles -n $NS $CROLES
+kubectl delete clusterroles -n $NS $CROLES
+kubectl delete rolebinding -n $NS $RB
+kubectl delete clusterrolebinding -n $NS $CRB
 kubectl delete serviceaccount -n $NS $SA
 kubectl delete configmap -n $NS $CM
 
@@ -31,18 +35,22 @@ kubectl delete mutatingwebhookconfiguration kube-prometheus-stack-admission --ig
 # 2. Delete the leftover admission patch jobs and pods
 kubectl delete jobs -n $NS -l app=kube-prometheus-stack-admission
 kubectl delete pods -n $NS -l app=kube-prometheus-stack-admission
+kubectl delete job kube-prometheus-stack-admission-create -n $NS --ignore-not-found
+kubectl delete job kube-prometheus-stack-admission-patch -n $NS --ignore-not-found
 
 # 3. Delete the stubborn admission secret
 kubectl delete secret kube-prometheus-stack-admission -n $NS --ignore-not-found
+kubectl patch <resource-type> <resource-name> -n <namespace> --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
 
-
-kubectl delete crd alertmanagerconfigs.$NS.coreos.com
-kubectl delete crd alertmanagers.$NS.coreos.com
-kubectl delete crd podmonitors.$NS.coreos.com
-kubectl delete crd probes.$NS.coreos.com
-kubectl delete crd prometheusagents.$NS.coreos.com
-kubectl delete crd prometheuses.$NS.coreos.com
-kubectl delete crd prometheusrules.$NS.coreos.com
-kubectl delete crd scrapeconfigs.$NS.coreos.com
-kubectl delete crd servicemonitors.$NS.coreos.com
-kubectl delete crd thanosrulers.$NS.coreos.com
+# Delete Custom Resources
+kubectl delete crd -l app=kube-prometheus-stack
+# kubectl delete crd alertmanagerconfigs.$NS.coreos.com
+# kubectl delete crd alertmanagers.$NS.coreos.com
+# kubectl delete crd podmonitors.$NS.coreos.com
+# kubectl delete crd probes.$NS.coreos.com
+# kubectl delete crd prometheusagents.$NS.coreos.com
+# kubectl delete crd prometheuses.$NS.coreos.com
+# kubectl delete crd prometheusrules.$NS.coreos.com
+# kubectl delete crd scrapeconfigs.$NS.coreos.com
+# kubectl delete crd servicemonitors.$NS.coreos.com
+# kubectl delete crd thanosrulers.$NS.coreos.com
