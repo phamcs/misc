@@ -1651,23 +1651,23 @@ grafana:
         handleGrafanaManagedAlerts: false
         implementation: prometheus
 
-      influxdb:
-        enable: true
-        name: InfluxDB-v2
-        uid: influxdb
-        access: proxy
-        basicAuth: true
-        secureJsonData:
-          token: R4XxkM9qnsCSJzvfwQPgl2Z0YeKYZwVX
-        basicAuthUser: influxdb
-        editable: true
-        isDefaultDatasource: false
-        jsonData:
-            tlsSkipVerify: true
-        orgId: 1
-        type: influxdb
-        url: http://kp-stack-kube-prometheus-s-influxdb.monitoring:8086/
-        version: 1
+      # influxdb:
+      #   enable: true
+      #   name: InfluxDB-v2
+      #   uid: influxdb
+      #   access: proxy
+      #   basicAuth: true
+      #   secureJsonData:
+      #     token: R4XxkM9qnsCSJzvfwQPgl2Z0YeKYZwVX
+      #   basicAuthUser: influxdb
+      #   editable: true
+      #   isDefaultDatasource: false
+      #   jsonData:
+      #       tlsSkipVerify: true
+      #   orgId: 1
+      #   type: influxdb
+      #   url: http://kp-stack-kube-prometheus-s-influxdb.monitoring:8086/
+      #   version: 1
 
   extraConfigmapMounts: []
   # - name: certs-configmap
@@ -1696,20 +1696,30 @@ grafana:
   #   url: https://{{ printf "%s-prometheus.svc" .Release.Name }}:9090
   #   version: 1
 
-    # - name: InfluxDB-v2
-    #   access: proxy
-    #   basicAuth: true
-    #   secureJsonData:
-    #     token: R4XxkM9qnsCSJzvfwQPgl2Z0YeKYZwVX
-    #   basicAuthUser: influxdb
-    #   editable: true
-    #   isDefaultDatasource: false
-    #   jsonData:
-    #       tlsSkipVerify: true
-    #   orgId: 1
-    #   type: influxdb
-    #   url: http://kp-stack-kube-prometheus-s-influxdb.monitoring:8086/
-    #   version: 1
+    # Prometheus DS
+    - name: Prometheus
+      type: prometheus
+      url: http://kp-stack-prometheus.monitoring.svc.cluster.local:9090/
+      access: proxy
+      isDefault: true
+      editable: true  # <--- This ungreys the data source settings
+      jsonData:
+        tlsSkipVerify: true
+
+    - name: InfluxDB-v2
+      access: proxy
+      basicAuth: true
+      secureJsonData:
+        token: R4XxkM9qnsCSJzvfwQPgl2Z0YeKYZwVX
+      basicAuthUser: influxdb
+      editable: true
+      isDefaultDatasource: false
+      jsonData:
+          tlsSkipVerify: true
+      #orgId: 1
+      type: influxdb
+      url: http://kp-stack-influxdb.monitoring.svc.cluster.local:8086/
+      version: 1
 
   ## Configure additional grafana datasources as a templated string (passed through tpl)
   ## Useful when you need Helm flow control or templating inside the datasource definition
