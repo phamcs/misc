@@ -111,7 +111,7 @@ adminUser:
 ## Persist data to a persistent volume
 ##
 persistence:
-  enabled: true
+  enabled: false
   ## If true will use an existing PVC instead of creating one
   # useExisting: false
   ## Name of existing PVC to be used in the influx deployment
