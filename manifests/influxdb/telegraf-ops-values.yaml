@@ -33,7 +33,7 @@ classes:
         type = "k8s"
 
 certManager:
-  enable: true
+  enable: false
 
 imagePullSecrets: []
 nameOverride: ""
