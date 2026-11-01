@@ -123,7 +123,7 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  storageClass: "managed-nfs"
+  storageClass: ""
   accessMode: ReadWriteOnce
   size: 20Gi
   mountPath: /var/lib/influxdb2
