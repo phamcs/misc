@@ -10,11 +10,11 @@ classes:
   data:
     k8s: |
       [[outputs.influxdb]]
-        urls = ["http://influxdb:8086"]
+        urls = ["http://influxdb2:8086"]
       [global_tags]
         env = "ci"
-        hostname = "$HOSTNAME"
-        nodename = "$NODENAME"
+        hostname = "influxdb2"
+        nodename = "influxdb2"
         type = "k8s"
 
 certManager:

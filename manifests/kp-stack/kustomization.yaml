@@ -15,18 +15,6 @@ helmCharts:
     includeCRDs: true
     valuesFile: prometheus-values.yaml
 
-  # - name: influxdb
-  #   repo: https://helm.influxdata.com/
-  #   version: 4.12.5 # Replace with the latest or desired version
-  #   releaseName: influxdb
-  #   valuesFile: influxdb-values.yaml
-
-  # - name: telegraf-operator
-  #   repo: https://helm.influxdata.com/
-  #   version: 1.4.0 # Replace with the latest or desired version
-  #   releaseName: telegraf-operator
-  #   valuesFile: telegraf-ops-values.yaml
-
 patches:
   # Inline multiple patch method
   - target:
@@ -162,18 +150,3 @@ patches:
           use_refresh_token = true
 
           skip_org_role_sync: true
-
-
-  # Inline target patch method
-  # - target:
-  #     kind: Service
-  #     name: kp-stack-grafana
-  #   patch: |-
-  #     apiVersion: v1
-  #     kind: Service
-  #     metadata:
-  #       name: kp-stack-grafana
-  #     annotations:
-  #       metallb.io/loadBalancerIPs: 10.0.0.94
-  #     spec:
-  #       type: LoadBalancer

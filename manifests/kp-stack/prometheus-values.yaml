@@ -1709,20 +1709,24 @@ grafana:
         prometheusType: Prometheus
 
     # InfluxDB DS
-    # - name: InfluxDB-v2
-    #   type: influxdb
-    #   url: http://kp-stack-influxdb.monitoring.svc.cluster.local:8086/
-    #   access: proxy
-    #   basicAuth: true
-    #   secureJsonData:
-    #     token: R4XxkM9qnsCSJzvfwQPgl2Z0YeKYZwVX
-    #   basicAuthUser: influxdb
-    #   editable: true
-    #   isDefaultDatasource: false
-    #   jsonData:
-    #       tlsSkipVerify: true
-    #   #orgId: 1
-    #   version: 1
+    - name: InfluxDB-v2
+      type: influxdb
+      url: http://influxdb2:8086/
+      access: proxy
+      basicAuth: true
+      basicAuthUser: influxdb2
+      basicAuthPassword: influxdb2
+      secureJsonData:
+        token: R4XxkM9qnsCSJzvfwQPgl2Z0YeKYZwVX
+      editable: true
+      isDefaultDatasource: false
+      jsonData:
+        version: Flux
+        organization: phamcs
+        bucket: phamcs
+        tlsSkipVerify: true
+      #orgId: 1
+      version: 1
 
   ## Configure additional grafana datasources as a templated string (passed through tpl)
   ## Useful when you need Helm flow control or templating inside the datasource definition
@@ -4921,10 +4925,10 @@ prometheus:
       - url: "http://influxdb:8086/api/v2/write?org=influxdata&bucket=prometheus&precision=ns"
         basicAuth:
           username:
-            name: influxdb-credentials
+            name: influxdb2-credentials
             key: username
           password:
-            name: influxdb-credentials
+            name: influxdb2-credentials
             key: password
     # - url: http://remote1/push
     ## additionalRemoteWrite is appended to remoteWrite
