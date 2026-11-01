@@ -13,7 +13,13 @@ helmCharts:
     releaseName: kp-stack
     namespace: monitoring
     includeCRDs: true
-    valuesFile: values.yaml
+    valuesFile: prometheus-values.yaml
+
+  - name: influxdb
+    repo: https://helm.influxdata.com/
+    version: 2.1.2 # Replace with the latest or desired version
+    releaseName: influxdb
+    valuesFile: influxdb-values.yaml
 
 patches:
   # Inline multiple patch method
@@ -29,7 +35,6 @@ patches:
         value:
           name: GF_SERVER_ROOT_URL
           value: "https://analytics.superasian.net"
-
 
   - target:
       version: v1
