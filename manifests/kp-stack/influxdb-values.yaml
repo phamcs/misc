@@ -94,7 +94,7 @@ env: {}
 ## Defaults indicated below
 ##
 adminUser:
-  organization: "PHAMCS"
+  organization: "influxdata"
   bucket: "prometheus"
   user: "influxdb"
   retention_policy: "0s"
