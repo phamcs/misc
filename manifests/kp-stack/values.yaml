@@ -1710,6 +1710,8 @@ grafana:
 
     # InfluxDB DS
     - name: InfluxDB-v2
+      type: influxdb
+      url: http://kp-stack-influxdb.monitoring.svc.cluster.local:8086/
       access: proxy
       basicAuth: true
       secureJsonData:
@@ -1720,8 +1722,6 @@ grafana:
       jsonData:
           tlsSkipVerify: true
       #orgId: 1
-      type: influxdb
-      url: http://kp-stack-influxdb.monitoring.svc.cluster.local:8086/
       version: 1
 
   ## Configure additional grafana datasources as a templated string (passed through tpl)
