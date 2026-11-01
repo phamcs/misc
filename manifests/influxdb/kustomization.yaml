@@ -7,10 +7,10 @@ resources:
   - secrets.yaml
 
 helmCharts:
-  - name: influxdb2
+  - name: influxdb
     repo: https://helm.influxdata.com/
-    version: 2.1.2 # Replace with the latest or desired version
-    releaseName: influxdb
+    version: 4.12.5 # Replace with the latest or desired version
+    releaseName: influxdb2
     valuesFile: influxdb2-values.yaml
 
   - name: telegraf-operator
