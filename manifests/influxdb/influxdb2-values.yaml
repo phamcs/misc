@@ -96,11 +96,11 @@ env: {}
 adminUser:
   organization: "influxdata"
   bucket: "prometheus"
-  user: "influxdb"
+  user: "influxdb2"
   retention_policy: "0s"
   ## Leave empty to generate a random password and token.
   ## Or fill any of these values to use fixed values.
-  password: ""
+  password: "influxdb2"
   token: "EC5Cuw8rHFGPSxFHbCYbu8jBHAAF8TyO"
 
   ## The password and token are obtained from an existing secret. The expected
@@ -169,7 +169,7 @@ serviceAccount:
   create: true
   # The name of the ServiceAccount to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: influxdb-sa
+  name: influxdb2-sa
   # Annotations for the ServiceAccount
   annotations: {}
 

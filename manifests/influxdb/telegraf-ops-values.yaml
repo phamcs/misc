@@ -9,6 +9,21 @@ classes:
   default: "k8s"
   data:
     k8s: |
+      # Read metrics from InfluxDB (if you want to pull data from InfluxDB to Prometheus)
+      [[inputs.influxdb]]
+        urls = ["http://cluster.local"]
+
+      # OR read from standard system/Kubernetes inputs
+      [[inputs.cpu]]
+      [[inputs.mem]]
+
+      # Expose all collected metrics to Prometheus
+      [[outputs.prometheus_client]]
+        listen = ":9126"
+        path = "/metrics"
+        expiration_interval = "60s"
+
+      # Output to InfluxDB
       [[outputs.influxdb]]
         urls = ["http://influxdb2:8086"]
       [global_tags]
