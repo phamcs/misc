@@ -1651,24 +1651,6 @@ grafana:
         handleGrafanaManagedAlerts: false
         implementation: prometheus
 
-      # influxdb:
-      #   enable: true
-      #   name: InfluxDB-v2
-      #   uid: influxdb
-      #   access: proxy
-      #   basicAuth: true
-      #   secureJsonData:
-      #     token: R4XxkM9qnsCSJzvfwQPgl2Z0YeKYZwVX
-      #   basicAuthUser: influxdb
-      #   editable: true
-      #   isDefaultDatasource: false
-      #   jsonData:
-      #       tlsSkipVerify: true
-      #   orgId: 1
-      #   type: influxdb
-      #   url: http://kp-stack-kube-prometheus-s-influxdb.monitoring:8086/
-      #   version: 1
-
   extraConfigmapMounts: []
   # - name: certs-configmap
   #   mountPath: /etc/grafana/ssl/
@@ -1699,7 +1681,7 @@ grafana:
     # Prometheus DS
     - name: Prometheus
       type: prometheus
-      url: http://kp-stack-prometheus.monitoring.svc.cluster.local:9090/
+      url: http://prometheus.monitoring.svc.cluster.local:9090/
       access: proxy
       isDefault: true
       editable: true
@@ -1711,7 +1693,7 @@ grafana:
     # InfluxDB DS
     - name: InfluxDB-v2
       type: influxdb
-      url: http://influxdb2:8086/
+      url: http://influxdb2.monitoring.svc.cluster.local:8086/
       access: proxy
       basicAuth: true
       basicAuthUser: influxdb2
