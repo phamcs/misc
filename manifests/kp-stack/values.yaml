@@ -1702,10 +1702,13 @@ grafana:
       url: http://kp-stack-prometheus.monitoring.svc.cluster.local:9090/
       access: proxy
       isDefault: true
-      editable: true  # <--- This ungreys the data source settings
+      editable: true
       jsonData:
         tlsSkipVerify: true
+      extraJsonData:
+        prometheusType: Prometheus
 
+    # InfluxDB DS
     - name: InfluxDB-v2
       access: proxy
       basicAuth: true
