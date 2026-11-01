@@ -86,6 +86,24 @@ patches:
 
           provisioning = /etc/grafana/provisioning
 
+          [database]
+          # Either "mysql", "postgres" or "sqlite3", it's your choice
+          type = postgres
+
+          host = 10.0.0.252:5432
+
+          name = kp-stack-grafana
+
+          user = grafana
+
+          password = DAs8Ay4UWhjayE9VPqoUcPOQDrl98Y1oms2shAYgb8
+
+          # For "postgres" only, either "disable", "require" or "verify-full"
+          ssl_mode = disable
+
+          # For "sqlite3" only, path relative to data_path setting
+          ;path = grafana.db
+
           [plugins]
 
           preinstall_auto_update = false
