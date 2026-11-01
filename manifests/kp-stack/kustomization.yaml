@@ -13,7 +13,7 @@ helmCharts:
     releaseName: kp-stack
     namespace: monitoring
     includeCRDs: true
-    valuesFile: prometheus-values.yaml
+    valuesFile: values.yaml
 
 patches:
   # Inline multiple patch method

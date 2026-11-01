@@ -1681,7 +1681,7 @@ grafana:
     # Prometheus DS
     - name: Prometheus
       type: prometheus
-      url: http://prometheus.monitoring.svc.cluster.local:9090/
+      url: http://prometheus.svc.cluster.local:9090/
       access: proxy
       isDefault: true
       editable: true
@@ -1693,7 +1693,7 @@ grafana:
     # InfluxDB DS
     - name: InfluxDB-v2
       type: influxdb
-      url: http://influxdb2.monitoring.svc.cluster.local:8086/
+      url: http://influxdb2.svc.cluster.local:8086/
       access: proxy
       basicAuth: true
       basicAuthUser: influxdb2
