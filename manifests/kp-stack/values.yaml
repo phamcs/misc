@@ -1685,6 +1685,7 @@ grafana:
         token: R4XxkM9qnsCSJzvfwQPgl2Z0YeKYZwVX
       basicAuthUser: influxdb
       editable: true
+      isDefaultDatasource: false
       jsonData:
           tlsSkipVerify: true
       orgId: 1
