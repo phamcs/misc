@@ -4918,7 +4918,7 @@ prometheus:
     ## The remote_write spec configuration for Prometheus.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#remotewritespec
     remoteWrite:
-      - url: "http://kp-stack-influxdb.monitoring.cluster.local:8086/api/v2/write?org=PHAMCS&bucket=prometheus&precision=ns"
+      - url: "http://influxdb:8086/api/v2/write?org=PHAMCS&bucket=prometheus&precision=ns"
         basicAuth:
           username:
             name: influxdb-credentials
