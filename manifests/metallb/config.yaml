@@ -7,7 +7,7 @@ metadata:
 spec:
   addresses:
     # Use a range of IPs from your network that are not used by DHCP
-    - 10.0.0.90-10.0.0.99
+    - 10.0.0.80-10.0.0.99
   autoAssign: true
 ---
 apiVersion: metallb.io/v1beta1
