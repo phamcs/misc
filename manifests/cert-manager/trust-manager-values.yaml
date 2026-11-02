@@ -177,9 +177,15 @@ serviceAccount:
   # +docs:property
   automountServiceAccountToken: true
 # Additional volumes to add to the trust-manager pod.
-volumes: []
+volumes:
+  name: tls
 # Additional volume mounts to add to the trust-manager container.
-volumeMounts: []
+volumeMounts:
+  name: trust-manager-tls
+  secret:
+    secretName: trust-manager-tls
+    readOnly: true
+
 secretTargets:
   # If set to true, enable writing trust bundles to Kubernetes Secrets as a target.
   # Enabling this alone changes no RBAC: the Secret rules are emitted only once authorizedSecrets or
