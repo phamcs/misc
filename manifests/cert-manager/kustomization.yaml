@@ -34,9 +34,9 @@ patches:
       kind: Deployment
       metadata:
         name: cert-manager
+        namespace: cert-manager
       spec:
-        template:
-          spec:
-            crds:
-              enable: true
+        values:
+          crds:
+            enable: true
 
