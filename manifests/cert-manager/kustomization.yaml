@@ -10,15 +10,15 @@ resources:
   - service-certificate.yaml
 
 helmCharts:
-  - name: cert-manager
-    repo: https://charts.jetstack.io
-    version: v1.21.3   # Replace with the latest or desired version
-    releaseName: cert-manager
-    valuesFile: cert-manager-values.yaml
+  # - name: cert-manager
+  #   repo: https://charts.jetstack.io
+  #   version: 1.21.2   # Replace with the latest or desired version
+  #   releaseName: cert-manager
+  #   valuesFile: cert-manager-values.yaml
 
   - name: trust-manager
     repo: https://charts.jetstack.io
-    version: v0.26.0   # Replace with the latest or desired version
+    version: 0.26.0   # Replace with the latest or desired version
     releaseName: trust-manager
     valuesFile: trust-manager-values.yaml
 
@@ -36,6 +36,6 @@ patches:
       spec:
         template:
           spec:
-            nodeSelector:
-              kubernetes.io/hostname: w0rk3r8
+            crds:
+              enable: true
 
