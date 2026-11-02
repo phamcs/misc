@@ -5,9 +5,7 @@ namespace: cert-manager
 
 resources:
   #- https://github.com/cert-manager/cert-manager/releases/download/v1.21.2/cert-manager.yaml
-  - ca-bundle.yaml
-  - ca-issuer.yaml
-  - secrets.yaml
+  - cert-trust-manager.yaml
 
 
 helmCharts:
@@ -17,11 +15,11 @@ helmCharts:
     releaseName: cert-manager
     valuesFile: cert-manager-values.yaml
 
-  # - name: trust-manager
-  #   repo: https://charts.jetstack.io
-  #   version: 0.26.0   # Replace with the latest or desired version
-  #   releaseName: trust-manager
-  #   valuesFile: trust-manager-values.yaml
+  - name: trust-manager
+    repo: https://charts.jetstack.io
+    version: 0.26.0   # Replace with the latest or desired version
+    releaseName: trust-manager
+    valuesFile: trust-manager-values.yaml
 
 patches:
   - target:
