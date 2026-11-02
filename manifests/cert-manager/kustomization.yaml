@@ -8,7 +8,7 @@ resources:
   - ca-bundle.yaml
   - ca-issuer.yaml
   - secrets.yaml
-  - service-certificate.yaml
+
 
 helmCharts:
   - name: cert-manager
@@ -17,11 +17,11 @@ helmCharts:
     releaseName: cert-manager
     valuesFile: cert-manager-values.yaml
 
-  - name: trust-manager
-    repo: https://charts.jetstack.io
-    version: 0.26.0   # Replace with the latest or desired version
-    releaseName: trust-manager
-    valuesFile: trust-manager-values.yaml
+  # - name: trust-manager
+  #   repo: https://charts.jetstack.io
+  #   version: 0.26.0   # Replace with the latest or desired version
+  #   releaseName: trust-manager
+  #   valuesFile: trust-manager-values.yaml
 
 patches:
   - target:

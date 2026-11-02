@@ -1,19 +1,9 @@
 apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: ca-issuer
-  namespace: default
-spec:
-  ca:
-    # Reference to secret containing CA certificate and private key
-    secretName: self-signed-ca
----
-apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: ca-issuer
+  name: internal-ca-issuer
   namespace: cert-manager
 spec:
   ca:
     # Secret must be in cert-manager namespace for ClusterIssuer
-    secretName: self-signed-ca
+    secretName: internal-ca-secret
