@@ -4,17 +4,17 @@ kind: Kustomization
 namespace: cert-manager
 
 resources:
-  - https://github.com/cert-manager/cert-manager/releases/download/v1.21.2/cert-manager.yaml
+  #- https://github.com/cert-manager/cert-manager/releases/download/v1.21.2/cert-manager.yaml
   - ca-bundle.yaml
   - ca-issuer.yaml
   - service-certificate.yaml
 
 helmCharts:
-  # - name: cert-manager
-  #   repo: https://charts.jetstack.io
-  #   version: 1.21.2   # Replace with the latest or desired version
-  #   releaseName: cert-manager
-  #   valuesFile: cert-manager-values.yaml
+  - name: cert-manager
+    repo: https://charts.jetstack.io
+    version: 1.21.2   # Replace with the latest or desired version
+    releaseName: cert-manager
+    valuesFile: cert-manager-values.yaml
 
   - name: trust-manager
     repo: https://charts.jetstack.io
