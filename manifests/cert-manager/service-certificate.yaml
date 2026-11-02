@@ -1,0 +1,42 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: internal-service-cert
+  namespace: default
+spec:
+  # Secret to store certificate
+  secretName: internal-service-tls
+
+  # Certificate validity (shorter than CA validity)
+  duration: 2160h # 90 days
+  renewBefore: 720h # 30 days
+
+  # Reference to CA Issuer
+  issuerRef:
+    name: ca-issuer
+    kind: Issuer
+
+  # Certificate subject
+  commonName: internal-service.default.svc.cluster.local
+
+  # Subject Alternative Names
+  dnsNames:
+  - internal-service.default.svc.cluster.local
+  - internal-service
+  - internal-service.default
+
+  # IP addresses if needed
+  #ipAddresses:
+  #- 10.0.1.100
+
+  # Private key configuration
+  privateKey:
+    algorithm: RSA
+    size: 2048
+
+  # Key usages
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+  - client auth
