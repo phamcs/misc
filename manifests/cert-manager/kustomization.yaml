@@ -37,7 +37,7 @@ patches:
       namespace: cert-manager
     patch: |-
       - op: add
-        path: /metadata/annotations/argocd.argoproj.io/sync-wave: "1" # Installs first
+        path: /metadata/annotations/argocd.argoproj.io~1sync-wave: "1" # Installs first
 
   - target:
       version: v1
@@ -46,4 +46,4 @@ patches:
       namespace: cert-manager
     patch: |-
       - op: add
-        path: /metadata/annotations/argocd.argoproj.io/sync-wave: "2" # Installs second
+        path: /metadata/annotations/argocd.argoproj.io~1sync-wave: "2" # Installs second
