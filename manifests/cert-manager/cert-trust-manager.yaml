@@ -1,29 +1,55 @@
-# ca-bundle.yaml
-# apiVersion: trust.cert-manager.io/v1alpha1
-# kind: Bundle
-# metadata:
-#   name: internal-ca-bundle
-# spec:
-#   sources:
-#   - secret:
-#       name: internal-ca-secret
-#       key: tls.crt
-#   target:
-#     configMap:
-#       key: ca-bundle.crt
-# ---
+# 1. Create a Self-Signed Issuer to kick off the root CA generation
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: trust-manager-selfsigned-issuer
+spec:
+  selfSigned: {}
+---
+# 2. cert-manager uses the self-signed issuer to generate a Root CA certificate
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: internal-root-ca
-  namespace: cert-manager
+  namespace: cert-manager # Secret must live in the trust namespace (usually cert-manager)
 spec:
   isCA: true
   commonName: internal-root-ca
-  secretName: internal-ca-secret # cert-manager stores keys here
+  secretName: internal-root-ca-secret
   privateKey:
     algorithm: ECDSA
     size: 256
   issuerRef:
-    name: internal-ca-issuer # Assuming a self-signed bootstrap issuer exists
-    kind: Issuer
+    name: trust-manager-selfsigned-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+# 3. Create a ClusterIssuer that applications can use to sign leaf/workload certificates
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: internal-ca-issuer
+spec:
+  ca:
+    secretName: internal-root-ca-secret
+---
+# 4. trust-manager grabs the public key from the secret and replicates it safely
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: internal-trust-bundle
+spec:
+  sources:
+    # Source 1: The custom internal Root CA we generated above
+    - secret:
+        name: "internal-root-ca-secret"
+        key: "tls.crt"
+    # Source 2 (Optional): Include standard public CAs (like Let's Encrypt, DigiCert, etc.)
+    - useDefaultCAs: true
+  target:
+    configMap:
+      key: "ca-certificates.crt"
+    # Filter which namespaces receive this trust bundle by labeling your namespaces
+    namespaceSelector:
+      matchLabels:
+        trust-manager.io/sync: "true"
