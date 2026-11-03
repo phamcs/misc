@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: cert-manager
 
 resources:
-  #- https://github.com/cert-manager/cert-manager/releases/download/v1.21.2/cert-manager.yaml
   - cert-trust-manager.yaml
 
 
@@ -29,21 +28,3 @@ patches:
       - op: replace
         path: /metadata/annotations/cert-manager.io~1inject-ca-from
         value: "true"
-
-  # - target:
-  #     version: v1
-  #     kind: Deployment
-  #     name: cert-manager
-  #     namespace: cert-manager
-  #   patch: |-
-  #     - op: add
-  #       path: /metadata/annotations/argocd.argoproj.io~1sync-wave: "1" # Installs first
-
-  # - target:
-  #     version: v1
-  #     kind: Deployment
-  #     name: trust-manager
-  #     namespace: cert-manager
-  #   patch: |-
-  #     - op: add
-  #       path: /metadata/annotations/argocd.argoproj.io~1sync-wave: "2" # Installs second
