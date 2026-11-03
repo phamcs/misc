@@ -30,3 +30,18 @@ patches:
         path: /metadata/annotations/cert-manager.io~1inject-ca-from
         value: "true"
 
+  - target:
+      version: v1
+      kind: Deployment
+      name: cert-manager
+    patch: |-
+      - op: add
+        path: /metadata/annotations/argocd.argoproj.io/sync-wave: "1" # Installs first
+
+  - target:
+      version: v1
+      kind: Deployment
+      name: trust-manager
+    patch: |-
+      - op: add
+        path: /metadata/annotations/argocd.argoproj.io/sync-wave: "2" # Installs second
