@@ -428,7 +428,7 @@ commonLabels: {}
 # Annotations to apply to all resources
 # NOTE: These annotations won't be added to the CRDs.
 commonAnnotations:
-  argocd.argoproj.io/sync-wave: "2"
+  argocd.argoproj.io/sync-wave: "5"
 # Extra manifests to be deployed. This is useful for deploying additional resources that are not part of the chart.
 # For example:
 # extraObjects:
