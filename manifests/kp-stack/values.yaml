@@ -1619,7 +1619,7 @@ grafana:
       # customQueryParameters: ""
 
       # If not defined, will use prometheus.prometheusSpec.scrapeInterval or its default
-      # defaultDatasourceScrapeInterval: 15s
+      defaultDatasourceScrapeInterval: 30s
 
       ## Annotations for Grafana datasource configmaps
       ##
@@ -1681,7 +1681,7 @@ grafana:
     # Prometheus DS
     - name: Prometheus
       type: prometheus
-      url: http://kp-stack-prometheus.monitoring.svc.cluster.local:9090/
+      url: http://kp-stack-prometheus:9090/
       access: proxy
       isDefault: true
       editable: true
