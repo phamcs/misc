@@ -1609,7 +1609,7 @@ grafana:
 
       ## URL of prometheus datasource
       ##
-      url: http://kp-stack-kube-prometheus-s-prometheus:9090/
+      url: http://kp-stack-kube-prometheus-s-prometheus.monitoring:9090/
 
       ## Prometheus request timeout in seconds
       # timeout: 30
@@ -1677,18 +1677,6 @@ grafana:
   #   type: prometheus
   #   url: https://{{ printf "%s-prometheus.svc" .Release.Name }}:9090
   #   version: 1
-
-    # # Prometheus DS
-    # - name: Prometheus
-    #   type: prometheus
-    #   url: http://kp-stack-prometheus:9090/
-    #   access: proxy
-    #   isDefault: true
-    #   editable: true
-    #   jsonData:
-    #     tlsSkipVerify: true
-    #   extraJsonData:
-    #     prometheusType: Prometheus
 
     # InfluxDB DS
     - name: InfluxDB-v2
