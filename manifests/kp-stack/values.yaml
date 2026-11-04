@@ -1547,9 +1547,9 @@ grafana:
   # # To make Grafana persistent (Using Statefulset)
   # #
   persistence:
-    enabled: false
+    enabled: true
     type: sts
-    storageClassName: ""
+    storageClassName: "managed-nfs"
     accessModes:
       - ReadWriteMany
     size: 20Gi
@@ -4922,7 +4922,7 @@ prometheus:
       volumeClaimTemplate:
         spec:
           storageClassName: managed-nfs
-          accessModes: ["ReadWriteOnce"]
+          accessModes: ["ReadWriteMany"]
           resources:
             requests:
               storage: 50Gi
