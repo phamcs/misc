@@ -2,10 +2,6 @@
 - name: Populate service facts
   ansible.builtin.service_facts: {}
 
-- name: Gather the package facts
-  ansible.builtin.package_facts:
-    manager: auto
-
 - name: Check if nginx container is running
   ansible.builtin.shell: |
     {% raw %}docker ps --filter 'name=nginx' --filter 'status=running' --format "{{.Names}}"{% endraw %}

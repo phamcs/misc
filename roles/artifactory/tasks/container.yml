@@ -5,7 +5,7 @@
     path: "{{ app_dir }}/artifactory"
     state: directory
     mode: 0755
-    owner: root
+    owner: "{{ app_user }}"
     recurse: yes
 
 # Create Artifactory Directory
