@@ -1596,7 +1596,7 @@ grafana:
         # foldersFromFilesStructure: true
     datasources:
       enabled: true
-      defaultDatasourceEnabled: false
+      defaultDatasourceEnabled: true
       isDefaultDatasource: true
       editable: true
 
@@ -1609,7 +1609,7 @@ grafana:
 
       ## URL of prometheus datasource
       ##
-      # url: http://prometheus-stack-prometheus:9090/
+      url: http://kp-stack-prometheus:9090/
 
       ## Prometheus request timeout in seconds
       # timeout: 30
@@ -1678,22 +1678,22 @@ grafana:
   #   url: https://{{ printf "%s-prometheus.svc" .Release.Name }}:9090
   #   version: 1
 
-    # Prometheus DS
-    - name: Prometheus
-      type: prometheus
-      url: http://kp-stack-prometheus:9090/
-      access: proxy
-      isDefault: true
-      editable: true
-      jsonData:
-        tlsSkipVerify: true
-      extraJsonData:
-        prometheusType: Prometheus
+    # # Prometheus DS
+    # - name: Prometheus
+    #   type: prometheus
+    #   url: http://kp-stack-prometheus:9090/
+    #   access: proxy
+    #   isDefault: true
+    #   editable: true
+    #   jsonData:
+    #     tlsSkipVerify: true
+    #   extraJsonData:
+    #     prometheusType: Prometheus
 
     # InfluxDB DS
     - name: InfluxDB-v2
       type: influxdb
-      url: http://kp-stack-influxdb2.monitoring.svc.cluster.local:8086/
+      url: http://kp-stack-influxdb2:8086/
       access: proxy
       basicAuth: true
       basicAuthUser: influxdb2
