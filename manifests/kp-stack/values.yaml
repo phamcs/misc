@@ -4916,17 +4916,17 @@ prometheus:
     ## Prometheus StorageSpec for persistent data
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/platform/storage.md
     ##
-    storageSpec:
+    storageSpec: {}
     ## Using PersistentVolumeClaim
     ##
-      volumeClaimTemplate:
-        spec:
-          storageClassName: managed-nfs
-          accessModes: ["ReadWriteMany"]
-          resources:
-            requests:
-              storage: 50Gi
-          selector: {}
+      # volumeClaimTemplate:
+      #   spec:
+      #     storageClassName: managed-nfs
+      #     accessModes: ["ReadWriteMany"]
+      #     resources:
+      #       requests:
+      #         storage: 50Gi
+      #     selector: {}
 
     ## Using tmpfs volume
     ##
