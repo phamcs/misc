@@ -1609,7 +1609,7 @@ grafana:
 
       ## URL of prometheus datasource
       ##
-      url: http://kp-stack-prometheus:9090/
+      url: http://kp-stack-kube-prometheus-s-prometheus:9090/
 
       ## Prometheus request timeout in seconds
       # timeout: 30
@@ -1693,7 +1693,7 @@ grafana:
     # InfluxDB DS
     - name: InfluxDB-v2
       type: influxdb
-      url: http://kp-stack-influxdb2:8086/
+      url: http://influxdb2:8086/
       access: proxy
       basicAuth: true
       basicAuthUser: influxdb2
