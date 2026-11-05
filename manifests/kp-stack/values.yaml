@@ -1394,7 +1394,8 @@ alertmanager:
 grafana:
   enabled: true
   namespaceOverride: ""
-
+  deploymentStrategy:
+    type: Recreate
   ## ForceDeployDatasources Create datasource configmap even if grafana deployment has been disabled
   ##
   forceDeployDatasources: false
@@ -1548,10 +1549,10 @@ grafana:
   # #
   persistence:
     enabled: true
-    type: sts
+    type: pvc
     storageClassName: "managed-nfs"
     accessModes:
-      - ReadWriteMany
+      - ReadWriteOnce
     size: 20Gi
     finalizers:
       - kubernetes.io/pvc-protection
