@@ -5,7 +5,6 @@ namespace: authentik
 
 resources:
   - custom-ca.yaml
-  #- helm-values.yaml
   #- ingress-traefik.yaml    # Uncomment if using ingress
 
 helmCharts:
@@ -14,4 +13,4 @@ helmCharts:
     namespace: authentik
     version: "2026.8.5"
     repo: https://charts.goauthentik.io
-    valuesFile: helm-values.yaml
+    valuesFile: ak-values.yaml
