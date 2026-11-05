@@ -192341,3 +192341,8 @@ spec:
       securityContext:
         runAsNonRoot: true
       serviceAccountName: argo
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: argo

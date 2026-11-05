@@ -8,13 +8,13 @@ spec:
   arguments:
     parameters:
       - name: git-repo
-        value: https://github.com/phamcs/misc.git
+        value: https://github.com/phamcs/caddy-cloudflare.git
       - name: git-revision
         value: main
-      - name: misc
-        value: phamcs/misc
+      - name: caddy-cloudflare
+        value: phamcs/caddy-cloudflare
       - name: manifest-repo
-        value: https://github.com/phamcs/misc.git
+        value: https://github.com/phamcs/caddy-cloudflare.git
   volumeClaimTemplates:
     - metadata:
         name: workspace
@@ -123,7 +123,7 @@ spec:
         args:
           - |
             # Clone the manifest repository
-            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/misc.git /tmp/manifests
+            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/caddy-cloudflare.git /tmp/manifests
             cd /tmp/manifests
 
             # Update the image tag in the deployment manifest

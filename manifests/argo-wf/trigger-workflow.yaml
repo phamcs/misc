@@ -10,16 +10,16 @@ spec:
       - port: 12000
         targetPort: 12000
   github:
-    my-app:
+    cadd-cloudflare:
       repositories:
-        - owner: my-org
+        - owner: phamcs
           names:
-            - my-app
+            - misc
       webhook:
         endpoint: /push
         port: "12000"
         method: POST
-        url: https://ci.example.com/push
+        url: https://ci.argo/push
       events:
         - push
       apiToken:
@@ -42,7 +42,7 @@ spec:
   dependencies:
     - name: github-push
       eventSourceName: github-webhook
-      eventName: my-app
+      eventName: caddy-cloudflare
       filters:
         data:
           - path: body.ref
@@ -59,7 +59,7 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: ci-my-app-
+                generateName: ci-caddy-cloudflare
                 namespace: argo
               spec:
                 workflowTemplateRef:

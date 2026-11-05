@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: webhook
+  namespace: argo-events
+spec:
+  template:
+    serviceAccountName: operate-workflow-sa
+  dependencies:
+    - name: github-docker-publish-workflow-dependency-stag
+      eventSourceName: webhook
+      eventName: example
+  triggers:
+    - template:
+      #conditions: "github-docker-publish-workflow-dependency-stag"
+        name: caddy-cf-workflow
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                generateName: caddy-cf-workflow-
+                namespace: argo
+              spec:
+                archiveLogs: true
+                activeDeadlineSeconds: 3600
+                ttlStrategy:
+                  secondsAfterCompletion: 259200 # 3 days
+                arguments:
+                  parameters:
+                    - name: org
+                    - name: repo
+                    - name: branch
+                workflowTemplateRef:
+                  name: caddy-cf-workflow
+          parameters:
+            - src:
+                dependencyName: github-docker-publish-workflow-dependency-stag
+                dataKey: body.repository.organization
+              dest: spec.arguments.parameters.0.value
+            - src:
+                dependencyName: github-docker-publish-workflow-dependency-stag
+                dataKey: body.repository.name
+              dest: spec.arguments.parameters.1.value
+            - src:
+                dependencyName: github-docker-publish-workflow-dependency-stag
+                dataKey: body.ref
+              dest: spec.arguments.parameters.2.value
