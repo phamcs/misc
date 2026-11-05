@@ -4891,15 +4891,15 @@ prometheus:
 
     ## The remote_write spec configuration for Prometheus.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#remotewritespec
-    remoteWrite:
-      - url: "http://influxdb2:8086/api/v2/write?org=influxdata&bucket=prometheus&precision=ns"
-        basicAuth:
-          username:
-            name: influxdb2-credentials
-            key: username
-          password:
-            name: influxdb2-credentials
-            key: password
+    remoteWrite: []
+      # - url: "http://influxdb2:8086/api/v2/write?org=influxdata&bucket=prometheus&precision=ns"
+      #   basicAuth:
+      #     username:
+      #       name: influxdb2-credentials
+      #       key: username
+      #     password:
+      #       name: influxdb2-credentials
+      #       key: password
     # - url: http://remote1/push
     ## additionalRemoteWrite is appended to remoteWrite
     additionalRemoteWrite: []
