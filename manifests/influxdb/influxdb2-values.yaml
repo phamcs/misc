@@ -14,8 +14,8 @@ podAnnotations: {}
 ##
 podLabels: {}
 
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "influxdb2"
+fullnameOverride: "influxdb2"
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
