@@ -19,7 +19,7 @@ patches:
   # Inline multiple patch method
   - target:
       version: v1
-      kind: Deployment
+      kind: StatefulSet
       name: kp-stack-grafana
       namespace: monitoring
     patch: |
