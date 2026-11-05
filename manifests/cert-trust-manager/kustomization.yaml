@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: cert-manager
 
 resources:
-  - cert-trust-manager.yaml
+  - ctm-clusterissuer.yaml
 
 
 helmCharts:
@@ -12,13 +12,13 @@ helmCharts:
     repo: https://charts.jetstack.io
     version: 1.21.2   # Replace with the latest or desired version
     releaseName: cert-manager
-    valuesFile: cert-manager-values.yaml
+    valuesFile: cm-values.yaml
 
   - name: trust-manager
     repo: https://charts.jetstack.io
     version: 0.26.0   # Replace with the latest or desired version
     releaseName: trust-manager
-    valuesFile: trust-manager-values.yaml
+    valuesFile: tm-values.yaml
 
 patches:
   - target:
