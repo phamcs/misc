@@ -1,0 +1,149 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: ci-pipeline
+  namespace: argo
+spec:
+  entrypoint: ci
+  arguments:
+    parameters:
+      - name: git-repo
+        value: https://github.com/phamcs/misc.git
+      - name: git-revision
+        value: main
+      - name: misc
+        value: phamcs/misc
+      - name: manifest-repo
+        value: https://github.com/phamcs/misc.git
+  volumeClaimTemplates:
+    - metadata:
+        name: workspace
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 2Gi
+
+  templates:
+    - name: ci
+      dag:
+        tasks:
+          - name: checkout
+            template: git-clone
+            arguments:
+              parameters:
+                - name: repo
+                  value: "{{workflow.parameters.git-repo}}"
+                - name: revision
+                  value: "{{workflow.parameters.git-revision}}"
+
+          - name: build-and-push
+            template: build-image
+            dependencies: [checkout]
+            arguments:
+              parameters:
+                - name: image
+                  value: "{{workflow.parameters.image-name}}"
+
+          - name: run-tests
+            template: test
+            dependencies: [checkout]
+
+          - name: update-manifests
+            template: update-git-manifests
+            dependencies: [build-and-push, run-tests]
+            arguments:
+              parameters:
+                - name: image
+                  value: "{{workflow.parameters.image-name}}"
+                - name: tag
+                  value: "{{workflow.parameters.git-revision}}"
+
+    - name: git-clone
+      inputs:
+        parameters:
+          - name: repo
+          - name: revision
+      container:
+        image: alpine/git:latest
+        command: [sh, -c]
+        args:
+          - |
+            git clone {{inputs.parameters.repo}} /workspace/source
+            cd /workspace/source
+            git checkout {{inputs.parameters.revision}}
+        volumeMounts:
+          - name: workspace
+            mountPath: /workspace
+
+    - name: build-image
+      inputs:
+        parameters:
+          - name: image
+      container:
+        image: gcr.io/kaniko-project/executor:latest
+        args:
+          - "--dockerfile=/workspace/source/Dockerfile"
+          - "--context=/workspace/source"
+          - "--destination={{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
+          - "--cache=true"
+        volumeMounts:
+          - name: workspace
+            mountPath: /workspace
+          - name: docker-config
+            mountPath: /kaniko/.docker
+      volumes:
+        - name: docker-config
+          secret:
+            secretName: docker-registry-credentials
+            items:
+              - key: .dockerconfigjson
+                path: config.json
+
+    - name: test
+      container:
+        image: golang:1.21
+        command: [sh, -c]
+        args:
+          - |
+            cd /workspace/source
+            go test ./...
+        volumeMounts:
+          - name: workspace
+            mountPath: /workspace
+
+    - name: update-git-manifests
+      inputs:
+        parameters:
+          - name: image
+          - name: tag
+      container:
+        image: alpine/git:latest
+        command: [sh, -c]
+        args:
+          - |
+            # Clone the manifest repository
+            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/misc.git /tmp/manifests
+            cd /tmp/manifests
+
+            # Update the image tag in the deployment manifest
+            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
+              apps/misc/deployment.yaml
+
+            # Commit and push
+            git config user.email "ci@company.com"
+            git config user.name "CI Pipeline"
+            git add .
+            git commit -m "Update my-app image to {{inputs.parameters.tag}}"
+            git push origin main
+        env:
+          - name: GIT_USER
+            valueFrom:
+              secretKeyRef:
+                name: git-credentials
+                key: username
+          - name: GIT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: git-credentials
+                key: token

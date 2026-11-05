@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: argocd-server-tls
-  namespace: argo
+  namespace: argocd
 type: kubernetes.io/tls
 data:
   tls.crt: |
@@ -73,7 +73,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: argocd-dex-server-tls
-  namespace: argo
+  namespace: argocd
 type: kubernetes.io/tls
 data:
   tls.crt: |
@@ -144,7 +144,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: argocd-repo-server-tls
-  namespace: argo
+  namespace: argocd
 type: kubernetes.io/tls
 data:
   tls.crt: |

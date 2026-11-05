@@ -1,0 +1,75 @@
+# EventSource - watches for GitHub webhooks
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: github-webhook
+  namespace: argo
+spec:
+  service:
+    ports:
+      - port: 12000
+        targetPort: 12000
+  github:
+    my-app:
+      repositories:
+        - owner: my-org
+          names:
+            - my-app
+      webhook:
+        endpoint: /push
+        port: "12000"
+        method: POST
+        url: https://ci.example.com/push
+      events:
+        - push
+      apiToken:
+        name: github-access
+        key: token
+      webhookSecret:
+        name: github-access
+        key: webhook-secret
+
+---
+# Sensor - triggers the workflow
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: ci-trigger
+  namespace: argo
+spec:
+  template:
+    serviceAccountName: operate-workflow-sa
+  dependencies:
+    - name: github-push
+      eventSourceName: github-webhook
+      eventName: my-app
+      filters:
+        data:
+          - path: body.ref
+            type: string
+            value:
+              - "refs/heads/main"
+  triggers:
+    - template:
+        name: trigger-ci
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                generateName: ci-my-app-
+                namespace: argo
+              spec:
+                workflowTemplateRef:
+                  name: ci-pipeline
+                arguments:
+                  parameters:
+                    - name: git-revision
+                      value: ""
+          parameters:
+            - src:
+                dependencyName: github-push
+                dataKey: body.after
+              dest: spec.arguments.parameters.0.value

@@ -6,4 +6,5 @@ namespace: argo
 resources:
   - custom-ca.yaml
   - custom-deployment.yaml
-  #- patch-argocd-cm.yaml
+  - argocd-server-http-ingress.yaml
+  - argocd-server-grpc-ingress.yaml
