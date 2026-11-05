@@ -6,4 +6,4 @@ namespace: external-secrets-system
 resources:
   - bundle.yaml
   - chart.yaml
-  - vault-k8s-auth.yaml
+  - sa-crb-css-ss.yaml
