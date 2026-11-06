@@ -192257,7 +192257,7 @@ spec:
     spec:
       containers:
       - args:
-        - "server"
+        - server
         #- "--auth-mode=client"
         #- "--auth-mode=sso"
         env: []

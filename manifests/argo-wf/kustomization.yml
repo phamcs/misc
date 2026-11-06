@@ -21,6 +21,4 @@ patches:
     patch: |-
       - op: add
         path: /spec/template/spec/containers/0/args/-
-        value:
-          - "--auth-mode=client"
-          - "--auth-mode=sso"
+        value: ["--auth-mode=client", "--auth-mode=sso"]
