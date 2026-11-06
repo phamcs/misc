@@ -192257,7 +192257,9 @@ spec:
     spec:
       containers:
       - args:
-        - server
+        - "server"
+        - "--auth-mode=client"
+        - "--auth-mode=sso"
         env: []
         image: quay.io/argoproj/argocli:v4.1.6
         name: argo-server

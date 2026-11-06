@@ -9,7 +9,7 @@ spec:
   dependencies:
     - name: github-docker-publish-workflow-dependency-stag
       eventSourceName: webhook
-      eventName: example
+      eventName: caddy-cf-workflow
   triggers:
     - template:
       #conditions: "github-docker-publish-workflow-dependency-stag"
