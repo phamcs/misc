@@ -80,7 +80,7 @@ crds:
 
 imagePullSecrets: []
 nameOverride: "external-secrets"
-fullnameOverride: "external-secrets"
+fullnameOverride: ""
 namespaceOverride: ""
 
 # -- Additional labels added to all helm chart resources.
