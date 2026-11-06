@@ -10,7 +10,7 @@ resources:
 helmCharts:
   - name: cert-manager
     repo: https://charts.jetstack.io
-    version: 1.21.2   # Replace with the latest or desired version
+    version: 1.21.3   # Replace with the latest or desired version
     releaseName: cert-manager
     valuesFile: cm-values.yaml
 
