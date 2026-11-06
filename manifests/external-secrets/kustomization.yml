@@ -11,6 +11,6 @@ resources:
 helmCharts:
   - name: external-secrets
     repo: https://charts.jetstack.io
-    version: 2.14.0   # Replace with the latest or desired version
+    version: 2.9.0   # Replace with the latest or desired version
     releaseName: external-secrets
     valuesFile: values.yaml
