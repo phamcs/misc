@@ -1,0 +1,43 @@
+#!/bin/bash
+NS=cert-manager
+DEPLOYMENTS=$(kubectl get deployment -n $NS | awk 'NR > 1 {print $1}')
+STATEFULSET=$(kubectl get statefulset -n $NS | awk 'NR > 1 {print $1}')
+DAEMONSET=$(kubectl get daemonset -n $NS | awk 'NR > 1 {print $1}')
+PVC=$(kubectl get pvc -n $NS | awk 'NR > 1 {print $1}')
+SECRETS=$(kubectl get secrets -n $NS | awk 'NR > 1 {print $1}')
+CM=$(kubectl get configmap -n $NS | awk 'NR > 1 {print $1}')
+SA=$(kubectl get serviceaccount -n $NS | awk 'NR > 1 {print $1}')
+SVC=$(kubectl get svc -n $NS | awk 'NR > 1 {print $1}')
+ROLES=$(kubectl get roles -n $NS | awk 'NR > 1 {print $1}')
+CROLES=$(kubectl get clusterroles | grep -E "cert-manager-*" | awk 'NR > 1 {print $1}')
+RB=$(kubectl get rolebinding -n $NS | awk 'NR > 1 {print $1}')
+CRB=$(kubectl get clusterrolebinding -n $NS|grep -E "cert-manager-*"|awk 'NR > 1 {print $1}')
+
+# Delete stuck Resources
+# kubectl patch job kube-prometheus-stack-admission-patch -n monitoring --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+# kubectl patch job kube-prometheus-stack-admission-create -n monitoring --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+# kubectl patch serviceaccount $SA -n $NS --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+# kubectl patch roles $ROLES -n $NS --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+# kubectl patch rolebinding $RB -n $NS --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+# kubectl patch clusterrole $CROLES -n $NS --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+# kubectl patch clusterrolebinding $CRB -n $NS --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+
+# Delete Resources by namespaced
+kubectl scale deployment --replicas=0 -n $NS $DEPLOYMENTS
+kubectl delete deployment -n $NS $DEPLOYMENTS
+kubectl scale statefulset --replicas=0 -n $NS  $STATEFULSET
+kubectl delete statefulset -n $NS $STATEFULSET
+kubectl delete daemonset -n $NS $DAEMONSET
+kubectl delete service -n $NS $SVC
+kubectl delete pvc -n $NS $PVC
+kubectl delete secrets -n $NS $SECRETS
+kubectl delete roles -n $NS $ROLES
+kubectl delete clusterroles -n $NS $CROLES
+kubectl delete rolebinding -n $NS $RB
+kubectl delete clusterrolebinding -n $NS $CRB
+kubectl delete serviceaccount -n $NS $SA
+kubectl delete configmap -n $NS $CM
+
+# 1. Delete the mutating and validating webhooks
+kubectl delete validatingwebhookconfiguration cert-manager-webhook --ignore-not-found
+kubectl delete mutatingwebhookconfiguration cert-manager-webhook --ignore-not-found
