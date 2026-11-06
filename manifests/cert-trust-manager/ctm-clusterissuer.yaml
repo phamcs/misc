@@ -52,4 +52,4 @@ spec:
     # Filter which namespaces receive this trust bundle by labeling your namespaces
     namespaceSelector:
       matchLabels:
-        trust-manager.io/sync: "true"
+        trust-manager.io/sync: true
