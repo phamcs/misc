@@ -5,4 +5,5 @@ namespace: argo-events
 
 resources:
   - events-deployment.yaml
+  - eventbus.yaml
   - sensor.yaml
