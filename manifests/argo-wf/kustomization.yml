@@ -10,4 +10,4 @@ resources:
   - ci-workflow.yaml
   - trigger-workflow.yaml
   - wfsa-rbac.yaml
-  - workflow-controller-configmap.yaml
+  #- workflow-controller-configmap.yaml
