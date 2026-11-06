@@ -11,16 +11,16 @@ resources:
   - wfsa-rbac.yaml
   #- workflow-controller-configmap.yaml
 
-# patches:
-#   - target:
-#       version: v1
-#       kind: Deployment
-#       name: argo-server
-#       namespace: argo
-#     patch: |-
-#       - op: add
-#         path: /spec/template/spec/containers/0/args/-
-#         value: "--auth-mode=sso"
+patches:
+  - target:
+      version: v1
+      kind: Deployment
+      name: argo-server
+      namespace: argo
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: "--auth-mode=client,sso"
 
   # - target:
   #     version: v1
