@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argo-server-http-ingress
+  name: argo-server-ingress
   namespace: argo
   annotations:
     # Crucial flag to handle ArgoCD's internal self-signed certificates backend
     cert-manager.io/cluster-issuer: internal-ca-issuer
-    traefik.ingress.kubernetes.io/backend-protocol: "HTTP"
+    traefik.ingress.kubernetes.io/backend-protocol: "HTTPS"
     traefik.ingress.kubernetes.io/force-ssl-redirect: "true"
     traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/service.serversscheme: https
@@ -15,10 +15,10 @@ spec:
   ingressClassName: traefik
   tls:
   - hosts:
-    - http.argowf.argo.svc.cluster.local
+    - argo-server.argo.svc.cluster.local
     secretName: internal-root-ca-secret
   rules:
-    - host: http.argowf.argo.svc.cluster.local
+    - host: argo-server.argo.svc.cluster.local
       http:
         paths:
         - path: /

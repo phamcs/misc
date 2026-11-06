@@ -448,22 +448,22 @@ data:
   # https://argo-workflows.readthedocs.io/en/latest/argo-server-auth-mode/
   sso: |
     # This is the root URL of the OIDC provider (required).
-    issuer: https://issuer.root.url/
+    issuer: https://authentik.superasian.net/application/o/argo-wf/
     # Some OIDC providers have alternate root URLs that can be included. These should be reviewed carefully. (optional)
-    issuerAlias: https://altissuer.root.url
+    issuerAlias: https://authentik.superasian.net/application/o/argo-wf/
     # This defines how long your login is valid for (in hours). (optional)
     # If omitted, defaults to 10h. Example below is 10 days.
     sessionExpiry: 240h
     # This is name of the secret and the key in it that contain OIDC client
     # ID issued to the application by the provider (required).
     clientId:
-      name: client-id-secret
-      key: client-id-key
+      name: client-id
+      key: gz9LNuNapgJ8l2583aWSdbmPsV9SQ52ni8NTHumm
     # This is name of the secret and the key in it that contain OIDC client
     # secret issued to the application by the provider (required).
     clientSecret:
-      name: client-secret-secret
-      key: client-secret-key
+      name: client-secret
+      key: RFkLBsnou3AW2U1s9cuSh0GpjI3752hhYpBHX1H8PX7GFQ3NSbPUp9DxzjI80ggEGaDtYMg3UMp8ZGy72IEFg3haOZMvpvCsQEJbduQxl8oSrmRiJJlGNhGnA24meMW2
     # This is the redirect URL supplied to the provider (optional). It must
     # be in the form <argo-server-root-url>/oauth2/callback. It must be
     # browser-accessible. If omitted, will be automatically generated.
@@ -482,7 +482,7 @@ data:
     rbac:
       enabled: false
     # Skip TLS verify, not recommended in production environments. Useful for testing purposes.
-    insecureSkipVerify: false
+    insecureSkipVerify: true
     # Custom PEM encoded CA certificate file contents. >= v4.0
     # Note: If CA certificates are mounted to the system certificate directory (/etc/ssl/certs on Linux), this config is not needed.
     rootCA: ""
