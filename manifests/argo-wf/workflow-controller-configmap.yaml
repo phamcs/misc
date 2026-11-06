@@ -11,7 +11,7 @@ data:
   # in order to support multiple controllers in a single cluster, and ultimately allows the
   # controller itself to be bundled as part of a higher level application. If omitted, the
   # controller watches workflows and pods that *are not* labeled with an instance id.
-  instanceID: workflow-ci-controller
+  instanceID: wf-ci-controller
 
   # Namespace is a label selector filter to limit the controller's watch to a specific namespace
   namespace: argo

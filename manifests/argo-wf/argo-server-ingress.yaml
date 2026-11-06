@@ -15,10 +15,10 @@ spec:
   ingressClassName: traefik
   tls:
   - hosts:
-    - argo-server.argo.svc.cluster.local
+    - argo-server
     secretName: internal-root-ca-secret
   rules:
-    - host: argo-server.argo.svc.cluster.local
+    - host: argo-server
       http:
         paths:
         - path: /
