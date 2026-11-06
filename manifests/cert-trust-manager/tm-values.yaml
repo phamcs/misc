@@ -38,7 +38,7 @@ replicaCount: 1
 # If set to 0, no old ReplicaSets are retained.
 # +docs:type=number,null
 revisionHistoryLimit: 10
-nameOverride: ""
+nameOverride: "trust-manager"
 # The namespace to install trust-manager into.
 # If not set, the namespace of the release is used.
 # This is helpful when installing trust-manager as a chart dependency (sub chart).
