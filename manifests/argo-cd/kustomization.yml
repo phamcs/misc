@@ -6,8 +6,7 @@ namespace: argocd
 resources:
   # helmCharts failed so fallback to custom deployment method
   - custom-deployment.yaml
-  - argocd-server-http-ingress.yaml
-  - argocd-server-grpc-ingress.yaml
+  - argocd-server-ingress.yaml
 
 # helmCharts:
 #   - name: argo-cd

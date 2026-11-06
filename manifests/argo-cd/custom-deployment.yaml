@@ -31652,6 +31652,8 @@ metadata:
 data:
   # Use exact match of your authentik group name (Case Sensitive!)
   policy.csv: |
+    p, role:admin, applications, refresh, */*, allow
+    p, role:admin, applications, sync, */*, allow
     g, authentik Admins, role:admin
   # Sets the default behavior for logged-in users who aren't mapped
   policy.default: role:readonly

@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-server-http-ingress
+  name: argocd-server-ingress
   namespace: argocd
   annotations:
     # Crucial flag to handle ArgoCD's internal self-signed certificates backend
     cert-manager.io/cluster-issuer: internal-ca-issuer
-    traefik.ingress.kubernetes.io/backend-protocol: "HTTP"
+    traefik.ingress.kubernetes.io/backend-protocol: "HTTPS"
     traefik.ingress.kubernetes.io/force-ssl-redirect: "true"
     traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/service.serversscheme: https
@@ -15,10 +15,10 @@ spec:
   ingressClassName: traefik
   tls:
   - hosts:
-    - http.argocd.argo.svc.cluster.local
+    - argocd-server
     secretName: internal-root-ca-secret
   rules:
-    - host: http.argocd.argo.svc.cluster.local
+    - host: argocd-server
       http:
         paths:
         - path: /
@@ -27,4 +27,4 @@ spec:
             service:
               name: argocd-server
               port:
-                number: 80
+                number: 443
