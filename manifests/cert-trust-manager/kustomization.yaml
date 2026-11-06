@@ -10,7 +10,7 @@ resources:
 helmCharts:
   - name: cert-manager
     repo: https://charts.jetstack.io
-    version: 1.20.2   # Replace with the latest or desired version
+    version: 1.21.2   # Replace with the latest or desired version
     releaseName: cert-manager
     valuesFile: cm-values.yaml
 
@@ -20,11 +20,11 @@ helmCharts:
     releaseName: trust-manager
     valuesFile: tm-values.yaml
 
-patches:
-  - target:
-      version: v1
-      kind: CustomResourceDefinition
-    patch: |-
-      - op: replace
-        path: /metadata/annotations/cert-manager.io~1inject-ca-from
-        value: "true"
+# patches:
+#   - target:
+#       version: v1
+#       kind: CustomResourceDefinition
+#     patch: |-
+#       - op: replace
+#         path: /metadata/annotations/cert-manager.io~1inject-ca-from
+#         value: "true"
