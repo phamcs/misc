@@ -5,8 +5,8 @@ namespace: argo
 
 resources:
   - wf-deployment.yaml
-  #- argo-server-http-ingress.yaml
-  #- argo-server-grpc-ingress.yaml
+  - argo-server-http-ingress.yaml
+  - argo-server-grpc-ingress.yaml
   - ci-workflow.yaml
   - trigger-workflow.yaml
   - wfsa-rbac.yaml
