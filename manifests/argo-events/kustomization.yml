@@ -1,9 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: argo
+namespace: argo-events
 
 resources:
-  - deployment.yaml
-  - eventbus.yaml
-  - sensor-rbac.yaml
+  - events-deployment.yaml
+  - sensor.yaml
