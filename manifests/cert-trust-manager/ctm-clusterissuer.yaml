@@ -45,7 +45,7 @@ spec:
         name: "internal-root-ca-secret"
         key: "tls.crt"
     # Source 2 (Optional): Include standard public CAs (like Let's Encrypt, DigiCert, etc.)
-    - useDefaultCAs: "true"
+    - useDefaultCAs: true
   target:
     configMap:
       key: "ca-certificates.crt"
