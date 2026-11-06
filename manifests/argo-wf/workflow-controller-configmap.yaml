@@ -11,10 +11,10 @@ data:
   # in order to support multiple controllers in a single cluster, and ultimately allows the
   # controller itself to be bundled as part of a higher level application. If omitted, the
   # controller watches workflows and pods that *are not* labeled with an instance id.
-  instanceID: my-ci-controller
+  instanceID: argowf-ci-controller
 
   # Namespace is a label selector filter to limit the controller's watch to a specific namespace
-  namespace: my-namespace
+  namespace: argo
 
   # Parallelism limits the max total parallel workflows that can execute at the same time
   # Workflows that are executing but restricted from running more nodes due to other mechanisms will still count toward parallelism limits.
@@ -496,9 +496,9 @@ data:
   #     Workflow cannot run an arbitrary Workflow, use this option.
   workflowRestrictions: |
     templateReferencing: Strict
-  
-  # disableAgentPodCreation disables the creation of agent pods for HTTP and Plugin templates. 
-  # This is useful when external agents are responsible for executing these templates and the controller should not create agent pods. 
+
+  # disableAgentPodCreation disables the creation of agent pods for HTTP and Plugin templates.
+  # This is useful when external agents are responsible for executing these templates and the controller should not create agent pods.
   # Note: when this is set to true, HTTP templates will not be reconciled and the controller will not attempt to create agent pods for them.
   # Defaults to false
   disableAgentPodCreation: "false"
