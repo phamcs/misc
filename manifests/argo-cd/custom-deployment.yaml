@@ -31505,6 +31505,7 @@ metadata:
   namespace: argocd
 data:
   kustomize.buildOptions: '--enable-helm'
+  url: https://argocd.superasian.net
   oidc.config: >
     name: authentik
 
@@ -31520,7 +31521,26 @@ data:
       - email
       - groups
 
-  url: https://argocd.superasian.net
+  resource.customizations.health.trust.cert-manager.io_Bundle: |
+    hs = {}
+    if obj.status ~= nil and obj.status.conditions ~= nil then
+      for i, condition in ipairs(obj.status.conditions) do
+        if condition.type == "Synced" and condition.status == "True" then
+          hs.status = "Healthy"
+          hs.message = condition.message
+          return hs
+        end
+        if condition.type == "Synced" and condition.status == "False" then
+          hs.status = "Degraded"
+          hs.message = condition.message
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for Bundle to sync"
+    return hs
+
   resource.customizations.ignoreResourceUpdates.ConfigMap: |
     jqPathExpressions:
       # Ignore the cluster-autoscaler status
