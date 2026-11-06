@@ -9,7 +9,7 @@ resources:
   - ci-workflow.yaml
   - trigger-workflow.yaml
   - wfsa-rbac.yaml
-  - workflow-controller-configmap.yaml
+  - custom-wf-controller-cm.yaml
 
 patches:
   - target:
