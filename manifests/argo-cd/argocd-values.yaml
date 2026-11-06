@@ -43,7 +43,7 @@ crds:
 global:
   # -- Default domain used by all components
   ## Used for ingresses, certificates, SSO, notifications, etc.
-  domain: argocd.example.com
+  domain: argocd.superasian.net
 
   # -- Runtime class name for all components
   runtimeClassName: ""
@@ -223,6 +223,22 @@ configs:
     # -- Enable Status Badge
     ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/status-badge/
     statusbadge.enabled: false
+
+    kustomize.buildOptions: "--enable-helm"
+
+    url: https://argocd.superasian.net
+    oidc.config: |
+      name: authentik
+
+      issuer: https://authentik.superasian.net/application/o/argo-cd/
+
+      clientID: njPabWkG0dLzF1VK4clxyoMA2EKAI1wFMGfJ5Nib
+
+      clientSecret: CHP6OyNc5ZEPXWu6PxKBN2vKYsfEOf3qyOeOuf1u3dbBClQ5N0W78bu3thGaEIJQ0InXmVk3sYYGc2birTnORBY6q865ZaqYIe44mopXxInA8pDpkKNpFz2b7Be1FHSJ
+
+      requestedScopes: ["openid", "profile", "email", "groups"]
+
+      requestedIDTokenClaims: {"groups": {"essential": true}}
 
     # Dex configuration
     # dex.config: |
