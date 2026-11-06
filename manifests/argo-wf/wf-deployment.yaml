@@ -192315,7 +192315,9 @@ spec:
         app: workflow-controller
     spec:
       containers:
-      - args: []
+      - args:
+        - --configmap
+        - workflow-controller-configmap
         command:
         - workflow-controller
         env:
