@@ -45,11 +45,11 @@ spec:
         name: "internal-root-ca-secret"
         key: "tls.crt"
     # Source 2 (Optional): Include standard public CAs (like Let's Encrypt, DigiCert, etc.)
-    - useDefaultCAs: true
+    - useDefaultCAs: "true"
   target:
     configMap:
       key: "ca-certificates.crt"
     # Filter which namespaces receive this trust bundle by labeling your namespaces
     namespaceSelector:
       matchLabels:
-        trust-manager.io/sync: true
+        trust-manager.io/sync: "true"
