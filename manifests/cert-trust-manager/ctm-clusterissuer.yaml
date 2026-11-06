@@ -38,6 +38,7 @@ apiVersion: trust.cert-manager.io/v1alpha1
 kind: Bundle
 metadata:
   name: internal-trust-bundle
+  namespace: cert-manager
 spec:
   sources:
     # Source 1: The custom internal Root CA we generated above

@@ -4,14 +4,15 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-  #- custom-deployment.yaml
+  # helmCharts failed so fallback to custom deployment method
+  - custom-deployment.yaml
   - argocd-server-http-ingress.yaml
   - argocd-server-grpc-ingress.yaml
 
-helmCharts:
-  - name: argo-cd
-    repo: https://argoproj.github.io/argo-helm
-    version: 10.14.0
-    releaseName: argocd
-    namespace: argocd
-    valuesFile: argocd-values.yaml
+# helmCharts:
+#   - name: argo-cd
+#     repo: https://argoproj.github.io/argo-helm
+#     version: 10.14.0
+#     releaseName: argocd
+#     namespace: argocd
+#     valuesFile: argocd-values.yaml
