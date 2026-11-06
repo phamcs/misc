@@ -79,8 +79,8 @@ crds:
   unsafeServeV1Beta1: false
 
 imagePullSecrets: []
-nameOverride: "external-secrets"
-fullnameOverride: "external-secrets"
+nameOverride: ""
+fullnameOverride: ""
 namespaceOverride: ""
 
 # -- Additional labels added to all helm chart resources.
