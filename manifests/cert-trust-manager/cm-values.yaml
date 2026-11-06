@@ -635,7 +635,7 @@ livenessProbe:
   enabled: true
   initialDelaySeconds: 60
   periodSeconds: 10
-  timeoutSeconds: 60
+  timeoutSeconds: 30
   successThreshold: 1
   failureThreshold: 8
 
@@ -778,7 +778,7 @@ webhook:
   # server.
   # By setting this timeout to its maximum value the underlying timeout error
   # message has more chance of being returned to the end user.
-  timeoutSeconds: 90
+  timeoutSeconds: 30
 
   # This is used to configure options for the webhook pod.
   # This allows setting options that would usually be provided using flags.
