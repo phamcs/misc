@@ -5,13 +5,13 @@ metadata:
     workflows.argoproj.io/rbac-rule: "preferred_username == 'akadmin'"
     workflows.argoproj.io/rbac-rule-precedence: "10"
     workflows.argoproj.io/default-namespace: "argowf"
-  name: operate-workflow-sa
+  name: awf-argo-workflows-server
 ---
 # Similarly you can use a ClusterRole and ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: operate-workflow-role
+  name: awf-argo-workflows-server-role
 rules:
   - apiGroups:
       - argoproj.io
@@ -26,11 +26,11 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: operate-workflow-role-binding
+  name: awf-argo-workflows-server-role-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: operate-workflow-role
+  name: awf-argo-workflows-server-role
 subjects:
   - kind: ServiceAccount
-    name: operate-workflow-sa
+    name: awf-argo-workflows-server
