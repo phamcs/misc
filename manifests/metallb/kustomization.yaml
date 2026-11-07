@@ -4,6 +4,11 @@ kind: Kustomization
 namespace: metallb-system
 
 resources:
-  - github.com/metallb/metallb/config/native?ref=v0.16.1
-  - chart.yaml
   - config.yaml
+
+helmCharts:
+  - name: metallb
+    repo: https://metallb.github.io/metallb
+    version: 0.16.2   # Replace with the latest or desired version
+    releaseName: metallb-system
+    valuesFile: values.yaml
