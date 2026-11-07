@@ -136,7 +136,7 @@ spec:
             sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
               deploy/webapp/frontend/deployment.yaml
             # Commit and push
-            git config user.email "ci@company.com"
+            git config user.email "phamcs@gmail.com"
             git config user.name "CI Pipeline"
             git add .
             git commit -m "Update podinfo image to {{inputs.parameters.tag}}"

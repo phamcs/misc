@@ -638,7 +638,7 @@ server:
   # -- Server name string
   name: server
   # -- Service type for server pods
-  serviceType: ClusterIP
+  serviceType: LoadBalancer
   # -- Service port for server
   servicePort: 2746
   # -- Service target port for server
@@ -671,7 +671,7 @@ server:
   # -- The class of the load balancer implementation
   loadBalancerClass: ""
   # -- Static IP address to assign to loadBalancer service type `LoadBalancer`
-  loadBalancerIP: ""
+  loadBalancerIP: "10.0.0.93"
   # -- Source ranges to allow access to service from. Only applies to service type `LoadBalancer`
   loadBalancerSourceRanges: []
   # -- Resource limits and requests for the server
