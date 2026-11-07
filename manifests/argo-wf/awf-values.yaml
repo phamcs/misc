@@ -967,8 +967,8 @@ server:
 
     # Grant admin access to the server for Authentik users that are members of the "authentik Admins" group.
     accessClaims:
-      - key: groups
-        value: authentik Admins # Make sure your user is in this group in authentik
+      key: groups
+      value: authentik Admins # Make sure your user is in this group in authentik
     # -- Define how long your login is valid for (in hours)
     ## If omitted, defaults to 10h.
     sessionExpiry: ""
