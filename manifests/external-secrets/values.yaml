@@ -79,7 +79,7 @@ crds:
   unsafeServeV1Beta1: false
 
 imagePullSecrets: []
-nameOverride: ""
+nameOverride: "external-secrets"
 fullnameOverride: ""
 namespaceOverride: ""
 
