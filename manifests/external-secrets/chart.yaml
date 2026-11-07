@@ -15,7 +15,7 @@ spec:
         installCRDs: true
   destination:
     server: https://kubernetes.default.svc
-    namespace: external-secrets
+    namespace: external-secrets-system
   syncPolicy:
     automated:
       selfHeal: true
