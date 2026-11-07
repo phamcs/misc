@@ -192307,8 +192307,8 @@ spec:
         app: workflow-controller
     spec:
       containers:
-      - args:
-        - --configmap
+      - args: []
+        #- --configmap
         #- custom-workflow-controller-configmap
         command:
         - workflow-controller
