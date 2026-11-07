@@ -7,16 +7,20 @@ metadata:
     # Crucial flag to handle Authentik's internal self-signed certificates backend
     # traefik.ingress.kubernetes.io/auth-signin: "https://authentik.superasian.net"
     # traefik.ingress.kubernetes.io/auth-url: "http://cluster.local"
+    cert-manager.io/cluster-issuer: internal-ca-issuer
+    traefik.ingress.kubernetes.io/backend-protocol: "HTTP"
+    traefik.ingress.kubernetes.io/force-ssl-redirect: "true"
     traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/ssl-passthrough: "true"
 spec:
   ingressClassName: traefik
   tls:
   - hosts:
-    - authentik.superasian.net
-    secretName: authentik-custom-ca
+    - authentik-server
+    secretName: authentik-server-tls
   rules:
-  - host: authentik.superasian.net
+  - host: authentik-server
     http:
       paths:
       - path: /

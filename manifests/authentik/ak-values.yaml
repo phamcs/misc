@@ -511,7 +511,7 @@ server:
     # -- authentik server service labels
     labels: {}
     # -- authentik server service type
-    type: LoadBalancer
+    type: ClusterIP
     # -- authentik server service http port for NodePort service type (only if `server.service.type` is set to `NodePort`)
     nodePortHttp: 30080
     # -- authentik server service https port for NodePort service type (only if `server.service.type` is set to `NodePort`)
@@ -529,12 +529,11 @@ server:
     # -- authentik server service https port appProtocol
     # servicePortHttpsAppProtocol: HTTPS
     # -- LoadBalancer will get created with the IP specified in this field
-    loadBalancerIP: "10.0.0.95"
+    loadBalancerIP: ""
     # -- Source IP ranges to allow access to service from
     loadBalancerSourceRanges: []
     # -- authentik server service external IPs
-    externalIPs:
-      - 10.0.0.95
+    externalIPs: []
     # -- Denotes if this service desires to route external traffic to node-local or cluster-wide endpoints
     externalTrafficPolicy: ""
     # -- Used to maintain session affinity. Supports `ClientIP` and `None`
@@ -590,10 +589,6 @@ server:
     enabled: false
     # -- additional ingress annotations
     annotations: {}
-      # traefik.ingress.kubernetes.io/auth-url: "http://cluster.local"
-      # traefik.ingress.kubernetes.io/auth-signin: "https://authentik.superasian.net"
-      # traefik.ingress.kubernetes.io/router.tls: "true"
-      # traefik.ingress.kubernetes.io/service.serversscheme: https
     # -- additional ingress labels
     labels: {}
     # -- defines which ingress controller will implement the resource
