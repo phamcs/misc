@@ -19,7 +19,7 @@ spec:
         endpoint: /push
         port: "12000"
         method: POST
-        url: https://ci.argo/push
+        url: https://argo-server/push
       events:
         - push
       apiToken:

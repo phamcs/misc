@@ -31522,7 +31522,6 @@ data:
       - groups
 
   # Restore health assessetment of CRD
-
   resource.customizations.health.argoproj.io_Application: |
     hs = {}
     hs.status = "Progressing"
