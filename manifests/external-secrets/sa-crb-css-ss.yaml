@@ -5,19 +5,19 @@ metadata:
     app.kubernetes.io/instance: external-secrets
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/name: namespace
-  name: external-secrets-system
+  name: external-secrets
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: eso-sa
-  namespace: external-secrets-system
+  namespace: external-secrets
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: eso-sa
-  namespace: external-secrets-system
+  namespace: external-secrets
   annotations:
     kubernetes.io/service-account.name: eso-sa
 type: kubernetes.io/service-account-token
@@ -64,13 +64,13 @@ spec:
           role: "external-secrets"
           serviceAccountRef:
             name: eso-sa
-            namespace: external-secrets-system
+            namespace: external-secrets
 ---
 apiVersion: external-secrets.io/v1
 kind: SecretStore
 metadata:
   name: vault-backend
-  namespace: external-secrets-system
+  namespace: external-secrets
 spec:
   provider:
     vault:

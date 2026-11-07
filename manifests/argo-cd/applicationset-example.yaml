@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: web-app-applicationset
+  namespace: argocd # Must be deployed in the Argo CD namespace
+spec:
+  # 1. Define the discovery engine
+  generators:
+    - list:
+        elements:
+          - cluster: staging-cluster
+            url: https://10.0.1.10:6443
+            env: staging
+          - cluster: production-cluster
+            url: https://10.0.2.10:6443
+            env: production
+
+  # 2. Define the Application blueprint
+  template:
+    metadata:
+      # Generates 'web-app-staging' and 'web-app-production'
+      name: 'web-app-{{env}}'
+    spec:
+      project: default
+
+      # Where the actual application code/manifests live
+      source:
+        repoURL: 'https://github.com'
+        targetRevision: HEAD
+        path: 'apps/web-app/environments/{{env}}' # Dynamic directory path
+
+      # Where the ApplicationSet will deploy the application
+      destination:
+        server: '{{url}}' # Dynamic cluster API endpoint
+        namespace: web-app
+
+      # Optional: define sync policies for the generated apps
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        createNamespace: true
