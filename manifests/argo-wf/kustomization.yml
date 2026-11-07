@@ -4,8 +4,9 @@ kind: Kustomization
 namespace: argo
 
 resources:
-  - wf-deployment.yaml
+  #- wf-deployment.yaml
   #- argo-server-ingress.yaml
+  - argo-server-sso-secrets.yaml
   - ci-workflow.yaml
   - trigger-workflow.yaml
   - wfsa-rbac.yaml
