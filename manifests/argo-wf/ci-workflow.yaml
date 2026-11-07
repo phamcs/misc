@@ -8,13 +8,13 @@ spec:
   arguments:
     parameters:
       - name: git-repo
-        value: https://github.com/phamcs/caddy-cloudflare.git
+        value: https://github.com/phamcs/podinfo.git
       - name: git-revision
         value: main
-      - name: caddy-cloudflare
-        value: phamcs/caddy-cloudflare
+      - name: podinfo
+        value: phamcs/podinfo
       - name: manifest-repo
-        value: https://github.com/phamcs/caddy-cloudflare.git
+        value: https://github.com/phamcs/podinfo.git
   volumeClaimTemplates:
     - metadata:
         name: workspace
@@ -122,19 +122,24 @@ spec:
         command: [sh, -c]
         args:
           - |
-            # Clone the manifest repository
-            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/caddy-cloudflare.git /tmp/manifests
-            cd /tmp/manifests
+            # Clone the repository
+            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/podinfo.git /tmp/podinfo
+            cd /tmp/podinfo
 
             # Update the image tag in the deployment manifest
             sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-              apps/misc/deployment.yaml
-
+              deploy/base/backend/deployment.yaml
+            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
+              deploy/base/frontend/deployment.yaml
+            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
+              deploy/webapp/backend/deployment.yaml
+            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
+              deploy/webapp/frontend/deployment.yaml
             # Commit and push
             git config user.email "ci@company.com"
             git config user.name "CI Pipeline"
             git add .
-            git commit -m "Update my-app image to {{inputs.parameters.tag}}"
+            git commit -m "Update podinfo image to {{inputs.parameters.tag}}"
             git push origin main
         env:
           - name: GIT_USER

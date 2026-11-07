@@ -10,11 +10,11 @@ spec:
       - port: 12000
         targetPort: 12000
   github:
-    cadd-cloudflare:
+    podinfo:
       repositories:
         - owner: phamcs
           names:
-            - misc
+            - podinfo
       webhook:
         endpoint: /push
         port: "12000"
@@ -42,7 +42,7 @@ spec:
   dependencies:
     - name: github-push
       eventSourceName: github-webhook
-      eventName: caddy-cloudflare
+      eventName: podinfo
       filters:
         data:
           - path: body.ref
@@ -59,7 +59,7 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: ci-caddy-cloudflare
+                generateName: ci-podinfo
                 namespace: argowf
               spec:
                 workflowTemplateRef:
