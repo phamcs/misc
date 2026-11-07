@@ -533,7 +533,7 @@ server:
     # -- Source IP ranges to allow access to service from
     loadBalancerSourceRanges: []
     # -- authentik server service external IPs
-    externalIPs: []
+    externalIPs: "10.0.0.95"
     # -- Denotes if this service desires to route external traffic to node-local or cluster-wide endpoints
     externalTrafficPolicy: ""
     # -- Used to maintain session affinity. Supports `ClientIP` and `None`
