@@ -10,6 +10,6 @@ helmCharts:
   - name: argo-events
     repo: https://argoproj.github.io/argo-helm
     version: 2.4.27
-    releaseName: argo-events
+    releaseName: ae
     namespace: argo-events
-    valuesFile: events-values.yaml
+    valuesFile: ae-values.yaml

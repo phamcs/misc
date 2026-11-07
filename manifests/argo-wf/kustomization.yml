@@ -16,7 +16,7 @@ helmCharts:
     version: 2.0.16
     releaseName: awf
     namespace: argo
-    valuesFile: wf-values.yaml
+    valuesFile: awf-values.yaml
 
 # patches:
 #   - target:
