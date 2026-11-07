@@ -15,7 +15,7 @@ helmCharts:
     repo: https://argoproj.github.io/argo-helm
     version: 2.0.16
     releaseName: awf
-    namespace: argo
+    namespace: argowf
     valuesFile: awf-values.yaml
 
 # patches:
