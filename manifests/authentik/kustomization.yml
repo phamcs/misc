@@ -14,17 +14,17 @@ helmCharts:
     repo: https://charts.goauthentik.io
     valuesFile: ak-values.yaml
 
-patches:
-  - target:
-      version: v1
-      kind: Service
-      name: authentik-server
-      namespace: authentik
-    patch: |-
-      - op: replace
-        path: /server/service/type
-        value: LoadBalancer
+# patches:
+#   - target:
+#       version: v1
+#       kind: Service
+#       name: authentik-server
+#       namespace: authentik
+#     patch: |-
+#       - op: replace
+#         path: /server/service/type
+#         value: LoadBalancer
 
-      - op: add
-        path: /server/service/loadBalancerIP
-        value: 10.0.0.95
+#       - op: add
+#         path: /server/service/loadBalancerIP
+#         value: 10.0.0.95
