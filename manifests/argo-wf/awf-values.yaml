@@ -97,7 +97,7 @@ workflow:
   namespace:
   serviceAccount:
     # -- Specifies whether a service account should be created
-    create: false
+    create: true
     # -- Specifies whether a secret for each service account should be created
     createSecret: false
     # -- Labels applied to created service account
@@ -105,7 +105,7 @@ workflow:
     # -- Annotations applied to created service account
     annotations: {}
     # -- Service account which is used to run workflows
-    name: "argo-workflow"
+    name: "awf-sa"
     # -- Secrets with credentials to pull images from a private registry. Same format as `.Values.images.pullSecrets`
     pullSecrets: []
   rbac:
@@ -118,7 +118,7 @@ workflow:
     artifactGC: false
     # -- Extra service accounts to be added to the RoleBinding
     serviceAccounts:
-      - name: awf-sa
+      - name: awf-sa-rbac
         namespace: argowf
     # -- Additional rules for the service account that runs the workflows.
     rules: []
@@ -939,12 +939,12 @@ server:
     issuer: https://authentik.superasian.net/application/o/argo-wf/
     clientId:
       # -- Name of secret to retrieve the app OIDC client ID
-      name: argo-server-sso
+      name: authentik-sso
       # -- Key of secret to retrieve the app OIDC client ID
       key: client-id
     clientSecret:
       # -- Name of a secret to retrieve the app OIDC client secret
-      name: argo-server-sso
+      name: authentik-sso
       # -- Key of a secret to retrieve the app OIDC client secret
       key: client-secret
     # -- The OIDC redirect URL. Should be in the form <argo-root-url>/oauth2/callback.
