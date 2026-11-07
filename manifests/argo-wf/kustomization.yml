@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: argo
 
 resources:
-  - argo-server-ingress.yaml
+  #- argo-server-ingress.yaml
   - ci-workflow.yaml
   - sso-secrets.yaml
   - trigger-workflow.yaml
@@ -14,7 +14,7 @@ helmCharts:
   - name: argo-workflows
     repo: https://argoproj.github.io/argo-helm
     version: 2.0.16
-    releaseName: argo-wf
+    releaseName: awf
     namespace: argo
     valuesFile: wf-values.yaml
 
