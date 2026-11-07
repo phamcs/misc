@@ -5,12 +5,13 @@ namespace: external-secrets
 
 resources:
   - bundle.yaml
+  - chart.yaml
   - sa-crb-css-ss.yaml
 
-helmCharts:
-  - name: external-secrets
-    repo: https://charts.external-secrets.io
-    version: 2.14.0   # Replace with the latest or desired version
-    releaseName: external-secrets
-    namespace: external-secrets
-    valuesFile: values.yaml
+# helmCharts:
+#   - name: external-secrets
+#     repo: https://charts.external-secrets.io
+#     version: 2.14.0   # Replace with the latest or desired version
+#     releaseName: external-secrets
+#     namespace: external-secrets
+#     valuesFile: values.yaml
