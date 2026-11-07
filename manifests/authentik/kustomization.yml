@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: authentik
 
 resources:
-  - ak-ingress-traefik.yaml    # Uncomment if using ingress
+  - ak-ingress.yaml    # Uncomment if using ingress
 
 helmCharts:
   - name: authentik
