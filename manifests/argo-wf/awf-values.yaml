@@ -964,11 +964,11 @@ server:
       - email
       - profile
       - groups
-
+      - openid
     # Grant admin access to the server for Authentik users that are members of the "authentik Admins" group.
     accessClaims:
       key: groups
-      value: authentik Admins # Make sure your user is in this group in authentik
+      value: "authentik Admins" # Make sure your user is in this group in authentik
     # -- Define how long your login is valid for (in hours)
     ## If omitted, defaults to 10h.
     sessionExpiry: ""
@@ -978,7 +978,7 @@ server:
     customGroupClaimName: "authentik Admins"
     # -- Specify the user info endpoint that contains the groups claim
     ## Configure this if your OIDC provider provides groups information only using the user-info endpoint (e.g. Okta)
-    userInfoPath: ""
+    userInfoPath: "https://authentik.superasian.net/application/o/userinfo/"
     # -- Skip TLS verification for the HTTP client
     insecureSkipVerify: true
     # -- Custom PEM encoded CA certificate file contents used to validate the OIDC provider's certificate
