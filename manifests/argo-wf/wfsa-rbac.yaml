@@ -1,6 +1,10 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
+  annotations:
+    workflows.argoproj.io/rbac-rule: "preferred_username == 'akadmin'"
+    workflows.argoproj.io/rbac-rule-precedence: "10"
+    workflows.argoproj.io/default-namespace: "argowf"
   name: operate-workflow-sa
 ---
 # Similarly you can use a ClusterRole and ClusterRoleBinding
