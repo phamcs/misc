@@ -41,8 +41,8 @@ patches:
       metadata:
         name: kube-prometheus-stack-grafana
         annotations:
-          metallb.universe.tf/address-pool: default-pool    # Replace with your pool name
-          metallb.universe.tf/loadBalancerIPs: 10.0.0.94    # Replace with your IP
+          metallb.io/address-pool: default-pool    # Replace with your pool name
+          metallb.io/loadBalancerIPs: 10.0.0.94    # Replace with your IP
       spec:
         type: LoadBalancer
 
