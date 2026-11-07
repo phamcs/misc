@@ -3,7 +3,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:
   name: github-webhook
-  namespace: argo
+  namespace: argowf
 spec:
   service:
     ports:
@@ -35,7 +35,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
   name: ci-trigger
-  namespace: argo
+  namespace: argowf
 spec:
   template:
     serviceAccountName: operate-workflow-sa
@@ -60,7 +60,7 @@ spec:
               kind: Workflow
               metadata:
                 generateName: ci-caddy-cloudflare
-                namespace: argo
+                namespace: argowf
               spec:
                 workflowTemplateRef:
                   name: ci-pipeline
