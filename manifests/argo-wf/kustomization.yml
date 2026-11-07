@@ -5,11 +5,11 @@ namespace: argo
 
 resources:
   - wf-deployment.yaml
-  - argo-server-ingress.yaml
+  #- argo-server-ingress.yaml
   - ci-workflow.yaml
   - trigger-workflow.yaml
   - wfsa-rbac.yaml
-  - custom-wf-controller-cm.yaml
+  #- custom-wf-controller-cm.yaml
 
 # patches:
 #   - target:
