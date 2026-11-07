@@ -11,16 +11,16 @@ resources:
   - wfsa-rbac.yaml
   - custom-wf-controller-cm.yaml
 
-patches:
-  - target:
-      version: v1
-      kind: Deployment
-      name: argo-server
-      namespace: argo
-    patch: |-
-      - op: add
-        path: /spec/template/spec/containers/0/args/-
-        value: "--auth-mode=sso"
+# patches:
+#   - target:
+#       version: v1
+#       kind: Deployment
+#       name: argo-server
+#       namespace: argo
+#     patch: |-
+#       - op: add
+#         path: /spec/template/spec/containers/0/args/-
+#         value: "--auth-mode=sso"
 
   # - target:
   #     version: v1
