@@ -952,11 +952,8 @@ server:
     rbac:
       # -- Adds ServiceAccount Policy to server (Cluster)Role.
       enabled: true
-      rules:
-      - expression: "email == 'phamcs@gmail.com'"
-        sso:
-          serviceAccount:
-            name: argo-workflows-admin
+      serviceAccount:
+        name: argo-workflows-admin
     # -- Whitelist to allow server to fetch Secrets
     ## When present, restricts secrets the server can read to a given list.
     ## You can use it to restrict the server to only be able to access the
@@ -979,7 +976,7 @@ server:
     customGroupClaimName: "authentik Admins"
     # -- Specify the user info endpoint that contains the groups claim
     ## Configure this if your OIDC provider provides groups information only using the user-info endpoint (e.g. Okta)
-    userInfoPath: "/oauth2/v1/userinfo"
+    userInfoPath: ""
     # -- Skip TLS verification for the HTTP client
     insecureSkipVerify: true
     # -- Custom PEM encoded CA certificate file contents used to validate the OIDC provider's certificate
