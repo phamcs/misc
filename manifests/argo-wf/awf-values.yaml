@@ -951,15 +951,15 @@ server:
     redirectUrl: "https://awf.superasian.net/oauth2/callback"
     rbac:
       # -- Adds ServiceAccount Policy to server (Cluster)Role.
-      enabled: true
+      enabled: false
       # Define what happens if someone logs in. They must map to a valid RBAC rule.
-      config:
-        expression: "groups"
-        rules:
-          - expression: "'argo-admins' in groups"
-            sso:
-              username: akadmin
-              groups: [akadmin]
+      # config:
+      #   expression: "groups"
+      #   rules:
+      #     - expression: "'argo-admins' in groups"
+      #       sso:
+      #         username: akadmin
+      #         groups: [akadmin]
     # -- Whitelist to allow server to fetch Secrets
     ## When present, restricts secrets the server can read to a given list.
     ## You can use it to restrict the server to only be able to access the
