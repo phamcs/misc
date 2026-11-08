@@ -13,7 +13,7 @@ spec:
   triggers:
     - template:
       #conditions: "github-docker-publish-workflow-dependency-stag"
-        name: caddy-cf-workflow
+        name: ci-workflow
         argoWorkflow:
           operation: submit
           source:
@@ -21,7 +21,7 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: caddy-cf-workflow-
+                generateName: ci-workflow-
                 namespace: argo
               spec:
                 archiveLogs: true
@@ -34,7 +34,7 @@ spec:
                     - name: repo
                     - name: branch
                 workflowTemplateRef:
-                  name: caddy-cf-workflow
+                  name: ci-workflow
           parameters:
             - src:
                 dependencyName: github-docker-publish-workflow-dependency-stag

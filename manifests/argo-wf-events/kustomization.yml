@@ -1,13 +1,18 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: argowf
+namespace: argo
 
 resources:
   - argo-server-ingress.yaml
+  - buildkit.yaml
   - ci-workflow.yaml
+  - go-build.yaml
+  - jenkins-pipeline.yaml
   - sso-secrets.yaml
   #- sa-rbac.yaml
+  - sensor.yaml
+  - sync-n-wait.yaml
   - trigger-workflow.yaml
 
 helmCharts:
@@ -15,19 +20,15 @@ helmCharts:
     repo: https://argoproj.github.io/argo-helm
     version: 2.0.16
     releaseName: awf
-    namespace: argowf
+    namespace: argo
     valuesFile: awf-values.yaml
 
-# patches:
-#   - target:
-#       version: v1
-#       kind: Deployment
-#       name: argo-server
-#       namespace: argo
-#     patch: |-
-#       - op: add
-#         path: /spec/template/spec/containers/0/args/-
-#         value: "--auth-mode=sso"
+  - name: argo-events
+    repo: https://argoproj.github.io/argo-helm
+    version: 2.4.27
+    releaseName: ae
+    namespace: argo-events
+    valuesFile: ae-values.yaml
 
   # - target:
   #     version: v1
