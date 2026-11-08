@@ -934,7 +934,7 @@ server:
   # SSO configuration when SSO is specified as a server auth mode.
   sso:
     # -- Create SSO configuration. If you set `true` , please also set `.Values.server.authModes` as `sso`.
-    enabled: false
+    enabled: true
     # -- The root URL of the OIDC identity provider
     issuer: https://authentik.superasian.net/application/o/argo-wf/
     clientId:
