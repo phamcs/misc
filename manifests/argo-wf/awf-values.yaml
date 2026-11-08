@@ -97,14 +97,13 @@ workflow:
   namespace:
   serviceAccount:
     # -- Specifies whether a service account should be created
-    create: true
+    create: false
     # -- Specifies whether a secret for each service account should be created
     createSecret: false
     # -- Labels applied to created service account
     labels: {}
     # -- Annotations applied to created service account
-    annotations:
-      workflows.argoproj.io/rbac-rule: "preferred_username == 'akadmin'"
+    annotations: {}
     # -- Service account which is used to run workflows
     name: "argo-workflow"
     # -- Secrets with credentials to pull images from a private registry. Same format as `.Values.images.pullSecrets`
@@ -605,7 +604,7 @@ server:
   ## only updates base url of resources on client side,
   ## it's expected that a proxy server rewrites the request URL and gets rid of this prefix
   ## https://github.com/argoproj/argo-workflows/issues/716#issuecomment-433213190
-  baseHref: /
+  baseHref: /awf
   image:
     # -- Registry to use for the server
     registry: quay.io
@@ -639,7 +638,7 @@ server:
   # -- Server name string
   name: server
   # -- Service type for server pods
-  serviceType: ClusterIP
+  serviceType: LoadBalancer
   # -- Service port for server
   servicePort: 2746
   # -- Service target port for server
@@ -659,11 +658,12 @@ server:
     # -- Create a service account for the server
     create: true
     # -- Service account name
-    name: ""
+    name: "awf-sa"
     # -- Labels applied to created service account
     labels: {}
     # -- Annotations applied to created service account
-    annotations: {}
+    annotations:
+      workflows.argoproj.io/rbac-rule: "preferred_username == 'akadmin'"
 
   # -- Annotations to be applied to the UI Service
   serviceAnnotations: {}
@@ -672,7 +672,7 @@ server:
   # -- The class of the load balancer implementation
   loadBalancerClass: ""
   # -- Static IP address to assign to loadBalancer service type `LoadBalancer`
-  loadBalancerIP: ""
+  loadBalancerIP: "10.0.0.93"
   # -- Source ranges to allow access to service from. Only applies to service type `LoadBalancer`
   loadBalancerSourceRanges: []
   # -- Resource limits and requests for the server
@@ -755,7 +755,9 @@ server:
 
   # -- A list of supported authentication modes. Available values are `server`, `client`, or `sso`. If you provide sso, please configure `.Values.server.sso` as well.
   ## Ref: https://argo-workflows.readthedocs.io/en/stable/argo-server-auth-mode/
-  authModes: []
+  authModes:
+    - server
+    - sso
 
   # -- Extra arguments to provide to the Argo server binary.
   ## Ref: https://argo-workflows.readthedocs.io/en/stable/argo-server/#options
@@ -935,7 +937,7 @@ server:
     # -- Create SSO configuration. If you set `true` , please also set `.Values.server.authModes` as `sso`.
     enabled: false
     # -- The root URL of the OIDC identity provider
-    issuer: https://accounts.google.com
+    issuer: https://authentik.superasian.net/application/o/argo-wf/
     clientId:
       # -- Name of secret to retrieve the app OIDC client ID
       name: argo-server-sso
@@ -947,7 +949,7 @@ server:
       # -- Key of a secret to retrieve the app OIDC client secret
       key: client-secret
     # -- The OIDC redirect URL. Should be in the form <argo-root-url>/oauth2/callback.
-    redirectUrl: ""
+    redirectUrl: "https://argo.superasian.net/oauth2/callback"
     rbac:
       # -- Adds ServiceAccount Policy to server (Cluster)Role.
       enabled: true
@@ -959,15 +961,15 @@ server:
       secretWhitelist: []
     # -- Scopes requested from the SSO ID provider
     ## The 'groups' scope requests group membership information, which is usually used for authorization decisions.
-    scopes: []
-      # - groups
+    scopes:
+      - groups
     # -- Define how long your login is valid for (in hours)
     ## If omitted, defaults to 10h.
     sessionExpiry: ""
     # -- Alternate root URLs that can be included for some OIDC providers
     issuerAlias: ""
     # -- Override claim name for OIDC groups
-    customGroupClaimName: ""
+    customGroupClaimName: "authentik Admins"
     # -- Specify the user info endpoint that contains the groups claim
     ## Configure this if your OIDC provider provides groups information only using the user-info endpoint (e.g. Okta)
     userInfoPath: ""
