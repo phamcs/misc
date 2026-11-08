@@ -948,12 +948,10 @@ server:
       # -- Key of a secret to retrieve the app OIDC client secret
       key: client-secret
     # -- The OIDC redirect URL. Should be in the form <argo-root-url>/oauth2/callback.
-    redirectUrl: "https://argo.superasian.net/oauth2/callback"
+    redirectUrl: "https://argo.superasian.net/wf/oauth2/callback"
     rbac:
       # -- Adds ServiceAccount Policy to server (Cluster)Role.
       enabled: true
-      serviceAccount:
-        name: argo-workflows-admin
     # -- Whitelist to allow server to fetch Secrets
     ## When present, restricts secrets the server can read to a given list.
     ## You can use it to restrict the server to only be able to access the
