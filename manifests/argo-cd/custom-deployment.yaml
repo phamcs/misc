@@ -33116,6 +33116,8 @@ spec:
       containers:
       - args:
         - /usr/local/bin/argocd-server
+        - --basehref=/cd
+        - --rotpath=/cd
         env:
         - name: REDIS_PASSWORD
           valueFrom:

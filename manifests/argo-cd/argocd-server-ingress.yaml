@@ -21,7 +21,7 @@ spec:
     - host: argocd-server
       http:
         paths:
-        - path: /
+        - path: /cd/
           pathType: Prefix
           backend:
             service:
