@@ -662,8 +662,7 @@ server:
     # -- Labels applied to created service account
     labels: {}
     # -- Annotations applied to created service account
-    annotations:
-      workflows.argoproj.io/rbac-rule: "preferred_username == 'akadmin'"
+    annotations: {}
 
   # -- Annotations to be applied to the UI Service
   serviceAnnotations: {}
