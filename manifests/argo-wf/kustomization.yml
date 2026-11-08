@@ -8,7 +8,7 @@ resources:
   - ci-workflow.yaml
   - sso-secrets.yaml
   - trigger-workflow.yaml
-  - wfsa-rbac.yaml
+  #- wfsa-rbac.yaml
 
 helmCharts:
   - name: argo-workflows

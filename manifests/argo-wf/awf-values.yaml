@@ -103,9 +103,10 @@ workflow:
     # -- Labels applied to created service account
     labels: {}
     # -- Annotations applied to created service account
-    annotations: {}
+    annotations:
+      workflows.argoproj.io/rbac-rule: "preferred_username == 'akadmin'"
     # -- Service account which is used to run workflows
-    name: "awf-sa"
+    name: "argo-workflow"
     # -- Secrets with credentials to pull images from a private registry. Same format as `.Values.images.pullSecrets`
     pullSecrets: []
   rbac:
@@ -118,8 +119,8 @@ workflow:
     artifactGC: false
     # -- Extra service accounts to be added to the RoleBinding
     serviceAccounts: []
-      # - name: awf-sa-rbac
-      #   namespace: argowf
+      # - name: my-service-account
+      #   namespace: my-namespace
     # -- Additional rules for the service account that runs the workflows.
     rules: []
 
@@ -638,7 +639,7 @@ server:
   # -- Server name string
   name: server
   # -- Service type for server pods
-  serviceType: LoadBalancer
+  serviceType: ClusterIP
   # -- Service port for server
   servicePort: 2746
   # -- Service target port for server
@@ -671,7 +672,7 @@ server:
   # -- The class of the load balancer implementation
   loadBalancerClass: ""
   # -- Static IP address to assign to loadBalancer service type `LoadBalancer`
-  loadBalancerIP: "10.0.0.93"
+  loadBalancerIP: ""
   # -- Source ranges to allow access to service from. Only applies to service type `LoadBalancer`
   loadBalancerSourceRanges: []
   # -- Resource limits and requests for the server
@@ -754,9 +755,7 @@ server:
 
   # -- A list of supported authentication modes. Available values are `server`, `client`, or `sso`. If you provide sso, please configure `.Values.server.sso` as well.
   ## Ref: https://argo-workflows.readthedocs.io/en/stable/argo-server-auth-mode/
-  authModes:
-    - server
-    - sso
+  authModes: []
 
   # -- Extra arguments to provide to the Argo server binary.
   ## Ref: https://argo-workflows.readthedocs.io/en/stable/argo-server/#options
@@ -934,9 +933,9 @@ server:
   # SSO configuration when SSO is specified as a server auth mode.
   sso:
     # -- Create SSO configuration. If you set `true` , please also set `.Values.server.authModes` as `sso`.
-    enabled: true
+    enabled: false
     # -- The root URL of the OIDC identity provider
-    issuer: https://authentik.superasian.net/application/o/argo-wf/
+    issuer: https://accounts.google.com
     clientId:
       # -- Name of secret to retrieve the app OIDC client ID
       name: argo-server-sso
@@ -948,7 +947,7 @@ server:
       # -- Key of a secret to retrieve the app OIDC client secret
       key: client-secret
     # -- The OIDC redirect URL. Should be in the form <argo-root-url>/oauth2/callback.
-    redirectUrl: "https://argo.superasian.net/oauth2/callback"
+    redirectUrl: ""
     rbac:
       # -- Adds ServiceAccount Policy to server (Cluster)Role.
       enabled: true
@@ -960,27 +959,20 @@ server:
       secretWhitelist: []
     # -- Scopes requested from the SSO ID provider
     ## The 'groups' scope requests group membership information, which is usually used for authorization decisions.
-    scopes:
-      - email
-      - profile
-      - groups
-      - openid
-    # Grant admin access to the server for Authentik users that are members of the "authentik Admins" group.
-    accessClaims:
-      key: groups
-      value: "authentik Admins" # Make sure your user is in this group in authentik
+    scopes: []
+      # - groups
     # -- Define how long your login is valid for (in hours)
     ## If omitted, defaults to 10h.
     sessionExpiry: ""
     # -- Alternate root URLs that can be included for some OIDC providers
     issuerAlias: ""
     # -- Override claim name for OIDC groups
-    customGroupClaimName: "authentik Admins"
+    customGroupClaimName: ""
     # -- Specify the user info endpoint that contains the groups claim
     ## Configure this if your OIDC provider provides groups information only using the user-info endpoint (e.g. Okta)
-    userInfoPath: "https://authentik.superasian.net/application/o/userinfo/"
+    userInfoPath: ""
     # -- Skip TLS verification for the HTTP client
-    insecureSkipVerify: true
+    insecureSkipVerify: false
     # -- Custom PEM encoded CA certificate file contents used to validate the OIDC provider's certificate
     rootCA: ""
     # -- Filter the groups returned by the OIDC provider
