@@ -31514,7 +31514,7 @@ metadata:
   namespace: argocd
 data:
   kustomize.buildOptions: '--enable-helm'
-  url: https://argocd.superasian.net
+  url: https://argo.superasian.net/cd
   oidc.config: >
     name: authentik
 
@@ -33117,7 +33117,7 @@ spec:
       - args:
         - /usr/local/bin/argocd-server
         - --basehref=/cd
-        - --rotpath=/cd
+        - --rootpath=/cd
         env:
         - name: REDIS_PASSWORD
           valueFrom:

@@ -7,11 +7,3 @@ resources:
   # helmCharts failed so fallback to custom deployment method
   - custom-deployment.yaml
   - argocd-server-ingress.yaml
-
-# helmCharts:
-#   - name: argo-cd
-#     repo: https://argoproj.github.io/argo-helm
-#     version: 10.14.0
-#     releaseName: argocd
-#     namespace: argocd
-#     valuesFile: argocd-values.yaml
