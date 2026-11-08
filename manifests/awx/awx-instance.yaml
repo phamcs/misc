@@ -7,7 +7,7 @@ spec:
   # Service type LoadBalancer with static IP
   admin_user: admin
   service_type: LoadBalancer
-  loadbalancer_ip: '10.0.0.91'
+  #loadbalancer_ip: '10.0.0.91'
   loadbalancer_port: 80
   loadbalancer_protocol: http
   ingress_type: none
@@ -28,6 +28,7 @@ spec:
 
 
   service_annotations: |
+    metallb.io/loadBalancerIPs: "10.0.0.91"
     "prometheus.io/scrape": "true"
     "prometheus.io/path": "/api/v2/metrics"
 
