@@ -7,7 +7,7 @@ resources:
   #- argo-server-ingress.yaml
   - ci-workflow.yaml
   - sso-secrets.yaml
-  - sa-rbac.yaml
+  #- sa-rbac.yaml
   - trigger-workflow.yaml
 
 helmCharts:
