@@ -952,6 +952,14 @@ server:
     rbac:
       # -- Adds ServiceAccount Policy to server (Cluster)Role.
       enabled: true
+      # Define what happens if someone logs in. They must map to a valid RBAC rule.
+      config:
+        expression: "groups"
+        rules:
+          - expression: "'argo-admins' in groups"
+            sso:
+              username: admin
+              groups: [admin]
     # -- Whitelist to allow server to fetch Secrets
     ## When present, restricts secrets the server can read to a given list.
     ## You can use it to restrict the server to only be able to access the
