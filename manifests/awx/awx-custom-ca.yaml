@@ -1,6 +1,15 @@
 apiVersion: v1
 kind: Secret
 metadata:
+  name: awx-custom-secret-key
+  namespace: awx
+type: Opaque
+stringData:
+  secret_key: "ZAGlY9LDIaINexzNyv8uhPxdLNbES0favWS4AWEIkLw3sG9Bkie3KMRohtzZ4kqV"
+---
+apiVersion: v1
+kind: Secret
+metadata:
   name: awx-custom-ca
   namespace: awx
 type: kubernetes.io/tls
