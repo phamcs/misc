@@ -782,19 +782,25 @@ server:
   # ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
   ingress:
     # -- Enable an ingress resource
-    enabled: false
+    enabled: true
     # -- Additional ingress annotations
-    annotations: {}
-    # -- Additional ingress labels
+    annotations:
+      # Crucial flag to handle ArgoCD's internal self-signed certificates backend
+      cert-manager.io/cluster-issuer: internal-ca-issuer
+      traefik.ingress.kubernetes.io/backend-protocol: "HTTP"
+      traefik.ingress.kubernetes.io/force-ssl-redirect: "true"
+      traefik.ingress.kubernetes.io/router.tls: "true"
+      traefik.ingress.kubernetes.io/service.serversscheme: https
+      traefik.ingress.kubernetes.io/ssl-passthrough: "true"
     labels: {}
     # -- Defines which ingress controller will implement the resource
-    ingressClassName: ""
+    ingressClassName: "traefik"
 
     # -- List of ingress hosts
     ## Hostnames must be provided if Ingress is enabled.
     ## Secrets must be manually created in the namespace
-    hosts: []
-      # - argoworkflows.example.com
+    hosts:
+      - argo-server
 
     # -- List of ingress paths
     paths:
@@ -818,10 +824,10 @@ server:
       #         name: use-annotation
 
     # -- Ingress TLS configuration
-    tls: []
-      # - secretName: argoworkflows-example-tls
-      #   hosts:
-      #     - argoworkflows.example.com
+    tls:
+      - secretName: argo-server-tls
+        hosts:
+          - argo-server
 
   ## Create a Google Backendconfig  for use with the GKE Ingress Controller
   ## https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-configuration#configuring_ingress_features_through_backendconfig_parameters
