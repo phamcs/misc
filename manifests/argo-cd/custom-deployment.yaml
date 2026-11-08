@@ -31514,7 +31514,7 @@ metadata:
   namespace: argocd
 data:
   kustomize.buildOptions: '--enable-helm'
-  url: https://argo.superasian.net
+  url: https://argocd.superasian.net
   oidc.config: >
     name: authentik
 
