@@ -974,7 +974,7 @@ server:
     customGroupClaimName: "authentik Admins"
     # -- Specify the user info endpoint that contains the groups claim
     ## Configure this if your OIDC provider provides groups information only using the user-info endpoint (e.g. Okta)
-    userInfoPath: ""
+    userInfoPath: "/oauth2/v1/userinfo"
     # -- Skip TLS verification for the HTTP client
     insecureSkipVerify: true
     # -- Custom PEM encoded CA certificate file contents used to validate the OIDC provider's certificate
