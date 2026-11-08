@@ -154,7 +154,7 @@ controller:
     # -- Create a ConfigMap for the controller
     create: true
     # -- ConfigMap name
-    name: ""
+    name: "awf-controller-cm"
     # -- ConfigMap annotations
     annotations: {}
     # -- Add checksum/config pod annotation to restart the controller when the ConfigMap changes. Alternative to the built-in config watcher; does not cover semaphore ConfigMaps.
@@ -340,7 +340,7 @@ controller:
     # -- Create a service account for the controller
     create: true
     # -- Service account name
-    name: ""
+    name: "awf-controller-sa"
     # -- Labels applied to created service account
     labels: {}
     # -- Annotations applied to created service account
@@ -604,7 +604,7 @@ server:
   ## only updates base url of resources on client side,
   ## it's expected that a proxy server rewrites the request URL and gets rid of this prefix
   ## https://github.com/argoproj/argo-workflows/issues/716#issuecomment-433213190
-  baseHref: /awf
+  baseHref: /
   image:
     # -- Registry to use for the server
     registry: quay.io
@@ -658,7 +658,7 @@ server:
     # -- Create a service account for the server
     create: true
     # -- Service account name
-    name: "awf-sa"
+    name: "argo-server-sa"
     # -- Labels applied to created service account
     labels: {}
     # -- Annotations applied to created service account
@@ -963,6 +963,9 @@ server:
     ## The 'groups' scope requests group membership information, which is usually used for authorization decisions.
     scopes:
       - groups
+      - profile
+      - email
+      - openid
     # -- Define how long your login is valid for (in hours)
     ## If omitted, defaults to 10h.
     sessionExpiry: ""
@@ -974,7 +977,7 @@ server:
     ## Configure this if your OIDC provider provides groups information only using the user-info endpoint (e.g. Okta)
     userInfoPath: ""
     # -- Skip TLS verification for the HTTP client
-    insecureSkipVerify: false
+    insecureSkipVerify: true
     # -- Custom PEM encoded CA certificate file contents used to validate the OIDC provider's certificate
     rootCA: ""
     # -- Filter the groups returned by the OIDC provider
