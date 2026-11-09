@@ -2,17 +2,22 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 #namespace: argo
+configurations:
+- rollout-transform.yaml
 
 resources:
-  #- argo-rollouts-ingress.yaml
-  #- argo-server-ingress.yaml
+  - argo-server-ingress.yaml
   - ci-workflow.yaml
   - eventbus.yaml
   - eventsource.yaml
+  - rollout-carnary.yaml
+  - rollouts-dashboard-ingress.yaml
+  - rollout-transform.yaml
   - sso-secrets.yaml
   - sensor.yaml
   - sensor-rbac.yaml
   - trigger-workflow.yaml
+
   #- wf-templates/*.yaml
 
 helmCharts:
@@ -30,22 +35,9 @@ helmCharts:
     namespace: argo-events
     valuesFile: events-values.yaml
 
-  # - name: argo-rollouts
-  #   repo: https://argoproj.github.io/argo-helm
-  #   version: 2.43.11
-  #   releaseName: aro
-  #   namespace: argo-rollouts
-  #   valuesFile: rollouts-values.yaml
-
-  # - target:
-  #     version: v1
-  #     kind: ConfigMap
-  #     name: workflow-controller-configmap
-  #     namespace: argo
-  #   patch: |
-  #     kind: ConfigMap
-  #     apiVersion: v1
-  #     metadata:
-  #       name: workflow-controller-configmap
-  #       namespace: argo
-  #     data:
+  - name: argo-rollouts
+    repo: https://argoproj.github.io/argo-helm
+    version: 2.43.11
+    releaseName: aro
+    namespace: argo-rollouts
+    valuesFile: rollouts-values.yaml

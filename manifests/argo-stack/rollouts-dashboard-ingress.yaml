@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argo-rollouts-ingress
+  name: rollouts-dashboard-ingress
   namespace: argo-rollouts
   annotations:
     # Crucial flag to handle ArgoCD's internal self-signed certificates backend
@@ -15,16 +15,16 @@ spec:
   ingressClassName: traefik
   tls:
   - hosts:
-    - argo-rollouts
-    secretName: argo-rollouts-tls
+    - rollouts-dashboard
+    secretName: rollouts-dashboard-tls
   rules:
-    - host: argo-rollouts
+    - host: rollouts-dashboard
       http:
         paths:
         - path: /
           pathType: Prefix
           backend:
             service:
-              name: argo-rollouts
+              name: rollouts-dashboard
               port:
-                number: 8090
+                number: 3100
