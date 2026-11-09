@@ -3,6 +3,9 @@ kind: Kustomization
 
 namespace: argo-rollouts
 
+configurations:
+- rollout-transform.yaml
+
 resources:
   - argo-rollouts-ingress.yaml
   - custom-deployment.yaml
