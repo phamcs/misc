@@ -9,7 +9,7 @@ spec:
   dependencies:
     - name: github-docker-publish-workflow-dependency-stag
       eventSourceName: webhook
-      eventName: argo-workflow
+      eventName: ci-workflow
   triggers:
     - template:
       #conditions: "github-docker-publish-workflow-dependency-stag"
