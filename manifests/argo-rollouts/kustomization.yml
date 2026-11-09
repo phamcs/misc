@@ -8,6 +8,7 @@ configurations:
 
 resources:
   - argo-rollouts-ingress.yaml
+  - custom-deployment.yaml
   - rollout-carnary.yaml
   # - ci-workflow.yaml
   # - eventbus.yaml
@@ -18,7 +19,7 @@ resources:
   # - trigger-workflow.yaml
   #- wf-templates/*.yaml
 
-helmCharts:
+#helmCharts:
   # - name: argo-workflows
   #   repo: https://argoproj.github.io/argo-helm
   #   version: 2.0.18
@@ -33,12 +34,12 @@ helmCharts:
   #   namespace: argo-events
   #   valuesFile: events-values.yaml
 
-  - name: argo-rollouts
-    repo: https://argoproj.github.io/argo-helm
-    version: 2.43.10
-    releaseName: aro
-    namespace: argo-rollouts
-    valuesFile: rollouts-values.yaml
+  # - name: argo-rollouts
+  #   repo: https://argoproj.github.io/argo-helm
+  #   version: 2.43.10
+  #   releaseName: aro
+  #   namespace: argo-rollouts
+  #   valuesFile: rollouts-values.yaml
 
 openapi:
   path: https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_all_k8s_kustomize_schema.json
