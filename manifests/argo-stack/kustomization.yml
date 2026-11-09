@@ -10,8 +10,8 @@ resources:
   - eventbus.yaml
   - eventsource.yaml
   - sso-secrets.yaml
+  - sensor.yaml
   - sensor-rbac.yaml
-  - sync-n-wait.yaml
   - trigger-workflow.yaml
   #- wf-templates/*.yaml
 
