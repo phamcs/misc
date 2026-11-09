@@ -11,10 +11,10 @@ resources:
   - rollout-transform.yaml
 
 
-helmCharts:
-  - name: argo-rollouts
-    repo: https://argoproj.github.io/argo-helm
-    version: 2.43.11
-    releaseName: aro
-    namespace: argo-rollouts
-    valuesFile: rollouts-values.yaml
+# helmCharts:
+#   - name: argo-rollouts
+#     repo: https://argoproj.github.io/argo-helm
+#     version: 2.43.11
+#     releaseName: aro
+#     namespace: argo-rollouts
+#     valuesFile: rollouts-values.yaml
