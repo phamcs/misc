@@ -27,4 +27,4 @@ spec:
             service:
               name: argo-rollouts
               port:
-                number: 80
+                number: 8090
