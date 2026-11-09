@@ -25,14 +25,14 @@ helmCharts:
 
   - name: argo-events
     repo: https://argoproj.github.io/argo-helm
-    version: 2.4.27
+    version: 2.4.28
     releaseName: ae
     namespace: argo-events
     valuesFile: events-values.yaml
 
   - name: argo-rollouts
     repo: https://argoproj.github.io/argo-helm
-    version: 2.43.9
+    version: 2.43.11
     releaseName: aro
     namespace: argo-rollouts
     valuesFile: rollouts-values.yaml
