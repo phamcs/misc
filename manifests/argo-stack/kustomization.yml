@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: argo
+#namespace: argo
 
 resources:
   - argo-rollouts-ingress.yaml
@@ -27,14 +27,14 @@ helmCharts:
     repo: https://argoproj.github.io/argo-helm
     version: 2.4.27
     releaseName: ae
-    namespace: argo
+    namespace: argo-events
     valuesFile: events-values.yaml
 
   - name: argo-rollouts
     repo: https://argoproj.github.io/argo-helm
     version: 2.43.9
     releaseName: aro
-    namespace: argo
+    namespace: argo-rollouts
     valuesFile: rollouts-values.yaml
 
   # - target:
