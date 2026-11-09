@@ -5,9 +5,9 @@ kind: Kustomization
 
 resources:
   - argo-server-ingress.yaml
-  #- ci-workflow.yaml
-  #- eventbus.yaml
-  #- eventsource.yaml
+  - ci-workflow.yaml
+  - eventbus.yaml
+  - eventsource.yaml
   - sso-secrets.yaml
   - sensor.yaml
   - sensor-rbac.yaml
