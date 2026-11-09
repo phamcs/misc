@@ -18,20 +18,6 @@ resources:
   #- wf-templates/*.yaml
 
 #helmCharts:
-  # - name: argo-workflows
-  #   repo: https://argoproj.github.io/argo-helm
-  #   version: 2.0.18
-  #   releaseName: awf
-  #   namespace: argo
-  #   valuesFile: workflows-values.yaml
-
-  # - name: argo-events
-  #   repo: https://argoproj.github.io/argo-helm
-  #   version: 2.4.28
-  #   releaseName: ae
-  #   namespace: argo-events
-  #   valuesFile: events-values.yaml
-
   # - name: argo-rollouts
   #   repo: https://argoproj.github.io/argo-helm
   #   version: 2.43.10
@@ -39,8 +25,8 @@ resources:
   #   namespace: argo-rollouts
   #   valuesFile: rollouts-values.yaml
 
-openapi:
-  path: https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_all_k8s_kustomize_schema.json
+# openapi:
+#   path: https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_all_k8s_kustomize_schema.json
 
 patches:
 - patch: |-
