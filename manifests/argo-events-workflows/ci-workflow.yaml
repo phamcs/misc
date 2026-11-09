@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
   name: ci-pipeline
-  namespace: default
+  namespace: argo
 spec:
   entrypoint: ci
   arguments:
