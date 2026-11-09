@@ -8,7 +8,7 @@ configurations:
 
 resources:
   - argo-rollouts-ingress.yaml
-  #- argo-server-ingress.yaml
+  - rollout-carnary.yaml
   # - ci-workflow.yaml
   # - eventbus.yaml
   # - eventsource.yaml
@@ -40,15 +40,18 @@ helmCharts:
     namespace: argo-rollouts
     valuesFile: rollouts-values.yaml
 
-  # - target:
-  #     version: v1
-  #     kind: ConfigMap
-  #     name: workflow-controller-configmap
-  #     namespace: argo
-  #   patch: |
-  #     kind: ConfigMap
-  #     apiVersion: v1
-  #     metadata:
-  #       name: workflow-controller-configmap
-  #       namespace: argo
-  #     data:
+openapi:
+  path: https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_all_k8s_kustomize_schema.json
+
+patches:
+- patch: |-
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    metadata:
+      name: rollout-canary
+    spec:
+      template:
+        spec:
+          containers:
+          - name: rollouts-demo
+            image: nginx
