@@ -30,12 +30,12 @@ helmCharts:
     namespace: argo-events
     valuesFile: events-values.yaml
 
-  - name: argo-rollouts
-    repo: https://argoproj.github.io/argo-helm
-    version: 2.43.11
-    releaseName: aro
-    namespace: argo-rollouts
-    valuesFile: rollouts-values.yaml
+  # - name: argo-rollouts
+  #   repo: https://argoproj.github.io/argo-helm
+  #   version: 2.43.11
+  #   releaseName: aro
+  #   namespace: argo-rollouts
+  #   valuesFile: rollouts-values.yaml
 
   # - target:
   #     version: v1
