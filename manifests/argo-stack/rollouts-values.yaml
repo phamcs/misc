@@ -10,10 +10,10 @@ clusterInstall: true
 createClusterAggregateRoles: true
 
 # -- String to partially override "argo-rollouts.fullname" template
-nameOverride:
+nameOverride: "argo-rollouts"
 
 # -- String to fully override "argo-rollouts.fullname" template
-fullnameOverride:
+fullnameOverride: "argo-rollouts"
 
 # -- Override the namespace
 # @default -- `.Release.Namespace`

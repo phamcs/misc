@@ -62,10 +62,10 @@ crds:
 createAggregateRoles: true
 
 # -- String to partially override "argo-workflows.fullname" template
-nameOverride:
+nameOverride: "argo-workflows"
 
 # -- String to fully override "argo-workflows.fullname" template
-fullnameOverride:
+fullnameOverride: "argo-workflows"
 
 # -- Override the namespace
 # @default -- `.Release.Namespace`
