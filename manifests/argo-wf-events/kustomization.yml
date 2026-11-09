@@ -7,11 +7,12 @@ resources:
   - argo-server-ingress.yaml
   - buildkit.yaml
   - ci-workflow.yaml
+  - eventbus.yaml
+  - eventsource.yaml
   - go-build.yaml
   - jenkins-pipeline.yaml
   - sso-secrets.yaml
-  #- sa-rbac.yaml
-  - sensor.yaml
+  - sensor-rbac.yaml
   - sync-n-wait.yaml
   - trigger-workflow.yaml
 
