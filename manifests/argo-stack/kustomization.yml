@@ -4,8 +4,8 @@ kind: Kustomization
 #namespace: argo
 
 resources:
-  - argo-rollouts-ingress.yaml
-  - argo-server-ingress.yaml
+  #- argo-rollouts-ingress.yaml
+  #- argo-server-ingress.yaml
   - ci-workflow.yaml
   - eventbus.yaml
   - eventsource.yaml
