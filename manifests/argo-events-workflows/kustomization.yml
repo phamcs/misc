@@ -5,7 +5,7 @@ namespace: argo
 
 resources:
   - argo-server-ingress.yaml
-  - ci-workflow.yaml
+  #- ci-workflow.yaml
   - eventbus.yaml
   - eventsource.yaml
   - sensor.yaml
