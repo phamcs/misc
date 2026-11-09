@@ -13,7 +13,7 @@ resources:
   - sensor-rbac.yaml
   - sync-n-wait.yaml
   - trigger-workflow.yaml
-  - wf-plugins/*.yaml
+  - wf-templates/*.yaml
 
 helmCharts:
   - name: argo-workflows
