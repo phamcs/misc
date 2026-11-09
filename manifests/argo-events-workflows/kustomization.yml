@@ -6,6 +6,10 @@ namespace: argo
 resources:
   - argo-server-ingress.yaml
   - ci-workflow.yaml
+  - eventbus.yaml
+  - eventsource.yaml
+  - sensor.yaml
+  - sensor-rbac.yaml
   - sso-secrets.yaml
   - trigger-workflow.yaml
   #- wf-templates/*.yaml
@@ -17,3 +21,10 @@ helmCharts:
     releaseName: awf
     namespace: argo
     valuesFile: workflows-values.yaml
+
+  - name: argo-events
+    repo: https://argoproj.github.io/argo-helm
+    version: 2.4.28
+    releaseName: ae
+    namespace: argo
+    valuesFile: events-values.yaml

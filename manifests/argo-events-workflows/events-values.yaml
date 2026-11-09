@@ -5,10 +5,10 @@
 # -- Provide a name in place of `argo-events`
 nameOverride: argo-events
 # -- String to fully override "argo-events.fullname" template
-fullnameOverride: ""
+fullnameOverride: "argo-events"
 # -- Override the namespace
 # @default -- `.Release.Namespace`
-namespaceOverride: ""
+namespaceOverride: "argo"
 
 # -- Deploy on OpenShift
 openshift: false

@@ -1,19 +1,46 @@
 #!/bin/bash
-#kubectl get crd | grep argoproj.io
-# kubectl get eventsource,eventsensor,eventbus -n argo-events
-# kubectl get eventsource,eventsensor,eventbus -n argo
+NS=argo
+DEPLOYMENTS=$(kubectl get deployment -n $NS | awk 'NR > 1 {print $1}')
+STATEFULSET=$(kubectl get statefulset -n $NS | awk 'NR > 1 {print $1}')
+DAEMONSET=$(kubectl get daemonset -n $NS | awk 'NR > 1 {print $1}')
+PVC=$(kubectl get pvc -n $NS | awk 'NR > 1 {print $1}')
+SECRETS=$(kubectl get secrets -n $NS | awk 'NR > 1 {print $1}')
+CM=$(kubectl get configmap -n $NS | awk 'NR > 1 {print $1}')
+SA=$(kubectl get serviceaccount -n $NS | awk 'NR > 1 {print $1}')
+SVC=$(kubectl get svc -n $NS | awk 'NR > 1 {print $1}')
+ROLES=$(kubectl get roles -n $NS | awk 'NR > 1 {print $1}')
+CROLES=$(kubectl get clusterroles | grep -E "ae-argo-events" | awk 'NR > 1 {print $1}')
+RB=$(kubectl get rolebinding | awk 'NR > 1 {print $1}')
+CRB=$(kubectl get clusterrolebinding |grep -E "ae-argo-events"|awk 'NR > 1 {print $1}')
+
 kubectl patch eventsource webhook-event-source -n argo-events --type merge -p '{"metadata":{"finalizers":null}}'
 kubectl delete eventsource webhook-event-source -n argo-events --grace-period=0 --force
-kubectl patch eventsource github-webhook -n argo --type merge -p '{"metadata":{"finalizers":null}}'
-kubectl delete eventsource github-webhook -n argo --grace-period=0 --force
+#kubectl patch eventsource github-webhook -n argo --type merge -p '{"metadata":{"finalizers":null}}'
+#kubectl delete eventsource github-webhook -n argo --grace-period=0 --force
 kubectl patch eventsensor webhook -n argo-events --type merge -p '{"metadata":{"finalizers":null}}'
 kubectl delete eventsensor webhook -n argo-events --grace-period=0 --force
-kubectl patch eventsensor ci-trigger -n argo --type merge -p '{"metadata":{"finalizers":null}}'
-kubectl delete eventsensor ci-trigger -n argo --grace-period=0 --force
-kubectl patch sensor ci-trigger -n argo --type merge -p '{"metadata":{"finalizers":null}}'
-kubectl delete sensor ci-trigger -n argo --grace-period=0 --force
+#kubectl patch eventsensor ci-trigger -n argo --type merge -p '{"metadata":{"finalizers":null}}'
+#kubectl delete eventsensor ci-trigger -n argo --grace-period=0 --force
+#kubectl patch sensor ci-trigger -n argo --type merge -p '{"metadata":{"finalizers":null}}'
+#kubectl delete sensor ci-trigger -n argo --grace-period=0 --force
 kubectl patch sensor webhook -n argo-events --type merge -p '{"metadata":{"finalizers":null}}'
 kubectl delete sensor webhook -n argo-events --grace-period=0 --force
+
+# Delete Resources by namespaced
+kubectl scale deployment --replicas=0 -n $NS $DEPLOYMENTS
+kubectl delete deployment -n $NS $DEPLOYMENTS
+kubectl scale statefulset --replicas=0 -n $NS  $STATEFULSET
+kubectl delete statefulset -n $NS $STATEFULSET
+kubectl delete daemonset -n $NS $DAEMONSET
+kubectl delete service -n $NS $SVC
+kubectl delete pvc -n $NS $PVC
+kubectl delete secrets -n $NS $SECRETS
+kubectl delete roles -n $NS $ROLES
+kubectl delete clusterroles -n $NS $CROLES
+kubectl delete rolebinding -n $NS $RB
+kubectl delete clusterrolebinding -n $NS $CRB
+kubectl delete serviceaccount -n $NS $SA
+kubectl delete configmap -n $NS $CM
 
 # kubectl patch crd webhook-event-source -n argo-events --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
 # kubectl patch crd github-webhook -n argo --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'

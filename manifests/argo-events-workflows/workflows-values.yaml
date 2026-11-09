@@ -69,7 +69,7 @@ fullnameOverride: "argo-workflows"
 
 # -- Override the namespace
 # @default -- `.Release.Namespace`
-namespaceOverride: ""
+namespaceOverride: "argo"
 
 # -- Labels to set on all resources
 commonLabels: {}
