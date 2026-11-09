@@ -32,7 +32,7 @@ helmCharts:
 
   - name: argo-rollouts
     repo: https://argoproj.github.io/argo-helm
-    version: 2.43.11
+    version: 2.43.10
     releaseName: aro
     namespace: argo-rollouts
     valuesFile: rollouts-values.yaml

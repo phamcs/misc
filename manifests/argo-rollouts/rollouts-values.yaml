@@ -10,10 +10,10 @@ clusterInstall: true
 createClusterAggregateRoles: true
 
 # -- String to partially override "argo-rollouts.fullname" template
-nameOverride: "argo-rollouts"
+nameOverride: argo-rollouts
 
 # -- String to fully override "argo-rollouts.fullname" template
-fullnameOverride: "argo-rollouts"
+fullnameOverride: argo-rollouts
 
 # -- Override the namespace
 # @default -- `.Release.Namespace`
@@ -109,7 +109,7 @@ controller:
     # -- Repository to use
     repository: argoproj/argo-rollouts
     # -- Overrides the image tag (default is the chart appVersion)
-    tag: ""
+    tag: "2.43.11"
     # -- Image pull policy
     pullPolicy: IfNotPresent
 
@@ -272,7 +272,7 @@ serviceAccount:
   annotations: {}
   # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: "argo-rollouts-sa"
 
 # -- Annotations to be added to all CRDs
 crdAnnotations: {}
