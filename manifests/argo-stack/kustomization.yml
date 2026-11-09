@@ -4,32 +4,38 @@ kind: Kustomization
 namespace: argo
 
 resources:
+  - argo-rollouts-ingress.yaml
   - argo-server-ingress.yaml
-  - buildkit.yaml
   - ci-workflow.yaml
   - eventbus.yaml
   - eventsource.yaml
-  - go-build.yaml
-  - jenkins-pipeline.yaml
   - sso-secrets.yaml
   - sensor-rbac.yaml
   - sync-n-wait.yaml
   - trigger-workflow.yaml
+  - wf-plugins/*.yaml
 
 helmCharts:
   - name: argo-workflows
     repo: https://argoproj.github.io/argo-helm
-    version: 2.0.16
+    version: 2.0.18
     releaseName: awf
     namespace: argo
-    valuesFile: awf-values.yaml
+    valuesFile: workflows-values.yaml
 
   - name: argo-events
     repo: https://argoproj.github.io/argo-helm
     version: 2.4.27
     releaseName: ae
-    namespace: argo-events
-    valuesFile: ae-values.yaml
+    namespace: argo
+    valuesFile: events-values.yaml
+
+  - name: argo-rollouts
+    repo: https://argoproj.github.io/argo-helm
+    version: 2.43.9
+    releaseName: aro
+    namespace: argo
+    valuesFile: rollouts-values.yaml
 
   # - target:
   #     version: v1
