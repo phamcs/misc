@@ -6,7 +6,6 @@ namespace: argo-events
 resources:
   - eventbus.yaml
   - eventsource.yaml
-  - sso-secrets.yaml
   - sensor.yaml
   - sensor-rbac.yaml
   #- wf-templates/*.yaml
