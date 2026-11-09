@@ -423,11 +423,11 @@ dashboard:
       type: RuntimeDefault
   service:
     # -- Sets the type of the Service
-    type: ClusterIP
+    type: LoadBalancer
     # -- The class of the load balancer implementation
     loadBalancerClass: ""
     # -- LoadBalancer will get created with the IP specified in this field
-    loadBalancerIP: ""
+    loadBalancerIP: "10.0.0.92"
     # -- Source IP ranges to allow access to service from
     loadBalancerSourceRanges: []
     # -- Dashboard service external IPs
