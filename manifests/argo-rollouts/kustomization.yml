@@ -3,7 +3,7 @@ kind: Kustomization
 
 #namespace: argo
 configurations:
-- rollout-transform.yaml
+  - rollout-transform.yaml
 
 resources:
   - rollout-carnary.yaml
