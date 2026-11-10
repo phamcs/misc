@@ -11,7 +11,7 @@ spec:
         value: https://github.com/phamcs/podinfo.git
       - name: git-revision
         value: main
-      - name: podinfo
+      - name: image-name
         value: phamcs/podinfo
       - name: manifest-repo
         value: https://github.com/phamcs/podinfo.git
