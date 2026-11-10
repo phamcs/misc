@@ -10,7 +10,7 @@ spec:
       - name: git-repo
         value: https://github.com/phamcs/podinfo.git
       - name: git-revision
-        value: main
+        value: ["main", "master"]
       - name: image-name
         value: phamcs/podinfo
       - name: manifest-repo
