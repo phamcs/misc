@@ -19,7 +19,7 @@ spec:
         endpoint: /push
         port: "12000"
         method: POST
-        url: https://argo-server/push
+        url: https://awf.superasian.net/push
       events:
         - push
       apiToken:
@@ -38,7 +38,7 @@ metadata:
   namespace: argo
 spec:
   template:
-    serviceAccountName: operate-workflow-sa
+    serviceAccountName: argo-workflow-sa
   dependencies:
     - name: github-push
       eventSourceName: github-webhook

@@ -1,30 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: argo
+namespace: argo-events
 
 resources:
-  - argo-server-ingress.yaml
-  #- ci-workflow.yaml
   - eventbus.yaml
   - eventsource.yaml
-  - sensor.yaml
-  - sa-rbac.yaml
-  - sso-secrets.yaml
-  - trigger-workflow.yaml
-  #- wf-templates/*.yaml
 
 helmCharts:
-  - name: argo-workflows
-    repo: https://argoproj.github.io/argo-helm
-    version: 2.0.18
-    releaseName: awf
-    namespace: argo
-    valuesFile: workflows-values.yaml
-
   - name: argo-events
     repo: https://argoproj.github.io/argo-helm
     version: 2.4.28
     releaseName: ae
-    namespace: argo
+    namespace: argo-events
     valuesFile: events-values.yaml

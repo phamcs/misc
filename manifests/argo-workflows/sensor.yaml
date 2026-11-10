@@ -5,7 +5,7 @@ metadata:
   namespace: argo
 spec:
   template:
-    serviceAccountName: awf-workflow-sa
+    serviceAccountName: argo-workflow-sa
   dependencies:
     - name: github-docker-publish-workflow-dependency-stag
       eventSourceName: webhook

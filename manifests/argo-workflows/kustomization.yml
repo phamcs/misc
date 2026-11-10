@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: argo
+
+resources:
+  - argo-server-ingress.yaml
+  - ci-workflow.yaml
+  - sa-rbac.yaml
+  - sensor.yaml
+  - sso-secrets.yaml
+  - trigger-workflow.yaml
+  - wf-templates/buildkit.yaml
+  - wf-templates/go-build.yaml
+
+helmCharts:
+  - name: argo-workflows
+    repo: https://argoproj.github.io/argo-helm
+    version: 2.0.18
+    releaseName: awf
+    namespace: argo
+    valuesFile: workflows-values.yaml
