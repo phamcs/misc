@@ -2,10 +2,10 @@ apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
   name: webhook
-  namespace: argo-events
+  namespace: argo
 spec:
   template:
-    serviceAccountName: operate-workflow-sa
+    serviceAccountName: awf-workflow-sa
   dependencies:
     - name: github-docker-publish-workflow-dependency-stag
       eventSourceName: webhook
