@@ -951,7 +951,7 @@ server:
     redirectUrl: "https://awf.superasian.net/oauth2/callback"
     rbac:
       # -- Adds ServiceAccount Policy to server (Cluster)Role.
-      enabled: true
+      enabled: false
       # Define what happens if someone logs in. They must map to a valid RBAC rule.
       # config:
       #   expression: "groups"
