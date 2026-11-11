@@ -1,36 +1,3 @@
-# EventSource - watches for GitHub webhooks
-apiVersion: argoproj.io/v1alpha1
-kind: EventSource
-metadata:
-  name: github-webhook
-  namespace: argo
-spec:
-  service:
-    ports:
-      - port: 12000
-        targetPort: 12000
-  github:
-    podinfo:
-      repositories:
-        - owner: phamcs
-          names:
-            - podinfo
-      webhook:
-        endpoint: /push
-        port: "12000"
-        method: POST
-        url: https://awf.superasian.net/push
-      events:
-        - push
-      apiToken:
-        name: github-access
-        key: token
-      webhookSecret:
-        name: github-access
-        key: webhook-secret
-
----
-# Sensor - triggers the workflow
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
