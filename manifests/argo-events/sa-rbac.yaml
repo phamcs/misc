@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: events-webh00k-sa
+  name: events-webhook-sa
   namespace: argo-events
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -19,7 +19,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: event-webhook-role-binding
+  name: events-webhook-role-binding
   namespace: argo-events
 roleRef:
   apiGroup: rbac.authorization.k8s.io
