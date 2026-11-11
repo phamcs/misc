@@ -221,7 +221,7 @@ service:
 
 serviceAccount:
   # -- Specifies whether a service account should be created.
-  create: true
+  create: false
   # -- Automounts the service account token in all containers of the pod
   automount: true
   # -- Annotations to add to the service account.
