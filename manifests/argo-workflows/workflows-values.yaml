@@ -658,7 +658,7 @@ server:
     # -- Create a service account for the server
     create: true
     # -- Service account name
-    name: "argo-server-sa"
+    name: "argo-server"
     # -- Labels applied to created service account
     labels: {}
     # -- Annotations applied to created service account

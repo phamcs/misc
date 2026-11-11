@@ -5,8 +5,8 @@ namespace: argo
 
 resources:
   - argo-server-ingress.yaml
-  #- argo-server-role.yaml
-  #- argo-server-role-binding.yaml
+  - argo-server-role.yaml
+  - argo-server-role-binding.yaml
   - ci-workflow.yaml
   - sso-secrets.yaml
   - trigger-workflow.yaml
