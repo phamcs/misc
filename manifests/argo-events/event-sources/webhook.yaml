@@ -5,7 +5,6 @@ metadata:
   name: webhook-event-source
   namespace: argo-events
 spec:
-  eventBusName: default
   service:
     ports:
       - port: 12000
