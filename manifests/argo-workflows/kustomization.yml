@@ -5,14 +5,15 @@ namespace: argo
 
 resources:
   - argo-server-ingress.yaml
-  #- argo-server-role.yaml
-  #- argo-server-role-binding.yaml
-  #- ci-workflow.yaml
+  #- ci-pipeline.yaml
+  #- eventsource.yaml
+  #- sensor.yaml
   - sso-secrets.yaml
-  #- trigger-workflow.yaml
-  #- workflow-sa.yaml
+  - wf-templates/argocd-sync-and-wait.yaml
   - wf-templates/buildkit.yaml
   - wf-templates/go-build.yaml
+  - wf-templates/jenkins-pipeline.yaml
+
 
 helmCharts:
   - name: argo-workflows
