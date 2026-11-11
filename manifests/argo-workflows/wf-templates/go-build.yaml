@@ -9,6 +9,7 @@ metadata:
     workflows.argoproj.io/version: '>= 2.9.0'
   name: go-build
 spec:
+  serviceAccountName: awf-sa
   entrypoint: main
   arguments:
     parameters:

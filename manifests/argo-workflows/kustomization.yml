@@ -5,12 +5,10 @@ namespace: argo
 
 resources:
   - awf-server-ingress.yaml
-  #- ci-pipeline.yaml
   #- eventsource.yaml
   #- sensor.yaml
   - awf-server-sso.yaml
-  - wf-templates/argocd-sync-and-wait.yaml
-  - wf-templates/buildkit.yaml
+  - wf-templates/gh-ci-pipeline.yaml
   - wf-templates/go-build.yaml
   - wf-templates/jenkins-pipeline.yaml
 
