@@ -347,7 +347,7 @@ controller:
     annotations: {}
 
   # -- Workflow controller name string
-  name: workflow-controller
+  name: controller
 
   # -- Specify all namespaces where this workflow controller instance will manage
   # workflows. This controls where the service account and RBAC resources will
