@@ -321,7 +321,7 @@ controller:
     # -- Create a service account for the events controller
     create: true
     # -- Service account name
-    name: ""
+    name: "controller-manager-sa"
     # -- Annotations applied to created service account
     annotations: {}
     # -- Automount API credentials for the Service Account
@@ -358,7 +358,7 @@ controller:
 ## Argo Events admission webhook
 webhook:
   # -- Enable admission webhook. Applies only for cluster-wide installation
-  enabled: false
+  enabled: true
 
   # -- Argo Events admission webhook name string
   name: events-webhook
@@ -493,7 +493,7 @@ webhook:
     # -- Create a service account for the admission webhook
     create: true
     # -- Service account name
-    name: ""
+    name: "events-webhook-sa"
     # -- Annotations applied to created service account
     annotations: {}
     # -- Automount API credentials for the Service Account

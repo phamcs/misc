@@ -4,8 +4,9 @@ kind: Kustomization
 namespace: argo-events
 
 resources:
-  - eventbus.yaml
-  - eventsource.yaml
+  - eventbus/default.yaml
+  - event-sources/webhook.yaml
+  - sensors/webhook.yaml
 
 helmCharts:
   - name: argo-events
