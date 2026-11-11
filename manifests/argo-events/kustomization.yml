@@ -4,9 +4,7 @@ kind: Kustomization
 namespace: argo-events
 
 resources:
-  #- eventbus/default.yaml
-  - event-sources/webhook.yaml
-  - sensors/webhook.yaml
+  - sa-rbac.yaml
 
 helmCharts:
   - name: argo-events

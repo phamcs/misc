@@ -1,0 +1,15 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: argo-events-binding
+  annotations:
+    argocd.argoproj.io/tracking-id: >-
+      argo-events:rbac.authorization.k8s.io/ClusterRoleBinding:argo-events/argo-events-binding
+subjects:
+  - kind: ServiceAccount
+    name: argo-events-sa
+    namespace: argo-events
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: argo-events-role
