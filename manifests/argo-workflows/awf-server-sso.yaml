@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: argo-server-sso
+  name: awf-server-sso
   namespace: argo
 type: Opaque
 stringData:
