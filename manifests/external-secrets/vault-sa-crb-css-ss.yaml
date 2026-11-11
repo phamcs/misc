@@ -59,7 +59,7 @@ spec:
           mountPath: "kubernetes"
           role: "external-secrets"
           serviceAccountRef:
-            name: eso-sa
+            name: vault-auth
             namespace: external-secrets-system
 ---
 apiVersion: external-secrets.io/v1
@@ -78,4 +78,4 @@ spec:
           mountPath: "kubernetes"
           role: "external-secrets"
           serviceAccountRef:
-            name: eso-sa
+            name: vault-auth
