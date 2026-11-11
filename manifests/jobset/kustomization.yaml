@@ -3,16 +3,8 @@ kind: Kustomization
 
 namespace: jobset-system
 
-# resources:
-#   - manifests.yaml
+resources:
+  - manifests.yaml
 
-helmCharts:
-  - name: jobset
-    repo: oci://registry.k8s.io/jobset/charts/jobset
-    version: 0.13.0   # Replace with the latest or desired version
-    releaseName: jobset
-    namespace: jobset-system
-    valuesFile: values.yaml
-
-# patches:
-#   - path: resource_patch.yaml
+patches:
+  - path: resource_patch.yaml
