@@ -4,11 +4,11 @@ kind: Kustomization
 namespace: argo
 
 resources:
-  - argo-server-ingress.yaml
+  - awf-server-ingress.yaml
   #- ci-pipeline.yaml
   #- eventsource.yaml
   #- sensor.yaml
-  - sso-secrets.yaml
+  - awf-server-sso.yaml
   - wf-templates/argocd-sync-and-wait.yaml
   - wf-templates/buildkit.yaml
   - wf-templates/go-build.yaml
