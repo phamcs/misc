@@ -2,49 +2,42 @@ apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
   name: webhook
-  namespace: argo
 spec:
   template:
-    serviceAccountName: argo-workflow-sa
+    serviceAccountName: events-webhook-sa
   dependencies:
-    - name: github-docker-publish-workflow-dependency-stag
+    - name: test-dep
       eventSourceName: webhook
-      eventName: ci-workflow
+      eventName: example
   triggers:
     - template:
-      #conditions: "github-docker-publish-workflow-dependency-stag"
-        name: ci-workflow
-        argoWorkflow:
-          operation: submit
+        name: webhook-workflow-trigger
+        k8s:
+          operation: create
           source:
             resource:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: ci-workflow-
-                namespace: argo
+                generateName: webhook-
               spec:
-                archiveLogs: true
-                activeDeadlineSeconds: 3600
-                ttlStrategy:
-                  secondsAfterCompletion: 259200 # 3 days
+                entrypoint: print-message
                 arguments:
                   parameters:
-                    - name: org
-                    - name: repo
-                    - name: branch
-                workflowTemplateRef:
-                  name: ci-workflow
+                  - name: message
+                    # the value will get overridden by event payload from test-dep
+                    value: hello world
+                templates:
+                - name: print-message
+                  inputs:
+                    parameters:
+                    - name: message
+                  container:
+                    image: busybox
+                    command: [echo]
+                    args: ["{{inputs.parameters.message}}"]
           parameters:
             - src:
-                dependencyName: github-docker-publish-workflow-dependency-stag
-                dataKey: body.repository.organization
+                dependencyName: test-dep
+                dataKey: body
               dest: spec.arguments.parameters.0.value
-            - src:
-                dependencyName: github-docker-publish-workflow-dependency-stag
-                dataKey: body.repository.name
-              dest: spec.arguments.parameters.1.value
-            - src:
-                dependencyName: github-docker-publish-workflow-dependency-stag
-                dataKey: body.ref
-              dest: spec.arguments.parameters.2.value
