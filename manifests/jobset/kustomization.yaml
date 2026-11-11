@@ -14,5 +14,5 @@ helmCharts:
     namespace: jobset-system
     valuesFile: values.yaml
 
-patches:
-  - path: resource_patch.yaml
+# patches:
+#   - path: resource_patch.yaml
