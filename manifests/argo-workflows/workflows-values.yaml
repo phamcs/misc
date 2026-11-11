@@ -97,9 +97,9 @@ workflow:
   namespace:
   serviceAccount:
     # -- Specifies whether a service account should be created
-    create: true
+    create: false
     # -- Specifies whether a secret for each service account should be created
-    createSecret: true
+    createSecret: false
     # -- Labels applied to created service account
     labels: {}
     # -- Annotations applied to created service account
