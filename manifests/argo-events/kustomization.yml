@@ -3,10 +3,10 @@ kind: Kustomization
 
 namespace: argo-events
 
-resources:
-  #- argo-events-binding.yaml
-  #- argo-events-role.yaml
-  - webhook-rbac.yaml
+# resources:
+#   - argo-events-binding.yaml
+#   - argo-events-role.yaml
+#   - webhook-rbac.yaml
 
 helmCharts:
   - name: argo-events
