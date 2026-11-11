@@ -62,10 +62,10 @@ crds:
 createAggregateRoles: true
 
 # -- String to partially override "argo-workflows.fullname" template
-nameOverride: "argo-workflows"
+nameOverride: "awf"
 
 # -- String to fully override "argo-workflows.fullname" template
-fullnameOverride: "argo-workflows"
+fullnameOverride: "awf"
 
 # -- Override the namespace
 # @default -- `.Release.Namespace`
@@ -105,7 +105,7 @@ workflow:
     # -- Annotations applied to created service account
     annotations: {}
     # -- Service account which is used to run workflows
-    name: "argo-workflow-sa"
+    name: "awf-sa"
     # -- Secrets with credentials to pull images from a private registry. Same format as `.Values.images.pullSecrets`
     pullSecrets: []
   rbac:
@@ -154,7 +154,7 @@ controller:
     # -- Create a ConfigMap for the controller
     create: true
     # -- ConfigMap name
-    name: "workflow-controller-cm"
+    name: "awf-controller-cm"
     # -- ConfigMap annotations
     annotations: {}
     # -- Add checksum/config pod annotation to restart the controller when the ConfigMap changes. Alternative to the built-in config watcher; does not cover semaphore ConfigMaps.
@@ -340,14 +340,14 @@ controller:
     # -- Create a service account for the controller
     create: true
     # -- Service account name
-    name: "workflow-controller-sa"
+    name: "awf-controller-sa"
     # -- Labels applied to created service account
     labels: {}
     # -- Annotations applied to created service account
     annotations: {}
 
   # -- Workflow controller name string
-  name: workflow-controller
+  name: awf-controller
 
   # -- Specify all namespaces where this workflow controller instance will manage
   # workflows. This controls where the service account and RBAC resources will
@@ -658,7 +658,7 @@ server:
     # -- Create a service account for the server
     create: true
     # -- Service account name
-    name: "argo-server"
+    name: "argo-server-sa"
     # -- Labels applied to created service account
     labels: {}
     # -- Annotations applied to created service account
