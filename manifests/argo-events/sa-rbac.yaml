@@ -1,0 +1,92 @@
+# sensor-rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: events-webh00k-sa
+  namespace: argo-events
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: events-webhook-role
+  namespace: argo-events
+rules:
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflows", "workflowtemplates", "workflowtaskresults", "secrets"]
+    resourceNames: ["docker-registry-credentials"]
+    verbs: ["create", "get", "list", "watch", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: event-webhook-role-binding
+  namespace: argo-events
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: events-webhook-role
+subjects:
+  - kind: ServiceAccount
+    name: events-webhook-sa
+    namespace: argo-events
+# ---
+# # Add default sa to Rolebinding
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: Role
+# metadata:
+#   name: argo-workflow-default-role
+#   namespace: argo
+# rules:
+#   - apiGroups:
+#       - argoproj.io
+#     resources:
+#       - workflowtaskresults
+#     verbs:
+#       - create
+#       - patch
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: RoleBinding
+# metadata:
+#   name: argo-workflow-default-binding
+#   namespace: argo
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: Role
+#   name: argo-workflow-default-role
+# subjects:
+#   - kind: ServiceAccount
+#     name: default
+#     namespace: argo
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: controller-manager-sa
+  namespace: argo-events
+---
+# Add workflow-controller to Rolebinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: controller-manager-role
+  namespace: argo-events
+rules:
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflows", "workflowtemplates", "workflowtaskresults", "secrets"]
+    resourceNames: ["docker-registry-credentials"]
+    verbs: ["create", "get", "list", "watch", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: controller-manager-binding
+  namespace: argo-events
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: controller-manager-role
+subjects:
+  - kind: ServiceAccount
+    name: controller-manager-sa
+    namespace: argo-events
