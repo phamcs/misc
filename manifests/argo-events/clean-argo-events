@@ -8,10 +8,10 @@ SECRETS=$(kubectl get secrets -n $NS | awk 'NR > 1 {print $1}')
 CM=$(kubectl get configmap -n $NS | awk 'NR > 1 {print $1}')
 SA=$(kubectl get serviceaccount -n $NS | awk 'NR > 1 {print $1}')
 SVC=$(kubectl get svc -n $NS | awk 'NR > 1 {print $1}')
-ROLES=$(kubectl get roles -n $NS | awk 'NR > 1 {print $1}')
-CROLES=$(kubectl get clusterroles | grep -E "ae-argo-events" | awk 'NR > 1 {print $1}')
-RB=$(kubectl get rolebinding | awk 'NR > 1 {print $1}')
-CRB=$(kubectl get clusterrolebinding |grep -E "ae-argo-events"|awk 'NR > 1 {print $1}')
+ROLES=$(kubectl get roles | grep -E "argo-events-*" | awk 'NR > 1 {print $1}')
+CROLES=$(kubectl get clusterroles | grep -E "argo-events-*" | awk 'NR > 1 {print $1}')
+RB=$(kubectl get rolebinding | grep -E "argo-events-*" | awk 'NR > 1 {print $1}')
+CRB=$(kubectl get clusterrolebinding |grep -E "argo-events-*"|awk 'NR > 1 {print $1}')
 
 # Delete Argoproj resources
 kubectl patch eventsource webhook-event-source -n $NS --type merge -p '{"metadata":{"finalizers":null}}'
@@ -37,10 +37,10 @@ kubectl delete daemonset -n $NS $DAEMONSET
 kubectl delete service -n $NS $SVC
 kubectl delete pvc -n $NS $PVC
 kubectl delete secrets -n $NS $SECRETS
-kubectl delete roles -n $NS $ROLES
-kubectl delete clusterroles -n $NS $CROLES
-kubectl delete rolebinding -n $NS $RB
-kubectl delete clusterrolebinding -n $NS $CRB
+kubectl delete roles $ROLES
+kubectl delete clusterroles $CROLES
+kubectl delete rolebinding $RB
+kubectl delete clusterrolebinding $CRB
 kubectl delete serviceaccount -n $NS $SA
 kubectl delete configmap -n $NS $CM
 
