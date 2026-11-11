@@ -8,4 +8,4 @@ roleRef:
   name: argo-server-role
 subjects:
 - kind: ServiceAccount
-  name: argo-server
+  name: argo-server-sa

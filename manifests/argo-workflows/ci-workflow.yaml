@@ -49,15 +49,15 @@ spec:
           - name: run-tests
             template: test
             dependencies: [checkout]
-            arguments:
-              inputs:
-                parameters:
-                  - name: test-repo
-                    value: "{{workflow.parameters.git-repo}}"
-              container:
-                image: alpine:latest
-                command: [sh, -c]
-                args: ["echo Running tests in {{inputs.parameters.test-repo}}"]
+            # arguments:
+            #   inputs:
+            #     parameters:
+            #       - name: test-repo
+            #         value: "{{workflow.parameters.git-repo}}"
+            #   container:
+            #     image: alpine:latest
+            #     command: [sh, -c]
+            #     args: ["echo Running tests in {{inputs.parameters.test-repo}}"]
 
           - name: update-manifests
             template: update-git-manifests

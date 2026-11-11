@@ -1,3 +1,4 @@
+# sensor-rbac.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -8,6 +9,9 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: argo-workflow-role
+  annotations:
+    argocd.argoproj.io/tracking-id: >-
+      argo-workflows:rbac.authorization.k8s.io/ClusterRole:argo-workflows/argo-workflow-role
   namespace: argo
 rules:
   - apiGroups: ["argoproj.io"]
@@ -19,6 +23,10 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: argo-workflow-role-binding
+  annotations:
+    argocd.argoproj.io/tracking-id: >-
+      argo-workflows:rbac.authorization.k8s.io/ClusterRoleBinding:argo-workflows/argo-workflow-role-binding
+  namespace: argo
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -39,6 +47,10 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: workflow-controller-role
+  annotations:
+    argocd.argoproj.io/tracking-id: >-
+      argo-workflows:rbac.authorization.k8s.io/ClusterRole:argo-workflows/workflow-controller-role
+  namespace: argo
 rules:
   - apiGroups: ["argoproj.io"]
     resources: ["workflows", "workflowtemplates", "workflowtaskresults", "secrets"]
@@ -49,6 +61,10 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: workflow-controller-binding
+  annotations:
+    argocd.argoproj.io/tracking-id: >-
+      argo-workflows:rbac.authorization.k8s.io/ClusterRoleBinding:argo-workflows/workflow-controller-role-binding
+  namespace: argo
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
