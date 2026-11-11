@@ -3,8 +3,8 @@ kind: Kustomization
 
 namespace: argo-events
 
-resources:
-  - sa-rbac.yaml
+#resources:
+  #- sa-rbac.yaml
 
 helmCharts:
   - name: argo-events
