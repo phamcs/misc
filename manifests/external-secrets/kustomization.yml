@@ -3,10 +3,10 @@ kind: Kustomization
 
 namespace: external-secrets-system
 
-resources:
+#resources:
   #- bundle.yaml
   #- chart.yaml
-  - sa-crb-css-ss.yaml
+  #- sa-crb-css-ss.yaml
 
 helmCharts:
   - name: external-secrets
