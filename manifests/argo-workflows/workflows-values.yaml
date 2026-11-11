@@ -97,9 +97,9 @@ workflow:
   namespace:
   serviceAccount:
     # -- Specifies whether a service account should be created
-    create: false
+    create: true
     # -- Specifies whether a secret for each service account should be created
-    createSecret: false
+    createSecret: true
     # -- Labels applied to created service account
     labels: {}
     # -- Annotations applied to created service account
@@ -154,7 +154,7 @@ controller:
     # -- Create a ConfigMap for the controller
     create: true
     # -- ConfigMap name
-    name: "workflow-controller-cm"
+    name: "argo-workflow-controller-cm"
     # -- ConfigMap annotations
     annotations: {}
     # -- Add checksum/config pod annotation to restart the controller when the ConfigMap changes. Alternative to the built-in config watcher; does not cover semaphore ConfigMaps.
