@@ -1,24 +1,4 @@
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: external-secrets-system
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: eso-sa
-  namespace: external-secrets
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: eso-sa
-  namespace: external-secrets-system
-  annotations:
-    kubernetes.io/service-account.name: eso-sa
-type: kubernetes.io/service-account-token
----
-apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: vault-auth
