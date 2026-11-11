@@ -99,12 +99,12 @@ controller:
     maxUnavailable: null
 certManager:
   # -- Whether to use cert-manager to generate certificates for the jobset webhook.
-  enable: true
+  enable: false
   # -- The reference to the issuer.
   # If empty, self-signed issuer will be created and used.
-  issuerRef:
-    name: internal-ca-issuer
-    kind: ClusterIssuer
+  issuerRef: {}
+    # name: internal-ca-issuer
+    # kind: ClusterIssuer
 prometheus:
   # -- Whether to enable Prometheus metrics exporting.
   enable: false
