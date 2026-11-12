@@ -10,18 +10,25 @@ spec:
     - port: 12000
       targetPort: 12000
   github:
-    default:
-      endpoint: /push
-      method: POST
-      port: "12000"
-      # Specify target repository owner and repo name
-      owner: phamcs
+    github:
       repositories:
-        - name: misc
-      # Events to listen for (e.g., push, pull_request, etc.)
+        - owner: phamcs
+          names:
+            - misc
+      webhook:
+        endpoint: /push
+        port: "12000"
+        method: POST
+        url: https://ae.superasian.net
       events:
         - push
-      url: "http://ae.superasian.net"
+      # Optional: Secret to validate GitHub's X-Hub-Signature-256
+      webhookSecret:
+        name: github-hook
+        key: secret
+      # Set active: false if you already created the webhook manually in GitHub UI
+      active: false
+      contentType: json
 
 #    example-foo:
 #      port: "12000"
