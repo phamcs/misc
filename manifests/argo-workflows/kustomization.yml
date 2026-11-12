@@ -5,13 +5,10 @@ namespace: argo
 
 resources:
   - awf-server-ingress.yaml
-  #- eventsource.yaml
-  #- sensor.yaml
   - awf-server-sso.yaml
   - wf-templates/gh-ci-pipeline.yaml
   - wf-templates/go-build.yaml
   - wf-templates/jenkins-pipeline.yaml
-
 
 helmCharts:
   - name: argo-workflows
@@ -19,4 +16,4 @@ helmCharts:
     version: 2.0.18
     releaseName: awf
     namespace: argo
-    valuesFile: workflows-values.yaml
+    valuesFile: awf-values.yaml
