@@ -13,7 +13,7 @@ spec:
       - name: revision
         value: main
       - name: manifests-path
-        value: manifests/
+        value: misc/manifests/
   templates:
     - name: lint-pipeline
       steps:
