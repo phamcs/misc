@@ -9,8 +9,8 @@ spec:
     ports:
     - port: 12000
       targetPort: 12000
-  webhook:
-    github:
+  github:
+    default:
       endpoint: /push
       method: POST
       port: "12000"
