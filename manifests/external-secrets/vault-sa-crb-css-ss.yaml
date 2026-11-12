@@ -1,23 +1,23 @@
-# apiVersion: v1
-# kind: Namespace
-# metadata:
-#   name: external-secrets
-# ---
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: external-secrets
-#   namespace: external-secrets
-# ---
-# apiVersion: v1
-# kind: Secret
-# metadata:
-#   name: external-secrets
-#   namespace: external-secrets
-#   annotations:
-#     kubernetes.io/service-account.name: external-secrets
-# type: kubernetes.io/service-account-token
-# ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: external-secrets
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: external-secrets
+  namespace: external-secrets
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: external-secrets
+  namespace: external-secrets
+  annotations:
+    kubernetes.io/service-account.name: external-secrets
+type: kubernetes.io/service-account-token
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
