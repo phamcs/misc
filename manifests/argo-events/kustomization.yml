@@ -6,7 +6,8 @@ namespace: argo-events
 resources:
   - argo-events-binding.yaml
   - argo-events-role.yaml
-  #- events-webhook-rbac.yaml
+  - eventsource.yaml
+  - sensor-rbac.yaml
 
 helmCharts:
   - name: argo-events

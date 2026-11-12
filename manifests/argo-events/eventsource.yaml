@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: webhook
+  namespace: argo-events
+spec:
+  service:
+    ports:
+      - port: 12000
+        targetPort: 12000
+  webhook:
+    example:
+      endpoint: /push
+      port: "12000"
+      method: POST
+      #url: https://awf.superasian.net/push
+    # events:
+    #   - push
+      # apiToken:
+      #   name: github-access
+      #   key: token
+      # webhookSecret:
+      #   name: github-access
+      #   key: webhook-secret
