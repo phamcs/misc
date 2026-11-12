@@ -38,7 +38,7 @@ spec:
       volumes:
         - name: docker-config
           secret:
-            secretName: docker-config
+            secretName: docker-registry-credentials
       container:
         image: moby/buildkit:v0.7.2-rootless
         volumeMounts:
