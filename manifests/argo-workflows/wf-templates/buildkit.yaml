@@ -23,6 +23,7 @@ metadata:
     workflows.argoproj.io/tags: buildkit
     workflows.argoproj.io/version: '>= 2.9.0'
 spec:
+  serviceAccountName: awf-sa
   templates:
     - name: image
       inputs:
