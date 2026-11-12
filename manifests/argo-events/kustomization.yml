@@ -23,7 +23,7 @@ patches:
   - target:
       version: v1
       kind: Service
-      name: webhook-eventsource-svc
+      name: github-webhook-eventsource-svc
       namespace: argo-events
     patch: |-
       - op: replace
