@@ -7,7 +7,7 @@ spec:
   serviceAccountName: operate-workflow-sa
   service:
     ports:
-    - port: 80
+    - port: 12000
       targetPort: 12000
   webhook:
     github:
