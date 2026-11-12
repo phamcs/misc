@@ -21,7 +21,7 @@ spec:
             template: argo-events-lint
             arguments:
               artifacts:
-                - name: source
+                - name: misc
                   git:
                     repo: "{{workflow.parameters.repo-url}}"
                     revision: "{{workflow.parameters.revision}}"
@@ -29,7 +29,7 @@ spec:
     - name: argo-events-lint
       inputs:
         artifacts:
-          - name: source
+          - name: misc
             path: /workspace/misc
       container:
         image: quay.io/argoproj/argo-events:latest
