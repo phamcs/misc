@@ -2,18 +2,20 @@ apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
   name: webhook
-  namespace: argo-events
 spec:
   template:
     serviceAccountName: operate-workflow-sa
   dependencies:
     - name: test-dep
       eventSourceName: webhook
-      eventName: example
+      eventName: deploy
   triggers:
     - template:
         name: webhook-workflow-trigger
         k8s:
+          group: argoproj.io
+          version: v1alpha1
+          resource: workflows
           operation: create
           source:
             resource:
@@ -36,9 +38,39 @@ spec:
                   container:
                     image: docker/whalesay:latest
                     command: [cowsay]
-                    args: ["{{inputs.parameters.message}}"]
+                    args: ["{{inputs.parameters.bucket}}","{{inputs.parameters.key}}"]
           parameters:
             - src:
                 dependencyName: test-dep
-                dataKey: body
+                dataKey: body.bucket
               dest: spec.arguments.parameters.0.value
+            - src:
+                dependencyName: test-dep
+                dataKey: body.key
+              dest: spec.arguments.parameters.1.value
+    - templates:
+      - name: lint-pipeline
+        steps:
+          - - name: run-argo-events-lint
+              template: argo-events-lint
+              arguments:
+                parameters:
+                  - name: path
+                    value: "{{workflow.parameters.manifest-path}}"
+
+      - name: argo-events-lint
+        inputs:
+          parameters:
+            - name: path
+          artifacts:
+            # Replace with your git repo or volume mount containing the manifests
+            - name: misc
+              path: manifests/
+              git:
+                repo: https://github.com/phamcs/misc.git
+                revision: main
+        container:
+          image: quay.io/argoproj/argo-events:latest
+          command: [argo-events]
+          args: ["lint", "-R", "{{inputs.parameters.path}}"]
+          workingDir: manifests/

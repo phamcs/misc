@@ -17,3 +17,10 @@ helmCharts:
     releaseName: awf
     namespace: argo
     valuesFile: awf-values.yaml
+
+# Download the example files first, or use your own
+kubectl apply -n argo-events -f https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/event-sources/webhook.yaml --dry-run=client -o yaml > webhook-eventsource.yaml
+kubectl apply -n argo-events -f https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/sensors/webhook.yaml --dry-run=client -o yaml > webhook-sensor.yaml
+
+# Validate with argo-events lint
+argo-events lint webhook-eventsource.yaml webhook-sensor.yaml

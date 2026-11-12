@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: ci-pipeline
+  name: gh-ci-pipeline
   namespace: argo
 spec:
   serviceAccountName: awf-sa
@@ -154,6 +154,7 @@ spec:
               deploy/webapp/backend/deployment.yaml
             sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
               deploy/webapp/frontend/deployment.yaml
+            sed -i 's/This is a pipeline test message/./g' README.md
             # Commit and push
             git config user.email "phamcs@gmail.com"
             git config user.name "CI Pipeline"

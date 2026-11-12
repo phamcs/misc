@@ -1,0 +1,97 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  annotations:
+    workflows.argoproj.io/description: |
+      Checkout out from Git, build and test a Golang application.
+    workflows.argoproj.io/maintainer: '@alexec'
+    workflows.argoproj.io/tags: golang, git
+    workflows.argoproj.io/version: '>= 2.9.0'
+  name: go-build
+  namespace: argo-events
+spec:
+  serviceAccountName: operate-workflow-sa
+  entrypoint: main
+  arguments:
+    parameters:
+      - name: repo
+        value: https://github.com/argoproj-labs/argo-workflows-catalog.git
+      - name: branch
+        value: master
+      - name: output
+        value: argo-workflows-catalog
+  templates:
+    - name: main
+      steps:
+        - - name: checkout
+            template: checkout
+        - - name: build
+            template: build
+        - - name: test
+            template: test
+    - name: checkout
+      script:
+        image: golang:1.26
+        workingDir: /work
+        args:
+          - sh
+        # use --depth 1 and --single-branch for fastest possible checkout
+        source: git clone --depth 1 --single-branch --branch {{workflow.parameters.branch}} {{workflow.parameters.repo}} .
+        volumeMounts:
+          - mountPath: /work
+            name: work
+
+    - name: build
+      script:
+        image: golang:1.26
+        workingDir: /work
+        args:
+          - sh
+        source: go build -o {{workflow.parameters.output}} -v ./...
+        volumeMounts:
+          - mountPath: /work
+            name: work
+    - name: test
+      script:
+        image: golang:1.26
+        workingDir: /work
+        args:
+          - sh
+        source: go test -v ./...
+        volumeMounts:
+          - mountPath: /work
+            name: work
+
+
+    # - name: Lint Argo Events Resources
+    #   on: [push, pull_request]
+
+    #   jobs:
+    #     lint:
+    #       runs-on: ubuntu-latest
+    #       steps:
+    #         - uses: actions/checkout@v3
+
+    #         - name: Set up Go
+    #           uses: actions/setup-go@v6
+    #           with:
+    #             go-version: "1.26"
+
+    #         - name: Install argo-events
+    #           run: |
+    #             git clone https://github.com/argoproj/argo-events.git
+    #             cd argo-events
+    #             make build
+    #             sudo mv dist/argo-events /usr/local/bin/
+
+    #         - name: Lint EventSources and Sensors
+    #           run: argo-events lint -R manifests/
+  volumeClaimTemplates:
+    # A shared work volume.
+    - metadata:
+        name: work
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 64Mi
