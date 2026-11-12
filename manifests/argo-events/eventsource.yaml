@@ -21,7 +21,7 @@ spec:
       # Events to listen for (e.g., push, pull_request, etc.)
       events:
         - push
-      url: ""
+      url: "http://ae.superasian.net"
 
 #    example-foo:
 #      port: "12000"
