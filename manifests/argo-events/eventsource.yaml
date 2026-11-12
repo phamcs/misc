@@ -14,7 +14,7 @@ spec:
       endpoint: /push
       method: POST
       port: "12000"
-      url: "https://awf.superasian.net"
+      url: "https://ae.superasian.net"
 
 #    example-foo:
 #      port: "12000"
