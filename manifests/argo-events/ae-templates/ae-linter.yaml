@@ -13,7 +13,7 @@ spec:
       - name: revision
         value: main
       - name: manifests-path
-        value: misc/manifests/
+        value: manifests/
   templates:
     - name: lint-pipeline
       steps:
@@ -30,7 +30,7 @@ spec:
       inputs:
         artifacts:
           - name: source
-            path: /workspace
+            path: /workspace/misc
       container:
         image: quay.io/argoproj/argo-events:latest
         command: [argo-events]
@@ -38,4 +38,4 @@ spec:
           - lint
           - --strict
           - -R
-          - /workspace/{{workflow.parameters.manifests-path}}
+          - /workspace/misc/{{workflow.parameters.manifests-path}}
