@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: external-secrets
 
 resources:
-  #- css-ss.yaml
+  - css-ss.yaml
   - vault-sa-crb.yaml
 
 helmCharts:
