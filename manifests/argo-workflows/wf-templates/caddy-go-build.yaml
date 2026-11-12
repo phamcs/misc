@@ -4,7 +4,7 @@ metadata:
   annotations:
     workflows.argoproj.io/description: |
       Checkout out from Git, build and test a Golang application.
-    workflows.argoproj.io/maintainer: '@alexec'
+    workflows.argoproj.io/maintainer: '@phamcs'
     workflows.argoproj.io/tags: golang, git
     workflows.argoproj.io/version: '>= 2.9.0'
   name: caddy-go-build
