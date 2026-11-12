@@ -5,6 +5,7 @@ namespace: argo-events
 
 resources:
   - argo-events-binding.yaml
+  - argo-events-ingress.yaml
   - argo-events-role.yaml
   - eventbus.yaml
   - eventsource.yaml
