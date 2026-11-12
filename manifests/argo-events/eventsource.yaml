@@ -1,19 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:
-  name: webhook
+  name: github-webhook
   namespace: argo-events
 spec:
+  serviceAccountName: operate-workflow-sa
   service:
     ports:
     - port: 12000
       targetPort: 12000
   webhook:
-    example:
-      endpoint: /deploy
+    github:
+      endpoint: /push
       method: POST
       port: "12000"
-      url: ""
+      url: "https://ae.superasian.net"
 
 #    example-foo:
 #      port: "12000"

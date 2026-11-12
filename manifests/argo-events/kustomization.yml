@@ -18,3 +18,23 @@ helmCharts:
     releaseName: ae
     namespace: argo-events
     valuesFile: events-values.yaml
+
+patches:
+  - target:
+      version: v1
+      kind: Service
+      name: webhook-eventsource-svc
+      namespace: argo-events
+    patch: |-
+      - op: replace
+        path: /spec/type
+        value: LoadBalancer
+      - op: add
+        path: /spec/loadBalancerIP
+        value: "10.0.0.80"
+      - op: add
+        path: /status/loadBalancer/ingress/ip
+        value: "10.0.0.80"
+      - op: add
+        path: /status/loadBalancer/ingress/ipMode
+        value: VIP
