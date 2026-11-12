@@ -51,17 +51,17 @@ subjects:
     namespace: default
 EOF
 
-for crd in $(kubectl get crds -o name | grep external-secrets.io | awk -F '/' '{print $2}'); do kubectl delete crd $crd; done
+# for crd in $(kubectl get crds -o name | grep external-secrets.io | awk -F '/' '{print $2}'); do kubectl delete crd $crd; done
 
-helm repo add external-secrets https://charts.external-secrets.io
-helm repo update
+# helm repo add external-secrets https://charts.external-secrets.io
+# helm repo update
 
-helm install external-secrets \
-  external-secrets/external-secrets \
-  --namespace external-secrets \
-  --create-namespace \
-  --set installCRDs=true \
-  --set serviceAccount.create=false --wait
+# helm install external-secrets \
+#   external-secrets/external-secrets \
+#   --namespace external-secrets \
+#   --create-namespace \
+#   --set installCRDs=true \
+#   --set serviceAccount.create=false --wait
 
 # Setup Kubernetes Auth for vault
 vault auth enable kubernetes

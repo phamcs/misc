@@ -18,19 +18,6 @@ metadata:
     kubernetes.io/service-account.name: external-secrets
 type: kubernetes.io/service-account-token
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: vault-auth
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: vault-auth
-  annotations:
-    kubernetes.io/service-account.name: vault-auth
-type: kubernetes.io/service-account-token
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -41,8 +28,8 @@ roleRef:
   name: system:auth-delegator
 subjects:
   - kind: ServiceAccount
-    name: vault-auth
-    namespace: default
+    name: external-secrets
+    namespace: external-secrets
 ---
 apiVersion: external-secrets.io/v1
 kind: ClusterSecretStore
