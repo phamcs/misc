@@ -14,7 +14,7 @@ spec:
       endpoint: /push
       method: POST
       port: "12000"
-      url: "http://10.0.0.80"
+      url: ""
 
 #    example-foo:
 #      port: "12000"
