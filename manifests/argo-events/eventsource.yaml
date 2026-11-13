@@ -8,8 +8,8 @@ metadata:
   metallb.io/loadBalancerIPs: 10.0.0.80    # Replace with your IP
 spec:
   serviceAccountName: operate-workflow-sa
+  type: LoadBalancer
   service:
-    type: LoadBalancer
     ports:
     - port: 12000
       targetPort: 12000
