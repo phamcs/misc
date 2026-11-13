@@ -6,6 +6,7 @@ namespace: argo
 resources:
   - awf-server-ingress.yaml
   - awf-server-sso.yaml
+  - wf-templates/cluster-wf-tpl.yaml
   - wf-templates/buildkit.yaml
   - wf-templates/gh-ci-pipeline.yaml
   - wf-templates/caddy-go-build.yaml
