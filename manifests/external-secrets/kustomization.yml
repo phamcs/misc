@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: external-secrets
 
 resources:
-  #- docker-config.yaml
   - eso-ingress.yaml
   - eso-rbac.yaml
   - github-access.yaml
