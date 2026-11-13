@@ -1,14 +1,24 @@
 ---
 # Copy bash stuff
-- name: Copy bash stuff
+- name: Copy bash profile for app_user
   ansible.builtin.copy:
     src: "{{ item.src}}"
     dest: "{{ item.dest}}"
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: "files/bashrc", dest: "/home/{{ app_user }}/.bashrc" }
-    - { src: "files/bash_profile", dest: "/home/{{ app_user }}/.bash_profile" }
+    - { src: "bashrc", dest: "/home/{{ app_user }}/.bashrc" }
+    - { src: "profile", dest: "/home/{{ app_user }}/.profile" }
+
+- name: Copy bash profile for user root
+  ansible.builtin.copy:
+    src: "{{ item.src}}"
+    dest: "{{ item.dest}}"
+    mode: 0644
+    owner: root
+  loop:
+    - { src: "bashrc", dest: "/root/.bashrc" }
+    - { src: "profile", dest: "/root/.profile" }
 
 # Debian full system upgrade
 - name: Debian system updates
@@ -52,7 +62,7 @@
   when: omvextra_install.stdout_lines is defined
 
 # Install omvextra & docker compose
-- name: Install omvextra & docker compose
+- name: Install extra packages & docker compose
   ansible.builtin.apt:
     update_cache: yes
     name: "{{ item }}"

@@ -18,14 +18,14 @@
     owner: "{{ app_user }}"
   loop:
     - { src: 'node-exporter.yml', dest: '{{ common_dir }}/node-exporter.yml'}
-    - { src: 'portainer-stack.yml', dest: '{{ common_dir }}/portainer-stack.yml'}
+    - { src: 'portainer.yml', dest: '{{ common_dir }}/portainer.yml'}
     - { src: 'rl8-ks.cfg', dest: '{{ common_dir }}/rl8-ks.cfg'}
 
 # Start Common Stack
 - name: Start common stack
   ansible.builtin.command:
     chdir: "{{ common_dir }}"
-    cmd: "docker compose -f portainer-stack.yml up -d"
+    cmd: "docker compose -f portainer.yml up -d"
   register: compose_result
   until: compose_result.rc == 0
   retries: 5
