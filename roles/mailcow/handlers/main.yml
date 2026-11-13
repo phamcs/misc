@@ -14,3 +14,14 @@
 - name: Reboot host
   ansible.builtin.reboot:
     reboot_timeout: 300
+
+- name: Restart docker
+  ansible.builtin.service:
+    state: restarted
+    name: docker
+
+- name: Restart mailcow
+  ansible.builtin.command: |
+    docker restart mailcow
+  async: 1
+  poll: 0
