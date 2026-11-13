@@ -4,8 +4,8 @@ metadata:
   name: github-webhook
   namespace: argo-events
   annotations:
-  metallb.io/address-pool: default-pool    # Replace with your pool name
-  metallb.io/loadBalancerIPs: 10.0.0.80    # Replace with your IP
+    metallb.io/address-pool: default-pool    # Replace with your pool name
+    metallb.io/loadBalancerIPs: 10.0.0.80    # Replace with your IP
 spec:
   serviceAccountName: operate-workflow-sa
   type: LoadBalancer
