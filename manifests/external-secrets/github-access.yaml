@@ -6,7 +6,7 @@ metadata:
 spec:
   refreshInterval: 1h
   secretStoreRef:
-    name: vault-backend
+    name: vault-external
     kind: ClusterSecretStore
   target:
     name: github-access # Name of the native K8s Secret ESO will create
