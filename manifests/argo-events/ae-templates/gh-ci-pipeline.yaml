@@ -87,9 +87,9 @@ spec:
         args:
           - "--dockerfile=/workspace/source/Dockerfile"
           - "--context=/workspace/source"
-          - "--no-push"
-          #- "--destination={{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
-          #- "--cache=true"
+          #- "--no-push"
+          - "--destination={{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
+          - "--cache=true"
         volumeMounts:
           - name: workspace
             mountPath: /workspace
