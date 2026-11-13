@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: external-secrets-ingress
+  namespace: external-secrets
+  annotations:
+    # Crucial flag to handle Argo-Events's internal self-signed certificates backend
+    cert-manager.io/cluster-issuer: internal-ca-issuer
+    traefik.ingress.kubernetes.io/backend-protocol: "HTTP"
+    traefik.ingress.kubernetes.io/force-ssl-redirect: "true"
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/ssl-passthrough: "true"
+spec:
+  ingressClassName: traefik
+  tls:
+  - hosts:
+    - external-secrets
+    secretName: external-secrets-tls
+  rules:
+    - host: external-secrets
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: external-secrets-webhook
+              port:
+                number: 443
