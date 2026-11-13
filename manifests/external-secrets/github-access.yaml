@@ -14,5 +14,5 @@ spec:
   data:
     - secretKey: secret # Key name inside the generated K8s Secret
       remoteRef:
-        key: argo-events/github # Path in your external vault
+        key: argo-events/github-hook # Path in your external vault
         property: secret
