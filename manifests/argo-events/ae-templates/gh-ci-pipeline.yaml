@@ -105,7 +105,7 @@ spec:
       volumes:
         - name: docker-config
           secret:
-            secretName: docker-registry-credentials
+            secretName: dockerhub-secret
             items:
               - key: .dockerconfigjson
                 path: config.json
