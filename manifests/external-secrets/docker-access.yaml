@@ -1,0 +1,26 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: docker-registry
+  namespace: external-secrets
+spec:
+  refreshInterval: 1m
+  secretStoreRef:
+    name: vault-external
+    kind: ClusterSecretStore
+  target:
+    name: docker-registry-credentials
+    template:
+      type: kubernetes.io/dockerconfigjson
+      engineVersion: v2
+      data:
+        .dockerconfigjson: '{ "auths": { "index.docker.io": { "auth": "{{ printf "%s:%s" .username .password | b64enc }}"}}}'
+  data:
+  - secretKey: username
+    remoteRef:
+      key: docker-config
+      property: username
+  - secretKey: password
+    remoteRef:
+      key: docker-config
+      property: password
