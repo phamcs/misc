@@ -26,6 +26,8 @@ kubectl patch sensor webhook -n $NS --type merge -p '{"metadata":{"finalizers":n
 kubectl delete sensor webhook -n $NS --grace-period=0 --force
 kubectl patch eventbus eventbus-controller -n $NS --type merge -p '{"metadata":{"finalizers":null}}'
 kubectl delete eventbus eventbus-controller -n $NS --grace-period=0 --force
+kubectl patch eventbus default -n $NS --type merge -p '{"metadata":{"finalizers":null}}'
+kubectl delete eventbus default -n $NS --grace-period=0 --force
 
 
 # Delete Resources by namespaced
