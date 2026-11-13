@@ -12,7 +12,11 @@ spec:
     name: dockerhub-access # Name of the native K8s Secret ESO will create
     creationPolicy: Owner
   data:
-    - secretKey: secret # Key name inside the generated K8s Secret
+    - secretKey: username # Key name inside the generated K8s Secret
       remoteRef:
         key: argo-events/dockerhub # Path in your external vault
-        property: ["username", "password"]
+        property: "username"
+    - secretKey: password # Key name inside the generated K8s Secret
+      remoteRef:
+        key: argo-events/dockerhub # Path in your external vault
+        property: "password"
