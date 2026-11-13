@@ -17,11 +17,11 @@ metadata:
       controller: true
       blockOwnerDeletion: true
 spec:
-  ports:
-    - protocol: TCP
-      port: 12000
-      targetPort: 12000
-      nodePort: 32382
+  # ports:
+  #   - protocol: TCP
+  #     port: 12000
+  #     targetPort: 12000
+  #     nodePort: 32382
   selector:
     controller: eventsource-controller
     eventsource-name: github-webhook
