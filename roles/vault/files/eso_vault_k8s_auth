@@ -118,7 +118,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: external-secrets.io/v1
 kind: ClusterSecretStore
 metadata:
-  name: vault-backend
+  name: vault-external
 spec:
   provider:
     vault:
@@ -138,7 +138,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: external-secrets.io/v1
 kind: SecretStore
 metadata:
-  name: vault-backend
+  name: vault-external
   namespace: external-secrets
 spec:
   provider:
