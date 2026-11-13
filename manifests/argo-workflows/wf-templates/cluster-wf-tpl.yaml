@@ -3,6 +3,7 @@ kind: ClusterWorkflowTemplate
 metadata:
   name: cluster-workflow-template-print-message
 spec:
+  serviceAccountName: awf-sa
   templates:
   - name: print-message
     inputs:
@@ -18,6 +19,7 @@ kind: ClusterWorkflowTemplate
 metadata:
   name: cluster-workflow-template-random-fail-template
 spec:
+  serviceAccountName: awf-sa
   templates:
   - name: random-fail-template
     retryStrategy:
@@ -33,6 +35,7 @@ kind: ClusterWorkflowTemplate
 metadata:
   name: cluster-workflow-template-inner-steps
 spec:
+  serviceAccountName: awf-sa
   templates:
   - name: print-message
     inputs:
@@ -84,6 +87,7 @@ kind: ClusterWorkflowTemplate
 metadata:
   name: cluster-workflow-template-inner-dag
 spec:
+  serviceAccountName: awf-sa
   templates:
   - name: print-message
     inputs:
