@@ -48,3 +48,16 @@ spec:
                 dependencyName: test-dep
                 dataKey: body.key
               dest: spec.arguments.parameters.1.value
+    # Call linter workflow template
+    - template:
+      name: linter-workflow-trigger
+      argoWorkflow:
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                generateName: ae-linter-
+              spec:
+                workflowTemplateRef:
+                  name: argo-events-linter
