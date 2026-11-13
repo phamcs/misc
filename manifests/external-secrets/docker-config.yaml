@@ -12,7 +12,7 @@ spec:
     name: docker-config # Name of the native K8s Secret ESO will create
     creationPolicy: Owner
   data:
-    - secretKey: .dockerconfigjson # Key name inside the generated K8s Secret
+    - secretKey: ".dockerconfigjson" # Key name inside the generated K8s Secret
       remoteRef:
         key: argo-events/docker-config # Path in your external vault
         property: ".dockerconfigjson"
