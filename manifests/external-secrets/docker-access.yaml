@@ -18,9 +18,9 @@ spec:
   data:
   - secretKey: username
     remoteRef:
-      key: docker-config
+      key: dockerhub
       property: username
   - secretKey: password
     remoteRef:
-      key: docker-config
+      key: dockerhub
       property: password
