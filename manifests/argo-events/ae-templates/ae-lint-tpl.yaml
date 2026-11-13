@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: lint-argo-events
+  name: argo-events-linter
   namespace: argo-events
 spec:
   serviceAccountName: operate-workflow-sa
