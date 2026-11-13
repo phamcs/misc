@@ -29,8 +29,8 @@ spec:
 
   service_annotations: |
     metallb.io/loadBalancerIPs: "10.0.0.91"
-    "prometheus.io/scrape": "true"
-    "prometheus.io/path": "/api/v2/metrics"
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/api/v2/metrics"
 
   # Web Resource limits
   web_resource_requirements:
