@@ -7,10 +7,10 @@ resources:
   - argo-events-binding.yaml
   - argo-events-ingress.yaml
   - argo-events-role.yaml
-  - ae-templates/ae-lint-tpl.yaml
   - ae-templates/gh-ci-pipeline.yaml
   - eventbus.yaml
   - eventsource.yaml
+  - linter.yaml
   - sensor.yaml
   - sensor-rbac.yaml
 
