@@ -19,7 +19,7 @@ spec:
         endpoint: /push
         port: "12000"
         method: POST
-        url: http://argo-events:12000/push
+        url: ""
       events:
         - push
       # Optional: Secret to validate GitHub's X-Hub-Signature-256
