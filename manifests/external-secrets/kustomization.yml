@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: external-secrets
 
 resources:
-  #- css-ss.yaml
-  - vault-sa-crb.yaml
+  - eso-rbac.yaml
+  - vault-external.yaml
 
 helmCharts:
   - name: external-secrets
