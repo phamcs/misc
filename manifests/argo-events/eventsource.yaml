@@ -24,10 +24,10 @@ spec:
         - push
       apiToken:
         name: github-access
-        key: secret
+        key: token
       # Optional: Secret to validate GitHub's X-Hub-Signature-256
       webhookSecret:
-        name: github-hook
+        name: github-access
         key: secret
       # Set active: false if you already created the webhook manually in GitHub UI
       active: false
