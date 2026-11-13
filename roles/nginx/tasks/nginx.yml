@@ -18,15 +18,15 @@
     mode: 0644
     owner: "{{ app_user }}"
   loop:
-    - { src: 'files/cert.pem', dest: '{{ nginx_dir }}/ssl/cert.pem' }
-    - { src: 'files/key.pem', dest: '{{ nginx_dir }}/ssl/key.pem' }
-    - { src: 'files/nginx-stack.yml', dest: '{{ nginx_dir }}/nginx-stack.yml' }
+    - { src: 'cert.pem', dest: '{{ nginx_dir }}/ssl/cert.pem' }
+    - { src: 'key.pem', dest: '{{ nginx_dir }}/ssl/key.pem' }
+    - { src: 'docker-compose.yml', dest: '{{ nginx_dir }}/docker-compose.yml' }
 
 # Start Nginx Loadbalancer
 - name: Start nginx load balancer
   ansible.builtin.command:
     chdir: "{{ nginx_dir }}"
-    cmd: "docker compose -f nginx-stack.yml up -d"
+    cmd: "docker compose up -d"
   register: compose_result
   until: compose_result.rc == 0
   retries: 5

@@ -38,8 +38,8 @@
     mode: 0644
     owner: root
   loop:
-    - { src: 'files/tls.cert', dest: '{{ mailcow_dir }}/data/assets/ssl/cert.pem' }
-    - { src: 'files/tls.key', dest: '{{ mailcow_dir }}/data/assets/ssl/key.pem' }
+    - { src: 'cert.pem', dest: '{{ mailcow_dir }}/data/assets/ssl/cert.pem' }
+    - { src: 'key.pem', dest: '{{ mailcow_dir }}/data/assets/ssl/key.pem' }
 
 # Start the Mailcow server using docker-compose
 - name: Start Mailcow server
