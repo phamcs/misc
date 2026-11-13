@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: docker-registry
+  name: docker-registry-credential
   namespace: external-secrets
 spec:
   refreshInterval: 1m
