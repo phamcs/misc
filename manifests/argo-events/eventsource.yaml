@@ -22,6 +22,9 @@ spec:
         url: ""
       events:
         - push
+      apiToken:
+        name: github-access
+        key: secret
       # Optional: Secret to validate GitHub's X-Hub-Signature-256
       webhookSecret:
         name: github-hook

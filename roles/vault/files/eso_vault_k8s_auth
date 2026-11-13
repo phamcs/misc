@@ -1,55 +1,55 @@
 #!/bin/bash
-#ENV="production"
-kubectl create namespace external-secrets
-# Set the service account create on helm chart to false, and create the service account on correct namespace required for vault auth to work.
-# Otherwise vault auth will fail with error "unable to fetch token_reviewer_jwt"
-cat <<EOF | kubectl create -f -
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: external-secrets
-  namespace: external-secrets
----
-apiVersion: v1
-kind: Secret
-metadata:
- name: external-secrets
- namespace: external-secrets
- annotations:
-   kubernetes.io/service-account.name: external-secrets
-type: kubernetes.io/service-account-token
-EOF
+# #ENV="production"
+# kubectl create namespace external-secrets
+# # Set the service account create on helm chart to false, and create the service account on correct namespace required for vault auth to work.
+# # Otherwise vault auth will fail with error "unable to fetch token_reviewer_jwt"
+# cat <<EOF | kubectl create -f -
+# ---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: external-secrets
+#   namespace: external-secrets
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#  name: external-secrets
+#  namespace: external-secrets
+#  annotations:
+#    kubernetes.io/service-account.name: external-secrets
+# type: kubernetes.io/service-account-token
+# EOF
 
-# Create vault-auth for k8s auth method
-cat <<EOF | kubectl create -f -
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: vault-auth
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: vault-auth
-  annotations:
-    kubernetes.io/service-account.name: vault-auth
-type: kubernetes.io/service-account-token
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: role-tokenreview-binding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: system:auth-delegator
-subjects:
-  - kind: ServiceAccount
-    name: vault-auth
-    namespace: default
-EOF
+# # Create vault-auth for k8s auth method
+# cat <<EOF | kubectl create -f -
+# ---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: vault-auth
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: vault-auth
+#   annotations:
+#     kubernetes.io/service-account.name: vault-auth
+# type: kubernetes.io/service-account-token
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: role-tokenreview-binding
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: ClusterRole
+#   name: system:auth-delegator
+# subjects:
+#   - kind: ServiceAccount
+#     name: vault-auth
+#     namespace: default
+# EOF
 
 # for crd in $(kubectl get crds -o name | grep external-secrets.io | awk -F '/' '{print $2}'); do kubectl delete crd $crd; done
 
@@ -68,7 +68,7 @@ vault auth enable kubernetes
 
 # Configure Kubernetes auth
 vault write auth/kubernetes/config \
-  token_reviewer_jwt="$(kubectl get secret vault-auth -o go-template='{{ .data.token }}' | base64 --decode)" \
+  token_reviewer_jwt="$(kubectl get secret external-secrets -n external-secrets -o go-template='{{ .data.token }}' | base64 --decode)" \
   kubernetes_host="$(kubectl config view --raw --minify --flatten --output='jsonpath={.clusters[0].cluster.server}')" \
   kubernetes_ca_cert="$(kubectl config view --raw --minify --flatten --output='jsonpath={.clusters[0].cluster.certificate-authority-data}' | base64 --decode)" \
   disable_local_ca_jwt=true
@@ -95,11 +95,8 @@ vault secrets enable kubernetes
 vault write kubernetes/config \
   kubernetes_host="$(kubectl config view --raw --minify --flatten --output='jsonpath={.clusters[0].cluster.server}')" \
   kubernetes_ca_cert="$(kubectl config view --raw --minify --flatten --output='jsonpath={.clusters[0].cluster.certificate-authority-data}' | base64 --decode)" \
-  service_account_jwt="$(kubectl get secret vault-auth -o go-template='{{ .data.token }}' | base64 --decode)"
+  service_account_jwt="$(kubectl get secret external-secrets -n external-secrets -o go-template='{{ .data.token }}' | base64 --decode)"
 
-# vault kv put secret/$ENV/tls \
-#   cert=@cert.pem \
-#   key=@key.pem
 
 # Configure Kubernetes external-secrets role
 vault write auth/kubernetes/role/external-secrets \
