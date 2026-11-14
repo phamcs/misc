@@ -20,12 +20,15 @@ spec:
       inputs:
         parameters:
           - name: image-name
+          - name: cache-dir
+            value: "/tmp/.cache"
       container:
         image: aquasec/trivy:latest
         command: [trivy]
         args:
           - image
           - --cache-dir
+          - "{{inputs.parameters.cache-dir}}"
           - --exit-code
           - "1"
           - --severity
