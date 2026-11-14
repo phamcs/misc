@@ -35,9 +35,8 @@ spec:
         workingDir: /work
         args:
           - sh
-          - /go env GOPATH
         # use --depth 1 and --single-branch for fastest possible checkout
-        source: git clone --depth 1 --single-branch --branch {{workflow.parameters.branch}} {{workflow.parameters.repo}} $GOPATH/src/github.com/kubernetes/kompose
+        source: git clone --depth 1 --single-branch --branch {{workflow.parameters.branch}} {{workflow.parameters.repo}} /go/src/github.com/kubernetes/kompose
         volumeMounts:
           - mountPath: /work
             name: work
@@ -45,23 +44,22 @@ spec:
     - name: build
       script:
         image: golang:1.26
-        workingDir: /work/$GOPATH/src/github.com/kubernetes/kompose
+        workingDir: /work/go/src/github.com/kubernetes/kompose
         args:
           - sh
-          - /go env GOPATH
         source: go build -o {{workflow.parameters.output}} -v main.go
         volumeMounts:
-          - mountPath: /work/$GOPATH/src/github.com/kubernetes/kompose
+          - mountPath: /work/go/src/github.com/kubernetes/kompose
             name: work
     - name: test
       script:
         image: golang:1.26
-        workingDir: /work/$GOPATH/src/github.com/kubernetes/kompose
+        workingDir: /work/go/src/github.com/kubernetes/kompose
         args:
           - sh
         source: go test -v ./...
         volumeMounts:
-          - mountPath: /work/$GOPATH/src/github.com/kubernetes/kompose
+          - mountPath: /work/go/src/github.com/kubernetes/kompose
             name: work
 
   volumeClaimTemplates:
