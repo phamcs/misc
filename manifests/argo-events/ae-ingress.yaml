@@ -25,6 +25,6 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: github-webhook-eventsource-svc
+              name: webhook-eventsource-custom-svc
               port:
                 number: 12000
