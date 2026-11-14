@@ -79,6 +79,9 @@ spec:
       inputs:
         parameters:
           - name: image
+            value: "{{workflow.parameters.image-name}}"
+          - name: tag
+            value: "{{workflow.parameters.git-revision}}"
       container:
         image: gcr.io/kaniko-project/executor:latest
         command: ["/kaniko/executor"]
@@ -86,7 +89,7 @@ spec:
           - "--dockerfile=/workspace/source/Dockerfile"
           - "--context=/workspace/source"
           #- "--no-push"
-          - "--destination=phamcs/{{inputs.parameters.image-name}}:{{workflow.parameters.git-revision}}"
+          - "--destination=phamcs/{{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
           - "--cache=true"
         volumeMounts:
           - name: workspace
@@ -123,7 +126,7 @@ spec:
     - name: security-scan
       inputs:
         parameters:
-          - name: image-name
+          - name: image
             value: "phamcs/{{inputs.parameters.image-name}}:{{workflow.parameters.git-revision}}"
           - name: cache-dir
             value: "/tmp/.cache"
