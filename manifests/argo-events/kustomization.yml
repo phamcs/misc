@@ -11,13 +11,14 @@ resources:
   - sys/github-access.yaml
   - sys/github-eventsource-svc.yaml
   - sys/eventbus.yaml
-  - sys/eventsource.yaml
-  - sys/sensor.yaml
+  - sys/github-eventsource.yaml
+  - sys/ci-sensor.yaml
   - sys/sensor-rbac.yaml
+  - sys/trivy-eventsource.yaml
+  - sys/scan-sensor.yaml
   - tpl/caddy-go-build.yaml
   - tpl/ci-pipeline.yaml
-  #- tpl/kompose-go-build.yaml
-
+  - tpl/security-scan.yaml
 
 helmCharts:
   - name: argo-events
