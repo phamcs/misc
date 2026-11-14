@@ -5,7 +5,6 @@ namespace: argo-events
 
 resources:
   - ae-binding.yaml
-  #- webhook-eventsource-svc.yaml
   - ae-ingress.yaml
   - ae-linter.yaml
   - ae-role.yaml
@@ -15,6 +14,7 @@ resources:
   - eventsource.yaml
   - sensor.yaml
   - sensor-rbac.yaml
+  - webhook-eventsource-custom-svc.yaml
 
 helmCharts:
   - name: argo-events
