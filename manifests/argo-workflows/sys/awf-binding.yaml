@@ -7,10 +7,10 @@ metadata:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: awf-binding
+  name: argo-events-binding
   annotations:
     argocd.argoproj.io/tracking-id: >-
-      argo:rbac.authorization.k8s.io/ClusterRoleBinding:argo/awf-binding
+      argo-events:rbac.authorization.k8s.io/ClusterRoleBinding:argo-events/argo-events-binding
 subjects:
   - kind: ServiceAccount
     name: awf-sa
@@ -18,4 +18,4 @@ subjects:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: awf-role
+  name: argo-events-role
