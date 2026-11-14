@@ -11,7 +11,7 @@ resources:
   - ae-templates/caddy-go-build.yaml
   - ae-templates/ci-pipeline.yaml
   - ae-templates/kompose-go-build.yaml
-  - github-access
+  - github-access.yaml
   - github-eventsource-svc.yaml
   - eventbus.yaml
   - eventsource.yaml
