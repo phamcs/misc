@@ -27,7 +27,7 @@ spec:
               kind: Workflow
               metadata:
                 generateName: security-scan-
-                namespace: argo
+                namespace: argo-events
               spec:
                 workflowTemplateRef:
                   name: security-scan-template
