@@ -14,8 +14,8 @@ spec:
         value: master
       - name: image-name
         value: phamcs/podinfo
-      - name: manifest-repo
-        value: https://github.com/phamcs/podinfo.git
+      - name: registry
+        value: docker.io
   volumeClaimTemplates:
     - metadata:
         name: workspace
@@ -50,7 +50,7 @@ spec:
             template: test
             dependencies: [checkout]
 
-          - name: update-manifests
+          - name: security-scan
             template: update-git-manifests
             dependencies: [build-and-push, run-tests]
             arguments:
@@ -87,9 +87,9 @@ spec:
         args:
           - "--dockerfile=/workspace/source/Dockerfile"
           - "--context=/workspace/source"
-          - "--no-push"
-          #- "--destination={{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
-          #- "--cache=true"
+          #- "--no-push"
+          - "--destination={{inputs.parameters.registry}}/{{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
+          - "--cache=true"
         volumeMounts:
           - name: workspace
             mountPath: /workspace
@@ -122,44 +122,65 @@ spec:
           - name: workspace
             mountPath: /workspace
 
-    - name: update-git-manifests
+    - name: trivy-scan
       inputs:
         parameters:
-          - name: image
-          - name: tag
+          - name: image-name
+            value: "{{inputs.parameters.registry}}/{{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
+          - name: cache-dir
+            value: "/tmp/.cache"
       container:
-        image: alpine/git:latest
-        command: [sh, -c]
+        image: aquasec/trivy:latest
+        command: [trivy]
         args:
-          - |
-            # Clone the repository
-            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/podinfo.git /tmp/podinfo
-            cd /tmp/podinfo
+          - image
+          - --cache-dir
+          - "{{inputs.parameters.cache-dir}}"
+          - --exit-code
+          - "1"
+          - --severity
+          - HIGH,CRITICAL
+          - "{{inputs.parameters.image-name}}"
 
-            # Update the image tag in the deployment manifest
-            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-              deploy/bases/backend/deployment.yaml
-            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-              deploy/bases/frontend/deployment.yaml
-            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-              deploy/webapp/backend/deployment.yaml
-            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-              deploy/webapp/frontend/deployment.yaml
-            sed -i 's/This is a pipeline test message/./g' README.md
-            # Commit and push
-            git config user.email "phamcs@gmail.com"
-            git config user.name "CI Pipeline"
-            git add .
-            git commit -m "Update podinfo image to {{inputs.parameters.tag}}"
-            git push origin HEAD:master
-        env:
-          - name: GIT_USER
-            valueFrom:
-              secretKeyRef:
-                name: git-credentials
-                key: username
-          - name: GIT_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: git-credentials
-                key: token
+
+    # - name: update-git-manifests
+    #   inputs:
+    #     parameters:
+    #       - name: image
+    #       - name: tag
+    #   container:
+    #     image: alpine/git:latest
+    #     command: [sh, -c]
+    #     args:
+    #       - |
+    #         # Clone the repository
+    #         git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/podinfo.git /tmp/podinfo
+    #         cd /tmp/podinfo
+
+    #         # Update the image tag in the deployment manifest
+    #         sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
+    #           deploy/bases/backend/deployment.yaml
+    #         sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
+    #           deploy/bases/frontend/deployment.yaml
+    #         sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
+    #           deploy/webapp/backend/deployment.yaml
+    #         sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
+    #           deploy/webapp/frontend/deployment.yaml
+    #         sed -i 's/This is a pipeline test message/./g' README.md
+    #         # Commit and push
+    #         git config user.email "phamcs@gmail.com"
+    #         git config user.name "CI Pipeline"
+    #         git add .
+    #         git commit -m "Update podinfo image to {{inputs.parameters.tag}}"
+    #         git push origin HEAD:master
+    #     env:
+    #       - name: GIT_USER
+    #         valueFrom:
+    #           secretKeyRef:
+    #             name: git-credentials
+    #             key: username
+    #       - name: GIT_TOKEN
+    #         valueFrom:
+    #           secretKeyRef:
+    #             name: git-credentials
+    #             key: token
