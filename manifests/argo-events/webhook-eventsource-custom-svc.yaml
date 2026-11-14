@@ -5,6 +5,7 @@ metadata:
   annotations:
     metallb.io/address-pool: default-pool    # Replace with your pool name
     metallb.io/loadBalancerIPs: 10.0.0.94    # Replace with your IP
+  namespace: argo-events
 spec:
   type: LoadBalancer # Or ClusterIP / NodePort
   loadBalancerIP: "10.0.0.80"
