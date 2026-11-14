@@ -3,13 +3,13 @@ kind: Kustomization
 
 namespace: argo-rollouts
 
-# configurations:
-#   - rollout-transform.yaml
+configurations:
+  - rollout-transform.yaml
 
 resources:
   - rollout-carnary.yaml
   - rollout-dashboard-ingress.yaml
-  - rollout-transform.yaml
+  #- rollout-transform.yaml
 
 helmCharts:
   - name: argo-rollouts
