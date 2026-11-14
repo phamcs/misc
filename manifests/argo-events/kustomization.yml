@@ -4,13 +4,15 @@ kind: Kustomization
 namespace: argo-events
 
 resources:
-  - argo-events-binding.yaml
-  - argo-events-ingress.yaml
-  - argo-events-role.yaml
+  - ae-binding.yaml
+  - ae-eventsource-lb.yaml
+  - ae-ingress.yaml
+  - ae-linter.yaml
+  - ae-role.yaml
+  - ae-templates/caddy-go-build.yaml
   - ae-templates/gh-ci-pipeline.yaml
   - eventbus.yaml
   - eventsource.yaml
-  - linter.yaml
   - sensor.yaml
   - sensor-rbac.yaml
 
@@ -20,4 +22,4 @@ helmCharts:
     version: 2.4.28
     releaseName: ae
     namespace: argo-events
-    valuesFile: events-values.yaml
+    valuesFile: ae-values.yaml

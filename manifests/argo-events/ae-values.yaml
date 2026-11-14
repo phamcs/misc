@@ -3,9 +3,9 @@
 ##
 
 # -- Provide a name in place of `argo-events`
-nameOverride: argo-events
+nameOverride: "ae"
 # -- String to fully override "argo-events.fullname" template
-fullnameOverride: "argo-events"
+fullnameOverride: "ae"
 # -- Override the namespace
 # @default -- `.Release.Namespace`
 namespaceOverride: "argo-events"
@@ -179,24 +179,6 @@ extraObjects:
   #       type: Opaque
   #       labels:
   #         app.kubernetes.io/part-of: argocd
-
-  # Use this to patch service with Load Balancer
-  # apiVersion: v1
-  # kind: Service
-  # metadata:
-  #   name: webhook-eventsource-lb
-  #   namespace: argo-events
-  #   annotations:
-  #     metallb.io/address-pool: default-pool    # Replace with your pool name
-  #     metallb.io/loadBalancerIPs: 10.0.0.80    # Replace with your IP
-  # spec:
-  #   type: LoadBalancer
-  #   ports:
-  #     - port: 80
-  #       targetPort: 12000
-  #       protocol: TCP
-  #   selector:
-  #     eventsource-name: github-webhook-eventsource-svc
 
 ## Argo Events controller
 controller:
