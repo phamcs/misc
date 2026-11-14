@@ -47,7 +47,7 @@ spec:
         workingDir: /work/kompose
         args:
           - sh
-        source: /go build -o {{workflow.parameters.output}} -v main.go
+        source: go build -o {{workflow.parameters.output}} -v main.go
         volumeMounts:
           - mountPath: /work/kompose
             name: work
@@ -57,7 +57,7 @@ spec:
         workingDir: /work/kompose
         args:
           - sh
-        source: /go test -v ./...
+        source: go test -v ./...
         volumeMounts:
           - mountPath: /work/kompose
             name: work
