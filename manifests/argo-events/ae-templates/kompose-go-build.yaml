@@ -35,7 +35,7 @@ spec:
         workingDir: /work
         args:
           - sh
-          - go env -w GOPATH=/go
+          - /go env GOPATH
         # use --depth 1 and --single-branch for fastest possible checkout
         source: git clone --depth 1 --single-branch --branch {{workflow.parameters.branch}} {{workflow.parameters.repo}} $GOPATH/src/github.com/kubernetes/kompose
         volumeMounts:
@@ -48,7 +48,7 @@ spec:
         workingDir: /work/$GOPATH/src/github.com/kubernetes/kompose
         args:
           - sh
-          - which go
+          - /go env GOPATH
         source: go build -o {{workflow.parameters.output}} -v main.go
         volumeMounts:
           - mountPath: /work/$GOPATH/src/github.com/kubernetes/kompose
