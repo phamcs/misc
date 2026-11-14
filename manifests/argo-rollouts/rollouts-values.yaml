@@ -10,14 +10,14 @@ clusterInstall: true
 createClusterAggregateRoles: true
 
 # -- String to partially override "argo-rollouts.fullname" template
-nameOverride:
+nameOverride: aro
 
 # -- String to fully override "argo-rollouts.fullname" template
-fullnameOverride:
+fullnameOverride: aro
 
 # -- Override the namespace
 # @default -- `.Release.Namespace`
-namespaceOverride: ""
+namespaceOverride: "argo-rollouts"
 
 ## Override APIVersions
 ## If you want to template helm charts but cannot access k8s API server
