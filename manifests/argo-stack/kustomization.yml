@@ -14,12 +14,12 @@ resources:
   - events/sensor-rbac.yaml
   - workflows/awf-server-ingress.yaml
   - workflows/awf-server-sso.yaml
-  - stack/templates/buildkit.yaml
-  - stack/templates/caddy-go-build.yaml
-  - stack/templates/cluster-wf-tpl.yaml
-  - stack/templates/go-build.yaml
-  - stack/templates/jenkins-pipeline.yaml
-  - stack/templates/gh-ci-pipeline.yaml
+  #- stack/templates/buildkit.yaml
+  #- stack/templates/caddy-go-build.yaml
+  #- stack/templates/cluster-wf-tpl.yaml
+  #- stack/templates/go-build.yaml
+  #- stack/templates/jenkins-pipeline.yaml
+  #- stack/templates/gh-ci-pipeline.yaml
 
 helmCharts:
   - name: argo-events
