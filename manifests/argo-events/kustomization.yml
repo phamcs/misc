@@ -10,6 +10,7 @@ resources:
   - ae-role.yaml
   - ae-templates/caddy-go-build.yaml
   - ae-templates/ci-pipeline.yaml
+  - ae-templates/kompose-go-build.yaml
   - github-eventsource-svc.yaml
   - eventbus.yaml
   - eventsource.yaml
