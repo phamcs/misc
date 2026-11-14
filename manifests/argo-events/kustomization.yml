@@ -30,7 +30,7 @@ patches:
       kind: Service
       name: webhook-eventsource-svc
       namespace: argo-events
-    patch: |
+    patch: |-
       apiVersion: v1
       kind: Service
       metadata:
@@ -41,9 +41,4 @@ patches:
           metallb.io/loadBalancerIPs: 10.0.0.80    # Replace with your IP
       spec:
         type: LoadBalancer
-        ports:
-          - port: 12000
-            targetPort: 12000
-            protocol: TCP
-        selector:
-          eventsource-name: webhook-eventsource-svc
+        loadBalancerIP: 10.0.0.80
