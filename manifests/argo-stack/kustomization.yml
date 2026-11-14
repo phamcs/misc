@@ -4,15 +4,22 @@ kind: Kustomization
 #namespace: argo-events
 
 resources:
-  - ae-binding.yaml
-  - ae-ingress.yaml
-  - ae-linter.yaml
-  - ae-role.yaml
-  - templates/gh-ci-pipeline.yaml
-  - eventbus.yaml
-  - gh-eventsource.yaml
-  - sensor.yaml
-  - sensor-rbac.yaml
+  - events/ae-binding.yaml
+  - events/ae-ingress.yaml
+  - events/ae-linter.yaml
+  - events/ae-role.yaml
+  - events/eventbus.yaml
+  - events/gh-eventsource.yaml
+  - events/sensor.yaml
+  - events/sensor-rbac.yaml
+  - workflows/awf-server-ingress.yaml
+  - workflows/awf-server-sso.yaml
+  #- templates/buildkit.yaml
+  #- templates/caddy-go-build.yaml
+  #- templates/cluster-wf-tpl.yaml
+  #- templates/go-build.yaml
+  #- templates/jenkins-pipeline.yaml
+  #- templates/gh-ci-pipeline.yaml
 
 helmCharts:
   - name: argo-events
