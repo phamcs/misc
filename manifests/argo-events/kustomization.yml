@@ -4,11 +4,11 @@ kind: Kustomization
 namespace: argo-events
 
 resources:
-  - sys/ae-binding.yaml
-  - sys/ae-ingress.yaml
-  - sys/ae-linter.yaml
-  - sys/ae-role.yaml
-  - sys/github-access.yaml
+  - sys/binding.yaml
+  - sys/ingress.yaml
+  - sys/linter.yaml
+  - sys/role.yaml
+  #- sys/github-access.yaml
   - sys/github-eventsource-svc.yaml
   - sys/eventbus.yaml
   - sys/eventsource.yaml
