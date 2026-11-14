@@ -16,7 +16,7 @@ resources:
   - sys/sensor-rbac.yaml
   - tpl/caddy-go-build.yaml
   - tpl/ci-pipeline.yaml
-  #- tpl/kompose-go-build.yaml
+  - tpl/kompose-go-build.yaml
 
 
 helmCharts:
