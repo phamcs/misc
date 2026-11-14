@@ -31,14 +31,10 @@ patches:
       name: webhook-eventsource-svc
       namespace: argo-events
     patch: |-
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: webhook-eventsource-svc
-        namespace: argo-events
-        annotations:
-          metallb.io/address-pool: default-pool    # Replace with your pool name
-          metallb.io/loadBalancerIPs: 10.0.0.80    # Replace with your IP
-      spec:
-        type: LoadBalancer
-        loadBalancerIP: 10.0.0.80
+      - op: replace
+        path: /spec/type
+        value: LoadBalancer
+
+      - op: add
+        path: /spec/loadBalancerIP
+        value: 10.0.0.80
