@@ -1,0 +1,53 @@
+# argo-platform-rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: argo-platform-sa
+  namespace: argo-events
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: argo-platform-sa
+  namespace: argo
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: argo-platform-role
+rules:
+  # Argo Workflows permissions
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflows", "workflowtemplates", "cronworkflows"]
+    verbs: ["create", "get", "list", "watch", "update", "patch", "delete"]
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflowtaskresults"]
+    verbs: ["create", "patch"]
+  # ArgoCD permissions
+  - apiGroups: ["argoproj.io"]
+    resources: ["applications"]
+    verbs: ["get", "list", "watch", "update", "patch"]
+  # Argo Rollouts permissions
+  - apiGroups: ["argoproj.io"]
+    resources: ["rollouts", "analysisruns", "analysistemplates"]
+    verbs: ["get", "list", "watch"]
+  # Standard Kubernetes resources
+  - apiGroups: [""]
+    resources: ["pods", "services", "configmaps", "secrets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: argo-platform-binding
+subjects:
+  - kind: ServiceAccount
+    name: argo-platform-sa
+    namespace: argo-events
+  - kind: ServiceAccount
+    name: argo-platform-sa
+    namespace: argo
+roleRef:
+  kind: ClusterRole
+  name: argo-platform-role
+  apiGroup: rbac.authorization.k8s.io
