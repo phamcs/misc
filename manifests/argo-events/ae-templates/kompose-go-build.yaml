@@ -36,7 +36,7 @@ spec:
               revision: "{{inputs.parameters.revision}}"
 
       container:
-        image: golang:1.23-bookworm
+        image: golang:1.26-bookworm
         workingDir: /src
         env:
           - name: CGO_ENABLED
