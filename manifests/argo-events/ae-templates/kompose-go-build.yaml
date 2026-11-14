@@ -48,7 +48,7 @@ spec:
         workingDir: /work/$GOPATH/src/github.com/kubernetes/kompose
         args:
           - sh
-          - go env -w GOPATH=/go
+          - go env GOPATH
         source: go build -o {{workflow.parameters.output}} -v main.go
         volumeMounts:
           - mountPath: /work/$GOPATH/src/github.com/kubernetes/kompose
