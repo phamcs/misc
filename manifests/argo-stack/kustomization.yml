@@ -9,17 +9,17 @@ resources:
   - events/ae-linter.yaml
   - events/ae-role.yaml
   - events/eventbus.yaml
-  - events/gh-eventsource.yaml
+  - events/eventsource.yaml
   - events/sensor.yaml
   - events/sensor-rbac.yaml
   - workflows/awf-server-ingress.yaml
   - workflows/awf-server-sso.yaml
-  #- templates/buildkit.yaml
-  #- templates/caddy-go-build.yaml
-  #- templates/cluster-wf-tpl.yaml
-  #- templates/go-build.yaml
-  #- templates/jenkins-pipeline.yaml
-  #- templates/gh-ci-pipeline.yaml
+  - stack/templates/buildkit.yaml
+  - stack/templates/caddy-go-build.yaml
+  - stack/templates/cluster-wf-tpl.yaml
+  - stack/templates/go-build.yaml
+  - stack/templates/jenkins-pipeline.yaml
+  - stack/templates/gh-ci-pipeline.yaml
 
 helmCharts:
   - name: argo-events
