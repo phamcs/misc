@@ -1,16 +1,15 @@
-# platform/sensor.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: ci-trigger
+  name: security-scan-sensor
   namespace: argo-events
 spec:
   template:
     serviceAccountName: operate-workflow-sa
   dependencies:
-    - name: push-event
-      eventSourceName: github
-      eventName: podinfo
+    - name: scan-dep
+      eventSourceName: trivy
+      eventName: image-push
       filters:
         data:
           - path: body.ref
@@ -19,7 +18,7 @@ spec:
               - "refs/heads/main"
   triggers:
     - template:
-        name: trigger-workflow
+        name: trigger-security-scan
         argoWorkflow:
           operation: submit
           source:
@@ -27,17 +26,19 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: wf-
+                generateName: security-scan-
                 namespace: argo
               spec:
                 workflowTemplateRef:
-                  name: ci-pipeline
+                  name: security-scan-template
                 arguments:
                   parameters:
-                    - name: commit-sha
-                      value: ""
+                    - name: image-name
+                      value: "placeholder"
+          # Overwrite the placeholder with the payload's image field
           parameters:
             - src:
-                dependencyName: push-event
-                dataKey: body.after
+                dependencyName: scan-dep
+                dataKey: body.image
               dest: spec.arguments.parameters.0.value
+

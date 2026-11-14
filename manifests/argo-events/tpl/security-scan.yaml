@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: security-scan-template
+  namespace: argo-events
+spec:
+  serviceAccountName: operate-workflow-sa
+  entrypoint: trivy-scan
+  # Harden pod execution by disabling unnecessary service account token mounts
+  automountServiceAccountToken: false
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+  arguments:
+    parameters:
+      - name: image-name
+        value: "alpine:latest"
+  templates:
+    - name: trivy-scan
+      inputs:
+        parameters:
+          - name: image-name
+      container:
+        image: aquasec/trivy:latest
+        command: [trivy]
+        args:
+          - image
+          - --exit-code
+          - "1"
+          - --severity
+          - HIGH,CRITICAL
+          - "{{inputs.parameters.image-name}}"

@@ -4,14 +4,16 @@ kind: Kustomization
 namespace: argo
 
 resources:
-  - awf-server-ingress.yaml
-  - awf-server-sso.yaml
-  - wf-templates/cluster-wf-tpl.yaml
-  - wf-templates/buildkit.yaml
-  - wf-templates/gh-ci-pipeline.yaml
-  - wf-templates/caddy-go-build.yaml
-  - wf-templates/go-build.yaml
-  - wf-templates/jenkins-pipeline.yaml
+  - sys/awf-binding.yaml
+  - sys/awf-role.yaml
+  - sys/awf-server-ingress.yaml
+  - sys/awf-server-sso.yaml
+  - tpl/cluster-wf-tpl.yaml
+  - tpl/buildkit.yaml
+  - tpl/caddy-go-build.yaml
+  - tpl/gh-ci-pipeline.yaml
+  - tpl/go-build.yaml
+  - tpl/jenkins-pipeline.yaml
 
 helmCharts:
   - name: argo-workflows
