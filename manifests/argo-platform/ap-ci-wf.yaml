@@ -1,0 +1,59 @@
+# platform/ci-workflow.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: ci-pipeline
+  namespace: argo
+spec:
+  entrypoint: pipeline
+  arguments:
+    parameters:
+      - name: commit-sha
+  serviceAccountName: argo-platform-sa
+  templates:
+    - name: pipeline
+      dag:
+        tasks:
+          - name: build
+            template: build-image
+          - name: test
+            template: run-tests
+            dependencies: [build]
+          - name: update-manifests
+            template: update-gitops
+            dependencies: [test]
+
+    - name: build-image
+      inputs:
+        artifacts:
+          - name: source
+            path: /workspace
+            git:
+              repo: https://github.com/phamcs/podinfo.git
+              revision: "{{workflow.parameters.commit-sha}}"
+      container:
+        image: gcr.io/kaniko-project/executor:latest
+        args:
+          - --context=/workspace
+          - --dockerfile=/workspace/Dockerfile
+          - "--destination=docker.io/phamcs/podinfo:{{workflow.parameters.commit-sha}}"
+
+    - name: run-tests
+      container:
+        image: docker.io/phamcs/podinfo:{{workflow.parameters.commit-sha}}
+        command: [npm, test]
+
+    - name: update-gitops
+      container:
+        image: alpine/git:latest
+        command: [sh, -c]
+        args:
+          - |
+            git clone https://github.com/phamcs/podinfo /podinfo
+            cd /podinfo
+            # Update the image tag
+            sed -i "s|image: docker.io/phamcs/podinfo:.*|image: docker.io/phamcs/podinfo:{{workflow.parameters.commit-sha}}|" \
+              deploy/webapp/backend/deployment.yaml
+            sed -i "s|image: docker.io/phamcs/podinfo:.*|image: docker.io/phamcs/podinfo:{{workflow.parameters.commit-sha}}|" \
+              deploy/webapp/frontend/deployment.yaml
+            git add . && git commit -m "Deploy {{workflow.parameters.commit-sha}}" && git push

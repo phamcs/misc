@@ -9,12 +9,13 @@ resources:
   - ae-linter.yaml
   - ae-role.yaml
   - ae-templates/caddy-go-build.yaml
-  - ae-templates/gh-ci-pipeline.yaml
+  - ae-templates/ci-pipeline.yaml
+  - github-eventsource-svc.yaml
   - eventbus.yaml
   - eventsource.yaml
   - sensor.yaml
   - sensor-rbac.yaml
-  - webhook-eventsource-svc.yaml
+
 
 helmCharts:
   - name: argo-events

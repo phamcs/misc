@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: gh-ci-pipeline
+  name: ci-pipeline
   namespace: argo-events
 spec:
   serviceAccountName: operate-workflow-sa

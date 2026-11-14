@@ -1,50 +1,43 @@
+# platform/sensor.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: webhook
+  name: ci-trigger
+  namespace: argo-events
 spec:
   template:
-    serviceAccountName: operate-workflow-sa
+    serviceAccountName: argo-platform-sa
   dependencies:
-    - name: test-dep
-      eventSourceName: webhook
-      eventName: deploy
+    - name: push-event
+      eventSourceName: github
+      eventName: podinfo
+      filters:
+        data:
+          - path: body.ref
+            type: string
+            value:
+              - "refs/heads/main"
   triggers:
     - template:
-        name: webhook-workflow-trigger
-        k8s:
-          group: argoproj.io
-          version: v1alpha1
-          resource: workflows
-          operation: create
+        name: trigger-ci
+        argoWorkflow:
+          operation: submit
           source:
             resource:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: webhook-
+                generateName: ci-
+                namespace: argo
               spec:
-                entrypoint: whalesay
+                workflowTemplateRef:
+                  name: ci-pipeline
                 arguments:
                   parameters:
-                  - name: message
-                    # the value will get overridden by event payload from test-dep
-                    value: hello world
-                templates:
-                - name: whalesay
-                  inputs:
-                    parameters:
-                    - name: message
-                  container:
-                    image: docker/whalesay:latest
-                    command: [cowsay]
-                    args: ["{{inputs.parameters.bucket}}","{{inputs.parameters.key}}"]
+                    - name: commit-sha
+                      value: ""
           parameters:
             - src:
-                dependencyName: test-dep
-                dataKey: body.bucket
+                dependencyName: push-event
+                dataKey: body.after
               dest: spec.arguments.parameters.0.value
-            - src:
-                dependencyName: test-dep
-                dataKey: body.key
-              dest: spec.arguments.parameters.1.value
