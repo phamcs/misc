@@ -494,7 +494,7 @@ webhook:
     # -- Create a service account for the admission webhook
     create: true
     # -- Service account name
-    name: "events-webhook-sa"
+    name: "events-webhook"
     # -- Annotations applied to created service account
     annotations: {}
     # -- Automount API credentials for the Service Account

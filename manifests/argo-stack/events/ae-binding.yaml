@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: argo-events-sa
+  name: argo-events
   namespace: argo-events
 ---
 kind: ClusterRoleBinding
@@ -13,7 +13,7 @@ metadata:
       argo-events:rbac.authorization.k8s.io/ClusterRoleBinding:argo-events/argo-events-binding
 subjects:
   - kind: ServiceAccount
-    name: argo-events-sa
+    name: argo-events
     namespace: argo-events
 roleRef:
   apiGroup: rbac.authorization.k8s.io
