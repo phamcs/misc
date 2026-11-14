@@ -13,7 +13,7 @@ createClusterAggregateRoles: true
 nameOverride: aro
 
 # -- String to fully override "argo-rollouts.fullname" template
-fullnameOverride: aro
+fullnameOverride:
 
 # -- Override the namespace
 # @default -- `.Release.Namespace`
