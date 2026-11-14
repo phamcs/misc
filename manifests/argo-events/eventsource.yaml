@@ -5,10 +5,10 @@ metadata:
   namespace: argo-events
 spec:
   serviceAccountName: operate-workflow-sa
-  service:
-    ports:
-    - port: 12000
-      targetPort: 12000
+  # service:
+  #   ports:
+  #   - port: 12000
+  #     targetPort: 12000
   github:
     github:
       repositories:
