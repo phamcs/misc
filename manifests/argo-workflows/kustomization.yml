@@ -11,7 +11,7 @@ resources:
   - tpl/cluster-wf-tpl.yaml
   - tpl/buildkit.yaml
   - tpl/caddy-go-build.yaml
-  - tpl/gh-ci-pipeline.yaml
+  - tpl/ci-pipeline.yaml
   - tpl/go-build.yaml
   - tpl/jenkins-pipeline.yaml
 
