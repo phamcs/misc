@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: argo
 
 resources:
-  - sys/awf-binding.yaml
+  #- sys/awf-binding.yaml
   #- sys/awf-role.yaml
   - sys/awf-server-ingress.yaml
   - sys/awf-server-sso.yaml
