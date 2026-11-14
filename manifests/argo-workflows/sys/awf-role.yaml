@@ -4,7 +4,7 @@ metadata:
   name: awf-role
   annotations:
     argocd.argoproj.io/tracking-id: >-
-      argo:rbac.authorization.k8s.io/ClusterRole:argo/awf-role
+      argo-events:rbac.authorization.k8s.io/ClusterRole:argo-events/awf-role
 rules:
   - verbs:
       - create
