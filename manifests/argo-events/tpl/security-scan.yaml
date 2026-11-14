@@ -25,6 +25,7 @@ spec:
         command: [trivy]
         args:
           - image
+          - --cache-dir
           - --exit-code
           - "1"
           - --severity
