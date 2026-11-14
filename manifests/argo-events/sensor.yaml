@@ -19,7 +19,7 @@ spec:
               - "refs/heads/main"
   triggers:
     - template:
-        name: trigger-ci
+        name: trigger-workflow
         argoWorkflow:
           operation: submit
           source:
@@ -27,7 +27,7 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: ci-
+                generateName: wf-
                 namespace: argo
               spec:
                 workflowTemplateRef:
