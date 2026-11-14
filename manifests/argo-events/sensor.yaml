@@ -6,7 +6,7 @@ metadata:
   namespace: argo-events
 spec:
   template:
-    serviceAccountName: argo-platform-sa
+    serviceAccountName: operate-workflow-sa
   dependencies:
     - name: push-event
       eventSourceName: github
