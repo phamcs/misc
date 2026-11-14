@@ -14,6 +14,8 @@ spec:
         value: master
       - name: image-name
         value: phamcs/podinfo
+      - name: registry
+        value: https://index.docker.io/v2/
   volumeClaimTemplates:
     - metadata:
         name: workspace
@@ -86,7 +88,7 @@ spec:
           - "--dockerfile=/workspace/source/Dockerfile"
           - "--context=/workspace/source"
           #- "--no-push"
-          - "--destination=docker.io/{{inputs.parameters.image-name}}:{{workflow.parameters.git-revision}}"
+          - "--destination={{inputs.parameters.registry}}/{{inputs.parameters.image-name}}:{{workflow.parameters.git-revision}}"
           - "--cache=true"
         volumeMounts:
           - name: workspace
@@ -124,7 +126,7 @@ spec:
       inputs:
         parameters:
           - name: image-name
-            value: "docker.io/{{inputs.parameters.image-name}}:{{workflow.parameters.git-revision}}"
+            value: "{{inputs.parameters.registry}}/{{inputs.parameters.image-name}}:{{workflow.parameters.git-revision}}"
           - name: cache-dir
             value: "/tmp/.cache"
       container:
