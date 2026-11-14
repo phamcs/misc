@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+#namespace: argo-events
+
+resources:
+  - ae-binding.yaml
+  - ae-ingress.yaml
+  - ae-linter.yaml
+  - ae-role.yaml
+  - templates/gh-ci-pipeline.yaml
+  - eventbus.yaml
+  - gh-eventsource.yaml
+  - sensor.yaml
+  - sensor-rbac.yaml
+
+helmCharts:
+  - name: argo-events
+    repo: https://argoproj.github.io/argo-helm
+    version: 2.4.28
+    releaseName: ae
+    namespace: argo-events
+    valuesFile: ae-values.yaml
+
+  - name: argo-workflows
+    repo: https://argoproj.github.io/argo-helm
+    version: 2.0.18
+    releaseName: awf
+    namespace: argo
+    valuesFile: awf-values.yaml
