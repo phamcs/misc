@@ -2,7 +2,7 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: github-webhook-secret
-  namespace: argo-events
+  namespace: external-secrets
 spec:
   refreshInterval: 1h
   secretStoreRef:
