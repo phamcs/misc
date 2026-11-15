@@ -16,11 +16,8 @@ spec:
       data:
         .dockerconfigjson: '{ "auths": { "index.docker.io": { "auth": "{{ printf "%s:%s" .username .password | b64enc }}"}}}'
   data:
-  - secretKey: username
-    remoteRef:
-      key: dockerhub
-      property: username
-  - secretKey: password
-    remoteRef:
-      key: dockerhub
-      property: password
+    - secretKey: .dockerconfigjson
+      remoteRef:
+        key: docker-registry # Path relative to the SecretStore mount path (do not include /data/)
+        property: .dockerconfigjson
+        decodingStrategy: Base64
