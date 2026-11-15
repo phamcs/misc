@@ -9,7 +9,7 @@ resources:
   - sys/linter.yaml
   - sys/role.yaml
   #- sys/docker-access.yaml
-  #- sys/github-access.yaml
+  - sys/github-access.yaml
   - sys/github-eventsource-svc.yaml
   - sys/eventbus.yaml
   - sys/github-eventsource.yaml
