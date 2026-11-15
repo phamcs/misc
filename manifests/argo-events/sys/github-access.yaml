@@ -9,7 +9,7 @@ spec:
     name: vault-external
     kind: ClusterSecretStore
   target:
-    name: github-access # Name of the native K8s Secret ESO will create
+    name: github-webhook-secret # Name of the native K8s Secret ESO will create
     creationPolicy: Owner
   data:
     - secretKey: secret #  Github-Webhook secret
