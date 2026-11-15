@@ -13,8 +13,8 @@ spec:
     template:
       type: kubernetes.io/dockerconfigjson
       engineVersion: v2
-      data:
-        .dockerconfigjson: '{ "auths": { "index.docker.io": { "auth": "{{ printf "%s:%s" .username .password | b64enc }}"}}}'
+      #data:
+      #  .dockerconfigjson: '{ "auths": { "index.docker.io": { "auth": "{{ printf "%s:%s" .username .password | b64enc }}"}}}'
   data:
     - secretKey: .dockerconfigjson
       remoteRef:
