@@ -30,6 +30,7 @@ kubectl patch sensor eventbus-controller -n $AENS --type merge -p '{"metadata":{
 kubectl delete eventbus eventbus-controller -n $AENS --grace-period=0 --force
 kubectl patch eventbus default -n $AENS --type merge -p '{"metadata":{"finalizers":null}}'
 kubectl delete eventbus default -n $AENS --grace-period=0 --force
+kubectl patch pvc $AE_PVC -n $AENS -p '{"metadata":{"finalizers":null}}' --type=merge
 
 
 # Delete Argo-Events resources by namespaced
@@ -47,6 +48,11 @@ kubectl delete rolebinding $AE_RB
 kubectl delete clusterrolebinding $AE_CRB
 kubectl delete serviceaccount -n $AENS $AE_SA
 kubectl delete configmap -n $AENS $AE_CM
+kubectl patch externalsecrets docker-registry-credentials -n argo-events -p '{"metadata":{"finalizers":null}}' --type=merge
+kubectl patch externalsecrets docker-registry-credentials -n external-secrets -p '{"metadata":{"finalizers":null}}' --type=merge
+kubectl patch externalsecrets github-webhook-secret -n argo-events -p '{"metadata":{"finalizers":null}}' --type=merge
+kubectl patch externalsecrets github-webhook-secret -n external-secrets -p '{"metadata":{"finalizers":null}}' --type=merge
+
 
 # kubectl get apps -n argo -o jsonpath='{.items[*].metadata.name}' | xargs -I {} kubectl patch app {} -n argo -p '{"metadata":{"finalizers":null}}' --type merge
 
