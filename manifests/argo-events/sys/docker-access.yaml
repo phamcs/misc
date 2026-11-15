@@ -2,7 +2,7 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: docker-registry-credentials
-  namespace: external-secrets
+  namespace: argo-events
 spec:
   refreshInterval: 1h
   secretStoreRef:
@@ -10,11 +10,9 @@ spec:
     kind: ClusterSecretStore
   target:
     name: docker-registry-credentials
+    creationPolicy: Owner
     template:
       type: kubernetes.io/dockerconfigjson
-      engineVersion: v2
-      #data:
-      #  .dockerconfigjson: '{ "auths": { "index.docker.io": { "auth": "{{ printf "%s:%s" .username .password | b64enc }}"}}}'
   data:
     - secretKey: .dockerconfigjson
       remoteRef:
