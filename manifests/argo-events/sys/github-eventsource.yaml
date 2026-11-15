@@ -5,10 +5,6 @@ metadata:
   namespace: argo-events
 spec:
   serviceAccountName: operate-workflow-sa
-  # service:
-  #   ports:
-  #   - port: 12000
-  #     targetPort: 12000
   github:
     github:
       repositories:
@@ -23,11 +19,11 @@ spec:
       events:
         - push
       apiToken:
-        name: github-access
+        name: github-webhook-secret
         key: token
       # Optional: Secret to validate GitHub's X-Hub-Signature-256
       webhookSecret:
-        name: github-access
+        name: github-webhook-secret
         key: secret
       # Set active: false if you already created the webhook manually in GitHub UI
       active: false

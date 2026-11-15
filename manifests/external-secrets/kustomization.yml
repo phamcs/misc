@@ -4,9 +4,10 @@ kind: Kustomization
 namespace: external-secrets
 
 resources:
+  - cluster-external-secrets.yaml
   - eso-ingress.yaml
   - eso-rbac.yaml
-  - github-access.yaml
+  #- github-access.yaml
   - vault-external.yaml
 
 helmCharts:
