@@ -81,11 +81,7 @@ spec:
       inputs:
         parameters:
           - name: image
-            value: "{{workflow.parameters.image-name}}"
-          - name: tag
-            value: "{{workflow.parameters.git-revision}}"
-          - name: myregistry
-            value: "{{workflow.parameters.myregistry}}"
+
       container:
         image: gcr.io/kaniko-project/executor:latest
         command: ["/kaniko/executor"]
@@ -93,7 +89,7 @@ spec:
           - "--dockerfile=/workspace/source/Dockerfile"
           - "--context=/workspace/source"
           #- "--no-push"
-          - "--destination={{inputs.parameters.myregistry}}/{{inputs.parameters.image}}:{{inputs.parameters.tag}}"
+          - "--destination={{inputs.parameters.myregistry}}/{{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
           - "--cache=true"
         volumeMounts:
           - name: workspace
@@ -131,7 +127,7 @@ spec:
       inputs:
         parameters:
           - name: image
-            value: "{{workflow.parameters.myregistry}}/{{workflow.parameters.image-name}}:{{workflow.parameters.git-revision}}"
+            value: "{{inputs.parameters.myregistry}}/{{workflow.parameters.image-name}}:{{workflow.parameters.git-revision}}"
           - name: cache-dir
             value: "/tmp/.cache"
       container:
