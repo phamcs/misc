@@ -88,7 +88,7 @@ spec:
           - "--dockerfile=/workspace/source/Dockerfile"
           - "--context=/workspace/source"
           #- "--no-push"
-          - "--destination={{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
+          - "--destination=phamcs/{{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
           - "--cache=true"
         volumeMounts:
           - name: workspace
@@ -126,7 +126,7 @@ spec:
       inputs:
         parameters:
           - name: image
-            value: "{{workflow.parameters.image-name}}:{{workflow.parameters.git-revision}}"
+            value: "phamcs/{{workflow.parameters.image-name}}:{{workflow.parameters.git-revision}}"
           - name: cache-dir
             value: "/tmp/.cache"
       container:
