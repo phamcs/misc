@@ -36,8 +36,6 @@ spec:
           - HIGH,CRITICAL
           - "{{inputs.parameters.image-name}}"
         volumeMounts:
-          - name: cache
-            mountPath: /root/.cache
           - name: docker-config
             mountPath: /root/.docker
       volumes:
