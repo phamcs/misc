@@ -1,69 +1,6 @@
 #!/bin/bash
-# #ENV="production"
-# kubectl create namespace external-secrets
-# # Set the service account create on helm chart to false, and create the service account on correct namespace required for vault auth to work.
-# # Otherwise vault auth will fail with error "unable to fetch token_reviewer_jwt"
-# cat <<EOF | kubectl create -f -
-# ---
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: external-secrets
-#   namespace: external-secrets
-# ---
-# apiVersion: v1
-# kind: Secret
-# metadata:
-#  name: external-secrets
-#  namespace: external-secrets
-#  annotations:
-#    kubernetes.io/service-account.name: external-secrets
-# type: kubernetes.io/service-account-token
-# EOF
-
-# # Create vault-auth for k8s auth method
-# cat <<EOF | kubectl create -f -
-# ---
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: vault-auth
-# ---
-# apiVersion: v1
-# kind: Secret
-# metadata:
-#   name: vault-auth
-#   annotations:
-#     kubernetes.io/service-account.name: vault-auth
-# type: kubernetes.io/service-account-token
-# ---
-# apiVersion: rbac.authorization.k8s.io/v1
-# kind: ClusterRoleBinding
-# metadata:
-#   name: role-tokenreview-binding
-# roleRef:
-#   apiGroup: rbac.authorization.k8s.io
-#   kind: ClusterRole
-#   name: system:auth-delegator
-# subjects:
-#   - kind: ServiceAccount
-#     name: vault-auth
-#     namespace: default
-# EOF
-
-# for crd in $(kubectl get crds -o name | grep external-secrets.io | awk -F '/' '{print $2}'); do kubectl delete crd $crd; done
-
-# helm repo add external-secrets https://charts.external-secrets.io
-# helm repo update
-
-# helm install external-secrets \
-#   external-secrets/external-secrets \
-#   --namespace external-secrets \
-#   --create-namespace \
-#   --set installCRDs=true \
-#   --set serviceAccount.create=false --wait
-
-# Setup Kubernetes Auth for vault
+# Method 1 (Kubernetes)
+# Setup Kubernetes auth
 vault auth enable kubernetes
 
 # Configure Kubernetes auth
@@ -105,7 +42,29 @@ vault write auth/kubernetes/role/external-secrets \
   policies=external-secrets \
   ttl=1h
 
-# Testing vault auth with eso-sa token
+# Method 2 (AppRole)
+# Setup AppRole auth
+vault auth enable approle
+
+# # Create AppRole
+vault write auth/approle/role/external-secrets \
+  secret_id_ttl=0 \
+  token_ttl=20m \
+  token_max_ttl=30m \
+  policies=external-secrets
+
+# Get role ID
+ROLE_ID=$(vault read auth/approle/role/external-secrets/role-id | awk 'NR==3 { print $2 }')
+
+# Generate secret ID
+SECRET_ID=$(vault write -f auth/approle/role/external-secrets/secret-id | awk 'NR==3 { print $2 }')
+
+kubectl create secret generic external-secrets \
+  --namespace external-secrets \
+  --from-literal=role-id=$ROLE_ID \
+  --from-literal=secret-id=$SECRET_ID
+
+# Testing vault auth with external-secrets token
 TOKEN_REVIEW_SJWT=$(kubectl get secret external-secrets -n external-secrets -o go-template='{{ .data.token }}' | base64 --decode)
 curl \
   --request POST \
