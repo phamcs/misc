@@ -29,8 +29,21 @@ spec:
           - image
           - --cache-dir
           - "{{inputs.parameters.cache-dir}}"
+          - --ignore-unfixed
           - --exit-code
           - "1"
           - --severity
           - HIGH,CRITICAL
           - "{{inputs.parameters.image-name}}"
+        volumeMounts:
+          - name: cache
+            mountPath: /root/.cache
+          - name: docker-config
+            mountPath: /root/.docker
+      volumes:
+        - name: docker-config
+          secret:
+            secretName: docker-registry-credentials
+            items:
+              - key: .dockerconfigjson
+                path: config.json

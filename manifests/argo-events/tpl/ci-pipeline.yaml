@@ -141,6 +141,18 @@ spec:
           - --severity
           - HIGH,CRITICAL
           - "{{inputs.parameters.image}}"
+        volumeMounts:
+          - name: cache
+            mountPath: /root/.cache
+          - name: docker-config
+            mountPath: /root/.docker
+      volumes:
+        - name: docker-config
+          secret:
+            secretName: docker-registry-credentials
+            items:
+              - key: .dockerconfigjson
+                path: config.json
 
 
     # - name: update-git-manifests
