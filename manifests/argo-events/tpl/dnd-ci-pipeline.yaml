@@ -56,10 +56,10 @@ spec:
             volumeMounts:
               - name: docker-config
                 mountPath: /root/.docker
-          volumes:
-            - name: docker-config
-              secret:
-                secretName: docker-registry-credentials
-                items:
-                  - key: .dockerconfigjson
-                    path: config.json
+          # volumes:
+          #   - name: docker-config
+          #     secret:
+          #       secretName: docker-registry-credentials
+          #       items:
+          #         - key: .dockerconfigjson
+          #           path: config.json
