@@ -6,28 +6,23 @@ metadata:
 spec:
   serviceAccountName: operate-workflow-sa
   entrypoint: dnd-sidecars
+  volumes:
+    - name: docker-config
+      secret:
+        secretName: docker-registry-credentials # Contains a key named config.json
   templates:
     - name: dnd-build
       container:
         image: docker:24.0-cli
         command: [sh, -c]
-        args:
-          - |
-            until docker info; do sleep 1; done
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        args: ["until docker info; do sleep 1; done"]
         env:
           - name: DOCKER_HOST
             value: tcp://localhost:2375
-          - name: DOCKER_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: argo-events/dockerhub
-                key: username
-          - name: DOCKER_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: argo-events/dockerhub
-                key: password
+        # volumeMounts:
+        #   - name: docker-config
+        #     mountPath: /root/.docker # Mounts config.json for automatic authentication
+        #     readOnly: true
       sidecars:
         - name: dind
           image: docker:24.0-dind
