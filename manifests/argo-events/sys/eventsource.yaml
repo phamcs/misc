@@ -1,6 +1,37 @@
 apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:
+  name: github
+  namespace: argo-events
+spec:
+  serviceAccountName: operate-workflow-sa
+  github:
+    github:
+      repositories:
+        - owner: phamcs
+          names:
+            - misc
+      webhook:
+        endpoint: /push
+        port: "12000"
+        method: POST
+        url: ""
+      events:
+        - push
+      apiToken:
+        name: github-access
+        key: token
+      # Optional: Secret to validate GitHub's X-Hub-Signature-256
+      webhookSecret:
+        name: github-access
+        key: secret
+      # Set active: false if you already created the webhook manually in GitHub UI
+      active: false
+      contentType: json
+---
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
   name: gitlab
   namespace: argo-events
 spec:
