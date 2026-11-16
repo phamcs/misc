@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argo-events-ingress
+  name: github-eventsource-ingress
   namespace: argo-events
   annotations:
     # Crucial flag to handle Argo-Events's internal certificates backend
@@ -25,6 +25,37 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: ["github-eventsource-svc", "gitlab-eventsource-svc"]
+              name: github-eventsource-svc
+              port:
+                number: 12000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gitlab-eventsource-ingress
+  namespace: argo-events
+  annotations:
+    # Crucial flag to handle Argo-Events's internal certificates backend
+    cert-manager.io/cluster-issuer: internal-ca-issuer
+    traefik.ingress.kubernetes.io/backend-protocol: "HTTP"
+    traefik.ingress.kubernetes.io/force-ssl-redirect: "true"
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/ssl-passthrough: "true"
+spec:
+  ingressClassName: traefik
+  tls:
+  - hosts:
+    - argo-events
+    secretName: argo-events-tls
+  rules:
+    - host: argo-events
+      http:
+        paths:
+        - path: /push
+          pathType: Prefix
+          backend:
+            service:
+              name: gitlab-eventsource-svc
               port:
                 number: 12000
