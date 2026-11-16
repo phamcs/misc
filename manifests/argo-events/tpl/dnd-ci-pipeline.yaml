@@ -21,7 +21,7 @@ spec:
         args: ["until docker info; do sleep 1; done"]
         env:
           - name: DOCKER_HOST
-            value: tcp://localhost:2375
+            value: tcp://docker:2375
           - name: DOCKER_TLS_CERTDIR
             value: ""
       inputs:
@@ -41,7 +41,7 @@ spec:
           args: ["until docker info; do sleep 1; done"]
           env:
             - name: DOCKER_HOST
-              value: tcp://localhost:2375
+              value: tcp://docker:2375
             - name: DOCKER_TLS_CERTDIR
               value: ""
         - name: security-scan
