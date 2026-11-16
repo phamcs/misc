@@ -1,0 +1,65 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: dnd-ci-pipeline
+  namespace: argo-events
+spec:
+  serviceAccountName: operate-workflow-sa
+  entrypoint: dnd-sidecars
+  volumes:
+  - name: docker-config
+    secret:
+      secretName: docker-registry-credentials # Contains a key named config.json
+  templates:
+    - name: dnd-build
+      container:
+        image: docker:24.0-cli
+        command: [sh, -c]
+        args: ["until docker info; do sleep 1; done"]
+        env:
+          - name: DOCKER_HOST
+            value: tcp://localhost:2375
+        volumeMounts:
+          - name: docker-config
+            mountPath: /root/.docker # Mounts config.json for automatic authentication
+            readOnly: true
+      sidecars:
+        - name: dind
+          image: docker:24.0-dind
+          securityContext:
+            privileged: true
+          env:
+            - name: DOCKER_TLS_CERTDIR
+              value: ""
+
+        - name: security-scan
+          inputs:
+            parameters:
+              - name: image
+                value: phamcs/podinfo
+              - name: tag
+                value: master
+              - name: cache-dir
+                value: "/tmp/.cache"
+          container:
+            image: aquasec/trivy:latest
+            command: [trivy]
+            args:
+              - image
+              - --cache-dir
+              - "{{inputs.parameters.cache-dir}}"
+              - --exit-code
+              - "1"
+              - --severity
+              - HIGH,CRITICAL
+              - "{{inputs.parameters.image}}:{{inputs.parameters.tag}}"
+            volumeMounts:
+              - name: docker-config
+                mountPath: /root/.docker
+          volumes:
+            - name: docker-config
+              secret:
+                secretName: docker-registry-credentials
+                items:
+                  - key: .dockerconfigjson
+                    path: config.json
