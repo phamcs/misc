@@ -10,14 +10,7 @@ spec:
     - name: docker-config
       secret:
         secretName: docker-registry-credentials # Contains a key named config.json
-      inputs:
-      parameters:
-        - name: image
-          value: phamcs/podinfo
-        - name: tag
-          value: master
-        - name: cache-dir
-          value: "/tmp/.cache"
+
   templates:
     - name: dnd-build
       container:
@@ -27,10 +20,15 @@ spec:
         env:
           - name: DOCKER_HOST
             value: tcp://localhost:2375
-        # volumeMounts:
-        #   - name: docker-config
-        #     mountPath: /root/.docker # Mounts config.json for automatic authentication
-        #     readOnly: true
+      inputs:
+      parameters:
+        - name: image
+          value: phamcs/podinfo
+        - name: tag
+          value: master
+        - name: cache-dir
+          value: "/tmp/.cache"
+
       sidecars:
         - name: dind
           image: docker:24.0-dind
