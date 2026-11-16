@@ -61,6 +61,11 @@ spec:
             - --severity
             - HIGH,CRITICAL
             - "{{inputs.parameters.image}}:{{inputs.parameters.tag}}"
+          env:
+            - name: DOCKER_HOST
+              value: tcp://localhost:2375
+            - name: DOCKER_TLS_CERTDIR
+              value: ""
           volumeMounts:
             - name: docker-config
               mountPath: /root/.docker
