@@ -125,8 +125,8 @@ spec:
     - name: security-scan
       inputs:
         parameters:
-          - name: image-name
-            value: "{{inputs.parameters.image-name}}:{{inputs.parameters.git-revision}}"
+          - name: image
+          - name: tag
           - name: cache-dir
             value: "/tmp/.cache"
       container:
@@ -140,7 +140,7 @@ spec:
           - "1"
           - --severity
           - HIGH,CRITICAL
-          - "{{inputs.parameters.image-name}}"
+          - "{{inputs.parameters.image}}:{{inputs.parameters.image}}"
         volumeMounts:
           - name: docker-config
             mountPath: /root/.docker
