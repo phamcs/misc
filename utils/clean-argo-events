@@ -16,16 +16,16 @@ AE_CRB=$(kubectl get clusterrolebinding |grep -E "argo-events-*"|awk 'NR > 1 {pr
 
 # Delete Argo-Events stuck resources
 kubectl get apps -n $AENS -o jsonpath='{.items[*].metadata.name}' | xargs -I {} kubectl patch app {} -n $AENS -p '{"metadata":{"finalizers":null}}' --type merge
-kubectl patch eventsource webhook-eventsource -n $AENS --type merge -p '{"metadata":{"finalizers":null}}'
-kubectl delete eventsource webhook-eventsource -n $AENS --grace-period=0 --force
-kubectl patch eventsource webhook -n $AENS --type merge -p '{"metadata":{"finalizers":null}}'
-kubectl delete eventsource webhook -n $AENS --grace-period=0 --force
-kubectl patch eventsensor webhook -n $AENS --type merge -p '{"metadata":{"finalizers":null}}'
-kubectl delete eventsensor webhook -n $AENS --grace-period=0 --force
+kubectl patch eventsource github-eventsource -n $AENS --type merge -p '{"metadata":{"finalizers":null}}'
+kubectl delete eventsource github-eventsource -n $AENS --grace-period=0 --force
+kubectl patch eventsource github -n $AENS --type merge -p '{"metadata":{"finalizers":null}}'
+kubectl delete eventsource github -n $AENS --grace-period=0 --force
+kubectl patch eventsensor github -n $AENS --type merge -p '{"metadata":{"finalizers":null}}'
+kubectl delete eventsensor github -n $AENS --grace-period=0 --force
 kubectl patch sensor ci-trigger -n $AENS --type merge -p '{"metadata":{"finalizers":null}}'
 kubectl delete sensor ci-trigger -n $AENS --grace-period=0 --force
-kubectl patch sensor webhook -n $AENS --type merge -p '{"metadata":{"finalizers":null}}'
-kubectl delete sensor webhook -n $AENS --grace-period=0 --force
+kubectl patch sensor github -n $AENS --type merge -p '{"metadata":{"finalizers":null}}'
+kubectl delete sensor github -n $AENS --grace-period=0 --force
 kubectl patch sensor eventbus-controller -n $AENS --type merge -p '{"metadata":{"finalizers":null}}'
 kubectl delete eventbus eventbus-controller -n $AENS --grace-period=0 --force
 kubectl patch eventbus default -n $AENS --type merge -p '{"metadata":{"finalizers":null}}'
@@ -52,6 +52,7 @@ kubectl patch externalsecrets docker-registry-credentials -n argo-events -p '{"m
 kubectl patch externalsecrets docker-registry-credentials -n external-secrets -p '{"metadata":{"finalizers":null}}' --type=merge
 kubectl patch externalsecrets github-webhook-secret -n argo-events -p '{"metadata":{"finalizers":null}}' --type=merge
 kubectl patch externalsecrets github-webhook-secret -n external-secrets -p '{"metadata":{"finalizers":null}}' --type=merge
+
 
 
 # kubectl get apps -n argo -o jsonpath='{.items[*].metadata.name}' | xargs -I {} kubectl patch app {} -n argo -p '{"metadata":{"finalizers":null}}' --type merge
