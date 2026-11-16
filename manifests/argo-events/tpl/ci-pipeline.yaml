@@ -125,8 +125,8 @@ spec:
     - name: security-scan
       inputs:
         parameters:
-          - name: image
-            value: "phamcs/{{workflow.parameters.image-name}}:{{workflow.parameters.git-revision}}"
+          - name: image-name
+            value: "phamcs/{{inputs.parameters.image-name}}:{{inputs.parameters.git-revision}}"
           - name: cache-dir
             value: "/tmp/.cache"
       container:
@@ -140,7 +140,7 @@ spec:
           - "1"
           - --severity
           - HIGH,CRITICAL
-          - "{{inputs.parameters.image}}"
+          - "{{inputs.parameters.image-name}}"
         volumeMounts:
           - name: docker-config
             mountPath: /root/.docker
