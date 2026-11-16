@@ -16,9 +16,9 @@ resources:
   - sys/github-eventsource.yaml
   - sys/github-ci-sensor.yaml
   - sys/gitlab-eventsource.yaml
-  - sys/gitlab-ci-sensor.yaml
+  - sys/github-ci-sensor.yaml
   - sys/sensor-rbac.yaml
-  - sys/scan-sensor.yaml
+  - sys/gitlab-ci-sensor.yaml
   - tpl/caddy-go-build.yaml
   - tpl/ci-pipeline.yaml
   - tpl/dnd-ci-pipeline.yaml
