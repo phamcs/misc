@@ -10,6 +10,14 @@ spec:
     - name: docker-config
       secret:
         secretName: docker-registry-credentials # Contains a key named config.json
+      inputs:
+      parameters:
+        - name: image
+          value: phamcs/podinfo
+        - name: tag
+          value: master
+        - name: cache-dir
+          value: "/tmp/.cache"
   templates:
     - name: dnd-build
       container:
@@ -34,14 +42,6 @@ spec:
 
 
         - name: security-scan
-          inputs:
-            parameters:
-              - name: image
-                value: phamcs/podinfo
-              - name: tag
-                value: master
-              - name: cache-dir
-                value: "/tmp/.cache"
           container:
             image: aquasec/trivy:latest
             command: [trivy]
