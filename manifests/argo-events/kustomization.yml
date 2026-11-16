@@ -19,6 +19,7 @@ resources:
   - sys/scan-sensor.yaml
   - tpl/caddy-go-build.yaml
   - tpl/ci-pipeline.yaml
+  - tpl/dnd-ci-pipeline.yaml
   - tpl/security-scan.yaml
 
 helmCharts:
