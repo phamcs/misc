@@ -18,10 +18,10 @@ spec:
         command: [sh, -c]
         securityContext:
           privileged: true
-        args: ["until docker info; do sleep 1; done"]
+        args: ["until docker info; do sleep 3; done"]
         env:
           - name: DOCKER_HOST
-            value: tcp://127.0.0.1:2375
+            value: tcp://localhost:2375
           - name: DOCKER_TLS_CERTDIR
             value: ""
       inputs:
@@ -38,14 +38,19 @@ spec:
           image: docker:24.0-dind
           securityContext:
             privileged: true
-          args: ["until docker info; do sleep 1; done"]
+          mirrorVolumeMounts: true
+          args: ["until docker info; do sleep 3; done"]
           env:
             - name: DOCKER_HOST
-              value: tcp://127.0.0.1:2375
+              value: tcp://localhost:2375
             - name: DOCKER_TLS_CERTDIR
               value: ""
+
         - name: security-scan
           image: aquasec/trivy:latest
+          securityContext:
+            privileged: true
+          mirrorVolumeMounts: true
           command: [trivy]
           args:
             - image
