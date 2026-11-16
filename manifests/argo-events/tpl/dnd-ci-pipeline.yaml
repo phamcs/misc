@@ -38,23 +38,21 @@ spec:
             - name: DOCKER_TLS_CERTDIR
               value: ""
 
-
         - name: security-scan
-          container:
-            image: aquasec/trivy:latest
-            command: [trivy]
-            args:
-              - image
-              - --cache-dir
-              - "{{inputs.parameters.cache-dir}}"
-              - --exit-code
-              - "1"
-              - --severity
-              - HIGH,CRITICAL
-              - "{{inputs.parameters.image}}:{{inputs.parameters.tag}}"
-            volumeMounts:
-              - name: docker-config
-                mountPath: /root/.docker
+          image: aquasec/trivy:latest
+          command: [trivy]
+          args:
+            - image
+            - --cache-dir
+            - "{{inputs.parameters.cache-dir}}"
+            - --exit-code
+            - "1"
+            - --severity
+            - HIGH,CRITICAL
+            - "{{inputs.parameters.image}}:{{inputs.parameters.tag}}"
+          volumeMounts:
+            - name: docker-config
+              mountPath: /root/.docker
           # volumes:
           #   - name: docker-config
           #     secret:
