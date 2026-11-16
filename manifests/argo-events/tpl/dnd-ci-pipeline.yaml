@@ -7,9 +7,9 @@ spec:
   serviceAccountName: operate-workflow-sa
   entrypoint: dnd-sidecars
   volumes:
-  - name: docker-config
-    secret:
-      secretName: docker-registry-credentials # Contains a key named config.json
+    - name: docker-config
+      secret:
+        secretName: docker-registry-credentials # Contains a key named config.json
   templates:
     - name: dnd-build
       container:
