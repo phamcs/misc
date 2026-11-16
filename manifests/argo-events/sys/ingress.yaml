@@ -25,6 +25,6 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: eventsource-svc
+              name: ["github-eventsource-svc", "gitlab-eventsource-svc"]
               port:
                 number: 12000
