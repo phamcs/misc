@@ -11,7 +11,8 @@ resources:
   - sys/docker-access.yaml
   - sys/github-access.yaml
   - sys/gitlab-access.yaml
-  - sys/eventsource-svc.yaml
+  - sys/github-eventsource-svc.yaml
+  - sys/gitlab-eventsource-svc.yaml
   - sys/eventbus.yaml
   - sys/github-eventsource.yaml
   - sys/github-ci-sensor.yaml

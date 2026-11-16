@@ -15,10 +15,10 @@ spec:
   ingressClassName: traefik
   tls:
   - hosts:
-    - argo-events
-    secretName: argo-events-tls
+    - github-eventsource-svc
+    secretName: github-eventsource-svc-tls
   rules:
-    - host: argo-events
+    - host: github-eventsource-svc
       http:
         paths:
         - path: /push
@@ -46,10 +46,10 @@ spec:
   ingressClassName: traefik
   tls:
   - hosts:
-    - argo-events
-    secretName: argo-events-tls
+    - gitlab-eventsource-svc
+    secretName: gitlab-eventsource-svc-tls
   rules:
-    - host: argo-events
+    - host: gitlab-eventsource-svc
       http:
         paths:
         - path: /push
@@ -58,4 +58,4 @@ spec:
             service:
               name: gitlab-eventsource-svc
               port:
-                number: 12000
+                number: 12001
