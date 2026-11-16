@@ -1,21 +1,11 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: awf-sa
-  namespace: argo
----
-kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
 metadata:
-  name: awf-binding
-  annotations:
-    argocd.argoproj.io/tracking-id: >-
-      argo-events:rbac.authorization.k8s.io/ClusterRoleBinding:argo-events/argo-events-binding
-subjects:
-  - kind: ServiceAccount
-    name: awf-sa
-    namespace: argo
+  name: argo-server-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: argo-events-role
+  name: argo-server-cluster-role
+subjects:
+  - kind: ServiceAccount
+    name: argo-server

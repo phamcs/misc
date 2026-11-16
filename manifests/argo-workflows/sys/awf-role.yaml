@@ -1,79 +1,63 @@
-kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
 metadata:
-  name: awf-role
-  annotations:
-    argocd.argoproj.io/tracking-id: >-
-      argo-events:rbac.authorization.k8s.io/ClusterRole:argo-events/awf-role
+  name: argo-server-cluster-role
 rules:
-  - verbs:
-      - create
-      - patch
-    apiGroups:
-      - ''
+  - apiGroups:
+      - ""
     resources:
-      - events
-  - verbs:
+      - configmaps
+    verbs:
       - get
-      - list
       - watch
+      - list
       - create
       - update
-      - patch
-      - delete
-    apiGroups:
-      - coordination.k8s.io
+  - apiGroups:
+      - ""
     resources:
-      - leases
-  - verbs:
-      - create
-      - delete
-      - deletecollection
+      - secrets
+    verbs:
       - get
-      - list
-      - patch
-      - update
-      - watch
-    apiGroups:
-      - argoproj.io
-    resources:
-      - sensors
-      - sensors/finalizers
-      - sensors/status
-      - eventsources
-      - eventsources/finalizers
-      - eventsources/status
-      - eventbus
-      - eventbus/finalizers
-      - eventbus/status
-  - verbs:
       - create
-      - get
-      - list
-      - watch
-      - update
-      - patch
-      - delete
-    apiGroups:
-      - ''
+  - apiGroups:
+      - ""
     resources:
       - pods
       - pods/exec
-      - configmaps
-      - services
-      - persistentvolumeclaims
-  - verbs:
-      - create
+      - pods/log
+    verbs:
       - get
       - list
-      - update
-      - patch
+      - watch
       - delete
-    apiGroups:
-      - ''
+  - apiGroups:
+      - ""
     resources:
-      - secrets
-  - verbs:
+      - events
+    verbs:
+      - watch
+      - create
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - eventsources
+      - sensors
+      - workflows
+      - workfloweventbindings
+      - workflowtemplates
+      - cronworkflows
+      - clusterworkflowtemplates
+    verbs:
       - create
       - get
       - list
@@ -81,8 +65,3 @@ rules:
       - update
       - patch
       - delete
-    apiGroups:
-      - apps
-    resources:
-      - deployments
-      - statefulsets
