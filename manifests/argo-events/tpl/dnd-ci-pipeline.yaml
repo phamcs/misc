@@ -21,13 +21,13 @@ spec:
           - name: DOCKER_HOST
             value: tcp://localhost:2375
       inputs:
-      parameters:
-        - name: image
-          value: phamcs/podinfo
-        - name: tag
-          value: master
-        - name: cache-dir
-          value: "/tmp/.cache"
+        parameters:
+          - name: image
+            value: phamcs/podinfo
+          - name: tag
+            value: master
+          - name: cache-dir
+            value: "/tmp/.cache"
 
       sidecars:
         - name: dind
