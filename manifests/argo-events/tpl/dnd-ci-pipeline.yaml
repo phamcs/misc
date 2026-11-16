@@ -19,10 +19,7 @@ spec:
         env:
           - name: DOCKER_HOST
             value: tcp://localhost:2375
-        volumeMounts:
-          - name: docker-config
-            mountPath: /root/.docker # Mounts config.json for automatic authentication
-            readOnly: true
+
       sidecars:
         - name: dind
           image: docker:24.0-dind
@@ -31,6 +28,10 @@ spec:
           env:
             - name: DOCKER_TLS_CERTDIR
               value: ""
+          volumeMounts:
+          - name: docker-config
+            mountPath: /root/.docker # Mounts config.json for automatic authentication
+            readOnly: true
 
         - name: security-scan
           inputs:
