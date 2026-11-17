@@ -50,7 +50,7 @@ metadata:
 spec:
   dependencies:
     - name: dockerhub-dep
-      eventSourceName: dockerhub-webhook
+      eventSourceName: dockerhub
       eventName: dockerhub
   triggers:
     - template:
