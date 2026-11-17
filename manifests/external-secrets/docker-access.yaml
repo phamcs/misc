@@ -18,7 +18,7 @@ spec:
   data:
   - secretKey: .dockerconfigjson
     remoteRef:
-      key: docker-registry # Path relative to the SecretStore mount path (do not include /data/)
+      key: dockerhub # Path relative to the SecretStore mount path (do not include /data/)
       property: .dockerconfigjson
       decodingStrategy: Base64
 ---
