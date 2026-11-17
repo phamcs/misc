@@ -39,13 +39,26 @@ spec:
       type: kubernetes.io/dockerconfigjson
       engineVersion: v2
       data:
-        .dockerconfigjson: '{ "auths": { "index.docker.io": { "auth": "{{ printf "%s:%s" .username .password | b64enc }}"}}}'
+        .dockerconfigjson: |
+          {
+            "auths": {
+              "{{ .registry }}": {
+                "username": "{{ .username }}",
+                "password": "{{ .password }}",
+                "auth": "{{ printf "%s:%s" .username .password | b64enc }}"
+              }
+            }
+          }
   data:
+  - secretKey: registry
+    remoteRef:
+      key: dockerhub
+      property: registry
   - secretKey: username
     remoteRef:
-      key: argo-events/dockerhub
+      key: dockerhub
       property: username
   - secretKey: password
     remoteRef:
-      key: argo-events/dockerhub
+      key: dockerhub
       property: password
