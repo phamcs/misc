@@ -32,31 +32,20 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:
-  name: gitlab
+  name: dockerhub-webhook
   namespace: argo-events
 spec:
-  serviceAccountName: operate-workflow-sa
-  gitlab:
-    gitlab:
-      groups:
-        - devsecops
-      webhook:
-        endpoint: /push
-        port: "12001"
-        method: POST
-        url: ""
+  webhook:
+    dockerhub:
+      port: "12001"
+      endpoint: /dockerhub
+      method: POST
+      # Additional
       events:
-        - PushEvents
-        - MergeRequestsEvents
-      accessToken:
-        name: gitlab-access
+        - push
+      apiToken:
+        name: dockerhub-webhook-secret
         key: token
-      enableSSLVerification: true
-      # Set to true to remove the webhook from GitLab when the EventSource is deleted
-      deleteHookOnFinish: true
-      # Optional: specify if using a self-managed GitLab instance
-      # gitlabBaseURL: https://your-company.com
-
 #    example-foo:
 #      port: "12000"
 #      endpoint: /example2

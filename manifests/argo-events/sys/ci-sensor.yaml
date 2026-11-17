@@ -45,24 +45,16 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: gitlab-ci-sensor
+  name: dockerhub-sensor
   namespace: argo-events
 spec:
-  template:
-    serviceAccountName: operate-workflow-sa
   dependencies:
-    - name: gitlab-ci-dep
-      eventSourceName: gitlab
-      eventName: gitlab-push-event
-      filters:
-        data:
-          - path: body.ref
-            type: string
-            value:
-              - "refs/heads/main"
+    - name: dockerhub-dep
+      eventSourceName: dockerhub-webhook
+      eventName: dockerhub
   triggers:
     - template:
-        name: trigger-security-scan
+        name: trigger-workflow
         argoWorkflow:
           operation: submit
           source:
@@ -70,18 +62,24 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: wf-
-                namespace: argo-events
+                generateName: deploy-image-
               spec:
-                workflowTemplateRef:
-                  name: security-scan-template
+                entrypoint: main
                 arguments:
                   parameters:
-                    - name: image-name
-                      value: "placeholder"
-          # Overwrite the placeholder with the payload's image field
+                    - name: image-tag
+                      value: latest # Overwritten by parameter mapping below
+                templates:
+                  - name: main
+                    inputs:
+                      parameters:
+                        - name: image-tag
+                    container:
+                      image: alpine:latest
+                      command: [echo]
+                      args: ["New image pushed with tag: {{inputs.parameters.image-tag}}"]
           parameters:
             - src:
-                dependencyName: gitlab-ci-dep
-                dataKey: body.image
+                dependencyName: dockerhub-dep
+                dataKey: body.push_data.tag
               dest: spec.arguments.parameters.0.value

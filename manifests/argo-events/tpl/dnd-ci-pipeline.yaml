@@ -18,7 +18,7 @@ spec:
         command: [sh, -c]
         securityContext:
           privileged: true
-        args: ["until docker info; do sleep 3; done"]
+        args: ["until docker info; do sleep 2; done; docker ps"]
         env:
           - name: DOCKER_HOST
             value: tcp://localhost:2375
@@ -39,7 +39,7 @@ spec:
           securityContext:
             privileged: true
           mirrorVolumeMounts: true
-          args: ["until docker info; do sleep 3; done"]
+          args: ["until docker info; do sleep 2; done; docker ps"]
           env:
             - name: DOCKER_HOST
               value: tcp://localhost:2375
