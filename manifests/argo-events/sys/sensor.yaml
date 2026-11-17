@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: github-sensor
+  name: github
   namespace: argo-events
 spec:
   template:
@@ -45,7 +45,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: dockerhub-sensor
+  name: dockerhub
   namespace: argo-events
 spec:
   dependencies:
