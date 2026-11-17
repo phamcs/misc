@@ -20,3 +20,7 @@ spec:
       remoteRef:
         key: argo-events/github # Path in your external vault
         property: token
+    - secretKey: username #  Github-Webhook secret
+      remoteRef:
+        key: argo-events/github # Path in your external vault
+        property: username

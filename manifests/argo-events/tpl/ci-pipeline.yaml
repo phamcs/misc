@@ -49,8 +49,8 @@ spec:
             template: test
             dependencies: [checkout]
 
-          - name: security-scan
-            template: security-scan
+          - name: update-manifests
+            template: update-git-manifests
             dependencies: [build-and-push, run-tests]
             arguments:
               parameters:
@@ -58,6 +58,16 @@ spec:
                   value: "{{workflow.parameters.image-name}}"
                 - name: tag
                   value: "{{workflow.parameters.git-revision}}"
+
+          # - name: security-scan
+          #   template: security-scan
+          #   dependencies: [build-and-push, run-tests]
+          #   arguments:
+          #     parameters:
+          #       - name: image
+          #         value: "{{workflow.parameters.image-name}}"
+          #       - name: tag
+          #         value: "{{workflow.parameters.git-revision}}"
 
     - name: git-clone
       inputs:
@@ -155,44 +165,44 @@ spec:
                 path: config.json
 
 
-    # - name: update-git-manifests
-    #   inputs:
-    #     parameters:
-    #       - name: image
-    #       - name: tag
-    #   container:
-    #     image: alpine/git:latest
-    #     command: [sh, -c]
-    #     args:
-    #       - |
-    #         # Clone the repository
-    #         git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/podinfo.git /tmp/podinfo
-    #         cd /tmp/podinfo
+    - name: update-git-manifests
+      inputs:
+        parameters:
+          - name: image
+          - name: tag
+      container:
+        image: alpine/git:latest
+        command: [sh, -c]
+        args:
+          - |
+            # Clone the repository
+            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/podinfo.git /tmp/podinfo
+            cd /tmp/podinfo
 
-    #         # Update the image tag in the deployment manifest
-    #         sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-    #           deploy/bases/backend/deployment.yaml
-    #         sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-    #           deploy/bases/frontend/deployment.yaml
-    #         sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-    #           deploy/webapp/backend/deployment.yaml
-    #         sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-    #           deploy/webapp/frontend/deployment.yaml
-    #         sed -i 's/This is a pipeline test message/./g' README.md
-    #         # Commit and push
-    #         git config user.email "phamcs@gmail.com"
-    #         git config user.name "CI Pipeline"
-    #         git add .
-    #         git commit -m "Update podinfo image to {{inputs.parameters.tag}}"
-    #         git push origin HEAD:master
-    #     env:
-    #       - name: GIT_USER
-    #         valueFrom:
-    #           secretKeyRef:
-    #             name: git-credentials
-    #             key: username
-    #       - name: GIT_TOKEN
-    #         valueFrom:
-    #           secretKeyRef:
-    #             name: git-credentials
-    #             key: token
+            # Update the image tag in the deployment manifest
+            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
+              deploy/bases/backend/deployment.yaml
+            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
+              deploy/bases/frontend/deployment.yaml
+            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
+              deploy/webapp/backend/deployment.yaml
+            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
+              deploy/webapp/frontend/deployment.yaml
+            sed -i 's/This is a pipeline test message/./g' README.md
+            # Commit and push
+            git config user.email "phamcs@gmail.com"
+            git config user.name "CI Pipeline"
+            git add .
+            git commit -m "Update podinfo image to {{inputs.parameters.tag}}"
+            git push origin HEAD:master
+        env:
+          - name: GIT_USER
+            valueFrom:
+              secretKeyRef:
+                name: github-webhook-secret
+                key: username
+          - name: GIT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: github-webhook-secret
+                key: token
