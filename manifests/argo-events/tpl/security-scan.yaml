@@ -7,7 +7,7 @@ spec:
   serviceAccountName: operate-workflow-sa
   entrypoint: trivy-scan
   # Harden pod execution by disabling unnecessary service account token mounts
-  automountServiceAccountToken: true
+  automountServiceAccountToken: false
   securityContext:
     runAsNonRoot: true
     runAsUser: 1000
