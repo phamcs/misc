@@ -18,7 +18,7 @@ spec:
               - "refs/heads/main"
   triggers:
     - template:
-        name: trigger-security-scan
+        name: trigger-workflow
         argoWorkflow:
           operation: submit
           source:

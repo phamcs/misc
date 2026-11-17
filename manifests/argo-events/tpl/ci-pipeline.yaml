@@ -131,6 +131,8 @@ spec:
             value: "/tmp/.cache"
       container:
         image: aquasec/trivy:latest
+        securityContext:
+          privileged: true
         command: [trivy]
         args:
           - image

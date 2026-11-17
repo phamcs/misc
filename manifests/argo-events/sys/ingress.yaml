@@ -32,7 +32,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: gitlab-eventsource-ingress
+  name: dockerhub-eventsource-ingress
   namespace: argo-events
   annotations:
     # Crucial flag to handle Argo-Events's internal certificates backend
@@ -46,16 +46,16 @@ spec:
   ingressClassName: traefik
   tls:
   - hosts:
-    - gitlab-eventsource-svc
+    - dockerhub-eventsource-svc
     secretName: gitlab-eventsource-svc-tls
   rules:
-    - host: gitlab-eventsource-svc
+    - host: dockerhub-eventsource-svc
       http:
         paths:
         - path: /push
           pathType: Prefix
           backend:
             service:
-              name: gitlab-eventsource-svc
+              name: dockerhub-eventsource-svc
               port:
                 number: 12001

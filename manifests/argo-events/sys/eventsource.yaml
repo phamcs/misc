@@ -38,7 +38,7 @@ spec:
   webhook:
     dockerhub:
       port: "12001"
-      endpoint: /dockerhub
+      endpoint: /push
       method: POST
       # Additional
       events:
