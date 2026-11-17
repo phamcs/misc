@@ -43,9 +43,9 @@ spec:
   data:
   - secretKey: username
     remoteRef:
-      key: dockerhub
+      key: argo-events/dockerhub
       property: username
   - secretKey: password
     remoteRef:
-      key: dockerhub
+      key: argo-events/dockerhub
       property: password
