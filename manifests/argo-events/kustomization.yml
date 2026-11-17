@@ -15,7 +15,7 @@ resources:
   #- sys/gitlab-eventsource-svc.yaml
   - sys/eventbus.yaml
   - sys/eventsource.yaml
-  - sys/ci-sensor.yaml
+  - sys/sensor.yaml
   # - sys/gitlab-eventsource.yaml
   # - sys/gitlab-ci-sensor.yaml
   - sys/sensor-rbac.yaml
