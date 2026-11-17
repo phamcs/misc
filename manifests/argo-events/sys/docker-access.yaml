@@ -24,7 +24,7 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: dockerhub-secret
+  name: dockerhub-secrets
   namespace: external-secrets
 spec:
   refreshInterval: 1h
