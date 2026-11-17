@@ -5,9 +5,10 @@ namespace: external-secrets
 
 resources:
   - cluster-external-secrets.yaml
+  - docker-access.yaml
   - eso-ingress.yaml
   - eso-rbac.yaml
-  #- github-access.yaml
+  - github-access.yaml
   - vault-external.yaml
 
 helmCharts:

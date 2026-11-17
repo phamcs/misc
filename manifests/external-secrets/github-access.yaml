@@ -1,3 +1,4 @@
+# Example using External Vault to fetch Github secrets for External Secrets
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
@@ -14,9 +15,9 @@ spec:
   data:
     - secretKey: secret #  Github-Webhook secret
       remoteRef:
-        key: argo-events/github # Path in your external vault
+        key: github # Path in your external vault
         property: secret
-    - secretKey: token #  Github-Webhook secret
+    - secretKey: token #  Github-Access using token
       remoteRef:
-        key: argo-events/github # Path in your external vault
+        key: github # Path in your external vault
         property: token
