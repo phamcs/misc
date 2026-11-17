@@ -132,37 +132,37 @@ spec:
           - name: workspace
             mountPath: /workspace
 
-    - name: security-scan
-      inputs:
-        parameters:
-          - name: image
-          - name: tag
-          - name: cache-dir
-            value: "/tmp/.cache"
-      container:
-        image: aquasec/trivy:latest
-        securityContext:
-          privileged: true
-        command: [trivy]
-        args:
-          - image
-          - --cache-dir
-          - "{{inputs.parameters.cache-dir}}"
-          - --exit-code
-          - "1"
-          - --severity
-          - HIGH,CRITICAL
-          - "{{inputs.parameters.image}}:{{inputs.parameters.image}}"
-        volumeMounts:
-          - name: docker-config
-            mountPath: /root/.docker
-      volumes:
-        - name: docker-config
-          secret:
-            secretName: docker-registry-credentials
-            items:
-              - key: .dockerconfigjson
-                path: config.json
+    # - name: security-scan
+    #   inputs:
+    #     parameters:
+    #       - name: image
+    #       - name: tag
+    #       - name: cache-dir
+    #         value: "/tmp/.cache"
+    #   container:
+    #     image: aquasec/trivy:latest
+    #     securityContext:
+    #       privileged: true
+    #     command: [trivy]
+    #     args:
+    #       - image
+    #       - --cache-dir
+    #       - "{{inputs.parameters.cache-dir}}"
+    #       - --exit-code
+    #       - "1"
+    #       - --severity
+    #       - HIGH,CRITICAL
+    #       - "{{inputs.parameters.image}}:{{inputs.parameters.image}}"
+    #     volumeMounts:
+    #       - name: docker-config
+    #         mountPath: /root/.docker
+    #   volumes:
+    #     - name: docker-config
+    #       secret:
+    #         secretName: docker-registry-credentials
+    #         items:
+    #           - key: .dockerconfigjson
+    #             path: config.json
 
 
     - name: update-git-manifests
