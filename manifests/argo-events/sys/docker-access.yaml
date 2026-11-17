@@ -20,3 +20,30 @@ spec:
       key: dockerhub # Path relative to the SecretStore mount path (do not include /data/)
       property: .dockerconfigjson
       decodingStrategy: Base64
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: dockerhub-secret
+  namespace: external-secrets
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: vault-external
+    kind: ClusterSecretStore
+  target:
+    name: dockerhub-secret
+    template:
+      type: kubernetes.io/dockerconfigjson
+      engineVersion: v2
+      data:
+        .dockerconfigjson: '{ "auths": { "index.docker.io": { "auth": "{{ printf "%s:%s" .username .password | b64enc }}"}}}'
+  data:
+  - secretKey: username
+    remoteRef:
+      key: argo-events/dockerhub
+      property: username
+  - secretKey: password
+    remoteRef:
+      key: argo-events/dockerhub
+      property: password

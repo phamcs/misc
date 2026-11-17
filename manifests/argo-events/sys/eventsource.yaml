@@ -44,7 +44,7 @@ spec:
       events:
         - push
       apiToken:
-        name: dockerhub-webhook-secret
+        name: dockerhub-secret
         key: token
 #    example-foo:
 #      port: "12000"
