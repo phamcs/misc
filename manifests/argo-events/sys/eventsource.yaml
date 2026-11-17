@@ -44,7 +44,7 @@ spec:
       events:
         - push
       apiToken:
-        name: dockerhub-secret
+        name: dockerhub-secrets
         key: token
 #    example-foo:
 #      port: "12000"
