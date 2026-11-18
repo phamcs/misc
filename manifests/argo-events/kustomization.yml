@@ -6,7 +6,6 @@ namespace: argo-events
 resources:
   - sys/binding.yaml
   - sys/ingress.yaml
-  - sys/linter.yaml
   - sys/role.yaml
   - sys/docker-access.yaml
   - sys/eventbus.yaml
@@ -17,7 +16,8 @@ resources:
   - sys/sensor-rbac.yaml
   - tpl/caddy-go-build.yaml
   - tpl/ci-pipeline.yaml
-  - tpl/dnd-ci-pipeline.yaml
+  - tpl/linter.yaml
+  - tpl/manifests-ci-pipeline.yaml
   - tpl/security-scan.yaml
 
 helmCharts:
