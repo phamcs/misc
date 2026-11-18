@@ -48,11 +48,8 @@ kubectl delete rolebinding $AE_RB
 kubectl delete clusterrolebinding $AE_CRB
 kubectl delete serviceaccount -n $AENS $AE_SA
 kubectl delete configmap -n $AENS $AE_CM
-kubectl patch externalsecrets docker-registry-credentials -n argo-events -p '{"metadata":{"finalizers":null}}' --type=merge
-kubectl patch externalsecrets docker-registry-credentials -n external-secrets -p '{"metadata":{"finalizers":null}}' --type=merge
-kubectl patch externalsecrets github-webhook-secret -n argo-events -p '{"metadata":{"finalizers":null}}' --type=merge
-kubectl patch externalsecrets github-webhook-secret -n external-secrets -p '{"metadata":{"finalizers":null}}' --type=merge
-
+kubectl patch externalsecrets docker-registry-credentials -n $AENS -p '{"metadata":{"finalizers":null}}' --type=merge
+kubectl patch externalsecrets github-webhook-secret -n $AENS -p '{"metadata":{"finalizers":null}}' --type=merge
 
 
 # kubectl get apps -n argo -o jsonpath='{.items[*].metadata.name}' | xargs -I {} kubectl patch app {} -n argo -p '{"metadata":{"finalizers":null}}' --type merge

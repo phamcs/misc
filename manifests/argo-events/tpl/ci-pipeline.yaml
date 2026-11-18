@@ -59,16 +59,6 @@ spec:
                 - name: tag
                   value: "{{workflow.parameters.git-revision}}"
 
-          # - name: security-scan
-          #   template: security-scan
-          #   dependencies: [build-and-push, run-tests]
-          #   arguments:
-          #     parameters:
-          #       - name: image
-          #         value: "{{workflow.parameters.image-name}}"
-          #       - name: tag
-          #         value: "{{workflow.parameters.git-revision}}"
-
     - name: git-clone
       inputs:
         parameters:

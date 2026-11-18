@@ -31,7 +31,7 @@ spec:
                 namespace: argo-events
               spec:
                 workflowTemplateRef:
-                  name: ci-pipeline
+                  name: argo-events-linter
                 arguments:
                   parameters:
                     - name: commit-sha
