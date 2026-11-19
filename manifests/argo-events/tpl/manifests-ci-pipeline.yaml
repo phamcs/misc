@@ -51,7 +51,7 @@ spec:
 
           - name: update-manifests
             template: update-git-manifests
-            dependencies: [build-and-push, run-tests]
+            dependencies: [build-and-push, run-linter]
             arguments:
               parameters:
                 - name: image
