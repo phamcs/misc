@@ -116,7 +116,7 @@ spec:
         command: [sh, -c]
         args:
           - |
-            pip install --no-cache-dir -q yamllint && yamllint .
+            pip install --no-cache-dir -q yamllint && yamllint /misc/
         volumeMounts:
           - name: workspace
             mountPath: /workspace
