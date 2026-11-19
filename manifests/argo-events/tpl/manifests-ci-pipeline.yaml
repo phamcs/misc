@@ -112,11 +112,11 @@ spec:
 
     - name: run-test
       container:
-        image: python:3.13-slim
+        image: cytopia/yamllint:alpine
         command: [sh, -c]
         args:
           - |
-            pip install --no-cache-dir -q yamllint && yamllint /misc/manifests/
+            yamllint /workspace/misc/manifests/
         volumeMounts:
           - name: workspace
             mountPath: /workspace
