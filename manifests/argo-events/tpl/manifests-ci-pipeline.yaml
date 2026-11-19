@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: linterci-pipeline
+  name: manifests-ci-pipeline
   namespace: argo-events
 spec:
   serviceAccountName: operate-workflow-sa
@@ -11,7 +11,7 @@ spec:
       - name: git-repo
         value: https://github.com/phamcs/misc.git
       - name: git-revision
-        value: master
+        value: main
       - name: image-name
         value: misc
 
@@ -69,8 +69,8 @@ spec:
         command: [sh, -c]
         args:
           - |
-            git clone {{inputs.parameters.repo}} /workspace/source
-            cd /workspace/source
+            git clone {{inputs.parameters.repo}} /workspace/misc
+            cd /workspace/misc
             git checkout {{inputs.parameters.revision}}
         volumeMounts:
           - name: workspace
@@ -85,8 +85,8 @@ spec:
         image: gcr.io/kaniko-project/executor:latest
         command: ["/kaniko/executor"]
         args:
-          - "--dockerfile=/workspace/source/Dockerfile"
-          - "--context=/workspace/source"
+          - "--dockerfile=/workspace/misc/Dockerfile"
+          - "--context=/workspace/misc"
           #- "--no-push"
           - "--destination=phamcs/{{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
           - "--cache=true"
@@ -110,50 +110,16 @@ spec:
               - key: .dockerconfigjson
                 path: config.json
 
-    - name: test
+    - name: run-linter
       container:
-        image: golang:1.27
+        image: python:3.13-slim
         command: [sh, -c]
         args:
           - |
-            cd /workspace/source
-            go test ./...
+            pip install --no-cache-dir -q yamllint && yamllint .
         volumeMounts:
           - name: workspace
             mountPath: /workspace
-
-    # - name: security-scan
-    #   inputs:
-    #     parameters:
-    #       - name: image
-    #       - name: tag
-    #       - name: cache-dir
-    #         value: "/tmp/.cache"
-    #   container:
-    #     image: aquasec/trivy:latest
-    #     securityContext:
-    #       privileged: true
-    #     command: [trivy]
-    #     args:
-    #       - image
-    #       - --cache-dir
-    #       - "{{inputs.parameters.cache-dir}}"
-    #       - --exit-code
-    #       - "1"
-    #       - --severity
-    #       - HIGH,CRITICAL
-    #       - "{{inputs.parameters.image}}:{{inputs.parameters.image}}"
-    #     volumeMounts:
-    #       - name: docker-config
-    #         mountPath: /root/.docker
-    #   volumes:
-    #     - name: docker-config
-    #       secret:
-    #         secretName: docker-registry-credentials
-    #         items:
-    #           - key: .dockerconfigjson
-    #             path: config.json
-
 
     - name: update-git-manifests
       inputs:
@@ -166,24 +132,13 @@ spec:
         args:
           - |
             # Clone the repository
-            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/podinfo.git /tmp/podinfo
-            cd /tmp/podinfo
-
-            # Update the image tag in the deployment manifest
-            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-              deploy/bases/backend/deployment.yaml
-            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-              deploy/bases/frontend/deployment.yaml
-            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-              deploy/webapp/backend/deployment.yaml
-            sed -i "s|image: {{inputs.parameters.image}}:.*|image: {{inputs.parameters.image}}:{{inputs.parameters.tag}}|" \
-              deploy/webapp/frontend/deployment.yaml
-            sed -i 's/This is a pipeline test message/./g' README.md
+            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/misc.git /tmp/misc
+            cd /tmp/misc
             # Commit and push
             git config user.email "phamcs@gmail.com"
             git config user.name "CI Pipeline"
             git add .
-            git commit -m "Update podinfo image to {{inputs.parameters.tag}}"
+            git commit -m "Update misc image to {{inputs.parameters.tag}}"
             git push origin HEAD:master
         env:
           - name: GIT_USER
