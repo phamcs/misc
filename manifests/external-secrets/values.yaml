@@ -524,7 +524,7 @@ webhook:
   # -- Specifies the time to check if the cert is valid
   certCheckInterval: "5m"
   # -- Specifies the lookaheadInterval for certificate validity
-  lookaheadInterval: ""
+  lookaheadInterval: "48h"
   replicaCount: 1
   # -- Specifies Log Params to the Webhook
   log:
