@@ -45,13 +45,13 @@ spec:
                 - name: image
                   value: "{{workflow.parameters.image-name}}"
 
-          - name: run-linter
-            template: linter
+          - name: run-test
+            template: test
             dependencies: [checkout]
 
           - name: update-manifests
             template: update-git-manifests
-            dependencies: [build-and-push, run-linter]
+            dependencies: [build-and-push, run-test]
             arguments:
               parameters:
                 - name: image
@@ -110,7 +110,7 @@ spec:
               - key: .dockerconfigjson
                 path: config.json
 
-    - name: run-linter
+    - name: run-test
       container:
         image: python:3.13-slim
         command: [sh, -c]
