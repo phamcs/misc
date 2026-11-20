@@ -18,7 +18,7 @@ spec:
     - name: lint-pipeline
       steps:
         - - name: lint-events
-            template: argo-events-linter
+            template: manifests-linter
             arguments:
               artifacts:
                 - name: misc
