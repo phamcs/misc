@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: ci-pipeline
+  name: kompose-ci-pipeline
   namespace: argo-events
 spec:
   serviceAccountName: operate-workflow-sa
@@ -13,9 +13,8 @@ spec:
       - name: git-revision
         value: main
       - name: image-name
-        value: phamcs/kompose
-      - name: manifest-repo
-        value: https://github.com/phamcs/kompose.git
+        value: kompose
+
   volumeClaimTemplates:
     - metadata:
         name: workspace
@@ -85,10 +84,10 @@ spec:
         image: gcr.io/kaniko-project/executor:latest
         command: ["/kaniko/executor"]
         args:
-          - "--dockerfile=/workspace/source/Dockerfile"
-          - "--context=/workspace/source"
+          - "--dockerfile=/workspace/kompose/Dockerfile"
+          - "--context=/workspace/kompose"
           #- "--no-push"
-          - "--destination={{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
+          - "--destination=phamcs/{{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
           - "--cache=true"
         volumeMounts:
           - name: workspace
@@ -133,7 +132,7 @@ spec:
         args:
           - |
             # Clone the repository
-            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/podinfo.git /tmp/podinfo
+            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/kompose.git /tmp/podinfo
             cd /tmp/podinfo
 
             # Update the image tag in the deployment manifest
