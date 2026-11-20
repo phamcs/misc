@@ -26,7 +26,7 @@ spec:
                     repo: "{{workflow.parameters.repo-url}}"
                     revision: "{{workflow.parameters.revision}}"
                     disableSubmodules: true
-    - name: argo-events-linter
+    - name: manifests-linter
       inputs:
         artifacts:
           - name: misc
