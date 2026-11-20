@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: kompose-ci-pipeline
+  name: podinfo-ci-pipeline
   namespace: argo-events
 spec:
   serviceAccountName: operate-workflow-sa
@@ -9,11 +9,11 @@ spec:
   arguments:
     parameters:
       - name: git-repo
-        value: https://github.com/phamcs/kompose.git
+        value: https://github.com/phamcs/podinfo.git
       - name: git-revision
         value: main
       - name: image-name
-        value: kompose
+        value: podinfo
 
   volumeClaimTemplates:
     - metadata:
@@ -69,8 +69,8 @@ spec:
         command: [sh, -c]
         args:
           - |
-            git clone {{inputs.parameters.repo}} /workspace/kompose
-            cd /workspace/kompose
+            git clone {{inputs.parameters.repo}} /workspace/podinfo
+            cd /workspace/podinfo
             git checkout {{inputs.parameters.revision}}
         volumeMounts:
           - name: workspace
@@ -84,14 +84,14 @@ spec:
         image: gcr.io/kaniko-project/executor:latest
         command: ["/kaniko/executor"]
         args:
-          - "--dockerfile=/workspace/kompose/Dockerfile"
-          - "--context=/workspace/kompose"
+          - "--dockerfile=/workspace/podinfo/Dockerfile"
+          - "--context=/workspace/podinfo"
           #- "--no-push"
           - "--destination=phamcs/{{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
           - "--cache=true"
         volumeMounts:
           - name: workspace
-            mountPath: /workspace/kompose
+            mountPath: /workspace/podinfo
           - name: docker-config
             mountPath: /kaniko/.docker
       #
@@ -115,11 +115,11 @@ spec:
         command: [sh, -c]
         args:
           - |
-            cd /workspace/kompose
+            cd /workspace/podinfo
             go test ./...
         volumeMounts:
           - name: workspace
-            mountPath: /workspace/kompose
+            mountPath: /workspace/podinfo
 
     - name: update-git-manifests
       inputs:
@@ -132,7 +132,7 @@ spec:
         args:
           - |
             # Clone the repository
-            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/kompose.git /tmp/podinfo
+            git clone https://$(GIT_USER):$(GIT_TOKEN)@github.com/phamcs/podinfo.git /tmp/podinfo
             cd /tmp/podinfo
 
             # Update the image tag in the deployment manifest
