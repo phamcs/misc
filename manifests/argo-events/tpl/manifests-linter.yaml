@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: manifests-linter
+  namespace: argo-events
+spec:
+  serviceAccountName: operate-workflow-sa
+  entrypoint: lint-pipeline
+  arguments:
+    parameters:
+      - name: repo-url
+        value: https://github.com/phamcs/misc.git
+      - name: revision
+        value: main
+      - name: manifests-path
+        value: manifests/
+  templates:
+    - name: lint-pipeline
+      steps:
+        - - name: lint-events
+            template: argo-events-linter
+            arguments:
+              artifacts:
+                - name: misc
+                  git:
+                    repo: "{{workflow.parameters.repo-url}}"
+                    revision: "{{workflow.parameters.revision}}"
+                    disableSubmodules: true
+    - name: manifests-linter
+      inputs:
+        artifacts:
+          - name: misc
+            path: /workspace/misc
+      container:
+        image: cytopia/yamllint:alpine
+        command: [sh, -c]
+        args:
+          - |
+            yamlfix /workspace/misc/{{workflow.parameters.manifests-path}}

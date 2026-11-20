@@ -16,8 +16,10 @@ resources:
   - sys/sensor.yaml
   - tpl/caddy-go-build.yaml
   - tpl/ci-pipeline.yaml
+  - tpl/cron-workflow.yaml
   - tpl/linter.yaml
   - tpl/manifests-ci-pipeline.yaml
+  - tpl/manifests-linter.yaml
   - tpl/security-scan.yaml
 
 helmCharts:
