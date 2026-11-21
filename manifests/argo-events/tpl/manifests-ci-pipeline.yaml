@@ -116,7 +116,7 @@ spec:
         command: [sh, -c]
         args:
           - |
-            yamlfix /workspace/misc/manifests/
+            yamlint /workspace/misc/manifests/
         volumeMounts:
           - name: workspace
             mountPath: /workspace
