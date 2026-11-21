@@ -36,7 +36,7 @@ spec:
         command: [sh, -c]
         args:
           - |
-            apk add --no-cache yamllint py3-pip pipx
+            apk add --no-cache py3-pip pipx setuptools
             pipx install yamlint yamlfix
-            yamllint /workspace/misc/{{workflow.parameters.manifests-path}}
+            yamlint /workspace/misc/{{workflow.parameters.manifests-path}}
             yamlfix /workspace/misc/{{workflow.parameters.manifests-path}}
