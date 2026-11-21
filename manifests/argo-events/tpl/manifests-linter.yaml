@@ -32,10 +32,10 @@ spec:
           - name: misc
             path: /workspace/misc
       container:
-        image: alpine:latest
+        image: python:3.12-alpine
         command: [sh, -c]
         args:
           - |
-            pip install yamlint && pip install yamlfix
+            pip pip install --no-cache-dir yamllint yamlfix
             yamllint /workspace/misc/{{workflow.parameters.manifests-path}}
             yamlfix /workspace/misc/{{workflow.parameters.manifests-path}}
