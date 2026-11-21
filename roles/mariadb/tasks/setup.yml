@@ -25,6 +25,7 @@
     - { src: 'Dockerfile', dest: '{{ mariadb_dir }}/Dockerfile' }
     - { src: '50-server.cnf', dest: '{{ mariadb_dir}}/config/50-server.cnf'}
     - { src: 'mariadb-stack.yml', dest: '{{ mariadb_dir}}/mariadb-stack.yml'}
+    - { src: 'mysqld-exporter.cnf', dest: '{{ mariadb_dir}}/config/mysqld-exporter.cnf'}
 
 # Copy db-staging nginx config
 # - name: Copy db-staging nginx config
