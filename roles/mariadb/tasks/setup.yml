@@ -27,15 +27,15 @@
     - { src: 'mariadb-stack.yml', dest: '{{ mariadb_dir}}/mariadb-stack.yml'}
 
 # Copy db-staging nginx config
-- name: Copy db-staging nginx config
-  ansible.builtin.template:
-    src: "templates/{{ item }}.j2"
-    dest: "{{ nginx_dir }}/conf.d/{{ item }}"
-    mode: 0644
-    owner: "{{ app_user }}"
-  loop:
-    - mariadb.conf
-  notify: Restart nginx
+# - name: Copy db-staging nginx config
+#   ansible.builtin.template:
+#     src: "templates/{{ item }}.j2"
+#     dest: "{{ nginx_dir }}/conf.d/{{ item }}"
+#     mode: 0644
+#     owner: "{{ app_user }}"
+#   loop:
+#     - mariadb.conf
+#   notify: Restart nginx
 
 # Start MariaDB stack
 - name: Start MariaDB stack
