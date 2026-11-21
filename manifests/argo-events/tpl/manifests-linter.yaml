@@ -36,7 +36,7 @@ spec:
         command: [sh, -c]
         args:
           - |
-            apk add --no-cache-dir pip
+            apk add --no-cache pip
             pip install --no-cache-dir yamlint yamlfix
             yamllint /workspace/misc/{{workflow.parameters.manifests-path}}
             yamlfix /workspace/misc/{{workflow.parameters.manifests-path}}
