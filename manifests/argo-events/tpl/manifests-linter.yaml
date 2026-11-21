@@ -32,10 +32,11 @@ spec:
           - name: misc
             path: /workspace/misc
       container:
-        image: cytopia/yamllint:alpine
+        image: alpine:latest
         command: [sh, -c]
         args:
           - |
-            pip install --no-cache-dir yamllint yamlfix
+            apk add --no-cache-dir pip
+            pip install --no-cache-dir yamlint yamlfix
             yamllint /workspace/misc/{{workflow.parameters.manifests-path}}
             yamlfix /workspace/misc/{{workflow.parameters.manifests-path}}
