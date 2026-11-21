@@ -88,7 +88,7 @@ spec:
           - "--dockerfile=/workspace/misc/Dockerfile"
           - "--context=/workspace/misc"
           #- "--no-push"
-          - "--destination=phamcs/{{inputs.parameters.image}}:{{workflow.parameters.git-revision}}"
+          - "--destination=phamcs/{{workflow.parameters.image-name}}:{{workflow.parameters.git-revision}}"
           - "--cache=true"
         volumeMounts:
           - name: workspace
