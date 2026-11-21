@@ -38,5 +38,6 @@ spec:
           - |
             apk add --no-cache yamllint py3-pip pipx
             pipx install yamlfix
+            export PATH=$PATH:/root/.local/bin
             yamllint /workspace/misc/{{workflow.parameters.manifests-path}}
             yamlfix /workspace/misc/{{workflow.parameters.manifests-path}}
