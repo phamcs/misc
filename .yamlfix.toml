@@ -1,0 +1,52 @@
+# yamlfix.toml (or .yamlfix.toml)
+# Note: No [tool.yamlfix] header is needed in standalone yamlfix TOML files.
+
+# Allow duplicate keys in mappings (useful for multiple YAML anchor merge keys)
+allow_duplicate_keys = false
+
+# Minimum spaces between line content and an inline comment
+comments_min_spaces_from_content = 2
+
+# Enforce a space after the '#' comment indicator
+comments_require_starting_space = true
+
+# Number of blank lines to preserve between lines (0 removes extra blank lines)
+whitelines = 0
+
+# Number of blank lines before a comment-only line (when blank lines exist)
+comments_whitelines = 1
+
+# Number of blank lines before and after top-level sections
+section_whitelines = 0
+
+# Base path to search upwards for configuration files (default: None / unset)
+# config_path = ""
+
+# Add or remove the explicit document start ('---')
+explicit_start = true
+
+# Sequence (list) formatting style: "flow_style", "block_style", or "keep_style"
+sequence_style = "flow_style"
+
+# Indentation settings (in spaces)
+indent_mapping = 2
+indent_offset = 2
+indent_sequence = 4
+
+# Maximum line length before wrapping strings or converting flow lists to block lists
+line_length = 80
+
+# Representation for empty/None values: "", "null", "Null", "NULL", or "~"
+none_representation = ""
+
+# Quote all simple values in mappings and sequences
+quote_basic_values = false
+
+# Quote both keys and simple values
+quote_keys_and_basic_values = false
+
+# Quotation mark style used when quoting is required or enforced: "'" or '"'
+quote_representation = "'"
+
+# Preserve existing quotes as they are in the source file
+preserve_quotes = false
