@@ -2,13 +2,13 @@ mirrors:
   # Enable this if the environment is airgapped
   # "docker.io":
   #   endpoint:
-  #     - "https://harbor.superasian.net:443"
-  "harbor.superasian.net":
+  #     - "https://registry.superasian.net"
+  "registry.superasian.net":
     endpoint:
-      - "https://harbor.superasian.net:443"
+      - "https://registry.superasian.net"
 
 configs:
-  "harbor.superasian.net:443":
+  "registry.superasian.net:443":
     tls:
       #cert_file:            # path to the cert file used to authenticate to the registry
       #key_file:             # path to the key file for the certificate used to authenticate to the registry
